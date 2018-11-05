@@ -1,6 +1,7 @@
 body {
-  background-color: rgb(255, 255, 255);
+  background-image: url('./resources/bookshelf.jpg');
 }
+
 
 .headerStyle {
   position: absolute;
@@ -9,15 +10,57 @@ body {
   left: 0;
   height: 40px;
   z-index: -2;
-  background-image: linear-gradient( rgb(196, 170, 123) , rgb(57, 114, 141)); 
- }
+  background-color: rgb(24, 24, 24);
+}
 
 titleText {
   font-family: 'Trebuchet MS', Tahoma, Arial;
   text-align: center;
-  font-size: 175%;
+  font-size: 30px;
   color: rgb(255, 255, 255);
   position: absolute;
   width: 100%;
   top: 3px;
 }
+
+.signBox{
+  left: 0;
+  top: 40px;
+  bottom: 0;
+  width: 500px;
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+}
+
+.logoPic{
+  position: absolute;
+  top: 220px;
+  left: 125px;
+  width: 230px;
+}
+
+input{
+  position: relative;
+  width: 380px;
+  margin-top: 10px;
+  height: 35px;
+  left: 50px;
+  top: 350px;
+  font-family: 'Trebuchet MS', Tahoma, Arial;
+}
+
+.signButton{
+  position: absolute;
+  left: 125px;
+  width: 230px;
+  top: 470px;
+}
+
+a{
+  bottom: 0;
+  left: 525px;
+  position: absolute;
+  width: 50%;
+  font-family: 'Trebuchet MS', Tahoma, Arial;
+}
+
