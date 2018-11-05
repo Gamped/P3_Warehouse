@@ -1,0 +1,23 @@
+body {
+  background-color: rgb(255, 255, 255);
+}
+
+.headerStyle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 40px;
+  z-index: -2;
+  background-image: linear-gradient( rgb(196, 170, 123) , rgb(57, 114, 141)); 
+ }
+
+titleText {
+  font-family: 'Trebuchet MS', Tahoma, Arial;
+  text-align: center;
+  font-size: 175%;
+  color: rgb(255, 255, 255);
+  position: absolute;
+  width: 100%;
+  top: 3px;
+}
