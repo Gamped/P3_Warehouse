@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import './style.css';
 
+// TODO: Fix bug with white box not filling in proper when scrolling from small page
+
+
 // The header component
 class Header extends React.Component{
     constructor(props) {
@@ -32,20 +35,17 @@ class SignInBox extends React.Component{
             username: "",
         };
     }
-    
+
     render(){
         let signInText = this.state.signText;
         return(
-            <div>
-                <div class="signBox">
-                    <img src={require('./resources/4n_logo_mini.jpg')} class="logoPic"/> 
-                    <input type="Username" placeholder="Username" ></input>
-                    <input type="Password" placeholder="Password" ></input>
-                    <button class="signButton">Sign in</button>
-                </div>
-                    <div class="textureBox"> 
-                    <a href="https://www.freepik.com/free-vector/book-shelves-dtcorative-colorful-icon-poster_2871137.htm">Image designed by Macrovector</a>
-                </div>
+            <div class="signBox">
+                <img src={require('./resources/4n_logo_mini.jpg')} class="logoPic"/> 
+                <input type="Email" placeholder="Email" ></input>
+                <input type="Password" placeholder="Password" ></input>
+                <form action="/login">
+                    <button class="signButton" >Sign in</button>
+                </form> 
             </div>
         );
     }
