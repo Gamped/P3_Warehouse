@@ -19,7 +19,7 @@ class Header extends React.Component{
         let title = this.state.titleText;
 
         return(
-            <div class="headerStyle"> 
+            <div class="headerStyle">
                 <titleText>{title}</titleText>
             </div>
         );
@@ -40,12 +40,12 @@ class SignInBox extends React.Component{
         let signInText = this.state.signText;
         return(
             <div class="signBox">
-                <img src={require('./resources/4n_logo_mini.jpg')} class="logoPic"/> 
+                <img src={require('./resources/4n_logo_mini.jpg')} class="logoPic"/>
                 <input type="Email" placeholder="Email" ></input>
                 <input type="Password" placeholder="Password" ></input>
                 <form action="/login">
-                    <button class="signButton" >Sign in</button>
-                </form> 
+                    <button onClick={console.log("Sign in has been pressed")} class="signButton" >Sign in</button>
+                </form>
             </div>
         );
     }
@@ -57,6 +57,5 @@ ReactDOM.render(
         <Header />
         <SignInBox />
     </div>
-    , document.getElementById('root')   
+    , document.getElementById('root')
 );
-
