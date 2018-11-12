@@ -26,7 +26,7 @@ export default class SignInBox extends React.Component{
 
     // Logs the state
     logTheStateHandler = (event) => {
-        event.preventDefault()
+        //event.preventDefault()
         if (this.state.username.toLowerCase ==="admin"){ //Temp work until connected to backend
             
         }
@@ -41,7 +41,7 @@ export default class SignInBox extends React.Component{
                 <img src={require('../resources/4n_logo_mini.jpg')} className="logoPic" alt="The logo of 4N"/>
                 <input type="Email" placeholder="Email" onChange={this.emailTypedHandler}></input>
                 <input type="Password" placeholder="Password" onChange={this.passwordTypedHandler}></input> 
-                <form action="/login">
+                <form action="./AdminIndex">
                     <button onClick={this.logTheStateHandler} className="signButton" >Sign in</button>
                 </form>
             </div>

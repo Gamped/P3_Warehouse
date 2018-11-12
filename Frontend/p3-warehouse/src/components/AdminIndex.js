@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './adminIndex.css';
-import './style.css';
+import {BrowserRouter} from "react-router-dom";
+import Navbar from "./Navbar"
+import "./adminIndex.css"
 
 // The Menu component
 export default class Menu extends React.Component{
@@ -24,8 +25,11 @@ export default class Menu extends React.Component{
         return(
             <div class="menuStyle">
                 <button>{home}</button>
+                <br/>
                 <button>{orders}</button>
+                <br/>
                 <button>{clients}</button>
+                <br/>
                 <button>{stock}</button>
             </div>
         );
