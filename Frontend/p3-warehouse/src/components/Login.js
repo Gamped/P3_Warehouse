@@ -27,7 +27,7 @@ export default class SignInBox extends React.Component{
     // Logs the state
     logTheStateHandler = (event) => {
         event.preventDefault()
-        if (this.state.username.toLowerCase ==="admin"){
+        if (this.state.username.toLowerCase ==="admin"){ //Temp work until connected to backend
             
         }
       console.log(this.state)
@@ -36,10 +36,11 @@ export default class SignInBox extends React.Component{
     render(){
         let signInText = this.state.signText;
         return(
+            //Functionality for responding to user input
             <div className="signBox">
                 <img src={require('../resources/4n_logo_mini.jpg')} className="logoPic" alt="The logo of 4N"/>
                 <input type="Email" placeholder="Email" onChange={this.emailTypedHandler}></input>
-                <input type="Password" placeholder="Password" onChange={this.passwordTypedHandler}></input>
+                <input type="Password" placeholder="Password" onChange={this.passwordTypedHandler}></input> 
                 <form action="/login">
                     <button onClick={this.logTheStateHandler} className="signButton" >Sign in</button>
                 </form>
