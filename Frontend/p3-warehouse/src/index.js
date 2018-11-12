@@ -11,7 +11,7 @@ import './style.css';
 // Send components to HTML
 ReactDOM.render(
     <div>
-        <Header />
+        <Header title="P3 Warehouse"/>
         <SignInBox />
     </div>
     , document.getElementById('root')

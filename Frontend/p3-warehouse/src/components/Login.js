@@ -25,7 +25,8 @@ export default class SignInBox extends React.Component{
     }
 
     // Logs the state
-    logTheStateHandler = () => {
+    logTheStateHandler = (event) => {
+        event.preventDefault()
         if (this.state.username.toLowerCase ==="admin"){
             
         }
