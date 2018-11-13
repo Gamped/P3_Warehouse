@@ -5,17 +5,17 @@ import {Link} from "react-router-dom";
 
 // The header component
 const Menu = (props) => {
-    const {buttons}=props;
+    const {buttons, current}=props;
     const mappedButtonList = buttons.map(button =>{
         return (
-            (props.current!==button.location)?
+            (current!==button.location)?
             <div className="Link" key={button.id}>
-                <Link to={button.location} className="badge badge-primary">{button.name}</Link>
+                <Link to={button.location} className="btn btn-primary btn-block" role="button">{button.name}</Link>
                 <br/>
             </div>
             :
             <div className="Link" key={button.id}>
-                <Link to={button.location} className="badge badge-secondary">{button.name}</Link>
+                <Link to={button.location} className="btn btn-secondary btn-block" role="button">{button.name}</Link>
                 <br/>
             </div>
         )
