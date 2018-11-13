@@ -16,10 +16,10 @@ export default class Admin extends React.Component{
             ]
         };
     }
-    
+
     render(){
         return(
-            <div class="menuStyle">
+            <div className="menuStyle">
                 <Menu buttons={this.state.menuButtons}/>
             </div>
         );

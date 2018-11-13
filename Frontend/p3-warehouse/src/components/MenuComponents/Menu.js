@@ -1,19 +1,21 @@
 import React from 'react';
-//TODO: Import react router dom here and make the a to link tos
+import "../adminIndex.css";
+import {Link} from "react-router-dom";
+
 
 // The header component
 const Menu = (props) => {
     const {buttons}=props;
     const mappedButtonList = buttons.map(button =>{
         return (
-            <div className="Link">
-                <a href={button.location}>{button.name}</a>
+            <div className="Link" key={button.id}>
+                <Link to={button.location} className="badge badge-primary">{button.name}</Link>
                 <br/>
             </div>
         )
     })
     return(
-        <div class="menuStyle">
+        <div className="menuStyle">
            {mappedButtonList}
         </div>
     )
