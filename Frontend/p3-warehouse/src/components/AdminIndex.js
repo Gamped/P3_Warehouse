@@ -19,7 +19,6 @@ export default class Admin extends React.Component{
     }
 
     render(){
-        console.log(this.props.location.pathname)
         return(
             <div className="menuStyle">
                 <Menu buttons={this.state.menuButtons} current={"."+this.props.location.pathname}/>
