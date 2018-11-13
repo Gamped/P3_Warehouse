@@ -16,9 +16,7 @@ export default class Admin extends React.Component{
                 {name: "Clients",location:"./Clients",id:"3"}
 =======
                 {name: "Orders",location:"./pages/orders/AdminOrders", id:"2"},
-                {name: "Users",location:"./Clients",id:"3"},
-                {name: "Stock",location:"./Stock",id:"4"},
-                {name: "Profile",location:"./Profile",id:"5"}
+                {name: "Users",location:"./Clients",id:"3"}
             ],
             landingPageButtons:[
                 {name:"Orders",location:"./pages/orders/AdminOrders",id:"1"},
