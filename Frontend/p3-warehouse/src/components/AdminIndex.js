@@ -12,7 +12,8 @@ export default class Admin extends React.Component{
         this.state = {
             menuButtons : [
                 {name: "Home",location: "./AdminIndex", id:"1"},
-                {name: "Orders",location:"./Orders", id:"2"}
+                {name: "Orders",location:"./Orders", id:"2"},
+                {name: "Clients",location:"./Clients",id:"3"}
             ]
         };
     }
