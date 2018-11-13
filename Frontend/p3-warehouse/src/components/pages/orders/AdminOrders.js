@@ -1,5 +1,5 @@
-import React from 'react'
-import AdminTable from "./AdminTable"
+import React from 'react';
+import AdminTable from "./AdminTable";
 
 class AdminOrders extends React.Component {
     constructor(props) {
@@ -8,7 +8,11 @@ class AdminOrders extends React.Component {
     }
     render() { 
         return ( 
+<<<<<<< HEAD
             <div className = "AdminOrders border border-primary rounded">
+=======
+            <div className = "AdminOrder border border-primary rounded">
+>>>>>>> ac9353b4adb83cbffe58f8088aa8ace88aceb370
                 <AdminTable />
                 
             </div>
