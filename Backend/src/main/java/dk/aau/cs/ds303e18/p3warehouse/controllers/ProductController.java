@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 @Controller
-public class ContactController {
+public class ProductController {
+
     @Autowired
     ProductRepository productRepository;
 
@@ -25,11 +26,11 @@ public class ContactController {
     }
 
     @GetMapping("/products/{id}")
-    Product one(@PathVariable Long id) {
+    Product one(@PathVariable String id) {
         return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException());
     }
     @PutMapping("/products/{id}")
-    Product replaceProduct(@RequestBody Product newProduct, @PathVariable long id){
+    Product replaceProduct(@RequestBody Product newProduct, @PathVariable String id){
         return productRepository.findById(id)
                 .map(product -> {
                     product.setName(newProduct.getName());
@@ -42,7 +43,7 @@ public class ContactController {
                 });
     }
     @DeleteMapping("/products/{id}")
-    void deleteProduct(@PathVariable long id){
+    void deleteProduct(@PathVariable String id){
         productRepository.deleteById(id);
     }
 }

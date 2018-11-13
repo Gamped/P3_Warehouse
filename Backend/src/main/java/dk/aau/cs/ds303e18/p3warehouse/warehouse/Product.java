@@ -1,23 +1,22 @@
 package dk.aau.cs.ds303e18.p3warehouse.warehouse;
 
+
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
-@Document(collection = "documents")
-@Entity
+@Document(collection = "products")
 public class Product {
     @Id @GeneratedValue
-    private Long id;
+    private String id;
     private String name;
     private int quantity;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
-    public void setId(long id){
+    public void setId(String id){
         this.id = id;
     }
 
@@ -35,5 +34,17 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Product withName(String name){
+        this.name = name;
+        return this;
+    }
+    public Product withQuantity(int quantity){
+        this.quantity = quantity;
+        return this;
+    }
+    public String toString(){
+        return id.toString() + " " + name + " " + ((Integer)quantity).toString();
     }
 }
