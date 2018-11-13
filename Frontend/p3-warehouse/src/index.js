@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import AdminIndex from "./components/AdminIndex";
 import './index.css';
 import './style.css';
+import AdminOrders from './components/pages/orders/AdminOrders';
 
 // TODO: Fix bug with white box not filling in proper when scrolling from small page
 
@@ -16,6 +17,7 @@ ReactDOM.render(
         <Route exact path="/" component={Header}/>
         <Route exact path="/" component={SignInBox}/>        
         <Route path= "/AdminIndex" component={AdminIndex}/>
+        <Route path = "/components/pages/orders/AdminOrders" component={AdminOrders} />
         </div>
     </BrowserRouter>
     , document.getElementById('root')

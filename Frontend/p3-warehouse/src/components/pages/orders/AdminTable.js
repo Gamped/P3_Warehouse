@@ -1,11 +1,14 @@
 import React from 'react'
 import ReactTable from "react-table"
-import AdminData from "./AdminData"
+import 'react-table/react-table.css'
+import "./orders.css"
 
 class AdminTable extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { data: AdminData }
+        this.state = { data: [
+            {name: "Harry Potter", id: 300, amount: 235, type: "book", packed: false},
+        ] }
     }
     render() { 
         const {data} = this.state;
