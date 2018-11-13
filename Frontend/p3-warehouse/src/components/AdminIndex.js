@@ -11,11 +11,11 @@ export default class Admin extends React.Component{
         this.state = {
             menuButtons : [
                 {name: "Home",location: "./AdminIndex", id:"1"},
-                {name: "Orders",location:"./Orders", id:"2"},
+                {name: "Orders",location:"./pages/orders/AdminOrders", id:"2"},
                 {name: "Users",location:"./Clients",id:"3"}
             ],
             landingPageButtons:[
-                {name:"Orders",location:"./Orders",id:"1"},
+                {name:"Orders",location:"./pages/orders/AdminOrders",id:"1"},
                 {name:"Users",location:"./Clients",id:"2"},
                 {name:"Stock",location:"./Stock",id:"3"}
             ]
