@@ -34,6 +34,7 @@ export default class SignInBox extends React.Component{
     }
 
     render(){
+        let signInText = this.state.signText;
         return(
             //Functionality for responding to user input
             <div className="signBox">
