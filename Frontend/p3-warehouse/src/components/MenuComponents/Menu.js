@@ -8,8 +8,14 @@ const Menu = (props) => {
     const {buttons}=props;
     const mappedButtonList = buttons.map(button =>{
         return (
+            (props.current!==button.location)?
             <div className="Link" key={button.id}>
                 <Link to={button.location} className="badge badge-primary">{button.name}</Link>
+                <br/>
+            </div>
+            :
+            <div className="Link" key={button.id}>
+                <Link to={button.location} className="badge badge-secondary">{button.name}</Link>
                 <br/>
             </div>
         )
