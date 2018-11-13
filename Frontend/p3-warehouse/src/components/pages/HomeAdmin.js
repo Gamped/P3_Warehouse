@@ -8,7 +8,7 @@ class HomeAdmin extends React.Component {
     render() { 
         return ( 
         <div>
-            <button className = "HomeAdmin">ass</button>
+            <button className = "HomeAdmin"></button>
         </div> );
     }
 }
