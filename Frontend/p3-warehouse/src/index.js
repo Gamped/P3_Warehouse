@@ -5,6 +5,7 @@ import SignInBox from "./components/Login";
 import Header from "./components/Header";
 import './index.css';
 import './style.css';
+import HomeAdmin from './components/pages/HomeAdmin';
 
 // TODO: Fix bug with white box not filling in proper when scrolling from small page
 
