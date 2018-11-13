@@ -7,7 +7,7 @@ import AdminIndex from "./components/AdminIndex";
 import AdminOrders from "./components/pages/orders/AdminOrders"
 import './index.css';
 import './style.css';
-import AdminOrders from './components/pages/orders/AdminOrders';
+
 
 // TODO: Fix bug with white box not filling in proper when scrolling from small page
 
