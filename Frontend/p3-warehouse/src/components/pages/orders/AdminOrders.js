@@ -10,7 +10,6 @@ class AdminOrders extends React.Component {
         return ( 
             <div className = "AdminOrders border border-primary rounded">
                 <AdminTable />
-                
             </div>
          )
     }

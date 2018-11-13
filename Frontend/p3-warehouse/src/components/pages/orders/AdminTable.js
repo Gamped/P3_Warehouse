@@ -39,9 +39,10 @@ class AdminTable extends React.Component {
                         }
                     ]}
                 />
-                <button>Add Entry</button>
-                <button>Remove Entry</button>
-                <button>Edit Entry</button>
+                <button>Mark All Packed</button>
+                <button>Print Pack List</button>
+                <button>Edit Order</button>
+                <button>Order Pickup</button>
             </div>
         )
     }
