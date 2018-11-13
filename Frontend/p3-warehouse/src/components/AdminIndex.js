@@ -12,7 +12,9 @@ export default class Admin extends React.Component{
             menuButtons : [
                 {name: "Home",location: "./AdminIndex", id:"1"},
                 {name: "Orders",location:"./pages/orders/AdminOrders", id:"2"},
-                {name: "Users",location:"./Clients",id:"3"}
+                {name: "Users",location:"./Clients",id:"3"},
+                {name: "Stock",location:"./Stock",id:"4"},
+                {name: "Profile",location:"./Profile",id:"5"}
             ],
             landingPageButtons:[
                 {name:"Orders",location:"./pages/orders/AdminOrders",id:"1"},

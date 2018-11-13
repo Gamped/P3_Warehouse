@@ -14,7 +14,6 @@ import './style.css';
 ReactDOM.render(
     <BrowserRouter>
         <div>
-            <Route exact path="/" component={Header}/>
             <Route exact path="/" component={SignInBox}/>        
             <Route path= "/AdminIndex" component={AdminIndex}/>
             <Route path= "/pages/orders/AdminOrders" component={AdminOrders}/>
