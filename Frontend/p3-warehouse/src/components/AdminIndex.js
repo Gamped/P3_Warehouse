@@ -26,7 +26,7 @@ export default class Admin extends React.Component{
         console.log(this.props.location.pathname)
         return(
             <div className="landingPageWrapper">
-                <Header/>
+                <Header title="Warehouse - Employee landingpage"/>
                 <div className="menuStyle">
                     <Menu buttons={this.state.menuButtons} current={"."+this.props.location.pathname}/>
                 </div>
