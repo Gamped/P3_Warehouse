@@ -9,21 +9,21 @@ export default class Users extends React.Component{
         super(props);
         this.state = {
             menuButtons : [
-                {name: "Home",location: "../../../AdminIndex", id:"1"},
+                {name: "Home",location: "../../AdminIndex", id:"1"},
                 {name: "Orders",location:"../../pages/orders/AdminOrders", id:"2"},
-                {name: "Users",location:"../../pages/users/Users",id:"3"},
-                {name: "Stock",location:"../../Stock",id:"4"},
-                {name: "Profile",location:"../../Profile",id:"5"}
+                {name: "Users",location:"./Users",id:"3"},
+                {name: "Stock",location:"../../pages/stock/Stock",id:"4"},
+                {name: "Profile",location:"../../pages/profile/Profile",id:"5"}
             ]
         };
     }
 
     render(){
         return(
-            <div className="landingPageWrapper">
+            <div className="userPageWrapper">
                 <Header title="Warehouse - Users"/>
                 <div className="menuStyle">
-                    <Menu buttons={this.state.menuButtons} current={"."+this.props.location.pathname}/>
+                    <Menu buttons={this.state.menuButtons} current={"./Users"}/>
                 </div>
                 <div className="landingPageStyle">
              
