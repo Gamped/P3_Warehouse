@@ -14,7 +14,7 @@ class Products extends Component {
 
     componentDidMount() {
         console.log("Did mount");
-        axios.get('/api/products')
+        axios.get('http://localhost:8080/api/products')
             .then(response => {
                 this.setState({ products: response.data });
                 console.log(this.state.products);

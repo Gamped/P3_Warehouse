@@ -3,23 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="a7a57f0f-40b2-41be-b083-0cc8a24596c3" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/controllers/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/controllers/ProductController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/asset-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/resources/static/asset-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/resources/static/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/precache-manifest.a6e91cee3df38cc415ccfbfaacd421f8.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/precache-manifest.cf0c22c4c80e1eea705c5b7bb42bbecd.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/service-worker.js" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/resources/static/service-worker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/static/css/main.9ad38735.chunk.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/static/css/main.9ad38735.chunk.css.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/static/js/1.37f90d57.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/static/js/1.37f90d57.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/static/js/main.332ef20b.chunk.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/static/js/main.332ef20b.chunk.js.map" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/p3-warehouse/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/p3-warehouse/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/p3-warehouse/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/p3-warehouse/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/CreateProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/CreateProduct.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/EditProduct.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/EditProduct.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/ShowProducts.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/ShowProducts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/static/js/main.0fda565f.chunk.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/resources/static/static/js/main.0fda565f.chunk.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/Products.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/Products.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Frontend/p3-warehouse/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/p3-warehouse/src/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -40,35 +31,44 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="bat" value="1" />
+          <entry key="gradle" value="2" />
+          <entry key="gradlew" value="1" />
           <entry key="html" value="1" />
-          <entry key="java" value="19" />
-          <entry key="js" value="25" />
+          <entry key="java" value="20" />
+          <entry key="js" value="31" />
           <entry key="json" value="1" />
-          <entry key="properties" value="4" />
+          <entry key="properties" value="7" />
+          <entry key="xml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="Groovy" value="2" />
           <entry key="HTML" value="1" />
-          <entry key="JAVA" value="19" />
+          <entry key="JAVA" value="20" />
           <entry key="JSON" value="1" />
-          <entry key="JavaScript" value="25" />
-          <entry key="Properties" value="4" />
+          <entry key="JavaScript" value="31" />
+          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="Properties" value="7" />
+          <entry key="XML" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="59" />
-          <entry key="js" value="3580" />
+          <entry key="gradle" value="89" />
+          <entry key="java" value="295" />
+          <entry key="js" value="3609" />
           <entry key="json" value="31" />
           <entry key="properties" value="88" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="59" />
+          <entry key="Groovy" value="89" />
+          <entry key="JAVA" value="295" />
           <entry key="JSON" value="31" />
-          <entry key="JavaScript" value="3580" />
+          <entry key="JavaScript" value="3609" />
           <entry key="Properties" value="88" />
         </counts>
       </usages-collector>
@@ -79,14 +79,56 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/controllers/ProductController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
+            <state relative-caret-position="105">
+              <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/index.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="22" column="31" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#0#26#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/WebSecurityConfig.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="30">
+              <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Backend/.gradle/buildOutputCleanup/cache.properties">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Backend/.gradle/vcsWorkingDirs/gc.properties">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Backend/.idea/vcs.xml">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Backend/build.gradle">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="465">
+              <caret line="31" column="68" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -99,6 +141,11 @@
         <option value="JavaScript File" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <dirStrings>
+      <dir>$PROJECT_DIR$</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -121,10 +168,12 @@
         <option value="$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/EditProduct.js" />
         <option value="$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/ShowProducts.js" />
         <option value="$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/StandaloneMvcTestViewResolver.java" />
-        <option value="$PROJECT_DIR$/Frontend/p3-warehouse/src/index.js" />
         <option value="$PROJECT_DIR$/Backend/src/main/resources/application.properties" />
-        <option value="$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/controllers/ProductController.java" />
+        <option value="$PROJECT_DIR$/Frontend/p3-warehouse/src/index.js" />
         <option value="$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/Products.js" />
+        <option value="$PROJECT_DIR$/Backend/build.gradle" />
+        <option value="$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/controllers/ProductController.java" />
+        <option value="$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/WebSecurityConfig.java" />
       </list>
     </option>
   </component>
@@ -262,66 +311,6 @@
             <path>
               <item name="P3_Warehouse" type="b2602c69:ProjectViewProjectNode" />
               <item name="P3_Warehouse" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="P3_Warehouse" type="b2602c69:ProjectViewProjectNode" />
-              <item name="P3_Warehouse" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="P3_Warehouse" type="b2602c69:ProjectViewProjectNode" />
-              <item name="P3_Warehouse" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="P3_Warehouse" type="b2602c69:ProjectViewProjectNode" />
-              <item name="P3_Warehouse" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="P3_Warehouse" type="b2602c69:ProjectViewProjectNode" />
-              <item name="P3_Warehouse" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="P3_Warehouse" type="b2602c69:ProjectViewProjectNode" />
-              <item name="P3_Warehouse" type="462c0819:PsiDirectoryNode" />
-              <item name="Backend" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="media" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="P3_Warehouse" type="b2602c69:ProjectViewProjectNode" />
-              <item name="P3_Warehouse" type="462c0819:PsiDirectoryNode" />
               <item name="Frontend" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -344,15 +333,6 @@
               <item name="p3-warehouse" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="P3_Warehouse" type="b2602c69:ProjectViewProjectNode" />
-              <item name="P3_Warehouse" type="462c0819:PsiDirectoryNode" />
-              <item name="Frontend" type="462c0819:PsiDirectoryNode" />
-              <item name="p3-warehouse" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="product" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -363,7 +343,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542117897277" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542203472509" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -396,12 +376,12 @@
       <option name="presentableId" value="Default" />
       <updated>1542099155006</updated>
       <workItem from="1542099156776" duration="11871000" />
-      <workItem from="1542187458262" duration="1342000" />
+      <workItem from="1542187458262" duration="4233000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13213000" />
+    <option name="totallyTimeSpent" value="16104000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="829" extended-state="0" />
@@ -477,13 +457,6 @@
     <entry file="file://$PROJECT_DIR$/Backend/src/main/resources/static/service-worker.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/CreateProduct.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-501">
-          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/StandaloneMvcTestViewResolver.java" />
     <entry file="file://$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/P3WarehouseApplication.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -499,26 +472,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="28" selection-start-column="28" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="34" selection-start-line="23" selection-start-column="34" selection-end-line="23" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/adminIndex.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/EditProduct.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="34" column="78" selection-start-line="34" selection-start-column="70" selection-end-line="34" selection-end-column="78" />
         </state>
       </provider>
     </entry>
@@ -543,6 +496,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/CreateProduct.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="24" selection-start-line="12" selection-start-column="24" selection-end-line="12" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/EditProduct.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="34" column="78" selection-start-line="34" selection-start-column="70" selection-end-line="34" selection-end-column="78" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/Products.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-35">
+          <caret line="16" column="44" selection-start-line="16" selection-start-column="44" selection-end-line="16" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/ShowProducts.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="398">
@@ -553,23 +536,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/components/product/Products.js">
+    <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/adminIndex.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="145">
-          <caret line="24" column="8" lean-forward="true" selection-start-line="24" selection-start-column="8" selection-end-line="24" selection-end-column="8" />
+        <state>
           <folding>
-            <element signature="e#0#41#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Frontend/p3-warehouse/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="22" column="31" selection-start-line="22" selection-start-column="31" selection-end-line="22" selection-end-column="31" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/.gradle/buildOutputCleanup/cache.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/.gradle/vcsWorkingDirs/gc.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/gradlew.bat">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-682" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/gradlew">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1975" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/gradle/wrapper/gradle-wrapper.properties">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/.idea/vcs.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="31" column="68" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="68" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/controllers/ProductController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="105">
+          <caret line="7" column="49" selection-start-line="7" selection-start-column="49" selection-end-line="7" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Backend/src/main/java/dk/aau/cs/ds303e18/p3warehouse/WebSecurityConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="24" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
         </state>
       </provider>
     </entry>

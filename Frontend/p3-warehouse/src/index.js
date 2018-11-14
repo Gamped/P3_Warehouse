@@ -20,8 +20,9 @@ import './style.css';
 ReactDOM.render(
     <BrowserRouter>
         <div>
-
-            <Route path="/products" component={Products}/>
+            <Route exact path="/" component={Header}/>
+            <Route exact path="/" component={SignInBox}/>
+            <Route exact path="/products" component={Products}/>
             <Route exact path= "/products/create" component={CreateProduct}/>
             <Route exact path= "/products/show/:id" component={ShowProducts}/>
             <Route exact path= "/products/edit/:id" component={EditProduct}/>
