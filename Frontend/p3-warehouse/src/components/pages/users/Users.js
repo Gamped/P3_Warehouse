@@ -17,7 +17,7 @@ export default class Users extends React.Component{
             ]
         };
     }
-
+    
     render(){
         return(
             <div className="userPageWrapper">
@@ -26,7 +26,7 @@ export default class Users extends React.Component{
                     <Menu buttons={this.state.menuButtons} current={"./Users"}/>
                 </div>
                 <div className="landingPageStyle">
-             
+
                 </div>
             </div>
 
