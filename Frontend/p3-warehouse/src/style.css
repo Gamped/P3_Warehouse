@@ -20,6 +20,13 @@ button{
     width: 140px; 
 }
 
+.Scroller{
+    background-color: dimgrey;
+    width: 300px;
+    height: 600px;
+    overflow: auto;
+}
+
 customText_w{
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
