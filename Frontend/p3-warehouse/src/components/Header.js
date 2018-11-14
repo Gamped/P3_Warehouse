@@ -2,7 +2,7 @@ import React from 'react';
 
 // The header component
 const Header = (props) => {
-    const title=props.title
+    const title= "4N: " + props.title
     return(
         <div className="headerStyle">
             <titleText>{title}</titleText>
