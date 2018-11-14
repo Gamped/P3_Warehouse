@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-@Controller
+@RestController
 public class ProductController {
 
     @Autowired
@@ -31,6 +31,8 @@ public class ProductController {
     }
     @PutMapping("/products/{id}")
     Product replaceProduct(@RequestBody Product newProduct, @PathVariable String id){
+
+        // Conditionals to check for null
         return productRepository.findById(id)
                 .map(product -> {
                     product.setName(newProduct.getName());

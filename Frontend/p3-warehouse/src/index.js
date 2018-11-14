@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import {BrowserRouter, Route} from "react-router-dom";
 import SignInBox from "./components/Login";
 import Header from "./components/Header";
+import Products from "./components/product/Products";
+import CreateProduct from "./components/product/CreateProduct";
+import ShowProducts from "./components/product/ShowProducts";
+import EditProduct from "./components/product/EditProduct";
 import AdminIndex from "./components/AdminIndex";
 import AdminOrders from "./components/pages/orders/AdminOrders"
 import './index.css';
@@ -12,18 +16,21 @@ import Users from "./components/pages/users/Users";
 import Stock from "./components/pages/stock/Stock";
 import Profile from "./components/pages/profile/Profile";
 
-// Send components to HTML
 ReactDOM.render(
     <BrowserRouter>
         <div>
-            <Route exact path="/" component={SignInBox}/>        
-            <Route path = "/AdminIndex" component={AdminIndex}/>
-            <Route path = "/pages/orders/AdminOrders" component={AdminOrders} />
-            <Route path = "/pages/users/Users" component={Users}/>
-            <Route path = "/pages/stock/Stock" component={Stock}/>
-            <Route path = "/pages/profile/Profile" component={Profile}/>
-
-        </div>
+  
+            <Route exact path="/" component={Header}/>
+            <Route exact path="/" component={SignInBox}/>
+           
+            <Route exact path="/products" component={Products}/>
+            <Route exact path= "/products/create" component={CreateProduct}/>
+            <Route exact path= "/products/show/:id" component={ShowProducts}/>
+            <Route exact path= "/products/edit/:id" component={EditProduct}/>
+  
+            <Route path= "/AdminIndex" component={AdminIndex}/>
+  
+  </div>
     </BrowserRouter>
     , document.getElementById('root')
 );
