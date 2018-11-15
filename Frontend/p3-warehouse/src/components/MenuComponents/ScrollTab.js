@@ -1,22 +1,20 @@
 import React from "react";
-import ScrollArea from 'react-scrollbar';
+import {Radio, FormGroup} from "react-bootstrap";
 
 const BoxWithLongContent=(props)=>{
     const {radios}=props;
     const radioList = radios.map(radio =>{
         return (
-            <div class="input-group">
-                <input type="radio" key="name.id"/>
-            </div>
+            <ToggleButton value={radio.id} >{radio.name}</ToggleButton>
         )
     })
     
     return(
-        <div className="Scroller">
-            <form action="">
-                {radioList}
-            </form>
-        </div>
+            <div className="Scroller">
+                <ToggleButtonGroup type="radio" name="options" defaultValue={radios[0].id}>
+                    {radioList}
+                </ToggleButtonGroup>
+            </div>        
     )
 }
 
