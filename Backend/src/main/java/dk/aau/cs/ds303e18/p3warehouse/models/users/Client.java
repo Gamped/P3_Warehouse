@@ -4,5 +4,5 @@ public class Client extends User implements IClient {
 
     private IContactInformation contactInformation;
 
-    public IContactInformation getContactInformation(){return contactInformation;}
+    public IContactInformation getContactInformation() {return contactInformation; }
 }
