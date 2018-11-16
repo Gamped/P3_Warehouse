@@ -1,6 +1,11 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.users;
 
-public class User {
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
+
+public class User implements IUser{
+    @Id
+    private ObjectId id;
     private String userName;
     private String password;
     // ID for the child in another collection
@@ -11,11 +16,11 @@ public class User {
 
     }
 
-    public getUserName(){
+    public String getUserName(){
         return userName;
     }
 
-    public setUserName(String userName) {
+    public void setUserName(String userName) {
 
     }
 
@@ -27,12 +32,8 @@ public class User {
         this.password = password;
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setUserType(UserType userType) {

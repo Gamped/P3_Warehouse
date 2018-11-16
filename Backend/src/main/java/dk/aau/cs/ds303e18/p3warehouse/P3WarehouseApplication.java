@@ -18,12 +18,5 @@ public class P3WarehouseApplication {
 		SpringApplication.run(P3WarehouseApplication.class, args);
 
 	}
-
-	@Override
-	public void run(String... strings) throws Exception {
-
-		final Cos
-		final Product testProduct = new Product();
-		testProduct.setName("Test Magasin").setQuantity(500).setProductId("1040");
-	}
 }
+
