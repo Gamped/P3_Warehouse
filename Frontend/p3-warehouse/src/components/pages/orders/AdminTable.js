@@ -7,7 +7,9 @@ class AdminTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            data: [], 
+            data: [
+                {name: "ass", id: 200, amount: 300, type: "books", packaged: true}
+            ], 
             loading: false
         }
     }
@@ -26,10 +28,6 @@ class AdminTable extends React.Component {
                         {Header: "Packaged?", accessor: "packaged"}
                     ]}
                 />
-                <button>Mark All Packed</button>
-                <button>Print Pack List</button>
-                <button>Edit Order</button>
-                <button>Order Pickup</button>
             </div>
         )
     }
