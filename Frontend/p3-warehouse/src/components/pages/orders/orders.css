@@ -1,0 +1,13 @@
+.AdminTable{
+    background: white;
+}
+
+.AdminOrder{
+    position: absolute;
+    font-size: 10px;
+    top:40px;
+    left: 140px;
+    right: 0;
+    bottom: 0;
+    background:  grey;
+}
