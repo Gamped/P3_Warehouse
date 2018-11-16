@@ -5,15 +5,15 @@ const BoxWithLongContent=(props)=>{
     const {radios}=props;
     const radioList = radios.map(radio =>{
         return (
-            <ToggleButton value={radio.id} >{radio.name}</ToggleButton>
+            <Radio name="radioGroup" inline>{radio.name}</Radio>
         )
     })
     
     return(
             <div className="Scroller">
-                <ToggleButtonGroup type="radio" name="options" defaultValue={radios[0].id}>
+                <FormGroup>
                     {radioList}
-                </ToggleButtonGroup>
+                </FormGroup>
             </div>        
     )
 }
