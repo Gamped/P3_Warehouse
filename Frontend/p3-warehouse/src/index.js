@@ -1,62 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {BrowserRouter, Route} from "react-router-dom";
+import SignInBox from "./components/Login";
+import Header from "./components/Header";
+import AdminIndex from "./components/AdminIndex";
+import AdminOrders from "./components/pages/orders/AdminOrders"
 import './index.css';
 import './style.css';
-
-// The header component
-class Header extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            titleText: "P3 Warehouse",
-        };
-    }
-
-    render(){
-        let title = this.state.titleText;
-
-        return(
-            <div class="headerStyle"> 
-                <titleText>{title}</titleText>
-            </div>
-        );
-    }
-}
-
-// The box for sign-in to the system
-class SignInBox extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            password: "",
-            username: "",
-        };
-    }
-    
-    render(){
-        let signInText = this.state.signText;
-        return(
-            <div>
-                <div class="signBox">
-                    <img src={require('./resources/4n_logo_mini.jpg')} class="logoPic"/> 
-                    <input type="Username" placeholder="Username" ></input>
-                    <input type="Password" placeholder="Password" ></input>
-                    <button class="signButton">Sign in</button>
-                </div>
-                    <div class="textureBox"> 
-                    <a href="https://www.freepik.com/free-vector/book-shelves-dtcorative-colorful-icon-poster_2871137.htm">Image designed by Macrovector</a>
-                </div>
-            </div>
-        );
-    }
-}
+import HomeAdmin from './components/pages/HomeAdmin';
+import Users from "./components/pages/users/Users";
+import Stock from "./components/pages/stock/Stock";
+import Profile from "./components/pages/profile/Profile";
 
 // Send components to HTML
 ReactDOM.render(
-    <div>
-        <Header />
-        <SignInBox />
-    </div>
-    , document.getElementById('root')   
-);
+    <BrowserRouter>
+        <div>
+            <Route exact path="/" component={SignInBox}/>        
+            <Route path = "/AdminIndex" component={AdminIndex}/>
+            <Route path = "/pages/orders/AdminOrders" component={AdminOrders} />
+            <Route path = "/pages/users/Users" component={Users}/>
+            <Route path = "/pages/stock/Stock" component={Stock}/>
+            <Route path = "/pages/profile/Profile" component={Profile}/>
 
+        </div>
+    </BrowserRouter>
+    , document.getElementById('root')
+);

@@ -4,7 +4,7 @@ import './adminIndex.css';
 import './style.css';
 
 // The Menu component
-class Menu extends React.Component{
+export default class Menu extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -31,11 +31,3 @@ class Menu extends React.Component{
         );
     }
 }
-
-// Send components to HTML
-ReactDOM.render(
-    <div>
-        <Menu />
-    </div>
-    , document.getElementById('root')   
-);
