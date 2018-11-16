@@ -1,10 +1,23 @@
-import React from "react";
-import Menu from "../../MenuComponents/Menu";
-import LandingPage from "../../MenuComponents/LandingPage/LandingPage";
-import Header from "../../Header";
-import BoxWithLongContent from "../../MenuComponents/ScrollTab";
-import "./Users.css";
+import React from 'react';
+import "../Pages.css";
 
+const AdminUsers = (props) => {
+
+
+    return(
+        <div className="PageStyle">
+            <customText_b>You are on Admin users page</customText_b>
+        </div>
+
+    );
+}
+ 
+export default AdminUsers;
+
+
+
+
+/* REMOVED, but left here if needed once this page will be built
 
 export default class Users extends React.Component{
     constructor(props) {
@@ -31,10 +44,6 @@ export default class Users extends React.Component{
     render(){
         return(
             <div className="userPageWrapper">
-                <Header title="Warehouse - Users"/>
-                <div className="menuStyle">
-                    <Menu buttons={this.state.menuButtons} current={"./Users"}/>
-                </div>
                 <div className="userPageStyle">
                     <BoxWithLongContent radios={this.state.users}/>
                 </div>
@@ -42,4 +51,4 @@ export default class Users extends React.Component{
 
         );
     }
-}
+}*/

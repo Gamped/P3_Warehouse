@@ -1,5 +1,6 @@
 body {
-    background-color: rgb(255, 255, 255);
+    background-image: url('./resources/bookshelf.jpg');
+    z-index: 1;
 }
 
 button{
@@ -9,16 +10,29 @@ button{
     border: none;
     font-family: 'Trebuchet MS', Tahoma, Arial;
     color: rgb(255, 255, 255);
+    margin: 5px;
 }
 
-.menuStyle{
-    background-color: rgb(56, 56, 56);
-    top: 40px;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    width: 140px; 
+.button_1st{
+    position: relative;
+    background-color: rgb(163, 163, 163);
+    font-size: 20px;
+    border: none;
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    color: rgb(255, 255, 255);
+    
 }
+
+.button_2nd{
+    position: relative;
+    background-color: rgb(97, 97, 97);
+    font-size: 20px;
+    border: none;
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    color: rgb(255, 255, 255);
+    margin: 5px;
+}
+
 
 .Scroller{
     background-color: dimgrey;
@@ -32,7 +46,6 @@ customText_w{
     text-align: center;
     font-size: 20px;
     color: rgb(255, 255, 255);
-    position: absolute;
     width: 100%;
 }
 
@@ -41,6 +54,15 @@ customText_b{
     text-align: center;
     font-size: 20px;
     color: rgb(0, 0, 0);
-    position: absolute;
     width: 100%;
+}
+
+input{
+    position: relative;
+    width: 380px;
+    margin-top: 10px;
+    height: 35px;
+    left: 50px;
+    top: 350px;
+    font-family: 'Trebuchet MS', Tahoma, Arial;
 }
