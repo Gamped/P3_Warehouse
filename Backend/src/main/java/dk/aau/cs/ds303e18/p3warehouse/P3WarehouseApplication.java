@@ -8,10 +8,22 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @EnableMongoRepositories(basePackages = "dk.aau.cs.ds303e18.p3warehouse.repositories")
 @SpringBootApplication
+
 public class P3WarehouseApplication {
+
 	@Autowired private ProductRepository productRepository;
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(P3WarehouseApplication.class, args);
+
+	}
+
+	@Override
+	public void run(String... strings) throws Exception {
+
+		final Cos
+		final Product testProduct = new Product();
+		testProduct.setName("Test Magasin").setQuantity(500).setProductId("1040");
 	}
 }
