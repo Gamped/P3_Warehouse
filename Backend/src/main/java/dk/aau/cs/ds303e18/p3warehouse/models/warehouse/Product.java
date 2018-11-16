@@ -1,27 +1,25 @@
-package dk.aau.cs.ds303e18.p3warehouse.warehouse;
+package dk.aau.cs.ds303e18.p3warehouse.models.warehouse;
 
 
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
 @Document(collection = "products")
 public class Product implements IProduct {
-    @Id @GeneratedValue
-    private String databaseId;
+    @Id
+    private ObjectId databaseId = new ObjectId();
     private String name;
     private int quantity;
     private Customer owner;
     private String productId;
 
-    public String getDatabaseId() {
+    public ObjectId getDatabaseId() {
         return databaseId;
     }
-    public void setDatabaseId(String databaseId){
-        this.databaseId = databaseId;
-    }
-
     public String getName() {
         return name;
     }
