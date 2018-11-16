@@ -20,6 +20,7 @@ class AdminOrders extends React.Component {
             ]
         }
     }
+    
     render() { 
         return(
             <div className="userPageWrapper">
@@ -30,9 +31,13 @@ class AdminOrders extends React.Component {
                 <div className="rTable">
                     <rTable columns = {this.state.columns} />
                 </div>
-                <div className = "AdminOrder border border-primary rounded">
+                <div className = "AdminOrders border border-primary rounded">
                 <AdminTable />
                 </div>
+                <button>Mark All Packed</button>
+                <button>Print Pack List</button>
+                <button>Edit Order</button>
+                <button>Order Pickup</button>
             </div>
 
         );

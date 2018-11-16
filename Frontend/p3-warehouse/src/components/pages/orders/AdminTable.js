@@ -28,10 +28,6 @@ class AdminTable extends React.Component {
                         {Header: "Packaged?", accessor: "packaged"}
                     ]}
                 />
-                <button>Mark All Packed</button>
-                <button>Print Pack List</button>
-                <button>Edit Order</button>
-                <button>Order Pickup</button>
             </div>
         )
     }
