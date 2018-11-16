@@ -7,7 +7,9 @@ class AdminTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
-            data: [], 
+            data: [
+                {name: "ass", id: 200, amount: 300, type: "books", packaged: true}
+            ], 
             loading: false
         }
     }
