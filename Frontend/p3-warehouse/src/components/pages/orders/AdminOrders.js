@@ -13,7 +13,11 @@ class AdminOrders extends React.Component {
                 {name: "Users",location:"../../../pages/users/Users"},
                 {name: "Stock",location:"../../pages/stock/Stock",id:"4"},
                 {name: "Profile",location:"../../pages/profile/Profile",id:"5"}
-            ] 
+            ],
+            
+            columns : [
+                {Header: TextTrackList, accessor: test}
+            ]
         }
     }
     render() { 
@@ -22,6 +26,9 @@ class AdminOrders extends React.Component {
                 <Header title="Warehouse - Orders"/>
                 <div className="menuStyle">
                     <Menu buttons={this.state.menuButtons} current={"./AdminOrders"}/>
+                </div>
+                <div className="rTable">
+                    <rTable columns = {this.state.columns} />
                 </div>
                 <div className = "AdminOrder border border-primary rounded">
                 <AdminTable />

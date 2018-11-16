@@ -29,7 +29,7 @@ ReactDOM.render(
             <Route exact path= "/products/edit/:id" component={EditProduct}/>
   
             <Route path= "/AdminIndex" component={AdminIndex}/>
-  
+
   </div>
     </BrowserRouter>
     , document.getElementById('root')
