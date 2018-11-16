@@ -4,10 +4,7 @@ import dk.aau.cs.ds303e18.p3warehouse.exceptions.ProductNotFoundException;
 import dk.aau.cs.ds303e18.p3warehouse.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.warehouse.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
 
 @RestController
 public class ProductController {
@@ -38,7 +35,7 @@ public class ProductController {
                     return productRepository.save(product);
                         })
                 .orElseGet(() -> {
-                    newProduct.setId(id);
+                    newProduct.setDatabaseId(id);
                     return productRepository.save(newProduct);
                 });
     }
