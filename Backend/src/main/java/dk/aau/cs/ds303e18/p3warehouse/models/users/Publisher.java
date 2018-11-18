@@ -14,5 +14,10 @@ public class Publisher extends User implements IPublisher {
     private String companyName;
     private IContactInformation contactInformation;
 
+    public Publisher(ObjectId id){
+        super(new ObjectId());
+        this.id = id;
+    }
+
     public IContactInformation getContactInformation(){return contactInformation;}
 }

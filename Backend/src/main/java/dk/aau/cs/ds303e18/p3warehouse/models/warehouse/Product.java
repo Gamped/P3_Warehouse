@@ -17,9 +17,14 @@ public class Product implements IProduct {
     private Customer owner;
     private String productId;
 
+    public Product(ObjectId databaseId){
+        this.databaseId = databaseId;
+    }
+
     public ObjectId getDatabaseId() {
         return databaseId;
     }
+
     public String getName() {
         return name;
     }
