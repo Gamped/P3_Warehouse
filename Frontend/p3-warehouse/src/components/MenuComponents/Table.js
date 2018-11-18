@@ -1,7 +1,10 @@
-import React from 'react';
+import React from 'react'
 import ReactTable from 'react-table'
+import 'react-table/react-table.css'
+import "./Table.css"
 
-const rTable = (data, columns) => {
+const rTable = (props) => {
+    const {data, columns} = props;
     return(
         <div className = "rTable">
             <ReactTable 
@@ -11,3 +14,5 @@ const rTable = (data, columns) => {
         </div>
     )
 }
+
+export default rTable;
