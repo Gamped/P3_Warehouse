@@ -10,6 +10,7 @@ import java.util.Collection;
 @Document(collection = "clients")
 public class Client extends User implements IClient {
 
+
     @Id
     ObjectId id;
     private IContactInformation contactInformation;
