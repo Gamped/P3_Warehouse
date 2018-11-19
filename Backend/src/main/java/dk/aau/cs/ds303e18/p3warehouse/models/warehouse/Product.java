@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.warehouse;
 
 
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -11,19 +12,13 @@ import javax.persistence.GeneratedValue;
 @Document(collection = "products")
 public class Product {
     @Id
-    private ObjectId databaseId = new ObjectId();
+    private ObjectId id;
     private String name;
     private int quantity;
     private Customer owner;
     private String productId;
 
-    public Product(ObjectId databaseId){
-        this.databaseId = databaseId;
-    }
-
-    public ObjectId getDatabaseId() {
-        return databaseId;
-    }
+    private Client client;
 
     public String getName() {
         return name;
@@ -55,6 +50,14 @@ public class Product {
     }
     @Override
     public String toString(){
-        return databaseId.toString() + " " + name + " " + ((Integer)quantity).toString();
+        return id.toString() + " " + name + " " + ((Integer)quantity).toString();
+    }
+
+    public ObjectId getId() {
+        return id;
+    }
+
+    public void setId(ObjectId id){
+        this.id = id;
     }
 }
