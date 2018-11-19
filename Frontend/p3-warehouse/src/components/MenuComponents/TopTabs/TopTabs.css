@@ -1,0 +1,11 @@
+.topTabs{
+    z-index: 55555555555;
+    color: black;
+    position: relative;
+}
+
+.buttonTab{
+    position: relative;
+    vertical-align: middle;
+    display: table-cell;
+}

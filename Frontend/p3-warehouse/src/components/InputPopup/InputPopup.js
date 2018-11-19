@@ -18,20 +18,19 @@ export default class inputPopup extends React.Component {
     }
 
     render(){
-        var i = 0;
         let usedFields = this.state.inputFields;
         var list;
         if (usedFields != null){
-        list = usedFields.map(function(element){
-            return(
-            <input 
-            type="text" 
-            className="InputField" 
-            //onChange={this.}
-            placeholder={element}/>)
-            i++;
-            }
-        )
+            list = usedFields.map(function(element){
+                return(
+                    <input 
+                        type="text" 
+                        className="InputField" 
+                        //onChange={this.}
+                        placeholder={element}
+                    />)
+                }
+            )
         } else {list = "";}
 
         return(
