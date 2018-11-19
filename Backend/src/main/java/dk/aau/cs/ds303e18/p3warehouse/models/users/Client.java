@@ -8,17 +8,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Collection;
 
 @Document(collection = "clients")
-public class Client extends User implements IClient {
+public class Client extends User implements Customer {
 
     @Id
     ObjectId id;
-    private IContactInformation contactInformation;
+    private ContactInformation contactInformation;
     private Collection<Order> orders;
 
     public Client(ObjectId id){
-        super(new ObjectId());
+        super(id);
         this.id = id;
     }
 
-    public IContactInformation getContactInformation() {return contactInformation; }
+    public ContactInformation getContactInformation() {return contactInformation; }
+    public void setContactInformation(ContactInformation contactInformation){this.contactInformation = contactInformation; }
 }

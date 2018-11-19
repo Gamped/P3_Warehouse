@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.GeneratedValue;
 
 @Document(collection = "products")
-public class Product implements IProduct {
+public class Product {
     @Id
     private ObjectId databaseId = new ObjectId();
     private String name;

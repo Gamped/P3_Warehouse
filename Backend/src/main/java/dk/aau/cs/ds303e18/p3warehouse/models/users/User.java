@@ -5,17 +5,17 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "userAuthDatabase")
-public class User implements IUser{
-    @Id
-    private ObjectId id;
+public class User {
+    private ObjectId databaseId;
     private String userName;
     private String password;
-    // ID for the child in another collection
+    private ObjectId id;  // ID for the child in another collection
     private UserType userType;
 
 
     protected User(ObjectId id) {
         this.id = id;
+        databaseId = new ObjectId();
     }
 
     public String getUserName(){
