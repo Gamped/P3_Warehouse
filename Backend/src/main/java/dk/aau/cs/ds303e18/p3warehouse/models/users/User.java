@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "userAuthDatabase")
 public class User {
-    private ObjectId databaseId;
+
     private String userName;
     private String password;
     private ObjectId id;  // ID for the child in another collection
@@ -15,7 +15,6 @@ public class User {
 
     protected User(ObjectId id) {
         this.id = id;
-        databaseId = new ObjectId();
     }
 
     public String getUserName(){
@@ -46,4 +45,6 @@ public class User {
         return userType;
     }
 
+    public void setId(ObjectId id) {
+    }
 }

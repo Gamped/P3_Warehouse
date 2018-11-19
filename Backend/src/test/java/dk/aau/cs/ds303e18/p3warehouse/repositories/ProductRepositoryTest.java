@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Optional;
+
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class ProductRepositoryTest {
@@ -17,11 +19,14 @@ public class ProductRepositoryTest {
 
     @Test
     public void findByIdTest(){
-        Product product = new Product(new ObjectId());
+        ObjectId id = new ObjectId();
+        Product product = new Product();
+        product.setId(id);
         product.setName("Red Alert");
         product.setQuantity(100);
         repository.save(product);
-        Product foundProduct = repository.findByDatabaseId(product.getDatabaseId());
-        Assert.assertEquals(product.getDatabaseId(), foundProduct.getDatabaseId());
+        Optional<Product> optProduct = repository.findById(product.getId());
+        Product retrievedProduct = optProduct.get();
+        Assert.assertEquals(product.getId(), retrievedProduct.getId());
     }
 }

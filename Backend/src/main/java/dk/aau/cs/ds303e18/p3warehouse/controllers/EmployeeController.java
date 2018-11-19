@@ -2,10 +2,7 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
  import dk.aau.cs.ds303e18.p3warehouse.exceptions.ProductNotFoundException;
  import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
- import dk.aau.cs.ds303e18.p3warehouse.models.users.IClient;
- import dk.aau.cs.ds303e18.p3warehouse.models.users.IContactInformation;
  import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
- import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.IProduct;
  import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
  import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
  import dk.aau.cs.ds303e18.p3warehouse.repositories.EmployeeRepository;
@@ -27,7 +24,7 @@ public class EmployeeController {
     PublisherRepository publisherRepository;
 
     @GetMapping("/employee/products")
-    private Iterable<Product> findAll() {
+    private Iterable<Product> findAllProducts() {
         return productRepository.findAll();
     }
 
@@ -42,9 +39,9 @@ public class EmployeeController {
     }
 
     @PutMapping("/employee/products/{id}")
-    IProduct updateProduct(@PathVariable ObjectId id, @RequestBody Product product) {
+    Product updateProduct(@PathVariable ObjectId id, @RequestBody Product product) {
         Optional<Product> optProduct = productRepository.findById(id);
-        IProduct p = optProduct.get();
+        Product p = optProduct.get();
 
         if (product.getName() != null) {
             p.setName(product.getName());
@@ -58,18 +55,18 @@ public class EmployeeController {
     }
 
 
-    @DeleteMapping("/employee/products/{id}")
-    void deleteProduct(@PathVariable ObjectId id){
-        productRepository.deleteById(id);
+    @DeleteMapping("/employee/{id}")
+    public void deleteById(@PathVariable ObjectId id) {
+        employeeRepository.deleteById(id);
     }
 
     @GetMapping("/employee/clients")
-    private Iterable<Client> findAll() {
+    private Iterable<Client> findAllClients() {
         return clientRepository.findAll();
     }
 
     @GetMapping("/employee/publishers")
-    private Iterable<Publisher> findAll() {
+    private Iterable<Publisher> findAllPublishers() {
         return publisherRepository.findAll();
     }
 }
