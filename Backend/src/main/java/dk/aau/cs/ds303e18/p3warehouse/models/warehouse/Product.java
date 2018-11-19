@@ -1,25 +1,25 @@
-package dk.aau.cs.ds303e18.p3warehouse.warehouse;
+package dk.aau.cs.ds303e18.p3warehouse.models.warehouse;
 
 
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
+import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
 @Document(collection = "products")
-public class Product {
-    @Id @GeneratedValue
-    private String id;
+public class Product implements IProduct {
+    @Id
+    private ObjectId databaseId = new ObjectId();
     private String name;
     private int quantity;
+    private Customer owner;
+    private String productId;
 
-    public String getId() {
-        return id;
+    public ObjectId getDatabaseId() {
+        return databaseId;
     }
-    public void setId(String id){
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -36,6 +36,10 @@ public class Product {
         this.quantity = quantity;
     }
 
+    public Customer getOwner() {return owner; }
+
+    public void setOwner(Customer owner) {this.owner = owner;}
+
     public Product withName(String name){
         this.name = name;
         return this;
@@ -45,6 +49,6 @@ public class Product {
         return this;
     }
     public String toString(){
-        return id.toString() + " " + name + " " + ((Integer)quantity).toString();
+        return databaseId.toString() + " " + name + " " + ((Integer)quantity).toString();
     }
 }
