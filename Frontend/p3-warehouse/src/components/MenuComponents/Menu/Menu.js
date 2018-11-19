@@ -1,5 +1,5 @@
 import React from 'react';
-import "../adminIndex.css";
+import "./Menu.css";
 import {Link} from "react-router-dom";
 
 
@@ -10,12 +10,12 @@ const Menu = (props) => {
         return (
             (current!==button.location)?
             <div className="Link" key={button.id}>
-                <Link to={button.location} className="btn btn-primary btn-block" role="button">{button.name}</Link>
+                <Link to={button.location} className=" button_1st btn btn-block" role="button">{button.name}</Link>
                 <br/>
             </div>
             :
             <div className="Link" key={button.id}>
-                <Link to={button.location} className="btn btn-secondary btn-block" role="button">{button.name}</Link>
+                <Link to={button.location} className="button_2nd btn btn-block" role="button">{button.name}</Link>
                 <br/>
             </div>
         )

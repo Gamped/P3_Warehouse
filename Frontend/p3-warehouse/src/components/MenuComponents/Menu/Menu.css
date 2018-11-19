@@ -1,0 +1,8 @@
+.menuStyle{
+    background-color: rgb(56, 56, 56);
+    top: 40px;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 140px; 
+}
