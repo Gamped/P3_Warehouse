@@ -4,17 +4,14 @@ body {
 }
 
 button{
-    position: relative;
     background-color: rgb(97, 97, 97);
     font-size: 20px;
     border: none;
     font-family: 'Trebuchet MS', Tahoma, Arial;
     color: rgb(255, 255, 255);
-    margin: 5px;
 }
 
 .button_1st{
-    position: relative;
     background-color: rgb(163, 163, 163);
     font-size: 20px;
     border: none;
@@ -24,21 +21,11 @@ button{
 }
 
 .button_2nd{
-    position: relative;
     background-color: rgb(97, 97, 97);
     font-size: 20px;
     border: none;
     font-family: 'Trebuchet MS', Tahoma, Arial;
     color: rgb(255, 255, 255);
-    margin: 5px;
-}
-
-
-.Scroller{
-    background-color: dimgrey;
-    width: 300px;
-    height: 600px;
-    overflow: auto;
 }
 
 customText_w{
