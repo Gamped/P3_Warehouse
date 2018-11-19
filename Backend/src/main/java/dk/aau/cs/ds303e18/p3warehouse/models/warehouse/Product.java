@@ -53,6 +53,7 @@ public class Product implements IProduct {
         this.quantity = quantity;
         return this;
     }
+    @Override
     public String toString(){
         return databaseId.toString() + " " + name + " " + ((Integer)quantity).toString();
     }

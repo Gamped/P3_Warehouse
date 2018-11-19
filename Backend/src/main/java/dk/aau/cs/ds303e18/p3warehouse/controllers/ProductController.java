@@ -14,7 +14,7 @@ public class ProductController {
 
     @GetMapping("/products")
     private Iterable<Product> all(){
-        return productRepository.findAll();
+        return null;
     }
 
     @PostMapping("/products")
@@ -24,7 +24,7 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     Product one(@PathVariable String id) {
-        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException());
+        return null;
     }
     @PutMapping("/products/{id}")
     Product replaceProduct(@RequestBody Product newProduct, @PathVariable String id){
@@ -32,6 +32,5 @@ public class ProductController {
     }
     @DeleteMapping("/products/{id}")
     void deleteProduct(@PathVariable String id){
-        productRepository.deleteById(id);
     }
 }

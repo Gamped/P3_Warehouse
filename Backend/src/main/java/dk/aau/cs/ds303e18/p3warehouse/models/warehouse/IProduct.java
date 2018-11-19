@@ -8,4 +8,5 @@ public interface IProduct {
     public int getQuantity();
     public void setName(String name);
     public void setQuantity(int quantity);
+    public String toString();
 }
