@@ -7,14 +7,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Collection;
 @Document(collection = "publishers")
-public class Publisher extends User implements IPublisher {
+public class Publisher extends User implements Customer {
 
     @Id
     private ObjectId id = new ObjectId();
     private Collection<Client> clients;
     private Collection<Order> clientOrders;
     private String companyName;
-    private IContactInformation contactInformation;
+    private ContactInformation contactInformation;
 
 
     public Publisher(ObjectId id){
@@ -22,5 +22,5 @@ public class Publisher extends User implements IPublisher {
         this.id = id;
     }
 
-    public IContactInformation getContactInformation(){return contactInformation;}
+    public ContactInformation getContactInformation(){return contactInformation;}
 }

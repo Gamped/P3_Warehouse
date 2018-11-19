@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "orders")
-public class Order implements IOrder {
+public class Order{
     @Id
     ObjectId id;
 
