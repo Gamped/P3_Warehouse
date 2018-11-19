@@ -1,5 +1,5 @@
 import React from 'react';
-import Table from "../../../MenuComponents/Table"
+import Table from "../../../MenuComponents/Table/Table"
 import "../../Pages.css";
 
 //TODO: Implement data fetching from backend/database
