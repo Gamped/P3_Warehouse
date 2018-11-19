@@ -14,7 +14,7 @@ public class User implements IUser{
     private UserType userType;
 
 
-    public User(ObjectId id) {
+    protected User(ObjectId id) {
         this.id = id;
     }
 
