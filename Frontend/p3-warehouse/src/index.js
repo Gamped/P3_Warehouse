@@ -6,7 +6,7 @@ import loginMain from "./mainPages/loginMain";
 import adminMain from "./mainPages/adminMain";
 import userMain from "./mainPages/userMain";
 import HomeAdmin from "./components/pages/Admin/HomeAdmin"
-import AdminOrders from "./components/pages/Admin/orders/AdminOrders";
+import AdminOrders from "./components/pages/Admin/AdminOrders";
 import AdminProfile from "./components/pages/Admin/AdminProfile";
 import AdminStock from "./components/pages/Admin/AdminStock";
 import AdminUsers from "./components/pages/Admin/AdminUsers";
