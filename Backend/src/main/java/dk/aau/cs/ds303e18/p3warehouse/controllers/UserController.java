@@ -1,5 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
+import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{userType}")
-    Optional<User> findByUserType(@PathVariable String userType) {
+    Optional<User> findByUserType(@PathVariable UserType userType) {
         return userRepository.findByUserType(userType);
     }
 

@@ -36,4 +36,8 @@ public class Client extends User implements Customer {
     public ContactInformation getContactInformation() {return contactInformation; }
 
     public void setContactInformation(ContactInformation contactInformation){this.contactInformation = contactInformation; }
+
+    @Override public String toString(){
+        return id + " " + getUserName() + " " + contactInformation;
+    }
 }

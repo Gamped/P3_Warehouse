@@ -45,6 +45,8 @@ public class User {
         return userType;
     }
 
-    public void setId(ObjectId id) {
+    @Override
+    public String toString(){
+        return userName + " " + userType;
     }
 }
