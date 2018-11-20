@@ -8,7 +8,8 @@ import userMain from "./mainPages/userMain";
 import HomeAdmin from "./components/pages/Admin/HomeAdmin"
 import AdminOrders from "./components/pages/Admin/AdminOrders";
 import AdminProfile from "./components/pages/Admin/AdminProfile";
-import AdminStock from "./components/pages/Admin/AdminStock";
+import AdminStock from "./components/pages/Admin/AdminStock/AdminStock";
+import NewWare from "./components/pages/Admin/AdminStock/NewWare";
 import AdminUsers from "./components/pages/Admin/AdminUsers";
 import UserHome from "./components/pages/User/UserHome";
 import PublisherClient from "./components/pages/User/PublisherClient";
@@ -27,6 +28,7 @@ ReactDOM.render(
             <Route exact path="/Admin/Orders" component={AdminOrders}/>
             <Route exact path="/Admin/Profile" component={AdminProfile}/>
             <Route exact path="/Admin/Stock" component={AdminStock}/>
+            <Route exact path="/Admin/Stock/New" component={NewWare}/>
             <Route exact path="/Admin/Users" component={AdminUsers}/>
 
             <Route exact path="/User" component={userMain}/>
