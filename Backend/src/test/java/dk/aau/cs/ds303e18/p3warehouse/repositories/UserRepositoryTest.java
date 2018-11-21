@@ -23,6 +23,7 @@ public class UserRepositoryTest {
 
     @Test
     public void SaveSuperclassAndExtendedClassSeparatelyTest(){
+
         ObjectId clientId = new ObjectId();
         Client client = new Client(clientId);
         client.setUserType(UserType.Client);
