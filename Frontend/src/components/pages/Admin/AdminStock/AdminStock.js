@@ -3,6 +3,24 @@ import "../../Pages.css";
 import "./AdminStock.css"
 
 const AdminStock = (props) => {
+    var productLines;
+    var i;
+
+    function fillTable(){
+        for(i=0; i < 10; i++){
+            return(
+            <tr>
+                <td>An awesome product</td>
+                <td>12651</td>
+                <td>Infinte</td>
+                <td>God</td>
+                <td>
+                    <input type="radio" className="pickMe"/>
+                </td>
+            </tr>
+            )
+        }
+    }
     
 
     return(
@@ -17,7 +35,22 @@ const AdminStock = (props) => {
             </div>
 
             <div className="contentBoxStyle listBox">
-
+                <table className="stockTable">
+                    <tr>
+                        <th>Product name</th>
+                        <th>Product ID</th>
+                        <th>Unit amount</th>
+                        <th>Owner</th>
+                        <th>Pick</th>
+                    </tr>
+                    {fillTable()}
+                    {fillTable()}
+                    {fillTable()}
+                    {fillTable()}
+                    {fillTable()}
+                    {fillTable()}
+                    
+                </table>
             </div>
 
             <div className="bottomBoxStyle bottomBox">

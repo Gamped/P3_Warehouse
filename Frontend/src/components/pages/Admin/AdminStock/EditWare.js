@@ -58,10 +58,10 @@ export default class EditWare extends React.Component {
                     placeholder="Owner"/>
             </form>
             <form action="/Admin/Stock" className="newForm stockForm">
-                <button className="newButton_g stockButton_f btn">Back</button>
+                <button className="newButton stockButton_f btn">Back</button>
             </form>
             <form action="/Admin/Stock" className="newForm stockForm">
-                <button className="newButton_o stockButton_f btn">Edit product</button>
+                <button className="newButton stockButton_f btn">Edit product</button>
             </form>
             <customText_b className="note">Please double check to make sure you have changed to the correct info</customText_b>
         </div>);

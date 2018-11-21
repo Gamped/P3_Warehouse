@@ -103,8 +103,16 @@
     background-color: green;
 }
 
-.newButton_o{
+.stockTable{
     width: 100%;
-    font-size: 20px;
-    background-color: rgb(201, 144, 39);
+}
+
+.pickMe{
+    position: relative;
+    width: 0;
+    height: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
