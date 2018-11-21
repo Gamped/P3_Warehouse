@@ -19,7 +19,7 @@ const LandingPage = (props)=>{
     return(
         <div>
             <div className="fixed-top LandingText">
-                <customText_b>Welcome to the landing page. <br/> You are currently logged in as {name}</customText_b>
+                <customText_b>Welcome {name}!</customText_b>
                 <br/>
                 <ul class="align-middle">
                     {buttonList}

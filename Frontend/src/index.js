@@ -17,7 +17,9 @@ import AdminUsers from "./components/pages/Admin/AdminUsers";
 import UserHome from "./components/pages/User/UserHome";
 import PublisherClient from "./components/pages/User/PublisherClient";
 import UserStock from "./components/pages/User/UserStock";
-import UserProfile from "./components/pages/User/UserProfile"
+import UserProfile from "./components/pages/User/UserProfile/UserProfile"
+import UserProfileEdit from "./components/pages/User/UserProfile/UserProfileEdit"
+import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHistory"
 import UserOrder from "./components/pages/User/UserOrder";
 
 ReactDOM.render(
@@ -43,6 +45,8 @@ ReactDOM.render(
             <Route exact path="/User/Order" component={UserOrder}/>
             <Route exact path="/User/Stock" component={UserStock}/>
             <Route exact path="/User/Profile" component={UserProfile}/>
+            <Route exact path="/User/Profile/Edit" component={UserProfileEdit}/>
+            <Route exact path="/User/Profile/OrderHistory" component={UserOrderHistory}/>
             <Route exact path="/User/Clients" component={PublisherClient}/>
          </div>
     </BrowserRouter>
