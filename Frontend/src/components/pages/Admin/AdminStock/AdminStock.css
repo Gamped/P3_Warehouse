@@ -66,6 +66,22 @@
     top: 10px;
 }
 
+.title_r{
+    position: absolute;
+    top: 10px;
+    color: red;
+}
+
+.subTitle{
+    position: absolute;
+    top: 60px;
+}
+
+.note{
+    position: absolute;
+    top: 260px;
+}
+
 .newForm{
     position: relative;
     width: 80%;
@@ -75,4 +91,17 @@
 
 .newButton{
     width: 100%;
+    font-size: 20px;
+}
+
+.newButton_r{
+    width: 100%;
+    font-size: 20px;
+    background-color: red;
+}
+
+.newButton_g{
+    width: 100%;
+    font-size: 20px;
+    background-color: green;
 }
