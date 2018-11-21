@@ -43,7 +43,7 @@ public class UserRepositoryTest {
         System.out.println(hopefullyAUser.getUserType());
         System.out.println(hopefullyAClient.get().getUserType());
 
-        for(User u : userRepository.findAll()){
+        for(Client u : clientRepository.findAll()){
             System.out.println(u);
         }
         assert(false);

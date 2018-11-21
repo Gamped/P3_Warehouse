@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.exceptions.ProductNotFoundException;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import org.bson.types.ObjectId;
@@ -19,12 +20,15 @@ public class ProductController {
 
     @GetMapping("/products")
     private Iterable<Product> findAll(){
-        return null;
+        return productRepository.findAll();
     }
 
     @PostMapping("/products")
     private Product newProduct(@RequestBody Product newProduct){
-        return productRepository.save(newProduct);
+
+        Product productToSave = new Product(new ObjectId());
+        productToSave.copyParametersFrom(newProduct);
+        return productRepository.save(productToSave);
     }
 
     @GetMapping("/products/{id}")
@@ -32,18 +36,26 @@ public class ProductController {
         return productRepository.findById(id);
     }
 
-    @PutMapping("/products/{id}")
-    Product replaceProduct(@RequestBody Product newProduct, @PathVariable String id){
-        return null;
+    @PutMapping("/products/")
+    Product updateProduct(@RequestBody Product updatedProduct){
+       Product query = productRepository.findById(updatedProduct.getId()).orElse(null);
+        if(query.equals(null)){
+            //TODO: Throw exception
+            return null;
+        }
+        else{
+            return productRepository.save(updatedProduct);
+        }
     }
 
     @DeleteMapping("/products/{id}")
-    void deleteProduct(@PathVariable String id){
+    void deleteProduct(@RequestBody Product productToDelete){
+        productRepository.delete(productToDelete);
     }
 
     @GetMapping("/clients/{id}/products")
-    List<Product> findByClientId(@PathVariable ObjectId clientId) {
-        return productRepository.findByClientId(clientId);
+    List<Product> findByOwner(@RequestBody Customer owner) {
+        return productRepository.findByOwner(owner);
     }
 
 }

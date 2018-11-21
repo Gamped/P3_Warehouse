@@ -20,8 +20,7 @@ public class ProductRepositoryTest {
     @Test
     public void findByIdTest(){
         ObjectId id = new ObjectId();
-        Product product = new Product();
-        product.setId(id);
+        Product product = new Product(id);
         product.setName("Red Alert");
         product.setQuantity(100);
         repository.save(product);
