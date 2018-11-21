@@ -22,7 +22,7 @@ public class UserRepositoryTest {
     @Test
     public void SaveSuperclassAndExtendedClassSeparatelyTest(){
         Client client = new Client(new ObjectId());
-        client.setUserType(UserType.Client);
+        client.setUserType(UserType.CLIENT);
         client.setUserName("Simon med mus");
         ContactInformation contactInformation = new ContactInformation();
         contactInformation.setEmail("Simon@MacSutterPik.xDDDDDDDD");
