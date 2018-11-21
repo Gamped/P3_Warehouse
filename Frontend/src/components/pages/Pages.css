@@ -22,3 +22,8 @@
 .contentBoxStyle{
     background-color: rgb(243, 243, 243);
 }
+
+.title{
+    position: absolute;
+    top: 10px;
+}

@@ -40,29 +40,30 @@ export default class EditWare extends React.Component {
         <div className="PageStyle">
             <customText_b_big className="title">Edit product:</customText_b_big>
             <customText_b className="subTitle">"Product name"</customText_b>
-                <form>
-                    <input 
-                        type="text" 
-                        className="newForm" 
-                        onChange={this.handlePName}
-                        placeholder="Product name"/>
-                    <input 
-                        type="text" 
-                        className="newForm" 
-                        onChange={this.handleQuantity}
-                        placeholder="Quantity"/>
-                    <input 
-                        type="text" 
-                        className="newForm" 
-                        onChange={this.handleOwner}
-                        placeholder="Owner"/>
-                </form>
-                <form action="/Admin/Stock" className="newForm stockForm">
-                    <button className="newButton stockButton_f btn">Back</button>
-                </form>
-                <form action="/Admin/Stock" className="newForm stockForm">
-                    <button className="newButton stockButton_f btn">Edit product</button>
-                </form>
+            <form>
+                <input 
+                    type="text" 
+                    className="newForm" 
+                    onChange={this.handlePName}
+                    placeholder="Product name"/>
+                <input 
+                    type="text" 
+                    className="newForm" 
+                    onChange={this.handleQuantity}
+                    placeholder="Quantity"/>
+                <input 
+                    type="text" 
+                    className="newForm" 
+                    onChange={this.handleOwner}
+                    placeholder="Owner"/>
+            </form>
+            <form action="/Admin/Stock" className="newForm stockForm">
+                <button className="newButton_g stockButton_f btn">Back</button>
+            </form>
+            <form action="/Admin/Stock" className="newForm stockForm">
+                <button className="newButton_o stockButton_f btn">Edit product</button>
+            </form>
+            <customText_b className="note">Please double check to make sure you have changed to the correct info</customText_b>
         </div>);
     }
 }

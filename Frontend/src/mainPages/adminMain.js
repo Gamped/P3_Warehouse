@@ -2,7 +2,7 @@ import React from "react";
 import Base from "../components/pages/Base";
 import "./mainPages.css";
 
-const adminMain = (props)=>{
+const adminMain = (props) => {
     var menuButtons = [
         {name: "Home",location: "/Admin", id:"1"},
         {name: "Orders",location:"/Admin/Orders", id:"2"},
