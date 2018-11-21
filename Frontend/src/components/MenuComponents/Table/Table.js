@@ -4,12 +4,17 @@ import 'react-table/react-table.css'
 import "./Table.css"
 
 const rTable = (props) => {
-    const {data, columns} = props;
+    const {data, columns, height, width} = props;
     return(
-        <div className = "rTable">
+        <div >
             <ReactTable 
                 data = {data}
                 columns = {columns}
+                className = "rTable"
+                style={{
+                    height: height,
+                    width: width,
+                }}
             />
         </div>
     )
