@@ -26,7 +26,7 @@ public class ProductController {
     @PostMapping("/products")
     private Product newProduct(@RequestBody Product newProduct){
 
-        Product productToSave = new Product(new ObjectId());
+        Product productToSave = new Product(newProduct.getId());
         productToSave.copyParametersFrom(newProduct);
         return productRepository.save(productToSave);
     }
