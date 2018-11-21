@@ -5,6 +5,7 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.GeneratedValue;
@@ -15,10 +16,13 @@ public class Product {
     private ObjectId id;
     private String name;
     private int quantity;
+    @DBRef
     private Customer owner;
     private String productId;
 
-    private Client client;
+    public Product(ObjectId id){
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -48,6 +52,16 @@ public class Product {
         this.quantity = quantity;
         return this;
     }
+    public void setProductId(String productId){this.productId = productId; }
+    public String getProductId(){return productId; }
+
+    public Product copyParametersFrom(Product product){
+        this.setName(product.getName());
+        this.setQuantity(product.getQuantity());
+        this.setOwner(product.getOwner());
+        this.setProductId(product.getProductId());
+        return this;
+    }
     @Override
     public String toString(){
         return id.toString() + " " + name + " " + ((Integer)quantity).toString();
@@ -55,9 +69,5 @@ public class Product {
 
     public ObjectId getId() {
         return id;
-    }
-
-    public void setId(ObjectId id){
-        this.id = id;
     }
 }
