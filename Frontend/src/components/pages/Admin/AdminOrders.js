@@ -1,6 +1,7 @@
 import React from 'react';
 import Table from "../../MenuComponents/Table/Table"
 import "../Pages.css";
+import "./AdminOrders.css";
 
 //TODO: Implement data fetching from backend/database
 const AdminOrders = (props) => {
@@ -12,28 +13,14 @@ const AdminOrders = (props) => {
         {Header: "Packaged?", accessor: "packaged"}
     ]
 
-    const ReadyOrders = [
-        {Header: "Ready for Delivery", accessor: "ready"}
-    ]
-
-    const inProgressOrders = [
-        {Header: "In Progress", accessor: "progress"}
-    ]
-
-    const pendingOrders = [
-        {Header: "Pending Orders", accessor: "pending"}
-    ]
+    const tableHeight = window.innerHeight * 0.8;
 
     return(
         <div className="PageStyle">
             <customText_b>You are on Admin order page</customText_b>
-            <Table columns={ReadyOrders} />
-            <Table columns={inProgressOrders}/>
-            <Table columns={pendingOrders} />
-            <Table columns={columns}/>
+            <div className="AdminTable"><Table columns={columns} height={tableHeight}/></div>
         </div>
     );
 }
 
 export default AdminOrders;
-
