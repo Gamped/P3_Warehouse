@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +15,7 @@ public interface UserRepository extends MongoRepository<User, ObjectId> {
 
     Optional<User> findByPassword(String password);
 
-    Optional<User> findByUserType(String userType);
+    Optional<User> findByUserType(UserType userType);
 
 }
 

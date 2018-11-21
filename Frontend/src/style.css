@@ -1,5 +1,5 @@
 body {
-    background-image: url('./resources/bookshelf.jpg');
+    background-color: white;
     z-index: 1;
 }
 
@@ -17,7 +17,6 @@ button{
     border: none;
     font-family: 'Trebuchet MS', Tahoma, Arial;
     color: rgb(255, 255, 255);
-    
 }
 
 .button_2nd{
@@ -31,7 +30,7 @@ button{
 customText_w{
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
-    font-size: 20px;
+    font-size: 25px;
     color: rgb(255, 255, 255);
     width: 100%;
 }
@@ -39,7 +38,16 @@ customText_w{
 customText_b{
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
-    font-size: 20px;
+    font-size: 25px;
+    color: rgb(0, 0, 0);
+    width: 100%;
+}
+
+customText_b_big{
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    text-align: center;
+    width: 100%;
+    font-size: 40px;
     color: rgb(0, 0, 0);
     width: 100%;
 }
@@ -52,4 +60,8 @@ input{
     left: 50px;
     top: 350px;
     font-family: 'Trebuchet MS', Tahoma, Arial;
+}
+
+.makeRelative{
+    position: relative;
 }
