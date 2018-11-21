@@ -32,20 +32,21 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    Optional<Product> findById(@PathVariable ObjectId id) {
-        return productRepository.findById(id);
+    Optional<Product> findById(@PathVariable String id) {
+        ObjectId objectId = new ObjectId(id);
+        return productRepository.findById(objectId);
     }
 
-    @PutMapping("/products/")
-    Product updateProduct(@RequestBody Product updatedProduct){
-       Product query = productRepository.findById(updatedProduct.getId()).orElse(null);
-        if(query.equals(null)){
-            //TODO: Throw exception
-            return null;
-        }
-        else{
-            return productRepository.save(updatedProduct);
-        }
+    @PutMapping("/products/edit/{id}")
+    Product updateProduct(@RequestBody Product updatedProduct) throws ProductNotFoundException {
+       Optional<Product> product = productRepository.findById(updatedProduct.getId());
+       Product productToSave = product.get();
+
+       //TODO: VALIDATOR CLASS IMPLEMENTATION
+
+       productToSave.copyParametersFrom(updatedProduct);
+       productRepository.save(productToSave);
+       return productToSave;
     }
 
     @DeleteMapping("/products/{id}")

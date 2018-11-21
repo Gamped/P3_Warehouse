@@ -7,9 +7,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "orders")
 public class Order {
     @Id
-    ObjectId id;
+    String id;
 
-    public Order(ObjectId id){
-        this.id = id;
+    public Order(){
+    }
+
+    public String getId(){
+        return id;
     }
 }

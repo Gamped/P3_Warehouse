@@ -30,7 +30,8 @@ public class PublisherController {
     }
 
     @GetMapping("/publishers/{id}")
-    Optional<Publisher> findById(@PathVariable ObjectId id) {
+    Optional<Publisher> findById(@PathVariable String hexId) {
+        ObjectId id = new ObjectId(hexId);
         return publisherRepository.findById(id);
     }
 
