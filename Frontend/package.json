@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "boostrap": "^2.0.0",
+    "bson": "^4.0.0",
     "bson-objectid": "^1.2.4",
     "history": "^4.7.2",
     "radium": "^0.25.0",
