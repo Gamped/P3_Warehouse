@@ -66,7 +66,7 @@ export default class AdminProfileEdit extends React.Component {
     render(){
         return(
         <div className="PageStyle">
-            <customText_b_big className="title">Edit profile:</customText_b_big>
+            <h1 className="title customText_b_big">Edit profile:</h1>
                 <form>
                     <input 
                         type="text" 

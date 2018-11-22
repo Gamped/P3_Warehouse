@@ -6,7 +6,7 @@ const PublisherClient = (props) => {
 
     return(
         <div className="PageStyle">
-            <customText_b>You are on Publisher Client page</customText_b>
+            <h1 className="customText_b">You are on publisher client page</h1>
         </div>
 
     );
