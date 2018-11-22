@@ -6,14 +6,13 @@ const LandingPage = (props)=>{
     const {name,buttons}=props;
     const buttonList = buttons.map(button =>{
         return (
-           <li class="page-item"> 
-           <Link 
-            to={button.location} 
-            key={button.id} 
-            className="button_1st LandingPageButtons btn btn-primary btn-lg border border-secondary rounded" 
-            role="button">{button.name}
-           </Link>
-           </li>
+            <Link 
+                to={button.location} 
+                key={button.id} 
+                className="button_1st LandingPageButtons btn btn-primary btn-lg border border-secondary rounded" 
+                role="button">
+                    {button.name}
+            </Link>
         )
     })
     return(
@@ -21,9 +20,11 @@ const LandingPage = (props)=>{
             <div className="fixed-top LandingText">
                 <customText_b>Welcome {name}!</customText_b>
                 <br/>
-                <ul class="align-middle">
+                <div className="row">
+                    <div className="col-sm">
                     {buttonList}
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
     )
