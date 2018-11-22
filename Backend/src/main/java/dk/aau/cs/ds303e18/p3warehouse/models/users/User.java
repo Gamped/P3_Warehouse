@@ -2,18 +2,19 @@ package dk.aau.cs.ds303e18.p3warehouse.models.users;
 
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-public class User implements IUser{
-    @Id
-    private ObjectId id;
+@Document(collection = "userAuthDatabase")
+public class User {
+
     private String userName;
     private String password;
-    // ID for the child in another collection
+    private ObjectId id;  // ID for the child in another collection
     private UserType userType;
 
 
-    public User() {
-
+    protected User(ObjectId id) {
+        this.id = id;
     }
 
     public String getUserName(){
@@ -42,5 +43,10 @@ public class User implements IUser{
 
     public UserType getUserType() {
         return userType;
+    }
+
+    @Override
+    public String toString(){
+        return userName + " " + userType;
     }
 }
