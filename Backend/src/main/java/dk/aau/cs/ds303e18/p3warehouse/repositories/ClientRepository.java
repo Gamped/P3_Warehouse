@@ -1,8 +1,18 @@
 package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
-import dk.aau.cs.ds303e18.p3warehouse.models.users.IClient;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
+import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.web.bind.annotation.PathVariable;
 
-public interface ClientRepository extends MongoRepository<IClient, ObjectId> {
+
+import java.util.Optional;
+
+public interface ClientRepository extends MongoRepository<Client, ObjectId> {
+
+
+    public Publisher findByPublisherId(@PathVariable ObjectId publisherId);
+
 }
