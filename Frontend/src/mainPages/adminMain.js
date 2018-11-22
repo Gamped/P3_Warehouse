@@ -17,7 +17,7 @@ const adminMain = (props) => {
         <div>
             <Base title="Admin menu" buttons={menuButtons}/>>
             <div className="ErrorBox">
-                <customText_b className="ErrorText align-middle">ERROR: Page not found!</customText_b>
+                <h1 className="ErrorText align-middle customText_b">ERROR: Page not found!</h1>
             </div>
         </div>
     )

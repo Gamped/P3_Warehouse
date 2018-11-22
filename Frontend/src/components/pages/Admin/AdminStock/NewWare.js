@@ -52,7 +52,7 @@ export default class NewWare extends React.Component {
     render(){
         return(
         <div className="PageStyle">
-            <customText_b_big className="title">Add new product</customText_b_big>
+            <h1 className="title customText_b_big">Add new product</h1>
                 <form>
                     <input
                         type="text"

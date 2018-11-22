@@ -31,8 +31,8 @@ export default class RemoveWare extends React.Component {
     render(){
         return(
         <div className="PageStyle">
-            <customText_b_big className="title_r">REMOVE product:</customText_b_big>
-            <customText_b className="subTitle">"Product name"</customText_b>
+            <h1 className="title_r customText_b_big">REMOVE product:</h1>
+            <h1 className="subTitle customText_b">"Product name"</h1>
             <form>
                 <input 
                     type="text" 
@@ -48,7 +48,7 @@ export default class RemoveWare extends React.Component {
                     className="newButton_r stockButton_f btn"
                     onClick={this.handleRemove}>Remove product</button>
             </form>
-            <customText_b className="note">Please enter name of ware, to make sure that you have the correct product to be deleted from the system</customText_b>
+            <h1 className="note customText_b">Please enter name of ware, to make sure that you have the correct product to be deleted from the system</h1>
         </div>);
     }
 }
