@@ -17,7 +17,6 @@ const AdminOrders = (props) => {
 
     return(
         <div className="PageStyle">
-            <customText_b>You are on Admin order page</customText_b>
             <div className="AdminTable"><Table columns={columns} height={tableHeight}/></div>
         </div>
     );

@@ -38,8 +38,8 @@ export default class EditWare extends React.Component {
     render(){
         return(
         <div className="PageStyle">
-            <customText_b_big className="title">Edit product:</customText_b_big>
-            <customText_b className="subTitle">"Product name"</customText_b>
+            <h1 className="title customText_b_big">Edit product:</h1>
+            <h1 className="subTitle customText_b">"Product name"</h1>
             <form>
                 <input 
                     type="text" 
@@ -63,7 +63,7 @@ export default class EditWare extends React.Component {
             <form action="/Admin/Stock" className="newForm stockForm">
                 <button className="newButton stockButton_f btn">Edit product</button>
             </form>
-            <customText_b className="note">Please double check to make sure you have changed to the correct info</customText_b>
+            <h1 className="note customText_b_big">Please double check to make sure you have changed to the correct info</h1>
         </div>);
     }
 }

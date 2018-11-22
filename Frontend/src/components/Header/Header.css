@@ -8,7 +8,7 @@
     background-color: rgb(24, 24, 24);
 }
 
-headerText {
+.headerText {
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
     font-size: 26px;

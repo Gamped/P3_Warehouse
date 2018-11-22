@@ -35,7 +35,7 @@ export default class inputPopup extends React.Component {
 
         return(
         <div className="inputPopup">
-            <customText_b className="PopupText">{this.state.popupTitle}</customText_b>
+            <h1 className="PopupText customText_b">{this.state.popupTitle}</h1>
             <form>
                 {list}
             </form>
