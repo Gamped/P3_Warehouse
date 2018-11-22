@@ -24,13 +24,10 @@ public class ProductRepositoryTest {
 
         ObjectId objectId = new ObjectId();
         Product p = new Product(objectId);
-        p.setName("MEGA TEST PRODUCT");
-        System.out.println("Object ID: " + p.getId());
+        p.setName("Hex Client Test2");
+        System.out.println("Object ID: " + p.getHexId());
         repository.save(p);
 
-
-        Order order = new Order();
-        System.out.println("@Id   " + order.getId());
     }
 
     @Test

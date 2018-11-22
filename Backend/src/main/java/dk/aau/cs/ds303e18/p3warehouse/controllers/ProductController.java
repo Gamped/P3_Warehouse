@@ -12,6 +12,7 @@ import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000/Admin/Stock/New?")
 @RestController
 public class ProductController {
 
@@ -25,6 +26,7 @@ public class ProductController {
 
     @PostMapping("/products")
     private Product newProduct(@RequestBody Product newProduct){
+        System.out.println("Got to here!");
 
         Product productToSave = new Product(newProduct.getId());
         productToSave.copyParametersFrom(newProduct);
@@ -34,7 +36,8 @@ public class ProductController {
     @GetMapping("/products/{id}")
     Optional<Product> findById(@PathVariable String id) {
         ObjectId objectId = new ObjectId(id);
-        return productRepository.findById(objectId);
+        Optional<Product> product = productRepository.findById(objectId);
+        return product;
     }
 
     @PutMapping("/products/edit/{id}")
