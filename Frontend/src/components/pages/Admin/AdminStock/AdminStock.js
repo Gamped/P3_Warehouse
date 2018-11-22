@@ -1,27 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import "../../Pages.css";
 import "./AdminStock.css"
+import axios from 'axios';
+import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 
-const AdminStock = (props) => {
-    var productLines;
-    var i;
+export default class AdminStock extends Component {
 
-    function fillTable(){
-        for(i=0; i < 10; i++){
-            return(
-            <tr>
-                <td>An awesome product</td>
-                <td>12651</td>
-                <td>Infinte</td>
-                <td>God</td>
-                <td>
-                    <input type="radio" className="pickMe"/>
-                </td>
-            </tr>
-            )
-        }
-    }
-    
+
+  constructor(props) {
+    super(props);
+    this.state = { products: [] };
+  }
+
+  componentDidMount() {
+    console.log("Did mount");
+    axios.get('http://localhost:8080/api/products')
+        .then(response => {
+            this.setState({ products: response.data });
+        })
+      }
+
+render() {
 
     return(
         <div className="PageStyle">
@@ -37,19 +37,23 @@ const AdminStock = (props) => {
             <div className="contentBoxStyle listBox">
                 <table className="stockTable">
                     <tbody>
+                    {this.state.products.map(product =>
                         <tr>
-                            <th>Product name</th>
-                            <th>Product ID</th>
-                            <th>Unit amount</th>
-                            <th>Owner</th>
-                            <th>Pick</th>
+                            <td><Link to={`/Admin/Stock/Edit/${product.hexId}`}>{product.name}</Link></td>
+
+                            <td>{product.quantity}</td>
+
+                            <td>{product.owner}</td>
+
                         </tr>
-                        {fillTable()}
-                        {fillTable()}
-                        {fillTable()}
-                        {fillTable()}
-                        {fillTable()}
-                        {fillTable()}
+                    )}
+                    <tr>
+                        <th>Product name</th>
+                        <th>Quantity</th>
+                        <th>Owner</th>
+                        <th>Pick</th>
+                        <th>Product Number</th>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -69,5 +73,4 @@ const AdminStock = (props) => {
         </div>
     );
 }
- 
-export default AdminStock;
+}
