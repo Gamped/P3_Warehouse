@@ -14,14 +14,19 @@ import javax.persistence.GeneratedValue;
 public class Product {
     @Id
     private ObjectId id;
+
+    private String hexId;
     private String name;
     private int quantity;
+    private String productId;
+
     @DBRef
     private Customer owner;
-    private String productId;
+
 
     public Product(ObjectId id){
         this.id = id;
+        this.hexId = id.toString();
     }
 
     public String getName() {
@@ -70,4 +75,7 @@ public class Product {
     public ObjectId getId() {
         return id;
     }
+
+    public String getHexId() {return id.toString(); }
+
 }
