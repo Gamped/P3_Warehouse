@@ -27,11 +27,11 @@ render() {
         <div className="PageStyle">
 
             <div className="topBoxStyle topBox">
-                <customText_w className="stockTxt">Stock</customText_w>
+                <h1 className="stockTxt customText_w">Stock</h1>
             </div>
 
             <div className="leftBoxStyle pickBox">
-                <customText_b className="leftTxt">Filter by:</customText_b>
+                <h1 className="leftTxt customText_b">Filter by:</h1>
             </div>
 
             <div className="contentBoxStyle listBox">
@@ -69,9 +69,7 @@ render() {
                 </form>
                 <button className="stockButton btn">Export</button>
             </div>
-
         </div>
-
     );
 }
 }

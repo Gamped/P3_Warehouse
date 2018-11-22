@@ -15,7 +15,7 @@ const userMain = (props) => {
         <div>
             <Base title="User menu" buttons={menuButtons}/>
             <div className="ErrorBox">
-                <customText_b className="ErrorText align-middle">ERROR: Page not found!</customText_b>
+                <h1 className=" customText_b ErrorText align-middle">ERROR: Page not found!</h1>
             </div>
         </div>
     )
