@@ -55,6 +55,7 @@ render() {
                         <th>Pick</th>
                         <th>Product Number</th>
                     </tr>
+
                     </tbody>
                 </table>
             </div>
