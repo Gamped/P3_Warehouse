@@ -6,7 +6,7 @@ const AdminUsers = (props) => {
 
     return(
         <div className="PageStyle">
-            <customText_b>You are on Admin users page</customText_b>
+            <h1 className="customText_b">You are on Admin users page</h1>
         </div>
 
     );

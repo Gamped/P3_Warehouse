@@ -6,7 +6,7 @@ const Header = (props) => {
     const title= "4N: " + props.title
     return(
         <div className="headerStyle">
-            <headerText>{title}</headerText>
+            <h1 className="headerText">{title}</h1>
         </div>
     );
 }

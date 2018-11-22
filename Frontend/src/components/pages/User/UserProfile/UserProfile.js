@@ -16,19 +16,19 @@ const UserProfile = (props) => {
 
     return(
         <div className="PageStyle">
-            <customText_b_big className="title">Profile information</customText_b_big>
+            <h1 className="title customText_b_big">Profile information</h1>
             <div className="informationBox">
-                <customText_b className="infoText">User name: {userName}</customText_b>
+                <h1 className="infoText customText_b">User name: {userName}</h1>
                 <br/>
-                <customText_b className="infoText">Name: {name}</customText_b>
+                <h1 className="infoText customText_b">Name: {name}</h1>
                 <br/>
-                <customText_b className="infoText">Email: {email}</customText_b>
+                <h1 className="infoText customText_b">Email: {email}</h1>
                 <br/>
-                <customText_b className="infoText">Phone number: {phoneNumber}</customText_b>
+                <h1 className="infoText customText_b">Phone number: {phoneNumber}</h1>
                 <br/>
-                <customText_b className="infoText">Address: {address}</customText_b>
+                <h1 className="infoText customText_b">Address: {address}</h1>
                 <br/>
-                <customText_b className="infoText">CVR: {cvr}</customText_b>
+                <h1 className="infoText customText_b">CVR: {cvr}</h1>
                 <br/>
 
                 <form action="/User/Profile/Edit">
