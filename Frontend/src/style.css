@@ -1,0 +1,73 @@
+body {
+    background-color: white;
+    z-index: 1;
+}
+
+button{
+    background-color: rgb(97, 97, 97);
+    font-size: 20px;
+    border: none;
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    color: rgb(255, 255, 255);
+}
+
+.button_1st{
+    background-color: rgb(163, 163, 163);
+    font-size: 20px;
+    border: none;
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    color: rgb(255, 255, 255);
+}
+
+.button_2nd{
+    background-color: rgb(97, 97, 97);
+    font-size: 20px;
+    border: none;
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    color: rgb(255, 255, 255);
+}
+
+customText_w{
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    text-align: center;
+    font-size: 25px;
+    color: rgb(255, 255, 255);
+    width: 100%;
+}
+
+customText_b{
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    text-align: center;
+    font-size: 25px;
+    color: rgb(0, 0, 0);
+    width: 100%;
+}
+
+customText_b_big{
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    text-align: center;
+    width: 100%;
+    font-size: 40px;
+    color: rgb(0, 0, 0);
+    width: 100%;
+}
+
+input{
+    position: relative;
+    width: 380px;
+    margin-top: 10px;
+    height: 35px;
+    left: 50px;
+    top: 350px;
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+}
+
+.makeRelative{
+    position: relative;
+}
+
+table, th, td{
+    border: 1px solid black;
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    text-align: center;
+}

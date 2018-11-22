@@ -1,0 +1,15 @@
+.menuStyle{
+    background-color: rgb(56, 56, 56);
+    top: 40px;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 140px; 
+}
+
+.menuLogo{
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    width: 120px;
+}

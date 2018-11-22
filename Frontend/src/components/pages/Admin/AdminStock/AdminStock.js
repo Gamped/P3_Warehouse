@@ -1,0 +1,77 @@
+import React, { Component } from 'react';
+import "../../Pages.css";
+import "./AdminStock.css"
+import axios from 'axios';
+import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
+
+export default class AdminStock extends Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = { products: [] };
+  }
+
+  componentDidMount() {
+    console.log("Did mount");
+    axios.get('http://localhost:8080/api/products')
+        .then(response => {
+            this.setState({ products: response.data });
+        })
+      }
+
+render() {
+
+    return(
+        <div className="PageStyle">
+
+            <div className="topBoxStyle topBox">
+                <customText_w className="stockTxt">Stock</customText_w>
+            </div>
+
+            <div className="leftBoxStyle pickBox">
+                <customText_b className="leftTxt">Filter by:</customText_b>
+            </div>
+
+            <div className="contentBoxStyle listBox">
+                <table className="stockTable">
+
+                {this.state.products.map(product =>
+                    <tr>
+                        <td><Link to={`/Admin/Stock/Edit/${product.hexId}`}>{product.name}</Link></td>
+
+                        <td>{product.quantity}</td>
+
+                        <td>{product.owner}</td>
+
+                    </tr>
+                )}
+                    <tr>
+                        <th>Product name</th>
+                        <th>Quantity</th>
+                        <th>Owner</th>
+                        <th>Pick</th>
+                        <th>Product Number</th>
+                    </tr>
+                </table>
+            </div>
+
+            <div className="bottomBoxStyle bottomBox">
+                <form action="/Admin/Stock/New" className="stockForm">
+                    <button  className="stockButton_f btn" >New</button>
+                </form>
+                <form action="/Admin/Stock/Edit" className="stockForm">
+                    <button  className="stockButton_f btn" >Edit</button>
+                </form>
+                <form action="/Admin/Stock/Remove" className="stockForm">
+                    <button  className="stockButton_f btn" >Remove</button>
+                </form>
+                <button className="stockButton btn">Export</button>
+            </div>
+
+        </div>
+
+    );
+}
+}
