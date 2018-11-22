@@ -4,7 +4,9 @@ import "./LandingPage.css";
 
 const LandingPage = (props)=>{
     const {name,buttons}=props;
+    var i = 0;
     const buttonList = buttons.map(button =>{
+        i++;
         return (
             <div className="col">
                 <Link 
