@@ -18,7 +18,7 @@ import RemoveWare from "./components/pages/Admin/AdminStock/RemoveWare";
 import AdminUsers from "./components/pages/Admin/AdminUsers";
 import UserHome from "./components/pages/User/UserHome";
 import PublisherClient from "./components/pages/User/PublisherClient";
-import UserStock from "./components/pages/User/UserStock";
+import UserStock from "./components/pages/User/UserStock/UserStock";
 import UserProfile from "./components/pages/User/UserProfile/UserProfile"
 import UserProfileEdit from "./components/pages/User/UserProfile/UserProfileEdit"
 import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHistory"
