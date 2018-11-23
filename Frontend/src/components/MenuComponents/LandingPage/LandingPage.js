@@ -14,7 +14,7 @@ const LandingPage = (props)=>{
                     key={button.id} 
                     className="button_1st LandingPageButtons btn btn-primary btn-lg block border border-secondary rounded" 
                     role="button">
-                        {button.name}
+                    {button.name}
                 </Link>
             </div>
         )

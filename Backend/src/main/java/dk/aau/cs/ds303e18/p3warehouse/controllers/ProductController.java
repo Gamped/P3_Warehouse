@@ -3,33 +3,36 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 import dk.aau.cs.ds303e18.p3warehouse.exceptions.ProductNotFoundException;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
+import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.ProductRequestModel;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import org.bson.types.ObjectId;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000/Admin/Stock/New?")
+
 @RestController
+@CrossOrigin(origins = "*")
 public class ProductController {
 
     @Autowired
     ProductRepository productRepository;
 
     @GetMapping("/products")
-    private Iterable<Product> findAll(){
+    private Iterable<Product> findAll() {
         return productRepository.findAll();
     }
 
     @PostMapping("/products")
-    private Product newProduct(@RequestBody Product newProduct){
-        System.out.println("Got to here!");
+    @CrossOrigin(origins = "*")
+    private Product newProduct(@RequestBody ProductRequestModel restProduct){
+        System.out.println("SUCCESS! : " + restProduct.getName());
+        ObjectId id = new ObjectId();
+        Product productToSave = new Product(id);
+        BeanUtils.copyProperties(restProduct, productToSave);
 
-        Product productToSave = new Product(newProduct.getId());
-        productToSave.copyParametersFrom(newProduct);
         return productRepository.save(productToSave);
     }
 
@@ -41,15 +44,16 @@ public class ProductController {
     }
 
     @PutMapping("/products/edit/{id}")
-    Product updateProduct(@RequestBody Product updatedProduct) throws ProductNotFoundException {
-       Optional<Product> product = productRepository.findById(updatedProduct.getId());
+    String updateProduct(@PathVariable String hexId, @RequestBody Product updatedProduct) {
+       Optional<Product> product = productRepository.findByHexId(hexId);
        Product productToSave = product.get();
 
        //TODO: VALIDATOR CLASS IMPLEMENTATION
 
+        System.out.println(product.toString());
        productToSave.copyParametersFrom(updatedProduct);
        productRepository.save(productToSave);
-       return productToSave;
+       return "Product updated! \n" + productToSave.getHexId().toString();
     }
 
     @DeleteMapping("/products/{id}")
@@ -58,7 +62,7 @@ public class ProductController {
     }
 
     @GetMapping("/clients/{id}/products")
-    List<Product> findByOwner(@RequestBody Customer owner) {
+    Iterable<Product> findByOwner(@RequestBody Customer owner) {
         return productRepository.findByOwner(owner);
     }
 

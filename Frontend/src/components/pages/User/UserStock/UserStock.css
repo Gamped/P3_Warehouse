@@ -1,0 +1,41 @@
+.topBox{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+}
+
+.topText{
+    margin-top: 5px; 
+}
+
+.deciderBox{
+    position: absolute;
+    top: 40px;
+    left: 0;
+    right: 0;
+    height: 60px;
+}
+
+.serachBar{
+    position: relative;
+    top: 10px;
+    left: 30px;;
+    margin: 0;
+    width: 50%;
+}
+
+.exportButton{
+    position: absolute;
+    width: 25%;
+    right: 20px;
+}
+
+.listBox{
+    position: absolute;
+    top: 100px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
