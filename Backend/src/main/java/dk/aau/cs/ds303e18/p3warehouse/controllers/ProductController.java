@@ -1,15 +1,14 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.exceptions.ProductNotFoundException;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
-import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.ProductRequestModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
 import java.util.Optional;
 
 
@@ -25,35 +24,37 @@ public class ProductController {
         return productRepository.findAll();
     }
 
-    @PostMapping("/products")
-    @CrossOrigin(origins = "*")
-    private Product newProduct(@RequestBody ProductRequestModel restProduct){
-        System.out.println("SUCCESS! : " + restProduct.getName());
-        ObjectId id = new ObjectId();
-        Product productToSave = new Product(id);
-        BeanUtils.copyProperties(restProduct, productToSave);
+    @PostMapping("/products/new")
+    private Product newProduct(@RequestBody RestProductModel restProduct) {
 
-        return productRepository.save(productToSave);
+        ObjectId id = new ObjectId();
+        Product newProduct = new Product(id);
+        BeanUtils.copyProperties(restProduct, newProduct);
+
+        return productRepository.save(newProduct);
     }
 
     @GetMapping("/products/{id}")
     Optional<Product> findById(@PathVariable String id) {
         ObjectId objectId = new ObjectId(id);
         Optional<Product> product = productRepository.findById(objectId);
+
         return product;
     }
 
-    @PutMapping("/products/edit/{id}")
-    String updateProduct(@PathVariable String hexId, @RequestBody Product updatedProduct) {
-       Optional<Product> product = productRepository.findByHexId(hexId);
-       Product productToSave = product.get();
+    @PutMapping("/products/edit/{hexId}")
+    String updateProduct(@PathVariable String hexId, @RequestBody RestProductModel restProductModel) {
 
-       //TODO: VALIDATOR CLASS IMPLEMENTATION
+       Optional<Product> optProduct = productRepository.findByHexId(hexId);
 
-        System.out.println(product.toString());
-       productToSave.copyParametersFrom(updatedProduct);
-       productRepository.save(productToSave);
-       return "Product updated! \n" + productToSave.getHexId().toString();
+       Product productToSave = optProduct.get();
+       BeanUtils.copyProperties(restProductModel, productToSave);
+        productRepository.save(productToSave);
+
+
+        //TODO: VALIDATOR CLASS IMPLEMENTATION
+
+       return "Product updated! \n" + productToSave.getName() + "\n" + productToSave.getHexId();
     }
 
     @DeleteMapping("/products/{id}")
