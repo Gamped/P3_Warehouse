@@ -12,13 +12,15 @@ import javax.persistence.GeneratedValue;
 
 @Document(collection = "products")
 public class Product {
+
     @Id
     private ObjectId id;
 
-    private String hexId;
-    private String name;
-    private int quantity;
+    private String productName;
     private String productId;
+    private int quantity;
+
+    private String hexId;
 
     @DBRef
     private Customer owner;
@@ -29,13 +31,16 @@ public class Product {
         this.hexId = id.toString();
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
+
+    public void setProductId(String productId){this.productId = productId; }
+    public String getProductId(){return productId; }
 
     public int getQuantity() {
         return quantity;
@@ -45,31 +50,14 @@ public class Product {
         this.quantity = quantity;
     }
 
+
     public Customer getOwner() {return owner; }
 
     public void setOwner(Customer owner) {this.owner = owner;}
 
-    public Product withName(String name){
-        this.name = name;
-        return this;
-    }
-    public Product withQuantity(int quantity){
-        this.quantity = quantity;
-        return this;
-    }
-    public void setProductId(String productId){this.productId = productId; }
-    public String getProductId(){return productId; }
-
-    public Product copyParametersFrom(Product product){
-        this.setName(product.getName());
-        this.setQuantity(product.getQuantity());
-        this.setOwner(product.getOwner());
-        this.setProductId(product.getProductId());
-        return this;
-    }
     @Override
     public String toString(){
-        return id.toString() + " " + name + " " + ((Integer)quantity).toString();
+        return id.toString() + " " + productName + " " + ((Integer)quantity).toString();
     }
 
     public ObjectId getId() {
