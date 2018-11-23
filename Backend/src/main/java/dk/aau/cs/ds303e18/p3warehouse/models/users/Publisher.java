@@ -22,5 +22,13 @@ public class Publisher extends User implements Customer {
         this.id = id;
     }
 
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
     public ContactInformation getContactInformation(){return contactInformation;}
 }

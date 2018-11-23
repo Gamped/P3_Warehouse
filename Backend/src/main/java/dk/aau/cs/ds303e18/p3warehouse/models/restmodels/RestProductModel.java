@@ -1,6 +1,6 @@
-package dk.aau.cs.ds303e18.p3warehouse.models.warehouse;
+package dk.aau.cs.ds303e18.p3warehouse.models.restmodels;
 
-public class ProductRequestModel {
+public class RestProductModel {
 
     private String name;
     private int quantity;
