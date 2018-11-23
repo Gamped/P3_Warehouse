@@ -56,6 +56,7 @@ render() {
                         <th>Product Number</th>
                     </tr>
 
+
                     </tbody>
                 </table>
             </div>
