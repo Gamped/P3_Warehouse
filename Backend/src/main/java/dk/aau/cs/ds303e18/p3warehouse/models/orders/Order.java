@@ -6,23 +6,25 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import java.util.Collection;
 
 @Document(collection = "orders")
 public class Order {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ObjectId id;
     private Collection<OrderLine> orderLines;
     @DBRef
     private Customer owner;
     private String orderId;
     private String title;
+    private String hexid;
 
-    public Order(){
-    }
-
-    public String getId(){
-        return id;
+    public Order(ObjectId id){
+        this.id = id;
+        this.hexid = id.toString();
     }
 
 
@@ -69,5 +71,9 @@ public class Order {
 
     public ObjectId getId() {
         return id;
+    }
+
+    public String getHexid() {
+        return hexid;
     }
 }

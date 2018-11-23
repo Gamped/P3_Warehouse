@@ -20,8 +20,7 @@ public class Client extends User implements Customer {
 
     private ContactInformation contactInformation;
 
-    @ManyToOne
-            @DBRef
+    @DBRef
     Publisher publisher;
 
     @DBRef

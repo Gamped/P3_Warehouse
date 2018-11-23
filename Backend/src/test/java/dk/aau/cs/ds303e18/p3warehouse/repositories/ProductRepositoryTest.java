@@ -20,14 +20,11 @@ public class ProductRepositoryTest {
 
     @Test
     public void findByIdTest(){
-
-
         ObjectId objectId = new ObjectId();
         Product p = new Product(objectId);
         p.setName("Hex Client Test2");
         System.out.println("Object ID: " + p.getHexId());
         repository.save(p);
-
     }
 
     @Test
@@ -40,6 +37,5 @@ public class ProductRepositoryTest {
         Optional<Product> optProduct = repository.findById(product.getId());
         Product retrievedProduct = optProduct.get();
         Assert.assertEquals(product.getId(), retrievedProduct.getId());
-
     }
 }
