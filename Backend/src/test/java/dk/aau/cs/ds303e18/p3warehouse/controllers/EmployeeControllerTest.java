@@ -10,15 +10,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ProductControllerTest {
+public class EmployeeControllerTest {
 
     @Autowired
-    private ProductController productController;
+    private EmployeeController employeeController;
 
     @Test
-    public void productControllerLoads() throws Exception {
-        assertThat(productController).isNotNull();
+    public void employeeControllerLoads() throws Exception {
+        assertThat(employeeController).isNotNull();
     }
-
-
 }
