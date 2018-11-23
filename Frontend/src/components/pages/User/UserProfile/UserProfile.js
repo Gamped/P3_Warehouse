@@ -19,18 +19,11 @@ const UserProfile = (props) => {
             <h1 className="title customText_b_big">Profile information</h1>
             <div className="informationBox">
                 <h1 className="infoText customText_b">User name: {userName}</h1>
-                <br/>
                 <h1 className="infoText customText_b">Name: {name}</h1>
-                <br/>
                 <h1 className="infoText customText_b">Email: {email}</h1>
-                <br/>
                 <h1 className="infoText customText_b">Phone number: {phoneNumber}</h1>
-                <br/>
                 <h1 className="infoText customText_b">Address: {address}</h1>
-                <br/>
                 <h1 className="infoText customText_b">CVR: {cvr}</h1>
-                <br/>
-
                 <form action="/User/Profile/Edit">
                     <button className="infoButton" >Edit</button>
                 </form>

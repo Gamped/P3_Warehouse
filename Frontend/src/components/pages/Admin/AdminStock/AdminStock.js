@@ -36,17 +36,18 @@ render() {
 
             <div className="contentBoxStyle listBox">
                 <table className="stockTable">
-                  <tbody>
-                {this.state.products.map(product =>
-                    <tr>
-                        <td><Link to={`/Admin/Stock/Edit/${product.hexId}`}>{product.name}</Link></td>
+                    <tbody>
 
-                        <td>{product.quantity}</td>
+                    {this.state.products.map(product =>
+                        <tr>
+                            <td><Link to={`/Admin/Stock/Edit/${product.hexId}`}>{product.name}</Link></td>
 
-                        <td>{product.owner}</td>
+                            <td>{product.quantity}</td>
 
-                    </tr>
-                )}
+                            <td>{product.owner}</td>
+
+                        </tr>
+                    )}
                     <tr>
                         <th>Product name</th>
                         <th>Quantity</th>
@@ -54,7 +55,8 @@ render() {
                         <th>Pick</th>
                         <th>Product Number</th>
                     </tr>
-  </tbody>
+
+                    </tbody>
                 </table>
             </div>
 
