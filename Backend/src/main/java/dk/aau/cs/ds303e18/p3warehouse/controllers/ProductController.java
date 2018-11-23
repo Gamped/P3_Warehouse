@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins="*")
+
 @RestController
+@CrossOrigin(origins = "*")
 public class ProductController {
 
     @Autowired
@@ -25,8 +26,9 @@ public class ProductController {
     }
 
     @PostMapping("/products")
+    @CrossOrigin(origins = "*")
     private Product newProduct(@RequestBody ProductRequestModel restProduct){
-
+        System.out.println("SUCCESS! : " + restProduct.getName());
         ObjectId id = new ObjectId();
         Product productToSave = new Product(id);
         BeanUtils.copyProperties(restProduct, productToSave);
