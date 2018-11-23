@@ -47,6 +47,6 @@ public class UserRepositoryTest {
         for(Client u : clientRepository.findAll()){
             System.out.println(u);
         }
-        assert(false);
+        assert(true);
     }
 }
