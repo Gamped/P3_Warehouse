@@ -20,8 +20,8 @@ const Buttonlist = (props) => {
                     <br/>
                 </div>
             :
-            <div className="my-2">
-            <button type="button" class="btn btn-dark btn-block">{button.name}</button>
+            <div className="my-2" key={button.id}>
+            <button type="button" className="btn btn-dark btn-block">{button.name}</button>
             </div>
         )
     })
