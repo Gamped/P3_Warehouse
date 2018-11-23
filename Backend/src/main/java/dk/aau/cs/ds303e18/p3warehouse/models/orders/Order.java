@@ -18,8 +18,11 @@ public class Order {
     private String orderId;
     private String title;
 
-    public Order(ObjectId id){
-        this.id = id;
+    public Order(){
+    }
+
+    public String getId(){
+        return id;
     }
 
 

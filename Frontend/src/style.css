@@ -27,7 +27,7 @@ button{
     color: rgb(255, 255, 255);
 }
 
-customText_w{
+.customText_w{
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
     font-size: 25px;
@@ -35,7 +35,7 @@ customText_w{
     width: 100%;
 }
 
-customText_b{
+.customText_b{
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
     font-size: 25px;
@@ -43,7 +43,7 @@ customText_b{
     width: 100%;
 }
 
-customText_b_big{
+.customText_b_big{
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
     width: 100%;
@@ -64,4 +64,10 @@ input{
 
 .makeRelative{
     position: relative;
+}
+
+table, th, td{
+    border: 1px solid black;
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    text-align: center;
 }

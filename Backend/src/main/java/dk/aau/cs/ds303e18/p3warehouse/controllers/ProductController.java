@@ -12,6 +12,7 @@ import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000/Admin/Stock/New?")
 @RestController
 public class ProductController {
 
@@ -25,27 +26,30 @@ public class ProductController {
 
     @PostMapping("/products")
     private Product newProduct(@RequestBody Product newProduct){
+        System.out.println("Got to here!");
 
-        Product productToSave = new Product(new ObjectId());
+        Product productToSave = new Product(newProduct.getId());
         productToSave.copyParametersFrom(newProduct);
         return productRepository.save(productToSave);
     }
 
     @GetMapping("/products/{id}")
-    Optional<Product> findById(@PathVariable ObjectId id) {
-        return productRepository.findById(id);
+    Optional<Product> findById(@PathVariable String id) {
+        ObjectId objectId = new ObjectId(id);
+        Optional<Product> product = productRepository.findById(objectId);
+        return product;
     }
 
-    @PutMapping("/products/")
-    Product updateProduct(@RequestBody Product updatedProduct){
-       Product query = productRepository.findById(updatedProduct.getId()).orElse(null);
-        if(query.equals(null)){
-            //TODO: Throw exception
-            return null;
-        }
-        else{
-            return productRepository.save(updatedProduct);
-        }
+    @PutMapping("/products/edit/{id}")
+    Product updateProduct(@RequestBody Product updatedProduct) throws ProductNotFoundException {
+       Optional<Product> product = productRepository.findById(updatedProduct.getId());
+       Product productToSave = product.get();
+
+       //TODO: VALIDATOR CLASS IMPLEMENTATION
+
+       productToSave.copyParametersFrom(updatedProduct);
+       productRepository.save(productToSave);
+       return productToSave;
     }
 
     @DeleteMapping("/products/{id}")

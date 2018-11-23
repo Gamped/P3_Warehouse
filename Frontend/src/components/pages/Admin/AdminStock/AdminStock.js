@@ -1,23 +1,61 @@
-import React from 'react';
+import React, { Component } from 'react';
 import "../../Pages.css";
 import "./AdminStock.css"
+import axios from 'axios';
+import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 
-const AdminStock = (props) => {
-    
+export default class AdminStock extends Component {
+
+
+  constructor(props) {
+    super(props);
+    this.state = { products: [] };
+  }
+
+  componentDidMount() {
+    console.log("Did mount");
+    axios.get('http://localhost:8080/api/products')
+        .then(response => {
+            this.setState({ products: response.data });
+        })
+      }
+
+render() {
 
     return(
         <div className="PageStyle">
 
             <div className="topBoxStyle topBox">
-                <customText_w className="stockTxt">Stock</customText_w>
+                <h1 className="stockTxt customText_w">Stock</h1>
             </div>
 
             <div className="leftBoxStyle pickBox">
-                <customText_b className="leftTxt">Filter by:</customText_b>
+                <h1 className="leftTxt customText_b">Filter by:</h1>
             </div>
 
             <div className="contentBoxStyle listBox">
+                <table className="stockTable">
+                    <tbody>
+                        {this.state.products.map(product =>
+                            <tr>
+                                <td><Link to={`/Admin/Stock/Edit/${product.hexId}`}>{product.name}</Link></td>
 
+                                <td>{product.quantity}</td>
+
+                                <td>{product.owner}</td>
+
+                            </tr>
+                        )}
+                        <tr>
+                            <th>Product name</th>
+                            <th>Quantity</th>
+                            <th>Owner</th>
+                            <th>Pick</th>
+                            <th>Product Number</th>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
             <div className="bottomBoxStyle bottomBox">
@@ -32,10 +70,7 @@ const AdminStock = (props) => {
                 </form>
                 <button className="stockButton btn">Export</button>
             </div>
-
         </div>
-
     );
 }
- 
-export default AdminStock;
+}
