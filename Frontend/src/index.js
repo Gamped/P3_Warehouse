@@ -8,6 +8,8 @@ import userMain from "./mainPages/userMain";
 import HomeAdmin from "./components/pages/Admin/HomeAdmin"
 import AdminOrders from "./components/pages/Admin/AdminOrders";
 import AdminProfile from "./components/pages/Admin/AdminProfile/AdminProfile";
+import AdminAdd from "./components/pages/Admin/AdminProfile/AdminAdd";
+import AdminRemove from "./components/pages/Admin/AdminProfile/AdminRemove";
 import AdminProfileEdit from "./components/pages/Admin/AdminProfile/AdminProfileEdit";
 import AdminStock from "./components/pages/Admin/AdminStock/AdminStock";
 import NewWare from "./components/pages/Admin/AdminStock/NewWare";
@@ -32,6 +34,8 @@ ReactDOM.render(
             <Route exact path="/Admin/*" component={adminMain}/>
             <Route exact path="/Admin/Orders" component={AdminOrders}/>
             <Route exact path="/Admin/Profile" component={AdminProfile}/>
+            <Route exact path="/Admin/Profile/AddEmployee" component={AdminAdd}/>
+            <Route exact path="/Admin/Profile/RemoveEmployee" component={AdminRemove}/>
             <Route exact path="/Admin/Profile/Edit" component={AdminProfileEdit}/>
             <Route exact path="/Admin/Stock" component={AdminStock}/>
             <Route exact path="/Admin/Stock/New" component={NewWare}/>
