@@ -26,7 +26,7 @@ public class UserRepositoryTest {
 
         ObjectId clientId = new ObjectId();
         Client client = new Client(clientId);
-        client.setUserType(UserType.Client);
+        client.setUserType(UserType.CLIENT);
         client.setUserName("Simon med mus");
         ContactInformation contactInformation = new ContactInformation();
         contactInformation.setEmail("Simon@MacSutterPik.xDDDDDDDD");
