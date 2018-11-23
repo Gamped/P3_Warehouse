@@ -1,7 +1,6 @@
 import React from 'react';
 import "../Pages.css";
 import ButtonList from "../../MenuComponents/ButtonList/ButtonList"
-import TopTabs from "../../MenuComponents/TopTabs/TopTabs"
 
 export default class AdminUsers extends React.Component{
     constructor(props) {
@@ -38,7 +37,7 @@ export default class AdminUsers extends React.Component{
         };
     }
     changeList=(event)=>{
-        console.log(this.event.value)
+        console.log(this.tabs.name)
 
     }
     
