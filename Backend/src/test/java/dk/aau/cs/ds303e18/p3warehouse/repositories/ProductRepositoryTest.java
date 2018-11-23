@@ -22,7 +22,7 @@ public class ProductRepositoryTest {
     public void findByIdTest(){
         ObjectId objectId = new ObjectId();
         Product p = new Product(objectId);
-        p.setName("Hex Client Test2");
+        p.setProductName("Hex Client Test2");
         System.out.println("Object ID: " + p.getHexId());
         repository.save(p);
     }
@@ -31,7 +31,7 @@ public class ProductRepositoryTest {
     public void saveTest(){
         ObjectId id = new ObjectId();
         Product product = new Product(id);
-        product.setName("Red Alert");
+        product.setProductName("Red Alert");
         product.setQuantity(100);
         repository.save(product);
         Optional<Product> optProduct = repository.findById(product.getId());

@@ -2,16 +2,12 @@ package dk.aau.cs.ds303e18.p3warehouse.models.restmodels;
 
 public class RestProductModel {
 
-    private String name;
-    private int quantity;
+    private String productName;
     private String productId;
+    private int quantity;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public String getProductName() {
+        return productName;
     }
 
     public int getQuantity() {

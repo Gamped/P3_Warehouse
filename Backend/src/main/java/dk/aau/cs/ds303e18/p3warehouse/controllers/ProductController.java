@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-
+@RequestMapping("/api")
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin
 public class ProductController {
 
     @Autowired
@@ -27,8 +27,10 @@ public class ProductController {
     @PostMapping("/products/new")
     private Product newProduct(@RequestBody RestProductModel restProduct) {
 
+
         ObjectId id = new ObjectId();
         Product newProduct = new Product(id);
+        newProduct.setProductName(restProduct.getProductName());
         BeanUtils.copyProperties(restProduct, newProduct);
 
         return productRepository.save(newProduct);
@@ -54,7 +56,7 @@ public class ProductController {
 
         //TODO: VALIDATOR CLASS IMPLEMENTATION
 
-       return "Product updated! \n" + productToSave.getName() + "\n" + productToSave.getHexId();
+       return "Product updated! \n" + productToSave.getProductName() + "\n" + productToSave.getHexId();
     }
 
     @DeleteMapping("/products/{id}")
