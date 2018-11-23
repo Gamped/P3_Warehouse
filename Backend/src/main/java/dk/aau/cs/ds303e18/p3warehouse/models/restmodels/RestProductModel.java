@@ -10,6 +10,10 @@ public class RestProductModel {
         return productName;
     }
 
+    public String setProductName(String productName) {
+        return this.productName = productName;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -24,5 +28,9 @@ public class RestProductModel {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public String modelToString() {
+        return "RestProductModel: " + this.getProductName() + " " + this.getProductId() + " " + this.getQuantity();
     }
 }

@@ -43,9 +43,17 @@ export default class NewWare extends Component {
 
     }
 
-    onChangeProductName = (e) => { this.setState({ productName: e.target.value}); }
-    onChangeProductId = (e) => { this.setState({ productId: e.target.value}); }
-    onChangeQuantity = (e) => { this.setState({ quantity: e.target.value}); }
+    onChangeProductName = (e) => {
+      this.setState({ productName: e.target.value});
+    }
+
+    onChangeProductId = (e) => {
+      this.setState({ productId: e.target.value});
+     }
+
+    onChangeQuantity = (e) => {
+      this.setState({ quantity: e.target.value});
+    }
 
 
     render() {

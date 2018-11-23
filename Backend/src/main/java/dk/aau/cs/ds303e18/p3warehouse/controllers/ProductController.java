@@ -45,17 +45,19 @@ public class ProductController {
     }
 
     @PutMapping("/products/edit/{hexId}")
-    String updateProduct(@PathVariable String hexId, @RequestBody RestProductModel restProductModel) {
+    String updateProduct(@PathVariable("hexId") String hexId, @RequestBody RestProductModel restProduct) {
 
        Optional<Product> optProduct = productRepository.findByHexId(hexId);
 
        Product productToSave = optProduct.get();
-       BeanUtils.copyProperties(restProductModel, productToSave);
+       BeanUtils.copyProperties(restProduct, productToSave);
+       System.out.println("Nåede hertil");
         productRepository.save(productToSave);
 
 
         //TODO: VALIDATOR CLASS IMPLEMENTATION
-
+        System.out.println(productToSave.toString());
+        System.out.println(restProduct.modelToString());
        return "Product updated! \n" + productToSave.getProductName() + "\n" + productToSave.getHexId();
     }
 
