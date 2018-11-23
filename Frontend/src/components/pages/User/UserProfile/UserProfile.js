@@ -24,6 +24,7 @@ const UserProfile = (props) => {
                 <h1 className="infoText customText_b">Phone number: {phoneNumber}</h1>
                 <h1 className="infoText customText_b">Address: {address}</h1>
                 <h1 className="infoText customText_b">CVR: {cvr}</h1>
+
                 <form action="/User/Profile/Edit">
                     <button className="infoButton" >Edit</button>
                 </form>

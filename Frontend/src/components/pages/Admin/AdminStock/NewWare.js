@@ -10,7 +10,7 @@ export default class NewWare extends Component {
         this.state = {
             productName: "",
             quantity: 0,
-            owner: "",
+            owner: null,
         };
 
 
@@ -20,9 +20,21 @@ export default class NewWare extends Component {
         e.preventDefault();
 
         const {id, productName, quantity, owner} = this.state;
-        axios.post('http://localhost:8080/api/products', {productName, quantity, owner}).then((result)=> {
-            this.props.history.push("/");
+        console.log(this.state);
+
+        setTimeout(function () {
+
+          axios.post('http://localhost:8080/api/products', {productName, quantity, owner}).then((result)=> {
+              this.props.history.push("/");
+          }).catch((err) => {
+
+            console.log(err.response);
+
+
         });
+
+        }, 1000);
+
     }
 
     onChange = (e) => {

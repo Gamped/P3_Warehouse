@@ -15,7 +15,7 @@ export default class AdminStock extends Component {
 
   componentDidMount() {
     console.log("Did mount");
-    axios.get('http://localhost:8080/api/products')
+    axios.get('localhost:8080/api/products')
         .then(response => {
             this.setState({ products: response.data });
         })
@@ -55,6 +55,7 @@ render() {
                         <th>Pick</th>
                         <th>Product Number</th>
                     </tr>
+
 
                     </tbody>
                 </table>
