@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends MongoRepository<Product, ObjectId> {
+
     Optional<Product> findById(ObjectId id);
 
-    List<Product> findByOwner(Customer owner);
+    Iterable<Product> findByOwner(Customer owner);
 
-
+    Optional<Product> findByHexId(String hexId);
 }

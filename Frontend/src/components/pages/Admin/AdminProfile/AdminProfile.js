@@ -27,6 +27,12 @@ const AdminProfile = (props) => {
                 <form action="/Admin/Profile/Edit">
                     <button className="infoButton" >Edit</button>
                 </form>
+                <form action="/Admin/Profile/AddEmployee">
+                    <button className="infoButton" >Add employee</button>
+                </form>
+                <form action="/Admin/Profile/RemoveEmployee">
+                    <button className="infoButton" >Remove employee</button>
+                </form>
             </div>
         </div>
     );
