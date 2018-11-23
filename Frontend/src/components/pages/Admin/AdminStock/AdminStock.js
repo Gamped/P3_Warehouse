@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import "../../Pages.css";
 import "./AdminStock.css"
 import axios from 'axios';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 
 export default class AdminStock extends Component {

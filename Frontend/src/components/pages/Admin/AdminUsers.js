@@ -1,7 +1,7 @@
 import React from 'react';
 import "../Pages.css";
-
-const AdminUsers = (props) => {
+import ButtonList from "../../MenuComponents/ButtonList/ButtonList"
+/*const AdminUsers = (props) => {
 
 
     return(
@@ -12,26 +12,19 @@ const AdminUsers = (props) => {
     );
 }
  
-export default AdminUsers;
+export default AdminUsers;*/
 
 
 
 
-/* REMOVED, but left here if needed once this page will be built
+// REMOVED, but left here if needed once this page will be built
 
-export default class Users extends React.Component{
+export default class AdminUsers extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-            menuButtons : [
-                {name: "Home",location: "../../AdminIndex", id:"1"},
-                {name: "Orders",location:"../../pages/orders/AdminOrders", id:"2"},
-                {name: "Users",location:"./Users",id:"3"},
-                {name: "Stock",location:"../../pages/stock/Stock",id:"4"},
-                {name: "Profile",location:"../../pages/profile/Profile",id:"5"}
-            ],
             users: [
-                {name: "Black Betty INC",id: "1"},
+                {name:"Black Betty INC",id: "1"},
                 {name:"Toys r us" , id:"2"},
                 {name:"Fightclub" , id:"3"},
                 {name:"I.C.U.P." , id:"4"},
@@ -43,12 +36,19 @@ export default class Users extends React.Component{
     
     render(){
         return(
-            <div className="userPageWrapper">
+            <div className="PageStyle">
                 <div className="userPageStyle">
-                    <BoxWithLongContent radios={this.state.users}/>
+                    <div className="container row">
+                        
+                        <div className="col sidebar border border-dark rounded bg-secondary">
+                            <ButtonList buttons={this.state.users} link={false} />
+                        </div>
+                        <div className="col-sm-auto">
+                        
+                        </div>
+                    </div>
                 </div>
             </div>
-
         );
     }
-}*/
+}

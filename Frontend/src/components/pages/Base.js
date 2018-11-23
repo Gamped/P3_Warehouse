@@ -1,7 +1,6 @@
 import React from "react";
-import {Link} from "react-router-dom";
 import Header from "../Header/Header"
-import Menu from "../MenuComponents/Menu/Menu"
+import ButtonList from "../MenuComponents/ButtonList/ButtonList"
 
 const base = (props)=>{
     const {title,buttons}=props;
@@ -9,7 +8,13 @@ const base = (props)=>{
     return(
         <div >
             <Header title={props.title}/>
-            <Menu buttons={props.buttons}/>
+            <div className="menuStyle">
+                <ButtonList buttons={props.buttons} link={true}/>
+                <img 
+                 src={require('../../resources/4n_logo_mini.jpg')} 
+                 className="menuLogo" 
+                 alt="The logo of 4N"/>
+            </div>
         </div>
     )
 }
