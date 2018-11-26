@@ -19,13 +19,16 @@ export default class EditWare extends Component {
       }
 
     componentDidMount() {
-    const hexId = this.props.match.params.hexId;
-    console.log(hexId);
-          axios.get('http://localhost:8080/api/products/' + hexId).
+
+          axios.get('http://localhost:8080/api/products/' + this.props.match.params.id).
              then(response => {
 
                  this.setState({ product: response.data });
+                 //const { productName, productId, quantity } = this.state.product;
+                 console.log(this.state.product);
           })
+
+
     }
 
     onChange = (e) => {
@@ -36,11 +39,9 @@ export default class EditWare extends Component {
 
     onSubmit = (e) => {
       e.preventDefault();
+      const {productName, productId, quantity} = this.state.product;
 
-          const { productName, productId, quantity } = this.state.product;
-
-
-          axios.put('http://localhost:8080/api/products/edit/'+this.props.match.params.hexId, {productName, productId, quantity})
+          axios.put('http://localhost:8080/api/products/edit/'+this.props.match.params.id, {productName, productId, quantity})
             .then((result) => {
               console.log(result);
             //  this.context.history.push("/Admin/Stock/"+this.props.match.params.hexId);\
@@ -80,8 +81,8 @@ export default class EditWare extends Component {
             <form className="newForm stockForm">
                 <button className="newButton stockButton_f btn">Back</button>
             </form>
-            <form className="newForm stockForm">
-                <button className="newButton stockButton_f btn" type="submit" onSubmit={this.onSubmit} >Edit product</button>
+            <form className="newForm stockForm" onSubmit={this.onSubmit}>
+                <button className="newButton stockButton_f btn" >Edit product</button>
             </form>
             <h1 className="note customText_b_big">Please double check to make sure you have changed to the correct info</h1>
         </div>
