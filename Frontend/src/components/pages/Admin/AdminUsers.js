@@ -63,14 +63,15 @@ export default class AdminUsers extends React.Component{
 
     buttonListShown=()=>{
         const x=this.state.listShown;
-        if(0===x){
-            return(<ButtonList buttons={this.state.publisher} color="dark" link={false} action={this.changeUser} />)
-        } else if(1===x){
-            return(<ButtonList buttons={this.state.pClient} color="dark" link={false} action={this.changeUser} />)
-        } else if(2===x){
-            return(<ButtonList buttons={this.state.iClient} color="dark" link={false} action={this.changeUser} />)
-        }else{
-            return(<h2 className="color-red">ERROR</h2>)   
+        switch(x){
+            case 0:
+                return(<ButtonList buttons={this.state.publisher} color="dark" link={false} action={this.changeUser} />)
+            case 1:
+                return(<ButtonList buttons={this.state.pClient} color="dark" link={false} action={this.changeUser} />)
+            case 2:
+                return(<ButtonList buttons={this.state.iClient} color="dark" link={false} action={this.changeUser} />)
+            default:
+                return(<h2 className="color-red">ERROR</h2>)
         }
     }
     
