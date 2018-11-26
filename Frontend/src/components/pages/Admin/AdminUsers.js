@@ -57,16 +57,17 @@ export default class AdminUsers extends React.Component{
 
     changeUser=(input)=>{
         this.setState({userShown: input});
+        console.log(input)
     }
 
     buttonListShown=()=>{
         const x=this.state.listShown;
         if(0==x){
-            return(<ButtonList buttons={this.state.publisher} color="dark" link={false} />)
+            return(<ButtonList buttons={this.state.publisher} color="dark" link={false} action={this.changeUser} />)
         } else if(1==x){
-            return(<ButtonList buttons={this.state.pClient} color="dark" link={false} />)
+            return(<ButtonList buttons={this.state.pClient} color="dark" link={false} action={this.changeUser} />)
         } else if(2==x){
-            return(<ButtonList buttons={this.state.iClient} color="dark" link={false} />)
+            return(<ButtonList buttons={this.state.iClient} color="dark" link={false} action={this.changeUser} />)
         }else{
             return(<h2 className="color-red">ERROR</h2>)   
         }
@@ -74,12 +75,11 @@ export default class AdminUsers extends React.Component{
     
     displayUser=(id)=>{
         const x = this.state.userShown;
+        return null
         // todo. Burde nok gette informationen fra backenden, da vi ellers kan nøjes med name og id.
     }
 
     render(){
-        let shownButtons;
-        
         return(
             <div className="PageStyle">
                 <div className="userPageStyle">

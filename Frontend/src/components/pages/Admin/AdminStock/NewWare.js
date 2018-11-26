@@ -19,7 +19,7 @@ export default class NewWare extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        const {id, productName, quantity, owner} = this.state;
+        const {productName, quantity, owner} = this.state;
         console.log(this.state);
 
         setTimeout(function () {

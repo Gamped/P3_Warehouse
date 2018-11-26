@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
 
 import "../../Pages.css";
 import "./AdminStock.css";
@@ -16,8 +15,8 @@ export default class EditWare extends Component {
     componentDidMount() {
     const id = this.props.match.params.id;
     console.log(id);
-          axios.get('http://localhost:8080/api/products/' + id).
-             then(response => {
+          axios.get('http://localhost:8080/api/products/' + id)
+            .then(response => {
                  this.setState({ product: response.data });
           })
     }

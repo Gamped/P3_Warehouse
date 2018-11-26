@@ -3,7 +3,6 @@ import Header from "../Header/Header"
 import ButtonList from "../MenuComponents/ButtonList/ButtonList"
 
 const base = (props)=>{
-    const {title,buttons}=props;
 
     return(
         <div >
