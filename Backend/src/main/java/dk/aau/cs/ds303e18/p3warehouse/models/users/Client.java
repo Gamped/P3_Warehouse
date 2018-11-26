@@ -8,12 +8,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Collection;
 
 @Document(collection = "clients")
-public class Client extends User implements Customer {
+public class Client extends Customer {
 
     @Id
     ObjectId id;
-
-    private ContactInformation contactInformation;
   
     Publisher publisher;
 
@@ -60,12 +58,8 @@ public class Client extends User implements Customer {
         return id;
     }
 
-    public ContactInformation getContactInformation() {return contactInformation; }
-
-    public void setContactInformation(ContactInformation contactInformation){this.contactInformation = contactInformation; }
-
     @Override public String toString(){
-        return id + " " + getUserName() + " " + contactInformation;
+        return id + " " + getUserName() + " " + this.getContactInformation();
     }
 
     public String getClientName() {

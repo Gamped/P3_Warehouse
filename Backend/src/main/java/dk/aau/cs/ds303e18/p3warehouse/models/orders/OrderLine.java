@@ -9,17 +9,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-@Document(collection = "orderlines")
 public class OrderLine {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private ObjectId id;
     @DBRef
     private Product product;
     private int quantity;
 
-    public ObjectId getId() {
-        return id;
+    public OrderLine(Product product, int quantity){
+        this.product = product;
+        this.quantity = quantity;
     }
 
     public Product getProduct() {
@@ -38,8 +35,5 @@ public class OrderLine {
         this.quantity = quantity;
     }
 
-    public OrderLine(ObjectId id){
-        this.id = id;
-    }
 }
 

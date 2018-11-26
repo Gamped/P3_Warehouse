@@ -7,24 +7,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Collection;
 @Document(collection = "publishers")
-public class Publisher extends User implements Customer {
+public class Publisher extends Customer {
 
     @Id
     private ObjectId id = new ObjectId();
     private Collection<Client> clients;
     private Collection<Order> clientOrders;
     private String publisherName;
-    private ContactInformation contactInformation;
     private String hexId;
 
     public Publisher(ObjectId id){
         super(new ObjectId());
         this.id = id;
         this.hexId = id.toString();
-    }
-
-    public void setContactInformation(ContactInformation contactInformation) {
-        this.contactInformation = contactInformation;
     }
 
     public String getHexId() {
@@ -42,8 +37,6 @@ public class Publisher extends User implements Customer {
     public void setPublisherName(String publisherName) {
         this.publisherName = publisherName;
     }
-
-    public ContactInformation getContactInformation(){return contactInformation;}
 }
 
 

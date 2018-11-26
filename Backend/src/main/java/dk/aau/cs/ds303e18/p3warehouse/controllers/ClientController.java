@@ -43,7 +43,7 @@ public class ClientController {
 
         ObjectId id = new ObjectId();
         Client newClient = new Client(id);
-        newClient.setClientName(restClientModel.getClientName());
+        //newClient.setClientName(restClientModel.getClientName());
         BeanUtils.copyProperties(restClientModel, newClient);
 
         return clientRepository.save(newClient);
