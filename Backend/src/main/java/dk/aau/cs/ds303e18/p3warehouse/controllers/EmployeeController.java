@@ -43,8 +43,8 @@ public class EmployeeController {
         Optional<Product> optProduct = productRepository.findById(id);
         Product p = optProduct.get();
 
-        if (product.getName() != null) {
-            p.setName(product.getName());
+        if (product.getProductName() != null) {
+            p.setProductName(product.getProductName());
         }
         if (Integer.class.isInstance(product.getQuantity())) {
             p.setQuantity(product.getQuantity());

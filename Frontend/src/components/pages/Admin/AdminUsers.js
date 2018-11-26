@@ -1,7 +1,8 @@
 import React from 'react';
 import "../Pages.css";
-import ButtonList from "../../MenuComponents/ButtonList/ButtonList"
-import "./AdminUsers.css"
+import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
+import "./AdminUsers.css";
+import TextBox from "../../MenuComponents/TextBox/TextBox";
 
 export default class AdminUsers extends React.Component{
     constructor(props) {
@@ -43,9 +44,9 @@ export default class AdminUsers extends React.Component{
                 {name:"	Corax",id:"29"},
             ],
             tabs: [
-                {name:"Publishers",id:"0"},
-                {name:"Publisher's clients",id:"1"},
-                {name:"Independent clients",id:"2"}
+                {name:"Publishers",id:0},
+                {name:"Publisher's clients",id:1},
+                {name:"Independent clients",id:2}
             ],
             listShown: 0,
             userShown: 0, 
@@ -62,11 +63,11 @@ export default class AdminUsers extends React.Component{
 
     buttonListShown=()=>{
         const x=this.state.listShown;
-        if(0==x){
+        if(0===x){
             return(<ButtonList buttons={this.state.publisher} color="dark" link={false} action={this.changeUser} />)
-        } else if(1==x){
+        } else if(1===x){
             return(<ButtonList buttons={this.state.pClient} color="dark" link={false} action={this.changeUser} />)
-        } else if(2==x){
+        } else if(2===x){
             return(<ButtonList buttons={this.state.iClient} color="dark" link={false} action={this.changeUser} />)
         }else{
             return(<h2 className="color-red">ERROR</h2>)   
@@ -90,8 +91,8 @@ export default class AdminUsers extends React.Component{
                             </div>
                             {this.buttonListShown()}
                         </div>
-                        <div className="col-sm-auto">
-                            {this.displayUser}
+                        <div className="col-sm text-center">
+                            <TextBox type="user" id={this.state.userShown}/>
                         </div>
                     </div>
                 </div>
