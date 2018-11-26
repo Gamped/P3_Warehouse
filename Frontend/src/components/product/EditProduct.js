@@ -12,8 +12,8 @@ class EditProduct extends Component {
     }
 
   componentDidMount() {
-        axios.get('/api/products/'+this.product.match.params.id).
-            then(response => {
+        axios.get('/api/products/'+this.product.match.params.id)
+        .then(response => {
                 this.setState({ product: response.data });
                 console.log("Response.data = " + response.data)
                 console.log(this.state.product);
@@ -32,9 +32,10 @@ class EditProduct extends Component {
 
         const { name, quantity } = this.state.product;
 
-        axios.put('/api/products/'+this.props.match.params.id, {name, quantity})
+        axios.put('/api/products/'+this.props.match.params.hexId, {name, quantity})
             .then((result) => {
-                this.props.history.push("/api/products/show/"+this.props.match.params.id)
+
+                this.props.history.push("/api/products/show/"+this.props.match.params.hexId)
             });
 
   }

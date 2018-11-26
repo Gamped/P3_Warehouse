@@ -1,22 +1,18 @@
-import React from 'react';
+import React,{Component} from 'react';
 import "../../Pages.css";
 import "./AdminStock.css";
-import { ObjectID } from 'bson';
 import axios from 'axios';
 
 
-export default class NewWare extends React.Component {
+export default class NewWare extends Component {
     constructor(props) {
         super(props);
-        const id = new ObjectID().toString();
         this.state = {
-            id: id,
             productName: "",
-            quantity: 1,
-            owner: "",
+            quantity: 0,
+            owner: null,
         };
-        const hexId = new ObjectID();
-        console.log(id);
+
 
     }
 
@@ -24,30 +20,30 @@ export default class NewWare extends React.Component {
         e.preventDefault();
 
         const {id, productName, quantity, owner} = this.state;
-        axios.post('http://localhost:8080/api/products', {id, productName, quantity, owner}).then((result)=> {
-            this.props.history.push("/");
+        console.log(this.state);
+
+        setTimeout(function () {
+
+          axios.post('http://localhost:8080/api/products', {productName, quantity, owner}).then((result)=> {
+              this.props.history.push("/");
+          }).catch((err) => {
+
+            console.log(err.response);
+
+
         });
+
+        }, 1000);
+
     }
 
+    onChange = (e) => {
+        const state = this.state;
+        state[e.target.name] = e.target.value;
+        this.setState(state);
 
-
-    handlePName = (event) => {
-        this.setState({
-            productName: event.target.value,
-       });
     }
 
-    handleQuantity = (event) => {
-        this.setState({
-            quantity: event.target.value,
-        });
-    }
-
-    handleOwner = (event) => {
-        this.setState({
-            owner: event.target.value,
-        });
-    }
 
     render(){
         return(
@@ -57,17 +53,17 @@ export default class NewWare extends React.Component {
                     <input
                         type="text"
                         className="newForm"
-                        onChange={this.handlePName}
-                        placeholder="Product name"/>
+                        onChange={this.onChange}
+                        placeholder="Product productName"/>
                     <input
                         type="text"
                         className="newForm"
-                        onChange={this.handleQuantity}
+                        onChange={this.onChange}
                         placeholder="Quantity"/>
                     <input
                         type="text"
                         className="newForm"
-                        onChange={this.handleOwner}
+                        onChange={this.onChange}
                         placeholder="Owner"/>
                 </form>
                 <form action="/Admin/Stock" className="newForm stockForm">

@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.Collection;
 
@@ -19,7 +20,7 @@ public class Client extends User implements Customer {
 
     private ContactInformation contactInformation;
 
-    @OneToMany
+    @DBRef
     Publisher publisher;
 
     @DBRef

@@ -19,17 +19,19 @@ const AdminProfile = (props) => {
             <h1 className="title customText_b_big">Profile information</h1>
             <div className="informationBox">
                 <h1 className="infoText customText_b">User name: {userName}</h1>
-                <br/>
                 <h1 className="infoText customText_b">Name: {name}</h1>
-                <br/>
                 <h1 className="infoText customText_b">Email: {email}</h1>
-                <br/>
                 <h1 className="infoText customText_b">Phone number: {phoneNumber}</h1>
-                <br/>
                 <h1 className="infoText customText_b">Address: {address}</h1>
 
                 <form action="/Admin/Profile/Edit">
                     <button className="infoButton" >Edit</button>
+                </form>
+                <form action="/Admin/Profile/AddEmployee">
+                    <button className="infoButton" >Add employee</button>
+                </form>
+                <form action="/Admin/Profile/RemoveEmployee">
+                    <button className="infoButton" >Remove employee</button>
                 </form>
             </div>
         </div>

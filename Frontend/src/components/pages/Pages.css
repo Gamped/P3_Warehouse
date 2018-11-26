@@ -32,3 +32,15 @@
     -ms-flex: 0 0 230px;
     flex: 0 0 230px;
 }
+
+.newButton_r{
+    width: 100%;
+    font-size: 20px;
+    background-color: red;
+}
+
+.newButton_g{
+    width: 100%;
+    font-size: 20px;
+    background-color: green;
+}

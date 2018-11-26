@@ -19,28 +19,25 @@ export default class EditWare extends Component {
           axios.get('http://localhost:8080/api/products/' + id).
              then(response => {
                  this.setState({ product: response.data });
-
-                  console.log(this.state.product);
-
           })
     }
 
     onChange = (e) => {
+
           const state = this.state.product;
           state[e.target.name] = e.target.value;
           this.setState({product : state});
-
     }
 
     onSubmit = (e) => {
 
           e.preventDefault();
           const { name, quantity, owner } = this.state.product;
-          axios.put('http://localhost:8080/api/products/edit/'+this.props.match.params.hexId, {name, quantity, owner})
+          axios.put('http://localhost:8080/api/products/'+this.props.match.params.hexId, {name, quantity, owner})
               .then((result) => {
-                  this.props.history.push("/Admin/Stock/"+this.props.match.params.hexId)
+                console.log(result);
+                this.context.history.push("/Admin/Stock/"+this.props.match.params.hexId);
               });
-
     }
 
     render(){

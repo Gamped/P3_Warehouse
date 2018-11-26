@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 // The header component
 const Buttonlist = (props) => {
     const {buttons, current, link, color,action}=props;
+
     const mappedButtonList = buttons.map(button =>{
         return (
             (link)?
@@ -21,10 +22,11 @@ const Buttonlist = (props) => {
                 </div>
             :
             <div className="my-2" key={button.id}>
-                <button type="button" className={"btn btn-block btn-"+ color} onClick={null}>{button.name}</button>
+                <button type="button" className={"btn btn-block btn-"+ color} onClick={()=> props.action(button.id)}>{button.name}</button>
             </div>
         )
     })
+
     return(
         <div>
            {mappedButtonList}
