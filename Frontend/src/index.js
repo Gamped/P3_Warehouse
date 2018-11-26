@@ -22,7 +22,9 @@ import UserStock from "./components/pages/User/UserStock/UserStock";
 import UserProfile from "./components/pages/User/UserProfile/UserProfile"
 import UserProfileEdit from "./components/pages/User/UserProfile/UserProfileEdit"
 import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHistory"
-import UserOrder from "./components/pages/User/UserOrder";
+import UserOrder from "./components/pages/User/UserOrder/UserOrder";
+import UserOrderCart from "./components/pages/User/UserOrder/UserOrderCart";
+import UserCartConfirm from "./components/pages/User/UserOrder/UserCartConfirm";
 
 ReactDOM.render(
     <BrowserRouter>
@@ -47,6 +49,8 @@ ReactDOM.render(
             <Route exact path="/User/" component={UserHome}/>
             <Route exact path="/User/*" component={userMain}/>
             <Route exact path="/User/Order" component={UserOrder}/>
+            <Route exact path="/User/Order/Cart" component={UserOrderCart}/>
+            <Route exact path="/User/Order/Cart/Confirm" component={UserCartConfirm}/>
             <Route exact path="/User/Stock" component={UserStock}/>
             <Route exact path="/User/Profile" component={UserProfile}/>
             <Route exact path="/User/Profile/Edit" component={UserProfileEdit}/>

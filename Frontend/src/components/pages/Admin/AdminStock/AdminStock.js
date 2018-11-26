@@ -35,11 +35,16 @@ render() {
                 <h1 className="leftTxt customText_b">Filter by:</h1>
             </div>
 
-            <div className="contentBoxStyle listBox">
+            <div className="stockListBox 'contentBoxStyle'">
                 <table className="stockTable">
                     <tbody>
-
-
+                        <tr>
+                            <th>Product name</th>
+                            <th>Quantity</th>
+                            <th>Owner</th>
+                            <th>Pick</th>
+                            <th>Product Number</th>
+                        </tr>
                         {this.state.products.map(product =>
                             <tr>
                                 <td><Link to={`/Admin/Stock/Edit/${product.hexId}`}>{product.productName}</Link></td>
@@ -50,14 +55,6 @@ render() {
 
                             </tr>
                         )}
-                        <tr>
-                            <th>Product name</th>
-                            <th>Quantity</th>
-                            <th>Owner</th>
-                            <th>Pick</th>
-                            <th>Product Number</th>
-                        </tr>
-
                     </tbody>
                 </table>
             </div>
