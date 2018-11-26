@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
+@RequestMapping("/api")
 public class OrderController {
     @Autowired
     OrderRepository orderRepository;
