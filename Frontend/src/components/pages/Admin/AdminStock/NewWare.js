@@ -5,61 +5,90 @@ import axios from 'axios';
 
 
 export default class NewWare extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
             productName: "",
-            quantity: 0,
-            owner: "",
+            productId: "",
+            quantity: 0
         };
 
+        this.onChangeProductName = this.onChangeProductName.bind(this);
+        this.onChangeProductId = this.onChangeProductId.bind(this);
+        this.onChangeQuantity = this.onChangeQuantity.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
 
     }
 
     onSubmit = (e) => {
         e.preventDefault();
 
-        const {id, productName, quantity, owner} = this.state;
-        axios.post('http://localhost:8080/api/products', {productName, quantity, owner}).then((result)=> {
-            this.props.history.push("/");
+        const {productName, productId, quantity} = this.state;
+
+          console.log({productName, productId, quantity});
+
+        setTimeout(function () {
+          axios.post('http://localhost:8080/api/products/new', {productName, productId, quantity}).then((result)=> {
+
+              this.props.history.push("/");
+          }).catch((err) => {
+
+            console.log(err.response);
+
+
         });
-    }
 
-    onChange = (e) => {
-        const state = this.state;
-        state[e.target.name] = e.target.value;
-        this.setState(state);
+        }, 1000);
 
     }
 
+    onChangeProductName = (e) => {
+      this.setState({ productName: e.target.value});
+    }
 
-    render(){
-        return(
+    onChangeProductId = (e) => {
+      this.setState({ productId: e.target.value});
+     }
+
+    onChangeQuantity = (e) => {
+      this.setState({ quantity: e.target.value});
+    }
+
+
+    render() {
+      const {productName, productId, quantity} = this.state;
+
+        return (
         <div className="PageStyle">
             <h1 className="title customText_b_big">Add new product</h1>
                 <form>
                     <input
                         type="text"
                         className="newForm"
-                        onChange={this.onChange}
-                        placeholder="Product productName"/>
+                        defaultValue={productName}
+                        onChange={this.onChangeProductName}
+                        placeholder="Product Name"/>
                     <input
                         type="text"
                         className="newForm"
-                        onChange={this.onChange}
+                        defaultValue={productId}
+                        onChange={this.onChangeProductId}
+                        placeholder="Product Id"/>
+                    <input
+                        type="text"
+                        className="newForm"
+                        defaultValue={quantity}
+                        onChange={this.onChangeQuantity}
                         placeholder="Quantity"/>
-                    <input
-                        type="text"
-                        className="newForm"
-                        onChange={this.onChange}
-                        placeholder="Owner"/>
                 </form>
                 <form action="/Admin/Stock" className="newForm stockForm">
                     <button className="newButton stockButton_f btn">Back</button>
                 </form>
-                <form action="/Admin/Stock" className="newForm stockForm">
+                <form className="newForm stockForm">
                     <button className="newButton stockButton_f btn" onClick={this.onSubmit}>Create product</button>
                 </form>
-        </div>);
-    }
+        </div>
+    )
+  }
 }
