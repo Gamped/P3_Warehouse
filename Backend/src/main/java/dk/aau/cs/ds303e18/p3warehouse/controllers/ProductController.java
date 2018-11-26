@@ -46,12 +46,12 @@ public class ProductController {
 
     @PutMapping("/products/edit/{hexId}")
     String updateProduct(@PathVariable("hexId") String hexId, @RequestBody RestProductModel restProduct) {
-
-       Optional<Product> optProduct = productRepository.findByHexId(hexId);
+        ObjectId id = new ObjectId(hexId);
+       Optional<Product> optProduct = productRepository.findById(id);
+       System.out.println("Object ID = " + id.toString());
 
        Product productToSave = optProduct.get();
        BeanUtils.copyProperties(restProduct, productToSave);
-       System.out.println("Nåede hertil");
         productRepository.save(productToSave);
 
 
