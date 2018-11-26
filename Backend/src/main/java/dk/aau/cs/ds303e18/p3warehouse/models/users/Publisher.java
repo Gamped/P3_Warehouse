@@ -13,22 +13,37 @@ public class Publisher extends User implements Customer {
     private ObjectId id = new ObjectId();
     private Collection<Client> clients;
     private Collection<Order> clientOrders;
-    private String companyName;
+    private String publisherName;
     private ContactInformation contactInformation;
-
+    private String hexId;
 
     public Publisher(ObjectId id){
         super(new ObjectId());
         this.id = id;
+        this.hexId = id.toString();
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public void setContactInformation(ContactInformation contactInformation) {
+        this.contactInformation = contactInformation;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public String getHexId() {
+        return id.toString();
+    }
+
+    public void setHexId(String hexId) {
+        this.hexId = hexId;
+    }
+
+    public String getPublisherName() {
+        return publisherName;
+    }
+
+    public void setPublisherName(String publisherName) {
+        this.publisherName = publisherName;
     }
 
     public ContactInformation getContactInformation(){return contactInformation;}
 }
+
+
