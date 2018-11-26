@@ -19,12 +19,19 @@ public class Client extends User implements Customer {
 
     Collection<Order> orders;
     Collection<Product> products;
+    String clientName;
+    String hexId;
 
     public Client(ObjectId id){
         super(id);
         this.id = id;
+        this.hexId = id.toString();
     }
 
+
+    public String getHexId() {
+        return id.toString();
+    }
     public Publisher getPublisher() {
         return publisher;
     }
@@ -59,5 +66,13 @@ public class Client extends User implements Customer {
 
     @Override public String toString(){
         return id + " " + getUserName() + " " + contactInformation;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 }

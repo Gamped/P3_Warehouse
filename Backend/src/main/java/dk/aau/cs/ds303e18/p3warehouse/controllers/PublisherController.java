@@ -63,6 +63,7 @@ public class PublisherController {
     @DeleteMapping("/publishers/delete/{id}")
     void delete(@PathVariable String hexId) {
         ObjectId id = new ObjectId(hexId);
+
         publisherRepository.deleteById(id);
     }
 
