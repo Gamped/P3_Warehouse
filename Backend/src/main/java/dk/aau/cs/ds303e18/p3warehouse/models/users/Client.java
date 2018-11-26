@@ -59,7 +59,7 @@ public class Client extends Customer {
     }
 
     @Override public String toString(){
-        return id + " " + getUserName() + " " + this.getContactInformation();
+        return id + " " + this.getUserName() + " " + this.getContactInformation();
     }
 
     public String getClientName() {

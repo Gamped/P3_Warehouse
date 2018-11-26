@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.util.Collection;
+import java.util.HashSet;
 
 @Document(collection = "orders")
 public class Order {
@@ -26,6 +27,7 @@ public class Order {
     public Order(ObjectId id){
         this.id = id;
         this.hexid = id.toString();
+        this.orderLines = new HashSet<OrderLine>();
     }
 
 
@@ -71,6 +73,7 @@ public class Order {
     }
 
     public Order withNewOrderLine(Product product, int quantity){
+        //TODO: lav exception-checking på at quantity ikke er over produkt.quantity
         orderLines.add(new OrderLine(product, quantity));
         return this;
     }
