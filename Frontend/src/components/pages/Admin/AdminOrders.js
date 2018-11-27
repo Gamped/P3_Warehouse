@@ -80,8 +80,10 @@ class AdminOrders extends React.Component {
                         </div>
                         {this.buttonListShown()}
                     </div>
-                    <div className="col ">
-                        <div className="AdminTable"><Table columns={this.state.columns} data={this.state.data}/></div>
+                    <div className="col">
+                        <div className="AdminTable">
+                            <Table columns={this.state.columns} data={this.state.data}/>
+                        </div>
                     </div>
                 </div>
             </div>
