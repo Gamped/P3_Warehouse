@@ -1,7 +1,6 @@
 import React from "react";
 import Base from "../components/pages/Base";
 import "./mainPages.css";
-import axios from 'axios';
 
 const adminMain = (props) => {
     var menuButtons = [

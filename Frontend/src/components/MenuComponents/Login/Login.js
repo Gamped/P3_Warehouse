@@ -30,11 +30,9 @@ class SignInBox extends React.Component{
     logTheStateHandler = (event) => {
         event.preventDefault()
         if (this.state.username.toLowerCase() ==="admin"){ //Temp work until connected to backend
-            console.log("WTF I SHOULD BE CHANGING TO ADMIN")
             this.props.history.push("./Admin")
         } else if(this.state.username.toLowerCase() ==="user"){
             this.props.history.push("./User")
-            console.log("WTF I SHOULD BE CHANGING TO USER")
         } else{
             alert("Email should be either: User or Admin")
         }
