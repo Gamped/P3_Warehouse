@@ -90,10 +90,23 @@ export default class AdminUsers extends React.Component{
                             <div className="border border-light rounded bg-info">
                                 <ButtonList buttons={this.state.tabs} color="secondary" link={false} action={this.changeList}/>
                             </div>
+                            <div className="border border-light rounded bg-success">
+                                <div className="my-2">
+                                    <ButtonList buttons={[{name:"Create User",id:0}]} color="secondary" link={false} action={this.changeList}/>
+                                </div>
+                            </div>
                             {this.buttonListShown()}
                         </div>
                         <div className="col-sm text-center">
                             <TextBox type="user" id={this.state.userShown}/>
+                            <div className="container row">
+                                <div className="col my-2">
+                                    <button type="button" className="btn btn-danger">Delete this user</button>
+                                </div>
+                                <div className="col my-2">
+                                    <button type="button" className="btn btn-warning">Edit this user</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
