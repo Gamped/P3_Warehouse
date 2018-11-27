@@ -9,7 +9,7 @@ import java.util.Collection;
 @Document(collection = "publishers")
 public class Publisher extends Customer {
 
-    @Id
+    //@Id
     private ObjectId id = new ObjectId();
     private Collection<Client> clients;
     private Collection<Order> clientOrders;
