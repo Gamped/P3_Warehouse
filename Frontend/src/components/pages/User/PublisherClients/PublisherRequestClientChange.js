@@ -2,8 +2,6 @@ import React from 'react';
 import "../../Pages.css";
 
 const PublisherRequestClientChange = (props) => {
-
-
     return(
         <div className="PageStyle">
             <h1 className="customText_b">Request change to client:</h1>

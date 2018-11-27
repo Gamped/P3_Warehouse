@@ -8,6 +8,15 @@ public class RestUserModel {
     private String userName;
     private String password;
     private UserType userType;
+    private String nickName;
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public String getUserName() {
         return userName;
