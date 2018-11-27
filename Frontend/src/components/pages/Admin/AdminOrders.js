@@ -9,12 +9,19 @@ class AdminOrders extends React.Component {
     constructor(props){
         super(props);
         this.state={
+            data:[
+                {name:"Item 1",id:"1", amount:"1000", type: "Book",packaged:"false"},
+                {name:"Item 2",id:"2", amount:"50", type: "Flyer",packaged:"false"},
+                {name:"Item 3",id:"3",amount:"2" ,type:"Boxes",packaged:"false"},
+                {name:"Item 4",id:"4",amount:"5000" ,type:"Drugs",packaged:"false"},
+                {name:"Item 5",id:"5",amount:"4587545753215" ,type:"Book",packaged:"true"},
+            ],
             columns: [
-                {Header: "Package Name", accessor: "name"},
-                {Header: "Package ID", accessor: "id"},
-                {Header: "Unit Amount", accessor: "amount"},
-                {Header: "Unit Type", accessor: "type"},
-                {Header: "Packaged?", accessor: "packaged"}
+                {text: "Package Name", dataField: "name", sort:true},
+                {text: "Package ID", dataField: "id", sort:true},
+                {text: "Unit Amount", dataField: "amount", sort:true},
+                {text: "Unit Type", dataField: "type", sort:true},
+                {text: "Packaged?", dataField: "packaged", sort:true}
             ],
             tabs: [
                 {name:"In Progress Orders",id:0},
@@ -73,8 +80,8 @@ class AdminOrders extends React.Component {
                         </div>
                         {this.buttonListShown()}
                     </div>
-                    <div className="col">
-                        <div className="AdminTable"><Table columns={this.state.columns} height={tableHeight}/></div>
+                    <div className="col ">
+                        <div className="AdminTable"><Table columns={this.state.columns} data={this.state.data}/></div>
                     </div>
                 </div>
             </div>

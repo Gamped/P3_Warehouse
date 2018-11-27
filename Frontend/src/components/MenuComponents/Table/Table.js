@@ -1,21 +1,18 @@
 import React from 'react'
-import ReactTable from 'react-table'
-import 'react-table/react-table.css'
-import "./Table.css"
+import BootstrapTable from 'react-bootstrap-table-next';
 
 const rTable = (props) => {
-    const {data, columns, height, width} = props;
+    const {data, columns, name } = props;
+    const selectRow = {
+        mode: 'radio',
+        clickToSelect: true
+      };
     return(
         <div >
-            <ReactTable 
-                data = {data}
-                columns = {columns}
-                className = "rTable"
-                style={{
-                    height: height,
-                    width: width,
-                }}
-            />
+            <BootstrapTable selectRow={selectRow} 
+                            keyField='id' 
+                            data={ data } 
+                            columns={ columns } />
         </div>
     )
 }
