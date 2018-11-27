@@ -29,9 +29,9 @@ public class PublisherRepositoryTest {
     public void savePublisher(){
         publisherRepository.save(publisher);
         System.out.println(publisher.getHexId());
-        Optional<Publisher> optionalPublisher = publisherRepository.findById(publisher.getId());
+        Optional<Publisher> optionalPublisher = publisherRepository.findById(publisher.getHexId());
         Publisher retrievedPublisher = optionalPublisher.get();
-        Assert.assertEquals(publisher.getId(), retrievedPublisher.getId());
+        Assert.assertEquals(publisher.getHexId(), retrievedPublisher.getHexId());
     }
 
 }
