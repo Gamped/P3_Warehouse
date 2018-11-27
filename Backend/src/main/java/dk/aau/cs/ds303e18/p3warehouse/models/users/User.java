@@ -6,10 +6,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "userAuthDatabase")
 public class User {
-
+    //@Id
+    private ObjectId id; // ID for the child in another collection
     private String userName;
     private String password;
-    private ObjectId id;  // ID for the child in another collection
     private UserType userType;
 
 
