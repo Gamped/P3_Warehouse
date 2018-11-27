@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import "./LandingPage.css";
 
 const LandingPage = (props)=>{
-    const {name,buttons}=props;
+const {name,buttons}=props;
     var i = 0;
     const buttonList = buttons.map(button =>{
         i++;

@@ -5,7 +5,6 @@ import axios from 'axios';
 
 
 export default class NewWare extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -18,41 +17,33 @@ export default class NewWare extends Component {
         this.onChangeProductId = this.onChangeProductId.bind(this);
         this.onChangeQuantity = this.onChangeQuantity.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-
         const {productName, productId, quantity} = this.state;
 
-          console.log({productName, productId, quantity});
+        console.log({productName, productId, quantity});
 
         setTimeout(function () {
-          axios.post('http://localhost:8080/api/products/new', {productName, productId, quantity}).then((result)=> {
-
-              this.props.history.push("/");
-          }).catch((err) => {
-
+            axios.post('http://localhost:8080/api/products/new', {productName, productId, quantity}).then((result)=> {
+                this.props.history.push("/");
+            }).catch((err) => {
             console.log(err.response);
-
-
-        });
-
+            });
         }, 1000);
-
     }
 
     onChangeProductName = (e) => {
-      this.setState({ productName: e.target.value});
+        this.setState({ productName: e.target.value});
     }
 
     onChangeProductId = (e) => {
-      this.setState({ productId: e.target.value});
-     }
+        this.setState({ productId: e.target.value});
+    }
 
     onChangeQuantity = (e) => {
-      this.setState({ quantity: e.target.value});
+        this.setState({ quantity: e.target.value});
     }
 
 
@@ -60,8 +51,8 @@ export default class NewWare extends Component {
       const {productName, productId, quantity} = this.state;
 
         return (
-        <div className="PageStyle">
-            <h1 className="title customText_b_big">Add new product</h1>
+            <div className="PageStyle">
+                <h1 className="title customText_b_big">Add new product</h1>
                 <form>
                     <input
                         type="text"
@@ -88,7 +79,7 @@ export default class NewWare extends Component {
                 <form className="newForm stockForm">
                     <button className="newButton stockButton_f btn" onClick={this.onSubmit}>Create product</button>
                 </form>
-        </div>
-    )
-  }
+            </div>
+        )     
+    }
 }

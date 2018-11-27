@@ -57,17 +57,10 @@ export default class AdminOrders extends Component {
       const tableHeight = window.innerHeight * 0.8;
       return (
         <div className="PageStyle">
+
         <ReactTable data={data} className="-striped -highlight" columns={columns} height={tableHeight} defaultPageSize={15}/>
     </div>
-)
+    )
   }
-
-
-
-
-
-
-
-
 
 }

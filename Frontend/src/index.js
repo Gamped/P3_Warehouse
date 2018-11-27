@@ -17,7 +17,8 @@ import EditWare from "./components/pages/Admin/AdminStock/EditWare";
 import RemoveWare from "./components/pages/Admin/AdminStock/RemoveWare";
 import AdminUsers from "./components/pages/Admin/AdminUsers";
 import UserHome from "./components/pages/User/UserHome";
-import PublisherClient from "./components/pages/User/PublisherClient";
+import PublisherClient from "./components/pages/User/PublisherClients/PublisherClient";
+import PublisherRequestClientChange from "./components/pages/User/PublisherClients/PublisherRequestClientChange";
 import UserStock from "./components/pages/User/UserStock/UserStock";
 import UserProfile from "./components/pages/User/UserProfile/UserProfile"
 import UserProfileEdit from "./components/pages/User/UserProfile/UserProfileEdit"
@@ -56,7 +57,8 @@ ReactDOM.render(
             <Route exact path="/User/Profile/Edit" component={UserProfileEdit}/>
             <Route exact path="/User/Profile/OrderHistory" component={UserOrderHistory}/>
             <Route exact path="/User/Clients" component={PublisherClient}/>
-         </div>
+            <Route exact path="/User/Clients/Request" component={PublisherRequestClientChange}/>
+        </div>
     </BrowserRouter>
     , document.getElementById('root')
 );
