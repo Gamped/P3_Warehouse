@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
+import Table from "../../MenuComponents/Table/Table"
 import "../Pages.css";
 import "./AdminOrders.css";
 import axios from "axios";
@@ -6,11 +8,12 @@ import ReactTable from "react-table";
 import TextBox from "../../MenuComponents/TextBox/TextBox";
 import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
 
+
 export default class AdminOrders extends Component {
 
   constructor() {
     super();
-    this.state = { data: [], orders: [],             
+    this.state = { data: [], orders: [],
     tabs: [
         {name:"In Progress Orders",id:0},
         {name:"Finished Orders",id:1},
@@ -36,6 +39,7 @@ export default class AdminOrders extends Component {
     ],
     listShown: 0,}
     this.makeRow = this.makeRow.bind(this);
+    this.makeButtonData = this.makeButtonData.bind(this);
   }
 
   componentDidMount() {
@@ -45,6 +49,18 @@ export default class AdminOrders extends Component {
         const orders = this.makeRow(response);
         this.setState({ orders: orders })
       })
+  }
+
+  makeButtonData(response) {
+    var buttons = [];
+    response.data.forEach((order) => {
+      buttons.push({
+        owner: order.owner.nickName,
+        id: order.orderId
+      })
+    })
+
+    return buttons;
   }
 
   makeRow(response) {
@@ -97,6 +113,7 @@ export default class AdminOrders extends Component {
     ]
 
       const tableHeight = window.innerHeight * 0.8;
+
       return (
         <div className="PageStyle">
             <div className="container row">
@@ -106,11 +123,14 @@ export default class AdminOrders extends Component {
                     </div>
                     {this.buttonListShown()}
                 </div>
-
-                <ReactTable data={data} className="-striped -highlight" columns={columns} height={tableHeight} defaultPageSize={15}/>
+                <div>
+                <ReactTable data={data} tableHeight={tableHeight} className="-striped -highlight" columns={columns} defaultPageSize={15}/>
+                </div>
             </div>
         </div>
     )
   }
 
 }
+
+ReactDOM.render(<AdminOrders />, document.getElementById('table'))
