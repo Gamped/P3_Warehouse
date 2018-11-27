@@ -1,4 +1,4 @@
-#External dependencies:
+# External dependencies:
 
 Download PDFBox & FontBox here: https://pdfbox.apache.org/download.cgi
 
