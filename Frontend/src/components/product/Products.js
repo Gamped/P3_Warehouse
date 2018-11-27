@@ -4,10 +4,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 class Products extends Component {
-
     constructor(props) {
         super(props);
-
         this.state = { products: [] };
 
     }
@@ -52,7 +50,6 @@ class Products extends Component {
                     </div>
                 </div>
             </div>
-
         )
     }
 }

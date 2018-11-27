@@ -15,7 +15,6 @@ class ShowProducts extends Component {
             .then(response => {
                 this.setState({ product: response.data });
                 console.log(this.state.product);
-
             });
     }
 
@@ -28,7 +27,6 @@ class ShowProducts extends Component {
     }
 
     render() {
-
         return (
             <div className="container">
                 <div className="panel panel-default">
@@ -45,7 +43,6 @@ class ShowProducts extends Component {
                             <dd>{this.state.product.name}</dd>
                             <dt>Quantity:</dt>
                             <dd>{this.state.product.quantity}</dd>
-
                         </dl>
                         <Link to={`/edit/${this.state.product.id}`} class="btn btn-success">Edit</Link>&nbsp;
                         <button onClick={this.delete.bind(this, this.state.product.id)}
@@ -54,14 +51,8 @@ class ShowProducts extends Component {
                     </div>
                 </div>
             </div>
-
-
         )
-
-
     }
-
-
 }
 
 export default ShowProducts;
