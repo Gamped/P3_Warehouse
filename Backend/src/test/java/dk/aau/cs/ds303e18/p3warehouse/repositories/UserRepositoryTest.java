@@ -35,18 +35,8 @@ public class UserRepositoryTest {
         clientRepository.save(client);
         userRepository.save(client);
         User hopefullyAUser = userRepository.findAll().get(0);
-        Optional<Client> hopefullyAClient = clientRepository.findById(hopefullyAUser.getId());
-        System.out.println(hopefullyAUser.getUserName());
-        System.out.println(hopefullyAClient.get().getUserName());
-        System.out.println();
-        System.out.println(hopefullyAClient.get().getContactInformation().getEmail());
-        System.out.println();
-        System.out.println(hopefullyAUser.getUserType());
-        System.out.println(hopefullyAClient.get().getUserType());
+        Client hopefullyAClient = clientRepository.findById(hopefullyAUser.getId()).orElse(null);
 
-        for(Client u : clientRepository.findAll()){
-            System.out.println(u);
-        }
-        assert(true);
+        assert(hopefullyAClient.getUserName().equals(client.getUserName()));
     }
 }

@@ -15,8 +15,6 @@ public class Client extends Customer {
   
     Publisher publisher;
 
-    Collection<Order> orders;
-    Collection<Product> products;
     String clientName;
     String hexId;
 
@@ -36,22 +34,6 @@ public class Client extends Customer {
 
     public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
-    }
-
-    public Collection<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Collection<Order> orders) {
-        this.orders = orders;
-    }
-
-    public Collection<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(Collection<Product> products) {
-        this.products = products;
     }
 
     public ObjectId getId() {
