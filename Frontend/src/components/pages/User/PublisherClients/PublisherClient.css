@@ -1,0 +1,34 @@
+.pubButton{
+    width: 50%;
+    height: 50px;
+    margin-top: 5px;
+    vertical-align: middle;
+    line-height: 60px;
+}
+
+.pubButton_f{
+    width: 100%;
+    height: 50px;
+    margin-top: 5px;
+    vertical-align: middle;
+    line-height: 60px;
+}
+
+.pubForm{
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 14px; 
+    width: 50%;
+}
+
+.pubBackForm{
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 14px; 
+    width: 50%;
+    margin-left: 25%;
+}
+
+.pubInfoText{
+    margin-top: 70px;
+}
