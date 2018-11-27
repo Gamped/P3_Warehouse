@@ -26,9 +26,7 @@ public class Publisher extends Customer {
         return id.toString();
     }
 
-    public void setHexId(String hexId) {
-        this.hexId = hexId;
-    }
+    //public void setHexId(String hexId) { this.hexId = hexId; } No reason to set hexid if our getter generates it for us.
 
     public String getPublisherName() {
         return publisherName;
