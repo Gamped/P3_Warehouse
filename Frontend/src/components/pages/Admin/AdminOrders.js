@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Table from "../../MenuComponents/Table/Table"
 import "../Pages.css";
 import "./AdminOrders.css";
 import axios from "axios";
