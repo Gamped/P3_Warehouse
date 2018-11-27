@@ -4,12 +4,17 @@
 /node_modules
 /.pnp
 .pnp.js
+/.gradle/*
 
 # testing
 /coverage
 
 # production
 /build
+
+#react build
+/main.static
+/static
 
 # misc
 .DS_Store

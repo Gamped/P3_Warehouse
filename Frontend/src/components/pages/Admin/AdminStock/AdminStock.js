@@ -18,6 +18,7 @@ export default class AdminStock extends Component {
     axios.get('http://localhost:8080/api/products')
         .then(response => {
             this.setState({ products: response.data });
+            console.log(response);
         })
       }
 
@@ -34,29 +35,26 @@ render() {
                 <h1 className="leftTxt customText_b">Filter by:</h1>
             </div>
 
-            <div className="contentBoxStyle listBox">
+            <div className="stockListBox 'contentBoxStyle'">
                 <table className="stockTable">
                     <tbody>
-
-                    {this.state.products.map(product =>
                         <tr>
-                            <td><Link to={`/Admin/Stock/Edit/${product.hexId}`}>{product.name}</Link></td>
-
-                            <td>{product.quantity}</td>
-
-                            <td>{product.owner}</td>
-
+                            <th>Product name</th>
+                            <th>Quantity</th>
+                            <th>Owner</th>
+                            <th>Pick</th>
+                            <th>Product Number</th>
                         </tr>
-                    )}
-                    <tr>
-                        <th>Product name</th>
-                        <th>Quantity</th>
-                        <th>Owner</th>
-                        <th>Pick</th>
-                        <th>Product Number</th>
-                    </tr>
+                        {this.state.products.map(product =>
+                            <tr>
+                                <td><Link to={`/Admin/Stock/Edit/${product.hexId}`}>{product.productName}</Link></td>
 
+                                <td>{product.quantity}</td>
 
+                                <td>{product.owner}</td>
+
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>

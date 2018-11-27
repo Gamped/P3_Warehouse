@@ -18,7 +18,7 @@
     bottom: 0;
 }
 
-.listBox{
+.stockListBox{
     position: absolute;
     left: 300px;
     right: 0;
@@ -33,6 +33,7 @@
 }
 
 .leftTxt{
+    top: 50px;
     position: absolute;
     width: 300px;
     text-align: center;
@@ -92,6 +93,7 @@
 }
 
 .stockTable{
+    position: relative;
     width: 100%;
 }
 

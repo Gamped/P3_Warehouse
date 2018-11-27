@@ -1,19 +1,19 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.exceptions.ProductNotFoundException;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
-import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.ProductRequestModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+
 import java.util.Optional;
 
-@CrossOrigin(origins="*")
+@RequestMapping("/api")
 @RestController
+@CrossOrigin
 public class ProductController {
 
     @Autowired
@@ -21,47 +21,54 @@ public class ProductController {
 
     @GetMapping("/products")
     private Iterable<Product> findAll() {
+
         return productRepository.findAll();
-    }
-
-    @PostMapping("/products")
-    private Product newProduct(@RequestBody ProductRequestModel restProduct){
-
-        ObjectId id = new ObjectId();
-        Product productToSave = new Product(id);
-        BeanUtils.copyProperties(restProduct, productToSave);
-
-        return productRepository.save(productToSave);
     }
 
     @GetMapping("/products/{id}")
     Optional<Product> findById(@PathVariable String id) {
+
         ObjectId objectId = new ObjectId(id);
         Optional<Product> product = productRepository.findById(objectId);
+
         return product;
     }
 
-    @PutMapping("/products/edit/{id}")
-    String updateProduct(@PathVariable String hexId, @RequestBody Product updatedProduct) {
-       Optional<Product> product = productRepository.findByHexId(hexId);
-       Product productToSave = product.get();
+    @PostMapping("/products/new")
+    private Product newProduct(@RequestBody RestProductModel restProduct) {
 
-       //TODO: VALIDATOR CLASS IMPLEMENTATION
+        ObjectId id = new ObjectId();
+        Product newProduct = new Product(id);
+        newProduct.setProductName(restProduct.getProductName());
+        BeanUtils.copyProperties(restProduct, newProduct);
 
-        System.out.println(product.toString());
-       productToSave.copyParametersFrom(updatedProduct);
-       productRepository.save(productToSave);
-       return "Product updated! \n" + productToSave.getHexId().toString();
+        return productRepository.save(newProduct);
     }
 
-    @DeleteMapping("/products/{id}")
-    void deleteProduct(@RequestBody Product productToDelete){
-        productRepository.delete(productToDelete);
+    @PutMapping("/products/edit/{hexId}")
+    String update(@PathVariable("hexId") String hexId, @RequestBody RestProductModel restProduct) {
+
+       ObjectId id = new ObjectId(hexId);
+       Optional<Product> optProduct = productRepository.findById(id);
+       Product productToSave = optProduct.get();
+
+       BeanUtils.copyProperties(restProduct, productToSave);
+
+       productRepository.save(productToSave);
+
+       return "Product updated! \n" + productToSave.getProductName() + "\n" + productToSave.getHexId();
+    }
+
+    @DeleteMapping("/products/delete/{id}")
+    void delete(@PathVariable String hexId) {
+        ObjectId id = new ObjectId(hexId);
+        productRepository.deleteById(id);
     }
 
     @GetMapping("/clients/{id}/products")
     Iterable<Product> findByOwner(@RequestBody Customer owner) {
         return productRepository.findByOwner(owner);
     }
+
 
 }

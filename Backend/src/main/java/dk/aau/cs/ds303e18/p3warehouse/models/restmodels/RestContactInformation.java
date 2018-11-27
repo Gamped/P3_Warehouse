@@ -1,10 +1,19 @@
-package dk.aau.cs.ds303e18.p3warehouse.models.users;
+package dk.aau.cs.ds303e18.p3warehouse.models.restmodels;
 
-public class ContactInformation {
+public class RestContactInformation {
+
     private String email;
     private String phoneNumber;
     private String address;
     private String zipCode;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -28,18 +37,5 @@ public class ContactInformation {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    
-    @Override
-    public String toString(){
-        return email + " " + phoneNumber + " " + address + " " + zipCode;
     }
 }
