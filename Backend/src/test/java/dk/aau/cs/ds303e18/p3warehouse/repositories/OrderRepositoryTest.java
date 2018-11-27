@@ -1,6 +1,8 @@
 package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
+import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,13 +14,52 @@ import org.springframework.test.context.junit4.SpringRunner;
 @DataMongoTest
 public class OrderRepositoryTest {
     @Autowired
-    OrderRepository repository;
+    OrderRepository orderRepository;
+    @Autowired
+    ClientRepository clientRepository;
+    @Autowired
+    ProductRepository productRepository;
 
     @Test
     public void findByIdTest(){
         Order order = new Order(new ObjectId());
         order.setTitle("ID test 1");
         System.out.println("Object ID: " + order.getId());
-        repository.save(order);
+        orderRepository.save(order);
+    }
+    @Test
+    public void dbRefTest(){
+        Client client = new Client(new ObjectId());
+        client.setUserName("Simon");
+        ObjectId orderId = new ObjectId();
+        Order order = new Order(orderId);
+        Product product = new Product(new ObjectId());
+        product.setOwner(client);
+        product.setProductName("Pøls");
+        product.setQuantity(10);
+        product.setProductId("1234");
+        order.setOwner(client);
+        order.withNewOrderLine(product, 5);
+        order.setTitle("Testorder");
+
+        clientRepository.save(client);
+        productRepository.save(product);
+        orderRepository.save(order);
+
+
+        order = null;
+        client = null;
+        product = null;
+
+        //Query order and see if mongo automatically refs our products and clients
+        Order queryedOrder = orderRepository.findById(orderId).orElse(null);
+        assert(queryedOrder != null);
+        assert(queryedOrder.getOwner().getUserName().equals("Simon"));
+        assert(queryedOrder.getOrderLines().stream().anyMatch(x -> x.getProduct().getProductName().equals("Pøls")));
+        /*
+        NB: Ved ikke om Java bare refererer til java-objekterne uden om db, eller om DB faktisk henter det til os. Får vi problemer med dbRefs senere,
+        er det nok dette vi først skal tjekke. Håber en venlig sjæl kan huske det, for jeg kan nok ikke. Og fuck snus, forresten.
+        */
+
     }
 }

@@ -14,12 +14,13 @@ export default class EditWare extends Component {
     }
 
     componentDidMount() {
-        const hexId = this.props.match.params.hexId;
-        console.log(hexId);
-        axios.get('http://localhost:8080/api/products/' + hexId).
+        axios.get('http://localhost:8080/api/products/' + this.props.match.params.id).
             then(response => {
-            this.setState({ product: response.data });
-        })
+                 this.setState({ product: response.data });
+                 //const { productName, productId, quantity } = this.state.product;
+                 console.log(this.state.product);
+            }
+        )
     }
 
     onChange = (e) => {
@@ -33,6 +34,7 @@ export default class EditWare extends Component {
         const { productName, productId, quantity } = this.state.product;
 
         axios.put('http://localhost:8080/api/products/edit/'+this.props.match.params.hexId, {productName, productId, quantity})
+
             .then((result) => {
                 console.log(result);
                 //  this.context.history.push("/Admin/Stock/"+this.props.match.params.hexId);\
@@ -76,5 +78,6 @@ export default class EditWare extends Component {
                 <h1 className="note customText_b_big">Please double check to make sure you have changed to the correct info</h1>
             </div>
         );
+
     }
 }
