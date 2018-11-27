@@ -9,7 +9,7 @@ export default class AdminOrders extends Component {
 
   constructor() {
     super();
-    this.state = { data: [], productExample: [] }
+    this.state = { data: [], orders: [] }
     this.makeRow = this.makeRow.bind(this);
   }
 
@@ -17,42 +17,46 @@ export default class AdminOrders extends Component {
 
     axios.get("http://localhost:8080/api/orders")
     .then((response) => {
-        const example = this.makeRow(response);
-        this.setState({ productExample: example })
+        const orders = this.makeRow(response);
+        this.setState({ orders: orders })
       })
   }
 
   makeRow(response) {
 
-    var exampleData = [];
+    var orders = [];
 
     response.data.forEach((order) => {
 
-      exampleData.push([{
-        name: order.orderLines[0].product.productName,
-        id: order.orderLines[0].product.productId,
-        amount: order.orderLines[0].product.quantity,
-        owner: order.orderLines[0].product.owner.userName
-      }]);
+      orders.push({
+        orderId: order.orderId,
+        owner: order.owner.nickName,
+        date: order.date,
+        itemsToPack: order.orderLines.length
+      });
     });
-
-    return exampleData;
+    console.log(response.data[0]);
+    console.log(orders);
+    return orders;
   }
 
 
   render() {
-    const data = this.state.productExample[0];
+    const data = this.state.orders;
+    console.log(data);
     console.log(JSON.stringify(data));
 
     const columns = [
-        {Header: "Package Name", accessor: "name"},
-        {Header: "Package ID", accessor: "id"},
-        {Header: "Unit Amount", accessor: "amount"},
+        {Header: "Order Id", accessor: "orderId"},
         {Header: "Owner", accessor: "owner"},
-        {Header: "Packaged?", accessor: "packaged"}
+        {Header: "Date", accessor: "date"},
+        {Header: "Items To Pack", accessor: "itemsToPack"},
+        {Header: "Packed?", accessor: "packed"}
     ]
+
       const tableHeight = window.innerHeight * 0.8;
-      return( <div className="PageStyle">
+      return (
+        <div className="PageStyle">
         <ReactTable data={data} className="-striped -highlight" columns={columns} height={tableHeight} defaultPageSize={15}/>
     </div>
 )

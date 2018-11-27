@@ -30,16 +30,28 @@ public class OrderRepositoryTest {
     @Test
     public void dbRefTest(){
         Client client = new Client(new ObjectId());
-        client.setUserName("Simon");
+        client.setUserName("simonusr");
+        client.setNickName("Simon A/S");
+
         ObjectId orderId = new ObjectId();
         Order order = new Order(orderId);
+
         Product product = new Product(new ObjectId());
         product.setOwner(client);
-        product.setProductName("Pøls");
+        product.setProductName("Computer");
         product.setQuantity(10);
-        product.setProductId("1234");
+        product.setProductId("1001");
+
+        Product flyerProduct = new Product(new ObjectId());
+        product.setOwner(client);
+        product.setProductName("Flyer for Advertisement");
+        product.setQuantity(500);
+        product.setProductId("1002");
+
         order.setOwner(client);
         order.withNewOrderLine(product, 5);
+        order.withNewOrderLine(flyerProduct, 300);
+
         order.setTitle("Testorder");
 
         clientRepository.save(client);
@@ -54,11 +66,9 @@ public class OrderRepositoryTest {
         //Query order and see if mongo automatically refs our products and clients
         Order queryedOrder = orderRepository.findById(orderId).orElse(null);
         assert(queryedOrder != null);
-        assert(queryedOrder.getOwner().getUserName().equals("Simon"));
-        assert(queryedOrder.getOrderLines().stream().anyMatch(x -> x.getProduct().getProductName().equals("Pøls")));
         /*
         NB: Ved ikke om Java bare refererer til java-objekterne uden om db, eller om DB faktisk henter det til os. Får vi problemer med dbRefs senere,
-        er det nok dette vi først skal tjekke. Håber en venlig sjæl kan huske det, for jeg kan nok ikke. Og fuck snus, forresten.
+        er det nok dette vi først skal tjekke. Håber en venlig sjæl kan huske det, for jeg kan nok ikke.
         */
 
     }

@@ -12,6 +12,7 @@ import java.util.Optional;
 @CrossOrigin
 @RequestMapping("/api")
 public class OrderController {
+
     @Autowired
     OrderRepository orderRepository;
 
@@ -41,6 +42,9 @@ public class OrderController {
 
     @DeleteMapping("/orders/{id}")
     void deleteOrder(@RequestBody Order orderToDelete){orderRepository.delete(orderToDelete);}
+
+    @DeleteMapping("orders/test/deleteAll")
+    void deleteAll() { orderRepository.deleteAll(); }
 
 
 
