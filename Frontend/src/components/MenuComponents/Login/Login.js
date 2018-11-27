@@ -13,17 +13,17 @@ class SignInBox extends React.Component{
     }
 
     // Updates the username part of the state
-    emailTypedHandler = (event) =>{
-      this.setState({
-        username: event.target.value
-      })
+    emailTypedHandler = (event) => {
+        this.setState({
+            username: event.target.value
+        })
     }
 
     // Updates the password part of the state
-    passwordTypedHandler = (event)=>{
-      this.setState({
-        password: event.target.value
-      })
+    passwordTypedHandler = (event) => {
+        this.setState({
+            password: event.target.value
+        })
     }
 
     // Logs the state
@@ -38,9 +38,8 @@ class SignInBox extends React.Component{
         } else{
             alert("Email should be either: User or Admin")
         }
-      console.log(this.state)
-      console.log(this.props)
-      
+        console.log(this.state)
+        console.log(this.props)
     }
 
     render(){

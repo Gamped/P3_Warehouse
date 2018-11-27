@@ -19,13 +19,13 @@ export default class AdminRemove extends React.Component {
     handleUName = (event) => {
         this.setState({
             userName: event.target.value,
-       });
+        });
     }
 
     handlePass = (event) => {
         this.setState({
             password: event.target.value,
-       });
+        });
     }
 
     render(){
