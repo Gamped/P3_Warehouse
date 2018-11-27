@@ -26,8 +26,14 @@ import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHisto
 import UserOrder from "./components/pages/User/UserOrder/UserOrder";
 import UserOrderCart from "./components/pages/User/UserOrder/UserOrderCart";
 import UserCartConfirm from "./components/pages/User/UserOrder/UserCartConfirm";
+import {createStore} from "redux";
+import {Provider} from "react-redux";
+import rootReducer from "./reducers/rootReducer"
 
-ReactDOM.render(
+
+const store = createStore(rootReducer);
+
+ReactDOM.render(<Provider store={store}>
     <BrowserRouter>
         <div>
             <Route exact path="/" component={loginMain}/>
@@ -60,5 +66,5 @@ ReactDOM.render(
             <Route exact path="/User/Clients/Request" component={PublisherRequestClientChange}/>
         </div>
     </BrowserRouter>
-    , document.getElementById('root')
+    </Provider>, document.getElementById('root')
 );
