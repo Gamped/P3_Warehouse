@@ -1,6 +1,7 @@
 import React from 'react';
 import "./Login.css";
 import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
 
 // The box for sign-in to the system
 class SignInBox extends React.Component{
@@ -26,35 +27,57 @@ class SignInBox extends React.Component{
         })
     }
 
-    // Logs the state
-    logTheStateHandler = (event) => {
+    // Logs in
+    loginHandler = (event) => {
         event.preventDefault()
+        //We want it to succede a check here. Then get name, id and type on th user.
         if (this.state.username.toLowerCase() ==="admin"){ //Temp work until connected to backend
+            this.props.login("admin", "Generic Name","UserID")
             this.props.history.push("./Admin")
         } else if(this.state.username.toLowerCase() ==="user"){
+            this.props.login("publisher", "Generic Name","UserID2")
             this.props.history.push("./User")
         } else{
             alert("Email should be either: User or Admin")
         }
-        console.log(this.state)
-        console.log(this.props)
     }
 
     render(){
+        console.log(this.props)
         return(
             //Functionality for responding to user input
             <div>
                 <div className="signBox">
                     <img src={require('../../../resources/4n_logo_mini.jpg')} className="logoPic" alt="The logo of 4N"/>
-                    <input type="Email" placeholder="Email" onChange={this.emailTypedHandler} required></input>
-                    <input type="Password" placeholder="Password" onChange={this.passwordTypedHandler} required></input> 
-                    <form>
-                        <button onClick={this.logTheStateHandler} className="signButton" >Sign in</button>
-                    </form>
+                    <div className="form">
+                        <form>
+                            <input type="Email" placeholder="Email" onChange={this.emailTypedHandler} required></input>
+                            <input type="Password" placeholder="Password" onChange={this.passwordTypedHandler} required></input> 
+                            <button onClick={this.loginHandler} className="signButton" >Sign in</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         );
     }
 }
 
-export default withRouter(SignInBox)
+const mapStateToProps = (state)=>{
+    return{
+        loggedIn: state.loggedIn
+    }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        login: (userType, name, userID) => {dispatch(
+                                                {type: "LOGIN", 
+                                                userType:userType,
+                                                loggedIn:true,
+                                                name: name, 
+                                                userid:userID})
+                                            }
+    }
+}
+
+export default connect(mapStateToProps ,mapDispatchToProps)(withRouter(SignInBox))

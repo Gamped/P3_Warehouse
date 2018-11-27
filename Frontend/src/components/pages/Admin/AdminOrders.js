@@ -19,7 +19,6 @@ export default class AdminOrders extends Component {
         {name:"Pending Orders",id:2}
     ],
     finishedOrders: [
-        {name: "DragonDildos", id:"1"},
         {name: "Ground Beef", id:"2"},
         {name: "Iron Halo", id:"3"},
         {name: "Plasma Blaster", id:"4"},
