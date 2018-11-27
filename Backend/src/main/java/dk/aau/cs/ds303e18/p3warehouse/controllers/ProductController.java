@@ -21,12 +21,21 @@ public class ProductController {
 
     @GetMapping("/products")
     private Iterable<Product> findAll() {
+
         return productRepository.findAll();
+    }
+
+    @GetMapping("/products/{id}")
+    Optional<Product> findById(@PathVariable String id) {
+
+        ObjectId objectId = new ObjectId(id);
+        Optional<Product> product = productRepository.findById(objectId);
+
+        return product;
     }
 
     @PostMapping("/products/new")
     private Product newProduct(@RequestBody RestProductModel restProduct) {
-
 
         ObjectId id = new ObjectId();
         Product newProduct = new Product(id);
@@ -36,39 +45,30 @@ public class ProductController {
         return productRepository.save(newProduct);
     }
 
-    @GetMapping("/products/{id}")
-    Optional<Product> findById(@PathVariable String id) {
-        ObjectId objectId = new ObjectId(id);
-        Optional<Product> product = productRepository.findById(objectId);
-
-        return product;
-    }
-
     @PutMapping("/products/edit/{hexId}")
-    String updateProduct(@PathVariable("hexId") String hexId, @RequestBody RestProductModel restProduct) {
-        ObjectId id = new ObjectId(hexId);
+    String update(@PathVariable("hexId") String hexId, @RequestBody RestProductModel restProduct) {
+
+       ObjectId id = new ObjectId(hexId);
        Optional<Product> optProduct = productRepository.findById(id);
-       System.out.println("Object ID = " + id.toString());
-
        Product productToSave = optProduct.get();
+
        BeanUtils.copyProperties(restProduct, productToSave);
-        productRepository.save(productToSave);
 
+       productRepository.save(productToSave);
 
-        //TODO: VALIDATOR CLASS IMPLEMENTATION
-        System.out.println(productToSave.toString());
-        System.out.println(restProduct.modelToString());
        return "Product updated! \n" + productToSave.getProductName() + "\n" + productToSave.getHexId();
     }
 
-    @DeleteMapping("/products/{id}")
-    void deleteProduct(@RequestBody Product productToDelete){
-        productRepository.delete(productToDelete);
+    @DeleteMapping("/products/delete/{id}")
+    void delete(@PathVariable String hexId) {
+        ObjectId id = new ObjectId(hexId);
+        productRepository.deleteById(id);
     }
 
     @GetMapping("/clients/{id}/products")
     Iterable<Product> findByOwner(@RequestBody Customer owner) {
         return productRepository.findByOwner(owner);
     }
+
 
 }
