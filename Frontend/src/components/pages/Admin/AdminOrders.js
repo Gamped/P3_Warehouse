@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import Table from "../../MenuComponents/Table/Table"
 import "../Pages.css";
 import "./AdminOrders.css";
 import axios from "axios";
