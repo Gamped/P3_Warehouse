@@ -17,7 +17,9 @@ const AdminOrders = (props) => {
 
     return(
         <div className="PageStyle">
-            <div className="AdminTable"><Table columns={columns} height={tableHeight}/></div>
+            <div className="AdminTable">
+                <Table columns={columns} height={tableHeight}/>
+            </div>
         </div>
     );
 }

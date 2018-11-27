@@ -22,11 +22,11 @@ const Menu = (props) => {
     })
     return(
         <div className="menuStyle">
-           {mappedButtonList}
-           <img 
-           src={require('../../../resources/4n_logo_mini.jpg')} 
-           className="menuLogo" 
-           alt="The logo of 4N"/>
+            {mappedButtonList}
+            <img 
+                src={require('../../../resources/4n_logo_mini.jpg')} 
+                className="menuLogo" 
+                alt="The logo of 4N"/>
         </div>
     )
 }
