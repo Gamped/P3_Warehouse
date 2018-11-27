@@ -4,10 +4,8 @@ import axios from 'axios';
 import {Link} from 'react-router-dom';
 
 class CreateProduct extends Component {
-
     constructor(){
         super();
-
         this.state = {
             name: '',
             quantity: ''
@@ -18,13 +16,12 @@ class CreateProduct extends Component {
         const state = this.state;
         state[e.target.name] = e.target.value;
         this.setState(state);
-
     }
 
     onSubmit = (e) => {
         e.preventDefault();
-
         const {name, quantity} = this.state;
+
         axios.post('/api/products', {name, quantity}).then((result)=> {
             this.props.history.push("/");
         });
@@ -32,7 +29,6 @@ class CreateProduct extends Component {
 
 
     render(){
-
         const {name, quantity} = this.state;
 
         return (
@@ -52,6 +48,7 @@ class CreateProduct extends Component {
                                 <input type="text" className="form-control" name="product-name" value={name}
                                        onChange={this.onChange} placeholder="Product name"/>
                             </div>
+                            
                             <div className="form-group">
                                 <label htmlFor="title">Quantity:</label>
                                 <input type="text" className="form-control" name="quantity" value={quantity}
@@ -64,10 +61,7 @@ class CreateProduct extends Component {
                 </div>
             </div>
         );
-
     }
-
-
 }
 
 export default CreateProduct;

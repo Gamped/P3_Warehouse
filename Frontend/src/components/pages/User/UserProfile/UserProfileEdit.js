@@ -24,55 +24,55 @@ export default class UserProfileEdit extends React.Component {
     handleUName = (event) => {
         this.setState({
             userName: event.target.value,
-       });
+        });
     }
 
     handleName = (event) => {
         this.setState({
             name: event.target.value,
-       });
+        });
     }
 
     handleEmail = (event) => {
         this.setState({
             email: event.target.value,
-       });
+        });
     }
 
     handlePhoneNumber = (event) => {
         this.setState({
             phoneNumber: event.target.value,
-       });
+        });
     }
 
     handleAddress = (event) => {
         this.setState({
             address: event.target.value,
-       });
+        });
     }
 
     handleCurPass = (event) => {
         this.setState({
             passwordCurrent: event.target.value,
-       });
+        });
     }
 
     handleNewPass = (event) => {
         this.setState({
             passwordNew: event.target.value,
-       });
+        });
     }
 
     handleCVR = (event) => {
         this.setState({
             cvr: event.target.value,
-       });
+        });
     }
 
     render(){
         return(
-        <div className="PageStyle">
-            <h1 className="title customText_b_big">Edit profile:</h1>
+            <div className="PageStyle">
+                <h1 className="title customText_b_big">Edit profile:</h1>
                 <form>
                     <input 
                         type="text" 
@@ -121,6 +121,7 @@ export default class UserProfileEdit extends React.Component {
                 <form action="/User/Profile" className="newForm stockForm">
                     <button className="newButton stockButton_f btn">Edit profile</button>
                 </form>
-        </div>);
+            </div>
+        );
     }
 }

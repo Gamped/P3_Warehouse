@@ -58,7 +58,7 @@ ReactDOM.render(
             <Route exact path="/User/Profile/OrderHistory" component={UserOrderHistory}/>
             <Route exact path="/User/Clients" component={PublisherClient}/>
             <Route exact path="/User/Clients/Request" component={PublisherRequestClientChange}/>
-         </div>
+        </div>
     </BrowserRouter>
     , document.getElementById('root')
 );
