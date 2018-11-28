@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import Table from "../../MenuComponents/Table/Table"
 import "../Pages.css";
 import "./AdminOrders.css";
 import axios from "axios";
@@ -20,7 +19,6 @@ export default class AdminOrders extends Component {
         {name:"Pending Orders",id:2}
     ],
     finishedOrders: [
-        {name: "DragonDildos", id:"1"},
         {name: "Ground Beef", id:"2"},
         {name: "Iron Halo", id:"3"},
         {name: "Plasma Blaster", id:"4"},

@@ -76,3 +76,10 @@
     left: 5%;
     margin-top: 15px;
 }
+
+.cartDropdown{
+    position: absolute;
+    top: 30px;
+    left: 3%;
+    width: 45%;
+}

@@ -10,7 +10,7 @@
     margin-top: 5px; 
 }
 
-.deciderBox{
+.stockDeciderBox{
     position: absolute;
     top: 40px;
     left: 0;
@@ -26,7 +26,7 @@
     width: 50%;
 }
 
-.exportButton{
+.stockExportButton{
     position: absolute;
     width: 25%;
     right: 20px;
