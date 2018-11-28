@@ -53,7 +53,6 @@ public class OrderRepositoryTest {
         try {
             order.withNewOrderLine(product, 5);
             order.withNewOrderLine(flyerProduct, 300);
-
             order.setTitle("Testorder");
         }catch(InvalidQuantityException e ){
 

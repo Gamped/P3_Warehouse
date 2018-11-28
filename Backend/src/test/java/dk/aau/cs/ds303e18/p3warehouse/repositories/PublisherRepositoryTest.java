@@ -27,7 +27,6 @@ public class PublisherRepositoryTest {
 
         ObjectId idP = new ObjectId();
         Publisher publisher = new Publisher(idP);
-
         publisherRepository.save(publisher);
         System.out.println(publisher.getHexId());
         Optional<Publisher> optionalPublisher = publisherRepository.findById(publisher.getHexId());

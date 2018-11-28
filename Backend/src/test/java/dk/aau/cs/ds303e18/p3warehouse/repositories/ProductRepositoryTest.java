@@ -21,10 +21,14 @@ public class ProductRepositoryTest {
     @Test
     public void findByIdTest(){
         ObjectId objectId = new ObjectId();
-        Product p = new Product(objectId);
-        p.setProductName("Hex Client Test2");
-        System.out.println("Object ID: " + p.getHexId());
-        repository.save(p);
+        Product product = new Product(objectId);
+        product.setProductName("Hex Client Test2");
+        System.out.println("Object ID: " + product.getHexId());
+        repository.save(product);
+        Optional<Product> optProduct = repository.findById(product.getId());
+        Product retrievedProduct = optProduct.get();
+        Assert.assertEquals(retrievedProduct.getProductName(), "Hex Client Test2");
+        repository.delete(product);
     }
 
     @Test
@@ -37,5 +41,6 @@ public class ProductRepositoryTest {
         Optional<Product> optProduct = repository.findById(product.getId());
         Product retrievedProduct = optProduct.get();
         Assert.assertEquals(product.getId(), retrievedProduct.getId());
+        repository.delete(product);
     }
 }
