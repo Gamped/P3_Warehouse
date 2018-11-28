@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.PDFCreator;
 
 import org.apache.pdfbox.pdmodel.encryption.*;
+
 import java.io.IOException;
 
 // This extends the PDF creator with the option to secure documents with passwords
