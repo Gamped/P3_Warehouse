@@ -26,6 +26,12 @@ public class Publisher extends Customer {
         return id.toString();
     }
 
+    public int getSizeOfColletion(){
+        int size = 0;
+        clients.size();
+        return size;
+    }
+
     public  void addClient(Client newClient){
         clients.add(newClient);
     }
