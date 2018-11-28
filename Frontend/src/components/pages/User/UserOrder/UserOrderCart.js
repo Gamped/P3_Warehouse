@@ -10,6 +10,8 @@ export default class UserOrder extends React.Component {
             userID: props.ID,
             quarry: "",
             products: props.productList,
+            dropdownValue: "",
+            dropdownOptions: [],
         };
     }
 
@@ -17,6 +19,12 @@ export default class UserOrder extends React.Component {
     /*
     * SOME FUNCTION TO RETRIEVE & SEND INFO FROM DB
     */
+
+    handleDropdown = (event) => {
+        this.setState({
+            dropdownValue: event.target.value,
+        });
+    }
 
     handleQuarry = (event) => {
         this.setState({
@@ -32,9 +40,19 @@ export default class UserOrder extends React.Component {
                 </div>
 
                 <div className="cartBox contentBoxStyle">
-                    <h1 className="dropdown customText_b">[I'm totally a dropdown menu ;)]</h1>
+                    <select 
+                        className="cartDropdown" 
+                        value={this.state.dropdownValue}
+                        onChange={this.handleDropdown}>
+
+                        <option value="">[Use previous addresses]</option>
+                        {this.state.dropdownOptions.map(address =>
+                            <option value={address}>{address}</option>
+                        )}
+                    </select> 
 
                     <div className="productListBox bottomBoxStyle">
+                       
                         <table className="cartTable">
                             <tbody>
                                 <tr>
