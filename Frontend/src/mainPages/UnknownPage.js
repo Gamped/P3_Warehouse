@@ -3,7 +3,6 @@ import React from "react";
 import "./mainPages.css";
 
 const UnknownPage = (props)=>{
-
     return(
         <div>
             <div className="ErrorPage">

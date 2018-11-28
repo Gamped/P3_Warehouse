@@ -9,9 +9,17 @@ public class User {
 
     private String userName;
     private String password;
-    private ObjectId id; // ID for the child in another collection
+    private String nickName;
+    private ObjectId id;  // ID for the child in another collection
     private UserType userType;
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     protected User(ObjectId id) {
         this.id = id;

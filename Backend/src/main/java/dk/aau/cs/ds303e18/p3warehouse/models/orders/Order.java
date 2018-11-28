@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 
 @Document(collection = "orders")
@@ -23,13 +24,22 @@ public class Order {
     private String orderId;
     private String title;
     private String hexid;
+    private Date date;
 
     public Order(ObjectId id){
         this.id = id;
         this.hexid = id.toString();
         this.orderLines = new HashSet<OrderLine>();
+        this.date = new Date();
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public Collection<OrderLine> getOrderLines() {
         return orderLines;

@@ -28,6 +28,13 @@
     top: 10px;
 }
 
+.sidebar{
+    -ms-flex: 0 0 230px;
+    flex: 0 0 230px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 .newButton_r{
     width: 100%;
     font-size: 20px;
