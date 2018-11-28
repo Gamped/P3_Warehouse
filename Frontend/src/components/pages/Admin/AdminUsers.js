@@ -3,6 +3,8 @@ import "../Pages.css";
 import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
 import "./AdminUsers.css";
 import TextBox from "../../MenuComponents/TextBox/TextBox";
+import axios from 'axios';
+import ReactTable from 'react-table';
 
 export default class AdminUsers extends React.Component{
     constructor(props) {
@@ -49,7 +51,7 @@ export default class AdminUsers extends React.Component{
                 {name:"Independent clients",id:2}
             ],
             listShown: 0,
-            userShown: 0, 
+            userShown: 0,
         };
     }
     changeList=(input)=>{
@@ -74,7 +76,7 @@ export default class AdminUsers extends React.Component{
                 return(<h2 className="color-red">ERROR</h2>)
         }
     }
-    
+
     displayUser=(id)=>{
         const x = this.state.userShown;
         return null

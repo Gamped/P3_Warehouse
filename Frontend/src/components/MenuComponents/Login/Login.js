@@ -5,13 +5,6 @@ import {connect} from "react-redux";
 
 // The box for sign-in to the system
 class SignInBox extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            password: "",
-            username: "",
-        };
-    }
 
     // Updates the username part of the state
     emailTypedHandler = (event) => {
@@ -32,7 +25,8 @@ class SignInBox extends React.Component{
         event.preventDefault()
         //We want it to succede a check here. Then get name, id and type on th user.
         if (this.state.username.toLowerCase() ==="admin"){ //Temp work until connected to backend
-            this.props.login("admin", "Generic Name","UserID")
+            this.props.login({ userType:"admin", loggedIn:"true", name: "Generic Name", userid:"UserID"})
+            console.log(this.props.user.name);
             this.props.history.push("./Admin")
         } else if(this.state.username.toLowerCase() ==="user"){
             this.props.login("publisher", "Generic Name","UserID2")
@@ -64,19 +58,13 @@ class SignInBox extends React.Component{
 
 const mapStateToProps = (state)=>{
     return{
-        loggedIn: state.loggedIn
+        user: state.user
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        login: (userType, name, userID) => {dispatch(
-                                                {type: "LOGIN", 
-                                                userType:userType,
-                                                loggedIn:true,
-                                                name: name, 
-                                                userid:userID})
-                                            }
+        login: (user) => {dispatch({type: "LOGIN",user: user})}
     }
 }
 
