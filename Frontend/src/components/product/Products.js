@@ -39,12 +39,12 @@ class Products extends Component {
                             </tr>
                             </thead>
                             <tbody>
-                            {this.state.products.map(p =>
-                                <tr>
-                                    <td><Link to={`/products/show/${p.id}`}>{p.name}</Link></td>
-                                    <td>{p.quantity}</td>
-                                </tr>
-                            )}
+                                {this.state.products.map(p =>
+                                    <tr>
+                                        <td><Link to={`/products/show/${p.id}`}>{p.name}</Link></td>
+                                        <td>{p.quantity}</td>
+                                    </tr>
+                                )}
                             </tbody>
                         </table>
                     </div>
