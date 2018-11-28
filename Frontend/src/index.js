@@ -30,8 +30,14 @@ import {createStore} from "redux";
 import {Provider} from "react-redux";
 import rootReducer from "./reducers/rootReducer"
 
+const initialValue = {
+    user:{loggedIn:"true",
+        userType:"admin",
+        name: "Kevin the machine",
+        userId:"ABC123"}
+};
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer,initialValue);
 
 ReactDOM.render(<Provider store={store}>
     <BrowserRouter>

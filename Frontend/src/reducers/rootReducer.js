@@ -1,38 +1,20 @@
-const initialValue = {
-    loggedIn:false,
-    userType:null,
-    name: null,
-    userId:null,
-};
+
 
 const testValue = {
-    loggedIn:true,
+    loggedIn:"true",
     userType:"admin",
     name: "The Kev Machine",
     userId:"2",
 }
 
-const rootReducer = (state = testValue, action) => {
-    if(action.type==="LOGIN"){
-        let profile = {
-            loggedIn:action.loggedIn,
-            userType:action.userType,
-            name:action.name,
-            userId:action.userId,
-        }
-        return{profile}
-
+const rootReducer = (state, action) => {
+    switch(action.type){
+        case "LOGIN":
+            let loggeProfile = action.user
+            return {user:loggeProfile};
+        default:
+            return state;
     }
-    if(action.type==="LOGOUT"){
-        let nullProfile = {
-            loggedIn:false,
-            userType:null,
-            name: null,
-            userId:null,
-        };
-        return{nullProfile}
-    }
-    return state;
 }
 
 export default rootReducer;
