@@ -62,6 +62,15 @@
   width: 25%;
 }
 
+.AdminStockTable{
+    position: absolute;
+    top: 5%;
+    right: 0%;
+    bottom: 10%;
+    width: 75%;
+    height: auto;
+}
+
 .title_r{
     position: absolute;
     top: 10px;

@@ -110,8 +110,6 @@ export default class AdminOrders extends Component {
             {Header: "Packed?", accessor: "packed"}
         ]
 
-        const tableHeight = window.innerHeight * 0.8;
-
         return (
             <div className="PageStyle">
                 <div className="container row">
@@ -122,7 +120,7 @@ export default class AdminOrders extends Component {
                         {this.buttonListShown()}
                     </div>
                     <div>
-                    <ReactTable data={data} tableHeight={tableHeight} className="-striped -highlight" columns={columns} defaultPageSize={15}/>
+                    <ReactTable data={data} className="-striped -highlight" columns={columns} defaultPageSize={15}/>
                     </div>
                 </div>
             </div>

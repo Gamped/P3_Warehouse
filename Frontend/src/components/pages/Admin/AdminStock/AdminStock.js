@@ -35,7 +35,6 @@ export default class AdminStock extends Component {
 
     render() {
       const data = this.state.products;
-      const tableHeight = window.innerHeight * 0.8;
       const columns = [
           {Header: "Product ID", accessor: "productId"},
           {Header: "Product Name", accessor: "productName"},
@@ -55,22 +54,21 @@ export default class AdminStock extends Component {
                 </div>
 
 
-                <div>
-                <ReactTable data={data} tableHeight={tableHeight} className="-striped -highlight" columns={columns} defaultPageSize={15}/>
-                </div>
-
+                <div className="TableContainer">
+                    <ReactTable data={data} tableWidth={window.innerWidth} className="AdminStockTable -striped -highlight" columns={columns} defaultPageSize={15}/>
+                </div> 
 
                 <div className="bottomBoxStyle bottomBox">
-                    <form action="/Admin/Stock/New" className="stockForm">
-                        <button  className="stockButton_f btn" >New</button>
-                    </form>
-                    <form action="/Admin/Stock/Edit" className="stockForm">
-                        <button  className="stockButton_f btn" >Edit</button>
-                    </form>
-                    <form action="/Admin/Stock/Remove" className="stockForm">
-                        <button  className="stockButton_f btn" >Remove</button>
-                    </form>
-                    <button className="stockButton btn">Export</button>
+                        <form action="/Admin/Stock/New" className="stockForm">
+                            <button  className="stockButton_f btn" >New</button>
+                        </form>
+                        <form action="/Admin/Stock/Edit" className="stockForm">
+                            <button  className="stockButton_f btn" >Edit</button>
+                        </form>
+                        <form action="/Admin/Stock/Remove" className="stockForm">
+                            <button  className="stockButton_f btn" >Remove</button>
+                        </form>
+                        <button className="stockButton btn">Export</button>
                 </div>
             </div>
         );
