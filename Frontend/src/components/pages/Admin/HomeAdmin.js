@@ -4,12 +4,8 @@ import "../Pages.css";
 import { connect } from "react-redux";
 
 class HomeAdmin extends React.Component{
-    constructor(props){
-        super(props);
-        
-    }
-    
     render(){
+        console.log(this.props)
         var landingPageButtons = [
             {name:"Orders",location:"./Admin/Orders",id:"1"},
             {name:"Users",location:"./Admin/Users",id:"2"},
@@ -19,7 +15,7 @@ class HomeAdmin extends React.Component{
     
         return ( 
             <div className="PageStyle">
-                <LandingPage buttons={landingPageButtons} name={this.props.nickName}/>
+                <LandingPage buttons={landingPageButtons} name={this.props.name}/>
             </div>
         )
     }
@@ -27,7 +23,7 @@ class HomeAdmin extends React.Component{
 
 const mapStateToProps = (state) =>{
     return {
-        nickName: state.name
+        name: state.user.name
     }
 }
  
