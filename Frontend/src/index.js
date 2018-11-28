@@ -30,41 +30,49 @@ import {createStore} from "redux";
 import {Provider} from "react-redux";
 import rootReducer from "./reducers/rootReducer"
 
+const initialValue = {
+    user:{loggedIn:"true",
+        userType:"admin",
+        name: "Kevin the machine",
+        userId:"ABC123"}
+};
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer,initialValue);
 
-ReactDOM.render(<Provider store={store}>
-    <BrowserRouter>
-        <div>
-            <Route exact path="/" component={loginMain}/>
+ReactDOM.render(
+    <Provider store={store}>
+        <BrowserRouter>
+            <div>
+                <Route exact path="/" component={loginMain}/>
 
-            <Route exact path="/Admin" component={adminMain}/>
-            <Route exact path="/Admin" component={HomeAdmin}/>
-            <Route exact path="/Admin/*" component={adminMain}/>
-            <Route exact path="/Admin/Orders" component={AdminOrders}/>
-            <Route exact path="/Admin/Profile" component={AdminProfile}/>
-            <Route exact path="/Admin/Profile/AddEmployee" component={AdminAdd}/>
-            <Route exact path="/Admin/Profile/RemoveEmployee" component={AdminRemove}/>
-            <Route exact path="/Admin/Profile/Edit" component={AdminProfileEdit}/>
-            <Route exact path="/Admin/Stock" component={AdminStock}/>
-            <Route exact path="/Admin/Stock/New" component={NewWare}/>
-            <Route exact path="/Admin/Stock/Edit/:id" component={EditWare}/>
-            <Route exact path="/Admin/Stock/Remove" component={RemoveWare}/>
-            <Route exact path="/Admin/Users" component={AdminUsers}/>
+                <Route exact path="/Admin" component={adminMain}/>
+                <Route exact path="/Admin" component={HomeAdmin}/>
+                <Route exact path="/Admin/*" component={adminMain}/>
+                <Route exact path="/Admin/Orders" component={AdminOrders}/>
+                <Route exact path="/Admin/Profile" component={AdminProfile}/>
+                <Route exact path="/Admin/Profile/AddEmployee" component={AdminAdd}/>
+                <Route exact path="/Admin/Profile/RemoveEmployee" component={AdminRemove}/>
+                <Route exact path="/Admin/Profile/Edit" component={AdminProfileEdit}/>
+                <Route exact path="/Admin/Stock" component={AdminStock}/>
+                <Route exact path="/Admin/Stock/New" component={NewWare}/>
+                <Route exact path="/Admin/Stock/Edit/:id" component={EditWare}/>
+                <Route exact path="/Admin/Stock/Remove" component={RemoveWare}/>
+                <Route exact path="/Admin/Users" component={AdminUsers}/>
 
-            <Route exact path="/User" component={userMain}/>
-            <Route exact path="/User/" component={UserHome}/>
-            <Route exact path="/User/*" component={userMain}/>
-            <Route exact path="/User/Order" component={UserOrder}/>
-            <Route exact path="/User/Order/Cart" component={UserOrderCart}/>
-            <Route exact path="/User/Order/Cart/Confirm" component={UserCartConfirm}/>
-            <Route exact path="/User/Stock" component={UserStock}/>
-            <Route exact path="/User/Profile" component={UserProfile}/>
-            <Route exact path="/User/Profile/Edit" component={UserProfileEdit}/>
-            <Route exact path="/User/Profile/OrderHistory" component={UserOrderHistory}/>
-            <Route exact path="/User/Clients" component={PublisherClient}/>
-            <Route exact path="/User/Clients/Request" component={PublisherRequestClientChange}/>
-        </div>
-    </BrowserRouter>
-    </Provider>, document.getElementById('root')
+                <Route exact path="/User" component={userMain}/>
+                <Route exact path="/User/" component={UserHome}/>
+                <Route exact path="/User/*" component={userMain}/>
+                <Route exact path="/User/Order" component={UserOrder}/>
+                <Route exact path="/User/Order/Cart" component={UserOrderCart}/>
+                <Route exact path="/User/Order/Cart/Confirm" component={UserCartConfirm}/>
+                <Route exact path="/User/Stock" component={UserStock}/>
+                <Route exact path="/User/Profile" component={UserProfile}/>
+                <Route exact path="/User/Profile/Edit" component={UserProfileEdit}/>
+                <Route exact path="/User/Profile/OrderHistory" component={UserOrderHistory}/>
+                <Route exact path="/User/Clients" component={PublisherClient}/>
+                <Route exact path="/User/Clients/Request" component={PublisherRequestClientChange}/>
+            </div>
+        </BrowserRouter>
+    </Provider>
+    , document.getElementById('root')
 );

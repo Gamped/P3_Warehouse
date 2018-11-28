@@ -2,25 +2,47 @@ import React, { Component } from 'react';
 import "../../Pages.css";
 import "./AdminStock.css"
 import axios from 'axios';
+import ReactDOM from 'react-dom'
 import { Link } from 'react-router-dom';
+import ReactTable from 'react-table';
 
 export default class AdminStock extends Component {
     constructor(props) {
         super(props);
-        this.state = {products: []};
+        this.state = { products: [] };
+        this.makeRow = this.makeRow.bind(this);
     }
 
     componentDidMount() {
-        console.log("Did mount");
         axios.get('http://localhost:8080/api/products')
-            .then(response => {
-                this.setState({ products: response.data });
-                console.log(response);
-            }
-        )
+            .then((response) => {
+                const products = this.makeRow(response);
+                this.setState({ products: products });
+              })
+    }
+
+    makeRow(response){
+      var products = [];
+      response.data.forEach((product) => {
+        products.push({
+          productId: product.productId,
+          productName: product.productName,
+          quantity: product.quantity
+        })
+        })
+      return products;
     }
 
     render() {
+      const data = this.state.products;
+      const tableHeight = window.innerHeight * 0.8;
+      const columns = [
+          {Header: "Product ID", accessor: "productId"},
+          {Header: "Product Name", accessor: "productName"},
+          {Header: "Quantity", accessor: "quantity"},
+          {Header: "Owner", accessor: "owner"}
+      ]
+
         return(
             <div className="PageStyle">
 
@@ -32,26 +54,11 @@ export default class AdminStock extends Component {
                     <h1 className="leftTxt customText_b">Filter by:</h1>
                 </div>
 
-                <div className="stockListBox 'contentBoxStyle'">
-                    <table className="stockTable">
-                        <tbody>
-                            <tr>
-                                <th>Product name</th>
-                                <th>Quantity</th>
-                                <th>Owner</th>
-                                <th>Pick</th>
-                                <th>Product Number</th>
-                            </tr>
-                            {this.state.products.map(product =>
-                                <tr>
-                                    <td><Link to={`/Admin/Stock/Edit/${product.hexId}`}>{product.productName}</Link></td>
-                                    <td>{product.quantity}</td>
-                                    <td>{product.owner}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+
+                <div>
+                <ReactTable data={data} tableHeight={tableHeight} className="-striped -highlight" columns={columns} defaultPageSize={15}/>
                 </div>
+
 
                 <div className="bottomBoxStyle bottomBox">
                     <form action="/Admin/Stock/New" className="stockForm">
