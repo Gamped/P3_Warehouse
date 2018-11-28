@@ -1,6 +1,9 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.EmployeeRepository;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +16,12 @@ public class UserController {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ClientRepository clientRepository;
+    @Autowired
+    PublisherRepository publisherRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @GetMapping("/users")
     private Iterable<User> all() {
@@ -42,6 +51,24 @@ public class UserController {
     @GetMapping("/users/{id}")
     Optional<User> findById(@PathVariable ObjectId id) {
         return userRepository.findById(id);
+    }
+
+    @GetMapping("/users?name={username}&password={password}")
+    private User authenticateUser(@PathVariable String username, @PathVariable String password){
+        User user = userRepository.findByUserName(username).orElse(null);
+        if(user != null && user.getPassword().equals(password)){
+            switch(user.getUserType()){
+                case CLIENT:
+                    return employeeRepository.findById(user.getId()).get();
+
+                case PUBLISHER:
+                    return publisherRepository.findById(user.getId()).get();
+
+                case EMPLOYEE:
+                    return employeeRepository.findById(user.getId()).get();
+            }
+        }
+        return null;
     }
 
 
