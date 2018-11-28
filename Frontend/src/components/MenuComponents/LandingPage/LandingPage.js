@@ -3,15 +3,12 @@ import {Link} from "react-router-dom";
 import "./LandingPage.css";
 
 const LandingPage = (props)=>{
-const {name,buttons}=props;
-    var i = 0;
+    const {name,buttons}=props;
     const buttonList = buttons.map(button =>{
-        i++;
         return (
-            <div className="col">
+            <div className="col" key={button.id}>
                 <Link 
-                    to={button.location} 
-                    key={button.id} 
+                    to={button.location}  
                     className="button_1st LandingPageButtons btn btn-primary btn-lg block border border-secondary rounded" 
                     role="button">
                     {button.name}

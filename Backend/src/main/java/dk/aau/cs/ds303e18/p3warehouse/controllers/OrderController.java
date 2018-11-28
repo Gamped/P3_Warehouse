@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
+@RequestMapping("/api")
 public class OrderController {
+
     @Autowired
     OrderRepository orderRepository;
 
@@ -39,6 +42,9 @@ public class OrderController {
 
     @DeleteMapping("/orders/{id}")
     void deleteOrder(@RequestBody Order orderToDelete){orderRepository.delete(orderToDelete);}
+
+    @DeleteMapping("orders/test/deleteAll")
+    void deleteAll() { orderRepository.deleteAll(); }
 
 
 

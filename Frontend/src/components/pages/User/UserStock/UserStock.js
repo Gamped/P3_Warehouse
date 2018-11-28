@@ -29,13 +29,13 @@ export default class UserStock extends React.Component {
                     <h1 className="topText customText_w"> Stock:</h1>
                 </div>
 
-                <div className="deciderBox leftBoxStyle">
+                <div className="stockDeciderBox leftBoxStyle">
                     <input 
                         type="text" 
                         className="serachBar" 
                         onChange={this.handleQuarry}
                         placeholder="Search for product(s)"/>
-                    <button className="exportButton stockButton_f btn">Export current list</button>
+                    <button className="stockExportButton stockButton_f btn">Export current list</button>
                 </div>
 
                 <div className="listBox contentBoxStyle">
