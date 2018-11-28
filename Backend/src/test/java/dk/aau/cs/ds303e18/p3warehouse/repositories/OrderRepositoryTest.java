@@ -1,5 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
+import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
@@ -49,11 +50,14 @@ public class OrderRepositoryTest {
         product.setProductId("1002");
 
         order.setOwner(client);
-        order.withNewOrderLine(product, 5);
-        order.withNewOrderLine(flyerProduct, 300);
+        try {
+            order.withNewOrderLine(product, 5);
+            order.withNewOrderLine(flyerProduct, 300);
 
-        order.setTitle("Testorder");
+            order.setTitle("Testorder");
+        }catch(InvalidQuantityException e ){
 
+        }
         clientRepository.save(client);
         productRepository.save(product);
         orderRepository.save(order);
