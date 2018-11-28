@@ -65,7 +65,9 @@ public class OrderRepositoryTest {
 
         //Query order and see if mongo automatically refs our products and clients
         Order queryedOrder = orderRepository.findById(orderId).orElse(null);
-        assert(queryedOrder != null && queryedOrder.getOwner().getHexId() == client.getHexId());
+        Client queryedClient = clientRepository.findById(queryedOrder.getOwner().getHexId()).orElse(null);
+
+        assert(queryedOrder != null && queryedClient.getHexId().equals(client.getHexId()));
         /*
         NB: Ved ikke om Java bare refererer til java-objekterne uden om db, eller om DB faktisk henter det til os.
         Får vi problemer med dbRefs senere, er det nok dette vi først skal tjekke.
