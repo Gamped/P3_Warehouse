@@ -21,27 +21,16 @@ public class PublisherRepositoryTest {
     PublisherRepository publisherRepository;
     ClientRepository clientRepository;
 
-    ObjectId idP = new ObjectId();
-    ObjectId idC = new ObjectId();
-    Publisher publisher = new Publisher(idP);
-    Client client = new Client(idC);
 
     @Test
     public void savePublisher(){
+
+        ObjectId idP = new ObjectId();
+        Publisher publisher = new Publisher(idP);
+
         publisherRepository.save(publisher);
         System.out.println(publisher.getHexId());
         Optional<Publisher> optionalPublisher = publisherRepository.findById(publisher.getHexId());
-        Publisher retrievedPublisher = optionalPublisher.get();
-        Assert.assertEquals(publisher.getHexId(), retrievedPublisher.getHexId());
-    }
-    @Test
-    public void savePublisherClient(){
-        publisherRepository.save(publisher);
-        clientRepository.save(client);
-        System.out.println(publisher.getHexId());
-        System.out.println(client.getHexId());
-        Optional<Publisher> optionalPublisher = publisherRepository.findById(publisher.getHexId());
-        Optional<Client>optionalClient = clientRepository.findById(client.getHexId());
         Publisher retrievedPublisher = optionalPublisher.get();
         Assert.assertEquals(publisher.getHexId(), retrievedPublisher.getHexId());
     }
