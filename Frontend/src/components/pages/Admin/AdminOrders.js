@@ -97,38 +97,35 @@ export default class AdminOrders extends Component {
     }
 }
 
-  render() {
-    const data = this.state.orders;
-    console.log(data);
-    console.log(JSON.stringify(data));
+    render() {
+        const data = this.state.orders;
+        console.log(data);
+        console.log(JSON.stringify(data));
 
-    const columns = [
-        {Header: "Order Id", accessor: "orderId"},
-        {Header: "Owner", accessor: "owner"},
-        {Header: "Date", accessor: "date"},
-        {Header: "Items To Pack", accessor: "itemsToPack"},
-        {Header: "Packed?", accessor: "packed"}
-    ]
+        const columns = [
+            {Header: "Order Id", accessor: "orderId"},
+            {Header: "Owner", accessor: "owner"},
+            {Header: "Date", accessor: "date"},
+            {Header: "Items To Pack", accessor: "itemsToPack"},
+            {Header: "Packed?", accessor: "packed"}
+        ]
 
-      const tableHeight = window.innerHeight * 0.8;
+        const tableHeight = window.innerHeight * 0.8;
 
-      return (
-        <div className="PageStyle">
-            <div className="container row">
-                <div className="col sidebar fullbar border border-dark rounded bg-secondary">
-                    <div className="border border-light rounded bg-info">
-                        <ButtonList buttons={this.state.tabs} color="secondary" link={false} action={this.changeList}/>
+        return (
+            <div className="PageStyle">
+                <div className="container row">
+                    <div className="col sidebar fullbar border border-dark rounded bg-secondary">
+                        <div className="border border-light rounded bg-info">
+                            <ButtonList buttons={this.state.tabs} color="secondary" link={false} action={this.changeList}/>
+                        </div>
+                        {this.buttonListShown()}
                     </div>
-                    {this.buttonListShown()}
-                </div>
-                <div>
-                <ReactTable data={data} tableHeight={tableHeight} className="-striped -highlight" columns={columns} defaultPageSize={15}/>
+                    <div>
+                    <ReactTable data={data} tableHeight={tableHeight} className="-striped -highlight" columns={columns} defaultPageSize={15}/>
+                    </div>
                 </div>
             </div>
-        </div>
-    )
-  }
-
+        )
+    }
 }
-
-ReactDOM.render(<AdminOrders />, document.getElementById('table'))
