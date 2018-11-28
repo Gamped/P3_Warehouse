@@ -16,6 +16,8 @@ public class Customer extends User {
     @DBRef
     private Collection<Order> customerOrders;
 
+    private String hexId;
+
     Customer(ObjectId id){
         super(id);
         customerProducts = new HashSet<>();

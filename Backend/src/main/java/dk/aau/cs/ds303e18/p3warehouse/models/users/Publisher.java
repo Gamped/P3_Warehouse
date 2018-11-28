@@ -15,12 +15,10 @@ public class Publisher extends Customer {
     private ObjectId id = new ObjectId();
     private Collection<Client> clients;
     private String publisherName;
-    private String hexId;
 
     public Publisher(ObjectId id){
         super(id);
         this.id = id;
-        this.hexId = id.toString();
         clients = new HashSet<>();
     }
 
@@ -28,9 +26,11 @@ public class Publisher extends Customer {
         return id.toString();
     }
 
-    public void setHexId(String hexId) {
-        this.hexId = hexId;
+    public  void addClient(Client newClient){
+        clients.add(newClient);
     }
+
+    //public void setHexId(String hexId) { this.hexId = hexId; } No reason to set hexid if our getter generates it for us.
 
     public String getPublisherName() {
         return publisherName;
