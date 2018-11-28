@@ -14,12 +14,10 @@ public class Publisher extends Customer {
     private Collection<Client> clients;
     private Collection<Order> clientOrders;
     private String publisherName;
-    private String hexId;
 
     public Publisher(ObjectId id){
         super(new ObjectId());
         this.id = id;
-        this.hexId = id.toString();
     }
 
     public String getHexId() {
