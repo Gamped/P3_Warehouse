@@ -18,12 +18,10 @@ public class Client extends Customer {
     Collection<Order> orders;
     Collection<Product> products;
     String clientName;
-    String hexId;
 
     public Client(ObjectId id){
         super(id);
         this.id = id;
-        this.hexId = id.toString();
     }
 
 
