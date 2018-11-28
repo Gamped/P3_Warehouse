@@ -37,6 +37,7 @@ public class UserRepositoryTest {
         User hopefullyAUser = userRepository.findAll().get(0);
         Client hopefullyAClient = clientRepository.findById(hopefullyAUser.getId()).orElse(null);
 
+        assert(hopefullyAClient != null);
         assert(hopefullyAClient.getUserName().equals(client.getUserName()));
     }
 }
