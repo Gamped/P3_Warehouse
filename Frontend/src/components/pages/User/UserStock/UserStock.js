@@ -29,7 +29,7 @@ export default class UserStock extends React.Component {
                     <h1 className="topText customText_w"> Stock:</h1>
                 </div>
 
-                <div className="stockDeciderBox leftBoxStyle">
+                <div className="stockDeciderBox bottomBoxStyle">
                     <input 
                         type="text" 
                         className="serachBar" 
