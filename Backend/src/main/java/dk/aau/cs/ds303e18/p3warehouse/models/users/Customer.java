@@ -22,6 +22,7 @@ public class Customer extends User {
         super(id);
         customerProducts = new HashSet<>();
         customerOrders = new HashSet<>();
+        this.hexId = id.toHexString();
     }
 
     public ContactInformation getContactInformation(){
@@ -50,4 +51,6 @@ public class Customer extends User {
     public Stream<Order> getOrderStream(){
         return customerOrders.stream();
     }
+
+    public String getHexId(){ return this.hexId; }
 }
