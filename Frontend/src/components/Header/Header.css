@@ -16,3 +16,8 @@
     position: absolute;
     width: 100%;
 }
+
+.icon {
+    height: 6vh;
+    width: auto;
+}
