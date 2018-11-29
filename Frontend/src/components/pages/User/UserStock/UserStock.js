@@ -26,7 +26,7 @@ export default class UserStock extends React.Component {
         return(
             <div className="PageStyle rounded">
                 <div className="topBox topBoxStyle">
-                    <h1 className="topText customText_w"> Stock:</h1>
+                    <h2 className="topText text-center text-white"> Stock:</h2>
                 </div>
 
                 <div className="stockDeciderBox bottomBoxStyle">

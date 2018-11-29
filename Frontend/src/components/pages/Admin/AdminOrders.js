@@ -113,7 +113,7 @@ export default class AdminOrders extends Component {
         return (
             <div className="PageStyle rounded">
                 <div className="container row">
-                    <div className="col sidebar fullbar border border-dark rounded bg-secondary">
+                    <div className="col sidebar border border-dark rounded bg-secondary">
                         <div className="border border-light rounded bg-info">
                             <ButtonList buttons={this.state.tabs} color="secondary" link={false} action={this.changeList}/>
                         </div>

@@ -28,7 +28,7 @@ export default class UserCartConfirm extends React.Component {
         return(
             <div className="PageStyle rounded">
                 <div className="topBox topBoxStyle">
-                    <h1 className="topText customText_w"> Cart: CONFIRM</h1>
+                    <h1 className="topText text-center text-white"> Cart: CONFIRM</h1>
                 </div>
 
                 <div className="cartBox contentBoxStyle">

@@ -45,7 +45,7 @@ export default class AdminStock extends Component {
             <div className="PageStyle rounded">
 
                 <div className="topBoxStyle topBox">
-                    <h1 className="stockTxt customText_w">Stock</h1>
+                    <h2 className="stockTxt text-center text-white">Stock</h2>
                 </div>
 
                 <div className="leftBoxStyle pickBox">

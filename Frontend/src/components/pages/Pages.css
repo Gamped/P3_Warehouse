@@ -29,8 +29,9 @@
 }
 
 .sidebar{
-    -ms-flex: 0 0 230px;
-    flex: 0 0 230px;
+    height:92vh;
+    -ms-flex: 0 0 200px;
+    flex: 0 0 200px;
     overflow-x: hidden;
     overflow-y: auto;
 }
