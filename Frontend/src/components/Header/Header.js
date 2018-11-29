@@ -1,18 +1,16 @@
 import React from 'react';
 import "./Header.css";
-import {withRouter} from "react-router-dom";
-import {connect} from "react-redux";
 
 // The header component
 class Header extends React.Component {
  
+    exitHandler = (e) =>{
+        this.props.history.push("/")
+
+    }
+
     render(){
         const title= "4N: " + this.props.title
-
-        const exitHandler = () =>{
-            this.props.history.push("../../")
-
-        }
         return(
             <div className="headerStyle">
                 <h1 className="headerText">{title}</h1>
@@ -34,4 +32,4 @@ const mapDispatchToProps = (dispatch) =>{
     }
 }
 
-export default connect(mapStateToProps ,mapDispatchToProps)(withRouter(Header))
+export default Header;

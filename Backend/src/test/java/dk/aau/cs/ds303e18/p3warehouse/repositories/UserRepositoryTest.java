@@ -27,9 +27,10 @@ public class UserRepositoryTest {
         ObjectId clientId = new ObjectId();
         Client client = new Client(clientId);
         client.setUserType(UserType.CLIENT);
-        client.setUserName("Simon med mus");
+        client.setUserName("Test");
+        client.setPassword("123");
         ContactInformation contactInformation = new ContactInformation();
-        contactInformation.setEmail("Simon@MacSutterPik.xDDDDDDDD");
+        contactInformation.setEmail("123");
         client.setContactInformation(contactInformation);
 
         clientRepository.save(client);
@@ -39,7 +40,7 @@ public class UserRepositoryTest {
 
         assert(hopefullyAClient.getUserName().equals(client.getUserName()));
 
-        userRepository.delete(client);
-        clientRepository.delete(client);
+       // userRepository.delete(client);
+       // clientRepository.delete(client);
     }
 }
