@@ -38,7 +38,7 @@ public class UserRepositoryTest {
         Client hopefullyAClient = clientRepository.findById(client.getHexId()).orElse(null);
 
         assert(hopefullyAClient.getUserName().equals(client.getUserName()));
-        
+
         userRepository.delete(client);
         clientRepository.delete(client);
     }

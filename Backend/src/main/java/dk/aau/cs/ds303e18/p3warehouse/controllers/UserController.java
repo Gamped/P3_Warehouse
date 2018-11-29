@@ -53,7 +53,7 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @GetMapping("/users?name={username}&password={password}")
+    @GetMapping("/users/?username={username}&password={password}")
     private User authenticateUser(@PathVariable String username, @PathVariable String password){
         User user = userRepository.findByUserName(username).orElse(null);
         if(user != null && user.getPassword().equals(password)){
