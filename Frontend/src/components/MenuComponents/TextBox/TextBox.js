@@ -1,5 +1,4 @@
 import React from "react";
-import Axios from "axios";
 //gets and id and shows information in a box.
 
     //display name in a h2.
@@ -20,7 +19,7 @@ class TextBox extends React.Component{
 
     displayItem(){
         const type = this.props.type;
-        if (type == "user"){
+        if (type === "user"){
             return(
                 <div>
                     <div >
@@ -35,7 +34,7 @@ class TextBox extends React.Component{
                     </div>
                 </div>
             )
-        }else if (type == "order"){
+        }else if (type === "order"){
             return(
                 <div>
                     <h2>Here goes the title</h2>

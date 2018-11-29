@@ -3,7 +3,6 @@ import "../../Pages.css";
 import "./AdminProfile.css"
 
 const AdminProfile = (props) => {
-    var userID = props.ID;
     var userName = "No username set";
     var name = "No name set";
     var email = "No@email.set";

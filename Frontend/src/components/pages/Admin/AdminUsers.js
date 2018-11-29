@@ -3,8 +3,6 @@ import "../Pages.css";
 import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
 import "./AdminUsers.css";
 import TextBox from "../../MenuComponents/TextBox/TextBox";
-import axios from 'axios';
-import ReactTable from 'react-table';
 
 export default class AdminUsers extends React.Component{
     constructor(props) {
@@ -78,7 +76,6 @@ export default class AdminUsers extends React.Component{
     }
 
     displayUser=(id)=>{
-        const x = this.state.userShown;
         return null
         // todo. Burde nok gette informationen fra backenden, da vi ellers kan nøjes med name og id.
     }

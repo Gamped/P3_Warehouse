@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import "../Pages.css";
 import "./AdminOrders.css";
 import axios from "axios";
 import ReactTable from "react-table";
-import TextBox from "../../MenuComponents/TextBox/TextBox";
 import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
 
 
