@@ -2,6 +2,7 @@ import React from 'react';
 import "./Login.css";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
+import Axios from "axios"
 
 // The box for sign-in to the system
 class SignInBox extends React.Component{
@@ -23,6 +24,9 @@ class SignInBox extends React.Component{
     // Logs in
     loginHandler = (event) => {
         event.preventDefault()
+
+        
+
         //We want it to succede a check here. Then get name, id and type on th user.
         if (this.state.username.toLowerCase() ==="admin"){ //Temp work until connected to backend
             this.props.login({ userType:"admin", loggedIn:"true", name: "Generic Name", userid:"UserID"})
