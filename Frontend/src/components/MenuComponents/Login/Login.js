@@ -2,7 +2,7 @@ import React from 'react';
 import "./Login.css";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import Axios from "axios"
+import axios from "axios"
 
 // The box for sign-in to the system
 class SignInBox extends React.Component{
@@ -25,10 +25,21 @@ class SignInBox extends React.Component{
     loginHandler = (event) => {
         event.preventDefault()
 
-        
+       axios.get("localhost:8080/users?username=" + this.state.username + "&password="+this.state.password)
+            .then(res => {
+                console.log(res)
+                this.props.login({ userType:res.userType, loggedIn:true, name: res.nickName, userid:res.id})
+            })
+            .then(res => {
+                if(this.props.userType.toLowerCase()==="admin"){
+                    this.props.history.push("./Admin")
+                }else{
+                    this.props.history.push("./User")
+                }
+            }) 
 
         //We want it to succede a check here. Then get name, id and type on th user.
-        if (this.state.username.toLowerCase() ==="admin"){ //Temp work until connected to backend
+       /* if (this.state.username.toLowerCase() ==="admin"){ //Temp work until connected to backend
             this.props.login({ userType:"admin", loggedIn:"true", name: "Generic Name", userid:"UserID"})
             console.log(this.props.user.name);
             this.props.history.push("./Admin")
@@ -37,7 +48,7 @@ class SignInBox extends React.Component{
             this.props.history.push("./User")
         } else{
             alert("Email should be either: User or Admin")
-        }
+        }*/
     }
 
     render(){
