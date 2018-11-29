@@ -113,14 +113,14 @@ export default class AdminOrders extends Component {
         return (
             <div className="PageStyle">
                 <div className="container row">
-                    <div className="col sidebar fullbar border border-dark rounded bg-secondary">
+                    <div className="SideBar col sidebar fullbar border border-dark rounded bg-secondary">
                         <div className="border border-light rounded bg-info">
                             <ButtonList buttons={this.state.tabs} color="secondary" link={false} action={this.changeList}/>
                         </div>
                         {this.buttonListShown()}
                     </div>
-                    <div>
-                    <ReactTable data={data} className="-striped -highlight" columns={columns} defaultPageSize={15}/>
+                    <div className="Table">
+                        <ReactTable data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
                     </div>
                 </div>
             </div>
