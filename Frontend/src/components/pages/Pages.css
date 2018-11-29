@@ -16,7 +16,7 @@
 }
 
 .bottomBoxStyle{
-    background-color: rgb(126, 126, 126);
+    background-color: rgb(110, 109, 109);
 }
 
 .contentBoxStyle{
@@ -26,6 +26,13 @@
 .title{
     position: absolute;
     top: 10px;
+}
+
+.sidebar{
+    -ms-flex: 0 0 230px;
+    flex: 0 0 230px;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .newButton_r{

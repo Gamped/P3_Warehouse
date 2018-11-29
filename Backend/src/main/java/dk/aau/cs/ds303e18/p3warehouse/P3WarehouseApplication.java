@@ -32,4 +32,3 @@ public class P3WarehouseApplication {
 	}
 
 }
-
