@@ -25,9 +25,10 @@ class SignInBox extends React.Component{
     loginHandler = (event) => {
         event.preventDefault()
 
-       axios.get("localhost8080/users?username=" + this.state.username + "&password="+this.state.password)
+       axios.get("localhost:8080/users?username=" + this.state.username + "&password="+this.state.password)
             .then(res => {
-                this.props.login({ userType:res.userType, loggedIn:true, name: res.name, userid:res.id})
+                console.log(res)
+                this.props.login({ userType:res.userType, loggedIn:true, name: res.nickName, userid:res.id})
             })
             .then(res => {
                 if(this.props.userType.toLowerCase()==="admin"){
