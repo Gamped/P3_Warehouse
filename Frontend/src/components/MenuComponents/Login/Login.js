@@ -45,28 +45,34 @@ class SignInBox extends React.Component{
         console.log(this.props)
         return(
             //Functionality for responding to user input
-            <div className="col makeRelative mx-auto mt-5">    
-                <form class="form-signin ">
-                    <div class="text-center mb-4">
-                        <img src={require('../../../resources/4n_logo_mini.jpg')} className="logoPic" alt="The logo of 4N"/>
-                        <h1 class="h3 mb-3 font-weight-normal">4N Mailhouse</h1>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                        <label for="inputEmail form-control"><span class="input-group-text" id="inputGroup-sizing-default">Username</span></label>
-                        </div>
-                        <input type="text" class="form-control" id="inputEmail" placeholder="Username" onChange={this.emailTypedHandler} required autoFocus/>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                        <label for="inputPassword"><span class="input-group-text" id="inputGroup-sizing-default">Password</span></label>
-                        </div>
-                        <input type="Password" class="form-control" id="inputPassword" placeholder="Password" onChange={this.passwordTypedHandler} required/>
-                    </div>
+            <div>
+                
+                <div className="col-sm makeRelative mx-auto mt-5">
+                    <div className="mt-5">    
+                        <form className="form-signin">
+                            <div className="text-center mb-4">
+                                <img src={require('../../../resources/4n_logo_mini.jpg')} className="logoPic" alt="The logo of 4N"/>
+                                <h1 className="h3 mb-3 font-weight-normal">4N Mailhouse</h1>
+                            </div>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                <label htmlFor="inputEmail" ><span className="input-group-text" id="inputGroup-sizing-default">Username</span></label>
+                                </div>
+                                <input type="text" className="form-control" id="inputEmail" placeholder="Username" onChange={this.emailTypedHandler} required autoFocus/>
+                            </div>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                <label htmlFor="inputPassword"><span className="input-group-text" id="inputGroup-sizing-default">Password</span></label>
+                                </div>
+                                <input type="Password" className="form-control" id="inputPassword" placeholder="Password" onChange={this.passwordTypedHandler} required/>
+                            </div>
+                            
+                            <button onClick={this.loginHandler} className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                     
-                    <button onClick={this.loginHandler} className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-            
-                </form>
+                        </form>
+                    </div>
+                </div>
+                
             </div>
         );
     }

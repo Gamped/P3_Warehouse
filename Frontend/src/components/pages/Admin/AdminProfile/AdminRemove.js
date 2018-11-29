@@ -30,7 +30,7 @@ export default class AdminRemove extends React.Component {
 
     render(){
         return(
-        <div className="PageStyle">
+        <div className="PageStyle rounded">
             <h1 className="title customText_b_big">Remove employee:</h1>
                 <form>
                     <input 

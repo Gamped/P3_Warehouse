@@ -15,7 +15,7 @@ const AdminProfile = (props) => {
     */
 
     return(
-        <div className="PageStyle">
+        <div className="PageStyle rounded">
             <h1 className="title customText_b_big">Profile information</h1>
             <div className="informationBox">
                 <h1 className="infoText customText_b">User name: {userName}</h1>

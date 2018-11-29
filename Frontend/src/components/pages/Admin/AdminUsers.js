@@ -85,8 +85,8 @@ export default class AdminUsers extends React.Component{
 
     render(){
         return(
-            <div className="PageStyle">
-                <div className="userPageStyle">
+            <div className="PageStyle rounded">
+                <div className="userPageStyle rounded">
                     <div className="container row">
                         <div className="col sidebar fullbar border border-dark rounded bg-secondary">
                             <div className="border border-light rounded bg-info">

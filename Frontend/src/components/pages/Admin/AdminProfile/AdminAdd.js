@@ -61,7 +61,7 @@ export default class AdminAdd extends React.Component {
 
     render(){
         return(
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
                 <div className="container col">
                     <h1 className="title customText_b_big">Add new employee:</h1>
                     <form>

@@ -113,7 +113,7 @@ export default class AdminOrders extends Component {
         const tableHeight = window.innerHeight * 0.8;
 
         return (
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
                 <div className="container row">
                     <div className="col sidebar fullbar border border-dark rounded bg-secondary">
                         <div className="border border-light rounded bg-info">

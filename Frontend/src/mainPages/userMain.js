@@ -1,5 +1,5 @@
 import React from "react";
-import Base from "../components/pages/Base";
+import Header from "../components/Header/Header";
 import "./mainPages.css";
 
 const userMain = (props) => {
@@ -13,7 +13,7 @@ const userMain = (props) => {
 
     return(
         <div>
-            <Base title="User menu" buttons={menuButtons}/>
+            <Header title="User menu" />
             <div className="ErrorBox">
                 <h1 className=" customText_b ErrorText align-middle">ERROR: Page not found!</h1>
             </div>

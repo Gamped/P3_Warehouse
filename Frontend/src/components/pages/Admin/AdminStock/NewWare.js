@@ -52,7 +52,7 @@ export default class NewWare extends Component {
       const {productName, productId, quantity} = this.state;
 
         return (
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
                 <h1 className="title customText_b_big">Add new product</h1>
                 <form>
                     <input

@@ -10,7 +10,7 @@ export default class PublisherClient extends React.Component {
   
   render() {
         return(
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
   
                 <div className="topBoxStyle topBox">
                     <h1 className="stockTxt customText_w">Your clients stock:</h1>

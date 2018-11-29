@@ -4,8 +4,10 @@ import SignInBox from "../components/MenuComponents/Login/Login";
 const loginMain = (props)=>{
 
     return(
-        <div>
+        <div className="row">
+        <div className="col-sm"></div>
             <SignInBox/>
+        <div className="col-sm"></div>
         </div>
     )
 }
