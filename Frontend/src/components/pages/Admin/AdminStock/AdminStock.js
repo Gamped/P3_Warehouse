@@ -48,7 +48,6 @@ export default class AdminStock extends Component {
                 <div className="container row">
                     <div className="CustomerList col border-dark rounded bg-secondary">
                         <h1 className="Header">Filter by:</h1>
-                        
                     </div>
                     <div className="Table container col">
                         <h1 className="Header">Stock</h1>
