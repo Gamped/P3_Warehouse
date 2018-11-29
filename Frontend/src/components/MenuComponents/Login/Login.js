@@ -7,25 +7,21 @@ import axios from "axios"
 // The box for sign-in to the system
 class SignInBox extends React.Component{
 
-    // Updates the username part of the state
-    emailTypedHandler = (event) => {
-        this.setState({
-            username: event.target.value
-        })
+    constructor(props) {
+        super(props);
+        this.onChange = this.onChange.bind(this);
+        this.loginHandler = this.loginHandler.bind(this);
     }
 
-    // Updates the password part of the state
-    passwordTypedHandler = (event) => {
-        this.setState({
-            password: event.target.value
-        })
+    onChange = (e) => {
+        const state = this.state.product;
+        state[e.target.name] = e.target.value;
     }
 
-    // Logs in
     loginHandler = (event) => {
         event.preventDefault()
 
-       axios.get("localhost:8080/users?username=" + this.state.username + "&password="+this.state.password)
+        axios.get("http://localhost:8080/" + this.state.userName + "/" + this.state.password)
             .then(res => {
                 console.log(res)
                 this.props.login({ userType:res.userType, loggedIn:true, name: res.nickName, userid:res.id})
@@ -33,10 +29,10 @@ class SignInBox extends React.Component{
             .then(res => {
                 if(this.props.userType.toLowerCase()==="admin"){
                     this.props.history.push("./Admin")
-                }else{
+                } else {
                     this.props.history.push("./User")
                 }
-            }) 
+            })
 
         //We want it to succede a check here. Then get name, id and type on th user.
        /* if (this.state.username.toLowerCase() ==="admin"){ //Temp work until connected to backend
@@ -52,7 +48,7 @@ class SignInBox extends React.Component{
     }
 
     render(){
-        console.log(this.props)
+
         return(
             //Functionality for responding to user input
             <div>
@@ -60,8 +56,8 @@ class SignInBox extends React.Component{
                     <img src={require('../../../resources/4n_logo_mini.jpg')} className="logoPic" alt="The logo of 4N"/>
                     <div className="form">
                         <form>
-                            <input type="Email" placeholder="Email" onChange={this.emailTypedHandler} required></input>
-                            <input type="Password" placeholder="Password" onChange={this.passwordTypedHandler} required></input> 
+                            <input type="Username" name="userName" placeholder="Username" onChange={this.onChange} required></input>
+                            <input type="Password" name="password" placeholder="Password" onChange={this.onChange} required></input>
                             <button onClick={this.loginHandler} className="signButton" >Sign in</button>
                         </form>
                     </div>
