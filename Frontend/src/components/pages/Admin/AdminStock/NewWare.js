@@ -27,11 +27,12 @@ export default class NewWare extends Component {
 
         setTimeout(function () {
             axios.post('http://localhost:8080/api/products/new', {productName, productId, quantity}).then((result)=> {
-                this.props.history.push("/");
+                this.props.history.goBack();
             }).catch((err) => {
             console.log(err.response);
             });
         }, 1000);
+        
     }
 
     onChangeProductName = (e) => {

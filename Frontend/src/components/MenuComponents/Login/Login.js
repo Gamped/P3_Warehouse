@@ -31,45 +31,47 @@ class SignInBox extends React.Component{
                 this.props.login({ userType:res.userType, loggedIn:true, name: res.nickName, userid:res.id})
             })
             .then(res => {
-                if(this.props.userType.toLowerCase()==="admin"){
+                if(this.props.userType.toLowerCase()==="employee"){
                     this.props.history.push("./Admin")
-                }else{
+                }else if(this.props.userType.toLowerCase === "client"||this.props.userType.toLowerCase === "publisher"){
                     this.props.history.push("./User")
                 }
             }) 
 
-        //We want it to succede a check here. Then get name, id and type on th user.
-       /* if (this.state.username.toLowerCase() ==="admin"){ //Temp work until connected to backend
-            this.props.login({ userType:"admin", loggedIn:"true", name: "Generic Name", userid:"UserID"})
-            console.log(this.props.user.name);
-            this.props.history.push("./Admin")
-        } else if(this.state.username.toLowerCase() ==="user"){
-            this.props.login("publisher", "Generic Name","UserID2")
-            this.props.history.push("./User")
-        } else{
-            alert("Email should be either: User or Admin")
-        }*/
+        
     }
 
     render(){
         console.log(this.props)
         return(
             //Functionality for responding to user input
-            <div>
-                <div className="signBox">
-                    <img src={require('../../../resources/4n_logo_mini.jpg')} className="logoPic" alt="The logo of 4N"/>
-                    <div className="form">
-                        <form>
-                            <input type="Email" placeholder="Email" onChange={this.emailTypedHandler} required></input>
-                            <input type="Password" placeholder="Password" onChange={this.passwordTypedHandler} required></input> 
-                            <button onClick={this.loginHandler} className="signButton" >Sign in</button>
-                        </form>
+            <div className="col makeRelative mx-auto mt-5">    
+                <form class="form-signin ">
+                    <div class="text-center mb-4">
+                        <img src={require('../../../resources/4n_logo_mini.jpg')} className="logoPic" alt="The logo of 4N"/>
+                        <h1 class="h3 mb-3 font-weight-normal">4N Mailhouse</h1>
                     </div>
-                </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                        <label for="inputEmail form-control"><span class="input-group-text" id="inputGroup-sizing-default">Username</span></label>
+                        </div>
+                        <input type="text" class="form-control" id="inputEmail" placeholder="Username" onChange={this.emailTypedHandler} required autoFocus/>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                        <label for="inputPassword"><span class="input-group-text" id="inputGroup-sizing-default">Password</span></label>
+                        </div>
+                        <input type="Password" class="form-control" id="inputPassword" placeholder="Password" onChange={this.passwordTypedHandler} required/>
+                    </div>
+                    
+                    <button onClick={this.loginHandler} className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            
+                </form>
             </div>
         );
     }
 }
+
 
 const mapStateToProps = (state)=>{
     return{

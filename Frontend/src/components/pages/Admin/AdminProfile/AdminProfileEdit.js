@@ -105,10 +105,10 @@ export default class AdminProfileEdit extends React.Component {
                             placeholder="New password"/>
                     </form>
                     <form action="/Admin/Profile" className="newForm stockForm">
-                        <button className="newButton stockButton_f btn">Back</button>
+                        <button className="btn-block btn-lg my-2 btn-secondary btn">Back</button>
                     </form>
                     <form action="/Admin/Profile" className="newForm stockForm">
-                        <button className="newButton stockButton_f btn">Edit profile</button>
+                        <button className="btn-block btn-lg my-2 btn-secondary btn">Edit profile</button>
                     </form>
             </div>
         );

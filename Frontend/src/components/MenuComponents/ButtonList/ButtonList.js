@@ -12,12 +12,12 @@ const Buttonlist = (props) => {
             (link)?
                 (current!==button.location)?
                 <div className="Link" key={button.id}>
-                    <Link to={button.location} className=" button_1st btn btn-block" role="button">{button.name}</Link>
+                    <Link to={button.location} className=" btn-secondary btn btn-block" role="button">{button.name}</Link>
                     <br/>
                 </div>
                 :
                 <div className="Link" key={button.id}>
-                    <Link to={button.location} className="button_2nd btn btn-block" role="button">{button.name}</Link>
+                    <Link to={button.location} className=" btn-darker btn btn-block" role="button">{button.name}</Link>
                     <br/>
                 </div>
             :

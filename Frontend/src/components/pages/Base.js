@@ -8,7 +8,7 @@ const base = (props)=>{
         <div >
             <Header title={props.title}/>
             <div className="menuStyle">
-                <ButtonList buttons={props.buttons} link={true}/>
+                <ButtonList buttons={props.buttons} color="primary" link={true}/>
                 <img 
                  src={require('../../resources/4n_logo_mini.jpg')} 
                  className="menuLogo" 

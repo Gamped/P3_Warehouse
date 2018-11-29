@@ -34,15 +34,3 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
-
-.newButton_r{
-    width: 100%;
-    font-size: 20px;
-    background-color: red;
-}
-
-.newButton_g{
-    width: 100%;
-    font-size: 20px;
-    background-color: green;
-}

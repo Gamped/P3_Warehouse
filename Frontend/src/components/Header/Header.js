@@ -1,11 +1,14 @@
 import React from 'react';
 import "./Header.css";
+import {withRouter} from "react-router-dom";
+import {connect} from "react-redux";
 
 // The header component
 class Header extends React.Component {
  
-    exitHandler = (e) =>{
-        this.props.history.push("/")
+    exitHandler = (event) =>{
+        event.preventDefault();
+        this.props.history.push("../../..")
 
     }
 
@@ -14,7 +17,9 @@ class Header extends React.Component {
         return(
             <div className="headerStyle">
                 <h1 className="headerText">{title}</h1>
-                <img  src={require("../../resources/exit.png")} className="icon img-thumbnail rounded float-right" alt="Exit Icon" onClick={this.exitHandler}/>
+                <form className="float-right">
+                <button onClick={this.exitHandler} className="float-right btn btn-sm btn-dark">Log Out</button>
+                </form>
             </div>
         );
     }
@@ -32,4 +37,4 @@ const mapDispatchToProps = (dispatch) =>{
     }
 }
 
-export default Header;
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

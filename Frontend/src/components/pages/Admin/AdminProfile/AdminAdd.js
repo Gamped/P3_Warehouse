@@ -1,23 +1,33 @@
 import React from 'react';
 import "../../Pages.css";
 import "./AdminProfile.css";
+import axios from "axios";
 
 export default class AdminAdd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: props.ID,
             userName: "",
-            name: "",
+            nickName: "",
             email: "",
             phoneNumber: "",
-            passwordNew: "",
+            password: "",
         };
     }
 
-    /*
-    * SOME FUNCTION TO RETRIEVE & SEND INFO FROM DB
-    */
+    addEmployeeHandler = (event) =>{
+        event.preventDefault();
+        const {userName, name, email,phoneNumber,password} = this.state;
+
+        setTimeout(function () {
+            axios.post('http://localhost:8080/employee', {userName, name, email, phoneNumber, password}).then((result)=> {
+                this.props.history.goBack();
+            }).catch((err) => {
+            console.log(err.response);
+            });
+        }, 1000);
+        this.props.history.goBack();
+    }
 
     handleUName = (event) => {
         this.setState({
@@ -27,7 +37,7 @@ export default class AdminAdd extends React.Component {
 
     handleName = (event) => {
         this.setState({
-            name: event.target.value,
+            nickName: event.target.value,
         });
     }
 
@@ -45,20 +55,21 @@ export default class AdminAdd extends React.Component {
 
     handleNewPass = (event) => {
         this.setState({
-            passwordNew: event.target.value,
+            password: event.target.value,
         });
     }
 
     render(){
         return(
             <div className="PageStyle">
-                <h1 className="title customText_b_big">Add new employee:</h1>
+                <div className="container col">
+                    <h1 className="title customText_b_big">Add new employee:</h1>
                     <form>
                         <input 
                             type="text" 
                             className="newForm" 
                             onChange={this.handleUName}
-                            placeholder="User name"/>
+                            placeholder="Username"/>
                         <input 
                             type="text" 
                             className="newForm" 
@@ -83,9 +94,10 @@ export default class AdminAdd extends React.Component {
                     <form action="/Admin/Profile" className="newForm stockForm">
                         <button className="btn-lg btn-block btn-secondary my-2 btn">Back</button>
                     </form>
-                    <form action="/Admin/Profile" className="newForm stockForm">
-                        <button className="btn-lg btn-block btn-secondary my-2 btn">Add new employee</button>
+                    <form className="newForm stockForm">
+                        <button onClick={this.addEmployeeHandler} className="btn-lg btn-block btn-secondary my-2 btn">Add new employee</button>
                     </form>
+                </div>
             </div>
         );
     }

@@ -3,10 +3,10 @@ import rootReducer from "./reducers/rootReducer";
 import {sessionService} from "redux-react-session";
 import thunk from "redux-thunk";
 
-const inistialState = { loggedIn:"false",
+const inistialState = {login:{loggedIn:"false",
 userType:null,
 nickName:null,
-userId:null,};
+userId:null,}};
 
 const middleware = [thunk];
 
