@@ -3,6 +3,8 @@ import "../Pages.css";
 import "./AdminOrders.css";
 import axios from "axios";
 import ReactTable from "react-table";
+import 'react-table/react-table.css'
+import TextBox from "../../MenuComponents/TextBox/TextBox";
 import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
 
 
@@ -10,36 +12,9 @@ export default class AdminOrders extends Component {
 
   constructor() {
     super();
-    this.state = { data: [], orders: [],
-    tabs: [
-        {name:"In Progress Orders",id:0},
-        {name:"Finished Orders",id:1},
-        {name:"Pending Orders",id:2}
-    ],
-    finishedOrders: [
-        {name: "Ground Beef", id:"2"},
-        {name: "Iron Halo", id:"3"},
-        {name: "Plasma Blaster", id:"4"},
-        {name: "Fist of the dragon", id:"5"},
-        {name: "Russian Molotov Cocktail", id:"6"},
-    ],
-    inProgressOrders: [
-        {name: "Oatmeal", id:"7"},
-        {name: "Cactus and lube", id:"8"},
-        {name: "Firebowl", id:"9"},
-    ],
-    pendingOrders: [
-        {name: "The golden Bra Of Ming", id:"10"},
-        {name: "Silver girls", id:"11"},
-        {name: "Fidget spinners", id:"12"},
-    ],
-    listShown: 0,}
-    this.makeRow = this.makeRow.bind(this);
-    this.makeButtonData = this.makeButtonData.bind(this);
   }
 
   componentDidMount() {
-
     axios.get("http://localhost:8080/api/orders")
     .then((response) => {
         const orders = this.makeRow(response);
@@ -59,7 +34,7 @@ export default class AdminOrders extends Component {
     return buttons;
   }
 
-  makeRow(response) {
+  makeData(response) {
 
     var orders = [];
 
@@ -77,6 +52,14 @@ export default class AdminOrders extends Component {
     return orders;
   }
 
+  getColumns() {
+    return [
+        {Header: "Order Id", accessor: "orderId"},
+        {Header: "Owner", accessor: "owner"},
+        {Header: "Date", accessor: "date"},
+        {Header: "Items To Pack", accessor: "itemsToPack"},
+        {Header: "Packed?", accessor: "packed"}
+    ]
   changeList=(input)=>{
     this.setState({listShown: input});
   }
@@ -128,4 +111,61 @@ export default class AdminOrders extends Component {
             </div>
         )
     }
+    // update the state
+    this.setState({ selection });
+  }
+
+
+  isSelected(key) {
+    /*
+      Instead of passing our external selection state we provide an 'isSelected'
+      callback and detect the selection state ourselves. This allows any implementation
+      for selection (either an array, object keys, or even a Javascript Set object).
+    */
+    return this.state.selection.includes(key);
+  }
+
+  logSelection() {
+    console.log("selection:", this.state.selection);
+  }
+
+  render() {
+    const { toggleSelection, isSelected, logSelection } = this;
+    const { data, columns } = this.state;
+    console.log(data);
+
+    const checkboxProps = {
+  isSelected,
+  toggleSelection,
+  selectType: "checkbox",
+  getTrProps: (s, r) => {
+    // someone asked for an example of a background color change
+    // here it is...
+    const selected = this.isSelected(r.original._id);
+    return {
+      style: {
+        backgroundColor: selected ? "lightgreen" : "inherit"
+        // color: selected ? 'white' : 'inherit',
+      }
+    };
+  }
+};
+
+      const tableHeight = window.innerHeight * 0.8;
+
+      return (
+        <div className="PageStyle">
+            <div className="container row">
+                </div>
+
+                <div>
+                 <button onClick={logSelection}>Log Selection</button>
+                <CheckboxTable ref={r => (this.checkboxTable = r)}
+                data={data}
+                tableHeight={tableHeight}
+                className="-striped -highlight"
+                columns={columns}
+                defaultPageSize={15}/>
+                </div>
+
 }
