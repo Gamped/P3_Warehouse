@@ -41,11 +41,11 @@ export default class RemoveWare extends React.Component {
                     placeholder="Please enter product name to confirm"/>
             </form>
             <form action="/Admin/Stock" className="newForm stockForm">
-                <button className="newButton_g stockButton_f btn">Keep product</button>
+                <button className="btn-success btn-block my-2 btn">Keep product</button>
             </form>
             <form action="/Admin/Stock" className="newForm stockForm">
                 <button 
-                    className="newButton_r stockButton_f btn"
+                    className="btn-danger btn-block my-2 btn"
                     onClick={this.handleRemove}>Remove product</button>
             </form>
             <h1 className="note customText_b">Please enter name of ware, to make sure that you have the correct product to be deleted from the system</h1>

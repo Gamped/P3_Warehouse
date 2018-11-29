@@ -25,13 +25,13 @@ const AdminProfile = (props) => {
                 <h1 className="infoText customText_b">Address: {address}</h1>
 
                 <form action="/Admin/Profile/Edit">
-                    <button className="infoButton" >Edit</button>
+                    <button className="btn-block btn-dark btn my-3" >Edit</button>
                 </form>
                 <form action="/Admin/Profile/AddEmployee">
-                    <button className="infoButton" >Add employee</button>
+                    <button className="btn-block btn-dark btn my-3" >Add employee</button>
                 </form>
                 <form action="/Admin/Profile/RemoveEmployee">
-                    <button className="infoButton" >Remove employee</button>
+                    <button className="btn-block btn-dark btn my-3" >Remove employee</button>
                 </form>
             </div>
         </div>

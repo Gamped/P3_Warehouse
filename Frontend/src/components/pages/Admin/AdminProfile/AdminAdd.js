@@ -81,10 +81,10 @@ export default class AdminAdd extends React.Component {
                             placeholder="New password"/>
                     </form>
                     <form action="/Admin/Profile" className="newForm stockForm">
-                        <button className="newButton stockButton_f btn">Back</button>
+                        <button className="btn-lg btn-block btn-secondary my-2 btn">Back</button>
                     </form>
                     <form action="/Admin/Profile" className="newForm stockForm">
-                        <button className="newButton stockButton_f btn">Add new employee</button>
+                        <button className="btn-lg btn-block btn-secondary my-2 btn">Add new employee</button>
                     </form>
             </div>
         );

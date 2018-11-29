@@ -74,10 +74,10 @@ export default class NewWare extends Component {
                         placeholder="Quantity"/>
                 </form>
                 <form action="/Admin/Stock" className="newForm stockForm">
-                    <button className="newButton stockButton_f btn">Back</button>
+                    <button className="btn-info btn-lg btn-block btn my-2">Back</button>
                 </form>
                 <form className="newForm stockForm">
-                    <button className="newButton stockButton_f btn" onClick={this.onSubmit}>Create product</button>
+                    <button className="btn-success btn-lg btn-block btn my-2" onClick={this.onSubmit}>Create product</button>
                 </form>
             </div>
         )     
