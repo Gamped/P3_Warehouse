@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -49,7 +50,7 @@ public class UserControllerTest {
 
         userRepository.save(client);
 
-        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(client));
+        when(userRepository.findById(id)).thenReturn(Optional.of(client));
 
         Optional<User> optUser = userController.findById(id);
         User retrievedUser = optUser.get();
@@ -68,7 +69,7 @@ public class UserControllerTest {
 
         userRepository.save(employee);
 
-        when(userRepository.findById(id)).thenReturn(Optional.ofNullable(employee));
+        when(userRepository.findById(id)).thenReturn(Optional.of(employee));
 
         Optional<User> optUser = userController.findById(id);
         User retrievedUser = optUser.get();
@@ -79,11 +80,19 @@ public class UserControllerTest {
     public void testFindUserById03() {
         ObjectId id = new ObjectId();
         Publisher publisher = new Publisher(id);
+        publisher.setUserType(UserType.PUBLISHER);
+        publisher.setUserName("ifrus");
+        ContactInformation contactInformation = new ContactInformation();
+        contactInformation.setEmail("ifrus@ale.ol");
+        publisher.setContactInformation(contactInformation);
+
+        userRepository.save(publisher);
 
         when(userRepository.findById(id)).thenReturn(Optional.of(publisher));
 
         Optional<User> optUser = userController.findById(id);
         User retrievedUser = optUser.get();
+        verify(userRepository).findById(id);
         assertEquals(publisher.getId(), retrievedUser.getId());
 
     }
