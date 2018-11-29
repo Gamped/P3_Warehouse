@@ -2,17 +2,9 @@ import React from 'react';
 import "./Login.css";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import axios from "axios";
 
 // The box for sign-in to the system
 class SignInBox extends React.Component{
-    constructor(props){
-        super(props);
-        this.state={
-            username:"",
-            password:"",
-        }
-    }
 
     // Updates the username part of the state
     emailTypedHandler = (event) => {
@@ -32,21 +24,16 @@ class SignInBox extends React.Component{
     loginHandler = (event) => {
         event.preventDefault()
         //We want it to succede a check here. Then get name, id and type on th user.
-        axios.get('/api/user/' + this.state.username + "/" + this.state.password).then((result)=> {
-            console.log(result)
-            /*this.props.login({ userType:"admin", loggedIn:"true", name: "Generic Name", userid:"UserID"})*/
-        })/*.then((result)=>{
-                if (user.userType.toLowerCase() ==="admin"){ 
-                this.props.login({ userType:"admin", loggedIn:"true", name: "Generic Name", userid:"UserID"})
-                console.log(this.props.user.name);
-                this.props.history.push("./Admin")
-            } else if(user.userType.toLowerCase() ==="user"){
-
-                this.props.history.push("./User")
-            } else{
-                alert("Email should be either: User or Admin")
-            }
-        })*/;
+        if (this.state.username.toLowerCase() ==="admin"){ //Temp work until connected to backend
+            this.props.login({ userType:"admin", loggedIn:"true", name: "Generic Name", userid:"UserID"})
+            console.log(this.props.user.name);
+            this.props.history.push("./Admin")
+        } else if(this.state.username.toLowerCase() ==="user"){
+            this.props.login("publisher", "Generic Name","UserID2")
+            this.props.history.push("./User")
+        } else{
+            alert("Email should be either: User or Admin")
+        }
     }
 
     render(){

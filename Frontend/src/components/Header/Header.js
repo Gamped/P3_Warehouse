@@ -1,9 +1,8 @@
 import React from 'react';
 import "./Header.css";
-import {withRouter} from "react-router-dom";
-import {connect} from "react-redux";
 
 // The header component
+<<<<<<< HEAD
 class Header extends React.Component {
  
     exitHandler = (e) =>{
@@ -32,6 +31,15 @@ const mapDispatchToProps = (dispatch) =>{
     return {
         login: (user) => {dispatch({type: "LOGOUT"})}
     }
+=======
+const Header = (props) => {
+    const title= "4N: " + props.title
+    return(
+        <div className="headerStyle">
+            <h1 className="headerText">{title}</h1>
+        </div>
+    );
+>>>>>>> parent of 255b879... User is able to log on
 }
 
-export default connect(mapStateToProps ,mapDispatchToProps)(withRouter(Header))
+export default Header;
