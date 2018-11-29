@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 
 // The header component
 const Buttonlist = (props) => {
-    const {buttons, current, link, color,action}=props;
+    const {buttons, current, link, color, action}=props;
 
     const mappedButtonList = buttons.map(button =>{
         return (
