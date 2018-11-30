@@ -40,6 +40,7 @@ export default class AdminStock extends Component {
           {Header: "Quantity", accessor: "quantity"},
           {Header: "Owner", accessor: "owner"}
       ]
+      const tableHeight = window.innerHeight * 0.7 ;
 
         return(
             <div className="PageStyle rounded">
