@@ -45,8 +45,8 @@ public class ClientTest {
         ObjectId CId = new ObjectId();
         Client client = new Client(CId);
         clientRepository.save(client);
-        Optional<Client> optionalClient = clientRepository.findById(client.getHexId());
-        Client retrievedClient = optionalClient.get();
+        Client Client = clientRepository.findById(client.getHexId());
+        Client retrievedClient = Client;
         Assert.assertEquals(client.getHexId(), retrievedClient.getHexId());
         clientRepository.deleteById(CId);
     }

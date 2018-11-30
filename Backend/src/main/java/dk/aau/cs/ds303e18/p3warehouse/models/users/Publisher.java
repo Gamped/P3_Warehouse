@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 @Document(collection = "publishers")
+
 public class Publisher extends Customer {
 
     @Id
@@ -28,7 +29,7 @@ public class Publisher extends Customer {
 
     public int getSizeOfColletion(){
         int size = 0;
-        clients.size();
+        size = clients.size();
         return size;
     }
 
