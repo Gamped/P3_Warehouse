@@ -4,7 +4,7 @@ import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
 import "./AdminUsers.css";
 import TextBox from "../../MenuComponents/TextBox/TextBox";
 
-export default class AdminUsers extends React.Component{
+export default class AdminUsers extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
