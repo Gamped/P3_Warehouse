@@ -7,25 +7,21 @@ import axios from "axios"
 // The box for sign-in to the system
 class SignInBox extends React.Component{
 
-    // Updates the username part of the state
-    emailTypedHandler = (event) => {
-        this.setState({
-            username: event.target.value
-        })
+    constructor(props) {
+        super(props);
+        this.onChange = this.onChange.bind(this);
+        this.loginHandler = this.loginHandler.bind(this);
     }
 
-    // Updates the password part of the state
-    passwordTypedHandler = (event) => {
-        this.setState({
-            password: event.target.value
-        })
+    onChange = (e) => {
+        const state = this.state.product;
+        state[e.target.name] = e.target.value;
     }
 
-    // Logs in
     loginHandler = (event) => {
         event.preventDefault()
 
-       axios.get("localhost:8080/users?username=" + this.state.username + "&password="+this.state.password)
+        axios.get("http://localhost:8080/" + this.state.userName + "/" + this.state.password)
             .then(res => {
                 console.log(res)
                 this.props.login({ userType:res.userType, loggedIn:true, name: res.nickName, userid:res.id})
@@ -36,13 +32,13 @@ class SignInBox extends React.Component{
                 }else if(this.props.userType.toLowerCase === "client"||this.props.userType.toLowerCase === "publisher"){
                     this.props.history.push("./User")
                 }
-            }) 
+            })
 
         
     }
 
     render(){
-        console.log(this.props)
+
         return(
             //Functionality for responding to user input
             <div>

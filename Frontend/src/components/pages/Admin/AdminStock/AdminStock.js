@@ -3,6 +3,7 @@ import "../../Pages.css";
 import "./AdminStock.css"
 import axios from 'axios';
 import ReactTable from 'react-table';
+import Buttonlist from '../../../MenuComponents/ButtonList/ButtonList';
 
 export default class AdminStock extends Component {
     constructor(props) {
@@ -33,7 +34,6 @@ export default class AdminStock extends Component {
 
     render() {
       const data = this.state.products;
-      const tableHeight = window.innerHeight * 0.8;
       const columns = [
           {Header: "Product ID", accessor: "productId"},
           {Header: "Product Name", accessor: "productName"},
