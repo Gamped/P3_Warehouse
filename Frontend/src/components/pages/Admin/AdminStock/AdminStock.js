@@ -43,7 +43,6 @@ export default class AdminStock extends Component {
 
         return(
             <div className="PageStyle rounded">
-
                 <div className="topBoxStyle topBox">
                     <h2 className="stockTxt text-center text-white">Stock</h2>
                 </div>
@@ -52,25 +51,28 @@ export default class AdminStock extends Component {
                     <h1 className="leftTxt customText_b">Filter by:</h1>
                 </div>
 
+                <div className="MainContainer container row">
+                    <div className="CustomerList col border-dark rounded bg-secondary">
+                        <h1 className="Header">Filter by:</h1>
+                    </div>
 
-                <div>
-                <ReactTable data={data} tableHeight={tableHeight} className="-striped -highlight" columns={columns} defaultPageSize={15}/>
+                    <div className="Table">
+                        <ReactTable data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
+                        <div className="CRUD container row">
+                            <form action="/Admin/Stock/New" className="stockForm">
+                                <button  className="stockButton_f btn" >New</button>
+                            </form>
+                            <form action="/Admin/Stock/Edit" className="stockForm">
+                                <button  className="stockButton_f btn" >Edit</button>
+                            </form>
+                            <form action="/Admin/Stock/Remove" className="stockForm">
+                                <button  className="stockButton_f btn" >Remove</button>
+                            </form>
+                            <button className="stockButton btn">Export</button>
+                        </div>
+                    </div>
                 </div>
-
-
-                <div className="bottomBoxStyle bottomBox">
-                    <form action="/Admin/Stock/New" className="stockForm">
-                        <button  className="stockButton_f btn" >New</button>
-                    </form>
-                    <form action="/Admin/Stock/Edit" className="stockForm">
-                        <button  className="stockButton_f btn" >Edit</button>
-                    </form>
-                    <form action="/Admin/Stock/Remove" className="stockForm">
-                        <button  className="stockButton_f btn" >Remove</button>
-                    </form>
-                    <button className="stockButton btn">Export</button>
-                </div>
-            </div>
+            </div>   
         );
     }
 }
