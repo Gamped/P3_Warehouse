@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import "../../Pages.css";
 import "./AdminStock.css"
 import axios from 'axios';
-import ReactDOM from 'react-dom'
-import { Link } from 'react-router-dom';
 import ReactTable from 'react-table';
+import Buttonlist from '../../../MenuComponents/ButtonList/ButtonList';
 
 export default class AdminStock extends Component {
     constructor(props) {
@@ -35,7 +34,6 @@ export default class AdminStock extends Component {
 
     render() {
       const data = this.state.products;
-      const tableHeight = window.innerHeight * 0.8;
       const columns = [
           {Header: "Product ID", accessor: "productId"},
           {Header: "Product Name", accessor: "productName"},
@@ -44,10 +42,10 @@ export default class AdminStock extends Component {
       ]
 
         return(
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
 
                 <div className="topBoxStyle topBox">
-                    <h1 className="stockTxt customText_w">Stock</h1>
+                    <h2 className="stockTxt text-center text-white">Stock</h2>
                 </div>
 
                 <div className="leftBoxStyle pickBox">

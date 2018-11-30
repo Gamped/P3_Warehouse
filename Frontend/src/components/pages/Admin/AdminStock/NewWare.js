@@ -27,11 +27,12 @@ export default class NewWare extends Component {
 
         setTimeout(function () {
             axios.post('http://localhost:8080/api/products/new', {productName, productId, quantity}).then((result)=> {
-                this.props.history.push("/");
+                this.props.history.goBack();
             }).catch((err) => {
             console.log(err.response);
             });
         }, 1000);
+        
     }
 
     onChangeProductName = (e) => {
@@ -51,7 +52,7 @@ export default class NewWare extends Component {
       const {productName, productId, quantity} = this.state;
 
         return (
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
                 <h1 className="title customText_b_big">Add new product</h1>
                 <form>
                     <input
@@ -74,10 +75,10 @@ export default class NewWare extends Component {
                         placeholder="Quantity"/>
                 </form>
                 <form action="/Admin/Stock" className="newForm stockForm">
-                    <button className="newButton stockButton_f btn">Back</button>
+                    <button className="btn-info btn-lg btn-block btn my-2">Back</button>
                 </form>
                 <form className="newForm stockForm">
-                    <button className="newButton stockButton_f btn" onClick={this.onSubmit}>Create product</button>
+                    <button className="btn-success btn-lg btn-block btn my-2" onClick={this.onSubmit}>Create product</button>
                 </form>
             </div>
         )     

@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import "../Pages.css";
 import "./AdminOrders.css";
 import axios from "axios";
 import ReactTable from "react-table";
-import TextBox from "../../MenuComponents/TextBox/TextBox";
 import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
 
 
@@ -110,19 +108,18 @@ export default class AdminOrders extends Component {
             {Header: "Packed?", accessor: "packed"}
         ]
 
-        const tableHeight = window.innerHeight * 0.8;
-
         return (
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
                 <div className="container row">
-                    <div className="col sidebar fullbar border border-dark rounded bg-secondary">
+                    <div className="col sidebar border border-dark rounded bg-secondary">
+
                         <div className="border border-light rounded bg-info">
                             <ButtonList buttons={this.state.tabs} color="secondary" link={false} action={this.changeList}/>
                         </div>
                         {this.buttonListShown()}
                     </div>
-                    <div>
-                    <ReactTable data={data} tableHeight={tableHeight} className="-striped -highlight" columns={columns} defaultPageSize={15}/>
+                    <div className="Table">
+                        <ReactTable data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
                     </div>
                 </div>
             </div>

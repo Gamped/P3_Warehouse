@@ -13,8 +13,8 @@ export default class EditWare extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/api/products/' + this.props.match.params.id).
-            then(response => {
+        axios.get('http://localhost:8080/api/products/' + this.props.match.params.id)
+            .then(response => {
                  this.setState({ product: response.data });
                  //const { productName, productId, quantity } = this.state.product;
                  console.log(this.state.product);
@@ -42,10 +42,11 @@ export default class EditWare extends Component {
 
     render(){
         return(
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
                 <h1 className="title customText_b_big">Edit product:</h1>
                 <h1 className="subTitle customText_b">"Product name"</h1>
                 <form>
+                    
                     <input
                         type="text"
                         name="productName"

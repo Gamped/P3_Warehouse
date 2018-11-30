@@ -3,7 +3,6 @@ import "../../Pages.css";
 import "./AdminProfile.css"
 
 const AdminProfile = (props) => {
-    var userID = props.ID;
     var userName = "No username set";
     var name = "No name set";
     var email = "No@email.set";
@@ -15,7 +14,7 @@ const AdminProfile = (props) => {
     */
 
     return(
-        <div className="PageStyle">
+        <div className="PageStyle rounded">
             <h1 className="title customText_b_big">Profile information</h1>
             <div className="informationBox">
                 <h1 className="infoText customText_b">User name: {userName}</h1>
@@ -25,13 +24,13 @@ const AdminProfile = (props) => {
                 <h1 className="infoText customText_b">Address: {address}</h1>
 
                 <form action="/Admin/Profile/Edit">
-                    <button className="infoButton" >Edit</button>
+                    <button className="btn-block btn-dark btn my-3" >Edit</button>
                 </form>
                 <form action="/Admin/Profile/AddEmployee">
-                    <button className="infoButton" >Add employee</button>
+                    <button className="btn-block btn-dark btn my-3" >Add employee</button>
                 </form>
                 <form action="/Admin/Profile/RemoveEmployee">
-                    <button className="infoButton" >Remove employee</button>
+                    <button className="btn-block btn-dark btn my-3" >Remove employee</button>
                 </form>
             </div>
         </div>
