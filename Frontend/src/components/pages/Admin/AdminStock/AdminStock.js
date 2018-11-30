@@ -24,10 +24,11 @@ export default class AdminStock extends Component {
         var products = [];
         response.data.forEach((product) => {
             products.push({
-            productId: product.productId,
-            productName: product.productName,
-            quantity: product.quantity,
-            hexId: product.hexId
+                productId: product.productId,
+                productName: product.productName,
+                quantity: product.quantity,
+                owner: product.owner.nickName,
+                hexId: product.hexId
             })
         });
         return products;

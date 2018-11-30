@@ -34,33 +34,29 @@ export default class AdminOrders extends Component {
     this.makeButtonData = this.makeButtonData.bind(this);
   }
 
-  componentDidMount() {
+    componentDidMount() {
+        axios.get('http://localhost:8080/api/orders')
+            .then((response) => {
+                const orders = this.makeButtonData(response);
+                this.setState({ orders: orders })
+            })
+    }
 
-    axios.get("http://localhost:8080/api/orders")
-    .then((response) => {
-        const orders = this.makeButtonData(response);
-        this.setState({ orders: orders })
-      })
-  }
-
-  makeButtonData(response) {
-    var buttons = [];
-    response.data.forEach((order) => {
-      buttons.push({
-        owner: order.owner.name,
-        orderId: order.orderId,
-        orderName: order.title,
-        state: order.status
-      })
-    })
-
-    return buttons;
-  }
+    makeButtonData(response) {
+        var orders = [];
+        response.data.forEach((order) => {
+            orders.push({
+                owner: order.owner.nickName,
+                orderId: order.orderId,
+                orderName: order.title,
+                state: order.status
+            })
+        })
+        return orders;
+    }
 
   makeRow(response) {
-
     var orders = [];
-
     response.data.forEach((order) => {
 
       orders.push({
@@ -99,18 +95,18 @@ export default class AdminOrders extends Component {
         console.log(data);
         console.log(JSON.stringify(data));
 
-        const columns = [
-            {Header: "Product Name", accessor: "productName"},
-            {Header: "Date", accessor: "date"},
-            {Header: "Quantity", accessor: "quantity"},
-            {Header: "Packed?", accessor: "packed"}
-        ]
-
         const column = [
             {Header: "Owner", accessor: "owner"},
             {Header: "ID", accessor: "orderId"},
             {Header: "Order", accessor: "orderName"},
             {Header: "Status", accessor: "state"}
+        ]
+
+        const columns = [
+            {Header: "Product Name", accessor: "productName"},
+            {Header: "Date", accessor: "date"},
+            {Header: "Quantity", accessor: "quantity"},
+            {Header: "Packed?", accessor: "packed"}
         ]
 
         return (
