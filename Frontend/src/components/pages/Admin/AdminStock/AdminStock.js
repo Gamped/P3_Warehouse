@@ -21,20 +21,19 @@ export default class AdminStock extends Component {
     }
 
     makeRow(response){
-      var products = [];
-      response.data.forEach((product) => {
-        products.push({
-          productId: product.productId,
-          productName: product.productName,
-          quantity: product.quantity
+        var products = [];
+        response.data.forEach((product) => {
+            products.push({
+                productId: product.productId,
+                productName: product.productName,
+                quantity: product.quantity
+            })
         })
-        })
-      return products;
+        return products;
     }
 
     render() {
       const data = this.state.products;
-      const tableHeight = window.innerHeight*0.7;
       const columns = [
           {Header: "Product ID", accessor: "productId"},
           {Header: "Product Name", accessor: "productName"},

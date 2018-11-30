@@ -38,7 +38,7 @@ export default class AdminOrders extends Component {
 
     axios.get("http://localhost:8080/api/orders")
     .then((response) => {
-        const orders = this.makeRow(response);
+        const orders = this.makeButtonData(response);
         this.setState({ orders: orders })
       })
   }
@@ -49,7 +49,7 @@ export default class AdminOrders extends Component {
       buttons.push({
         owner: order.owner.name,
         orderId: order.orderId,
-        orderName: order.name,
+        orderName: order.title,
         state: order.status
       })
     })
@@ -94,7 +94,7 @@ export default class AdminOrders extends Component {
 }
 
     render() {
-        const orderFields = this.state.orderEntries;
+        const orderFields = this.state.orders;
         const data = this.state.orders;
         console.log(data);
         console.log(JSON.stringify(data));
