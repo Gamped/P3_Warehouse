@@ -14,13 +14,54 @@ export default class AdminOrders extends Component {
     super();
   }
 
+  componentWillReceiveProps(nextProps) {     
+    var annotated=this.annotateOrders (nextProps.orders);
+     this.setState ({pipelines: annotated});      
+   } 
+
   componentDidMount() {
     axios.get("http://localhost:8080/api/orders")
     .then((response) => {
-        const orders = this.makeRow(response);
-        this.setState({ orders: orders })
+        const data = this.makeData(response);
+        this.setState({ orders: data })
       })
   }
+
+  annotatePipeline (orders) {
+    var annotated=new Array ();
+    
+    for (let i = 0; i < orders.length; i++) {
+      var converter = orders[i];
+      converter ["selected"]=false;
+      annotated.push (converter);
+    }
+    
+    return (annotated);
+  }
+
+
+  selectOrder (e,state,column,rowInfo,instance) {      
+    if (this.state.selectedIndex != -1) {
+      var previousSelectedOrder=this.state.orders[this.state.selectedIndex];
+      previousSelectedOrder.selected=false;
+    }
+    
+    let orders = this.state.orders[rowInfo.index];
+    orders.selected = true;
+    
+    if (orders != null) {
+      if (this.props.onClickOrder) {
+        this.props.onClickOrder(orders.orderId);  
+      } else {
+        console.log ("No event handler available to process pipeline select event");  
+      } 
+    } else {
+      console.log ("Error retrieving pipeline from pipeline list");  
+    }
+    
+    this.setState ({selectedIndex: rowInfo.index});
+  }
+
 
   makeButtonData(response) {
     var buttons = [];
@@ -41,11 +82,13 @@ export default class AdminOrders extends Component {
     response.data.forEach((order) => {
 
       orders.push({
+
         orderId: order.orderId,
         owner: order.owner.nickName,
         date: order.date,
         itemsToPack: order.orderLines.length
       });
+
     });
     console.log(response.data[0]);
     console.log(orders);
@@ -116,56 +159,27 @@ export default class AdminOrders extends Component {
   }
 
 
-  isSelected(key) {
-    /*
-      Instead of passing our external selection state we provide an 'isSelected'
-      callback and detect the selection state ourselves. This allows any implementation
-      for selection (either an array, object keys, or even a Javascript Set object).
-    */
-    return this.state.selection.includes(key);
-  }
 
-  logSelection() {
-    console.log("selection:", this.state.selection);
-  }
 
   render() {
-    const { toggleSelection, isSelected, logSelection } = this;
-    const { data, columns } = this.state;
-    console.log(data);
 
-    const checkboxProps = {
-  isSelected,
-  toggleSelection,
-  selectType: "checkbox",
-  getTrProps: (s, r) => {
-    // someone asked for an example of a background color change
-    // here it is...
-    const selected = this.isSelected(r.original._id);
-    return {
-      style: {
-        backgroundColor: selected ? "lightgreen" : "inherit"
-        // color: selected ? 'white' : 'inherit',
-      }
-    };
+      let orders = <ReactTable data={this.state.orders} 
+                               columns={this.ordersTable} 
+                               className='-striped -highlight'
+                               defaultPageSize={10}
+                               getTdProps={(state, rowInfo, column, instance) => {
+                                 return {
+                                   onClick: e => {
+                                      this.selectOrder (e,state,column,rowInfo,instance)
+                                       }
+                                 }
+                               }
+     }/>
+       
+     return (  
+      <div>
+        {orders}
+      </div> );
+    
   }
-};
-
-      const tableHeight = window.innerHeight * 0.8;
-
-      return (
-        <div className="PageStyle">
-            <div className="container row">
-                </div>
-
-                <div>
-                 <button onClick={logSelection}>Log Selection</button>
-                <CheckboxTable ref={r => (this.checkboxTable = r)}
-                data={data}
-                tableHeight={tableHeight}
-                className="-striped -highlight"
-                columns={columns}
-                defaultPageSize={15}/>
-                </div>
-
 }
