@@ -7,16 +7,15 @@ import "./AdminStock.css";
 export default class EditWare extends Component {
     constructor(props) {
         super(props);
-        this.state = { product: {} };
+        this.state = { product: {}, hexId: this.props.match.params.id };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/api/products/' + this.props.match.params.id)
-            .then(response => {
+        axios.get('http://localhost:8080/api/products/' + this.state.hexId).
+            then(response => {
                  this.setState({ product: response.data });
-                 //const { productName, productId, quantity } = this.state.product;
                  console.log(this.state.product);
             }
         )
@@ -31,12 +30,11 @@ export default class EditWare extends Component {
     onSubmit = (e) => {
         e.preventDefault();
         const { productName, productId, quantity } = this.state.product;
-
-        axios.put('http://localhost:8080/api/products/edit/'+this.props.match.params.hexId, {productName, productId, quantity})
-
+    
+        axios.put('http://localhost:8080/api/products/edit/'+this.state.hexId, {productName, productId, quantity})
             .then((result) => {
-                console.log(result);
-                //  this.context.history.push("/Admin/Stock/"+this.props.match.params.hexId);\
+
+                 this.props.history.push("/Admin/Stock/");
             });
     }
 
@@ -45,8 +43,7 @@ export default class EditWare extends Component {
             <div className="PageStyle rounded">
                 <h1 className="title customText_b_big">Edit product:</h1>
                 <h1 className="subTitle customText_b">"Product name"</h1>
-                <form>
-                    
+                <div>
                     <input
                         type="text"
                         name="productName"
@@ -68,13 +65,13 @@ export default class EditWare extends Component {
                         defaultValue={this.state.product.quantity}
                         onChange={this.onChange}
                         placeholder="Quantity"/>
-                </form>
-                <form className="newForm stockForm">
+                </div>
+                <div className="newForm stockForm">
                     <button className="newButton stockButton_f btn">Back</button>
-                </form>
-                <form className="newForm stockForm">
-                    <button className="newButton stockButton_f btn" type="submit" onSubmit={this.onSubmit} >Edit product</button>
-                </form>
+                </div>
+                <div className="newForm stockForm">
+                    <button className="newButton stockButton_f btn" onClick={this.onSubmit} >Edit product</button>
+                </div>
                 <h1 className="note customText_b_big">Please double check to make sure you have changed to the correct info</h1>
             </div>
         );

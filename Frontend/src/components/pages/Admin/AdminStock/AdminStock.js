@@ -8,7 +8,7 @@ import Buttonlist from '../../../MenuComponents/ButtonList/ButtonList';
 export default class AdminStock extends Component {
     constructor(props) {
         super(props);
-        this.state = { products: [] };
+        this.state = { products: [], selected: null, selectedId: "" };
         this.makeRow = this.makeRow.bind(this);
     }
 
@@ -26,7 +26,8 @@ export default class AdminStock extends Component {
         products.push({
           productId: product.productId,
           productName: product.productName,
-          quantity: product.quantity
+          quantity: product.quantity,
+          hexId: product.hexId
         })
         })
       return products;
@@ -60,9 +61,32 @@ export default class AdminStock extends Component {
                     <div className="CustomerList col border-dark rounded bg-secondary">
                         <h1 className="Header">Filter by:</h1>
                     </div>
+                    <div className="Table container col">
+                        <h1 className="Header">Stock</h1>
+                    <ReactTable 
+                        data={data} 
+                        columns={columns} 
+                        showPagination={false} 
+                        className="-striped -highlight"
+                        getTrProps={(state, rowInfo) => {
+                            if (rowInfo && rowInfo.row) {
+                              return {
+                                onClick: (e) => {
+                                    
+                                  this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                  console.log(rowInfo.original)
+                                },
+                                style: {
+                                  background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                  color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                }
+                              }
+                            }else{
+                              return {}
+                            }
+                        }}
+                          />
 
-                    <div className="Table">
-                        <ReactTable data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
                         <div className="CRUD container row">
 
                             <div className="">

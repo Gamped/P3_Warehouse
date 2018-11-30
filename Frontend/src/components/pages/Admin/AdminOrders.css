@@ -3,6 +3,13 @@
 }
 
 .SideBar{
-    flex-grow: 1;
+    flex-grow:7;
 }
 
+.Categories{
+    flex-grow: 3;
+}
+
+.OrderList{
+    background-color: white;
+}
