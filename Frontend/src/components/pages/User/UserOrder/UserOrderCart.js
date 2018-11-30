@@ -34,9 +34,9 @@ export default class UserOrder extends React.Component {
 
     render(){
         return(
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
                 <div className="topBox topBoxStyle">
-                    <h1 className="topText customText_w"> Cart:</h1>
+                    <h2 className="topText text-center text-white"> Cart:</h2>
                 </div>
 
                 <div className="cartBox contentBoxStyle">

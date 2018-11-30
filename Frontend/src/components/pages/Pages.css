@@ -1,7 +1,7 @@
 .PageStyle{
     position: absolute;
-    top: 40px;
-    left: 140px;
+    top: 60px;
+    left: 200px;
     bottom: 0;
     right: 0;
     background: white;
@@ -29,20 +29,9 @@
 }
 
 .sidebar{
-    -ms-flex: 0 0 230px;
-    flex: 0 0 230px;
+    height:92vh;
+    -ms-flex: 0 0 200px;
+    flex: 0 0 200px;
     overflow-x: hidden;
     overflow-y: auto;
-}
-
-.newButton_r{
-    width: 100%;
-    font-size: 20px;
-    background-color: red;
-}
-
-.newButton_g{
-    width: 100%;
-    font-size: 20px;
-    background-color: green;
 }

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import "../../Pages.css";
 import "./AdminStock.css"
 import axios from 'axios';
-import ReactDOM from 'react-dom'
-import { Link } from 'react-router-dom';
 import ReactTable from 'react-table';
 import Buttonlist from '../../../MenuComponents/ButtonList/ButtonList';
 
@@ -44,27 +42,33 @@ export default class AdminStock extends Component {
       ]
 
         return(
-            <div className="PageStyle">
-                <div className="container row">
-                    <div className="CustomerList col border-dark rounded bg-secondary">
-                        <h1 className="Header">Filter by:</h1>
-                    </div>
-                    <div className="Table container col">
-                        <h1 className="Header">Stock</h1>
-                        <ReactTable data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
-                        <div className="CRUD container row">
-                            <form action="/Admin/Stock/New" className="stockForm">
-                                <button  className="CRUDbutton stockButton_f btn" >New</button>
-                            </form>
-                            <form action="/Admin/Stock/Edit" className="stockForm">
-                                <button  className="CRUDbutton stockButton_f btn" >Edit</button>
-                            </form>
-                            <form action="/Admin/Stock/Remove" className="stockForm">
-                                <button  className="CRUDbutton stockButton_f btn" >Remove</button>
-                            </form>
-                            <button className="CRUDbutton stockButton_f btn">Export</button>
-                        </div>
-                    </div>
+            <div className="PageStyle rounded">
+
+                <div className="topBoxStyle topBox">
+                    <h2 className="stockTxt text-center text-white">Stock</h2>
+                </div>
+
+                <div className="leftBoxStyle pickBox">
+                    <h1 className="leftTxt customText_b">Filter by:</h1>
+                </div>
+
+
+                <div>
+                <ReactTable data={data} tableHeight={tableHeight} className="-striped -highlight" columns={columns} defaultPageSize={15}/>
+                </div>
+
+
+                <div className="bottomBoxStyle bottomBox">
+                    <form action="/Admin/Stock/New" className="stockForm">
+                        <button  className="stockButton_f btn" >New</button>
+                    </form>
+                    <form action="/Admin/Stock/Edit" className="stockForm">
+                        <button  className="stockButton_f btn" >Edit</button>
+                    </form>
+                    <form action="/Admin/Stock/Remove" className="stockForm">
+                        <button  className="stockButton_f btn" >Remove</button>
+                    </form>
+                    <button className="stockButton btn">Export</button>
                 </div>
             </div>
         );
