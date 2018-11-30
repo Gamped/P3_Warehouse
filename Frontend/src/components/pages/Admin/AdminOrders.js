@@ -64,10 +64,10 @@ export default class AdminOrders extends Component {
     response.data.forEach((order) => {
 
       orders.push({
-        name: order.orderline.productName,
-        date: order.date,
-        quantity: order.orderline.quantity,
-        packed: order.orderline.packed
+       // name: order.orderline.productName,
+       // date: order.date,
+       // quantity: order.orderline.quantity,
+       // packed: order.orderline.packed
       });
     });
     console.log(response.data[0]);

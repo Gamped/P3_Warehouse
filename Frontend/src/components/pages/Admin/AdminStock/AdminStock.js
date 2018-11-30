@@ -63,6 +63,7 @@ export default class AdminStock extends Component {
                     </div>
                     <div className="Table container col">
                         <h1 className="Header">Stock</h1>
+                  
                     <ReactTable 
                         data={data} 
                         columns={columns} 
