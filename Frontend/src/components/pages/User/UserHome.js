@@ -11,7 +11,7 @@ const UserHome = (props) => {
     ]
 
     return ( 
-        <div className="PageStyle">
+        <div className="PageStyle rounded">
             <LandingPage buttons={landingPageButtons} name="User"/>
         </div>
     )

@@ -5,7 +5,7 @@ const UserOrder = (props) => {
 
 
     return(
-        <div className="PageStyle">
+        <div className="PageStyle rounded">
             <h1 className="customText_b">You are on User order history</h1>
         </div>
 

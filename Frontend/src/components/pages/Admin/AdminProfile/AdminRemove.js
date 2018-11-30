@@ -30,7 +30,7 @@ export default class AdminRemove extends React.Component {
 
     render(){
         return(
-        <div className="PageStyle">
+        <div className="PageStyle rounded">
             <h1 className="title customText_b_big">Remove employee:</h1>
                 <form>
                     <input 
@@ -45,10 +45,10 @@ export default class AdminRemove extends React.Component {
                         placeholder="YOUR password"/>
                 </form>
                 <form action="/Admin/Profile" className="newForm stockForm">
-                    <button className="newButton_g stockButton_f btn">Back</button>
+                    <button className="btn-lg btn-success btn-block my-2 btn">Back</button>
                 </form>
                 <form action="/Admin/Profile" className="newForm stockForm">
-                    <button className="newButton_r stockButton_f btn">REMOVE employee</button>
+                    <button className="btn-lg btn-danger btn-block my-2 btn">REMOVE employee</button>
                 </form>
         </div>);
     }

@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
 import "../Pages.css";
 import "./AdminOrders.css";
 import axios from "axios";
 import ReactTable from "react-table";
-import TextBox from "../../MenuComponents/TextBox/TextBox";
 import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
 
 
@@ -111,9 +109,10 @@ export default class AdminOrders extends Component {
         ]
 
         return (
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
                 <div className="container row">
-                    <div className="SideBar col sidebar fullbar border border-dark rounded bg-secondary">
+                    <div className="col sidebar border border-dark rounded bg-secondary">
+
                         <div className="border border-light rounded bg-info">
                             <ButtonList buttons={this.state.tabs} color="secondary" link={false} action={this.changeList}/>
                         </div>

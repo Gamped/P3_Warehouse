@@ -14,7 +14,7 @@ class HomeAdmin extends React.Component{
         ]
     
         return ( 
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
                 <LandingPage buttons={landingPageButtons} name={this.props.name}/>
             </div>
         )
