@@ -32,6 +32,10 @@ export default class AdminStock extends Component {
       return products;
     }
 
+    sendToPage = (address) => {
+        this.props.history.push(address);
+    }
+
     render() {
       const data = this.state.products;
       const tableHeight = window.innerHeight*0.7;
@@ -60,16 +64,19 @@ export default class AdminStock extends Component {
                     <div className="Table">
                         <ReactTable data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
                         <div className="CRUD container row">
-                            <form action="/Admin/Stock/New" className="stockForm">
-                                <button  className="stockButton_f btn" >New</button>
-                            </form>
-                            <form action="/Admin/Stock/Edit" className="stockForm">
-                                <button  className="stockButton_f btn" >Edit</button>
-                            </form>
-                            <form action="/Admin/Stock/Remove" className="stockForm">
-                                <button  className="stockButton_f btn" >Remove</button>
-                            </form>
-                            <button className="stockButton btn">Export</button>
+
+                            <div className="">
+                                <button  className="btn btn-block" onClick={()=>this.sendToPage("/Admin/Stock/New")}>New</button>
+                            </div>
+                            <div action="/Admin/Stock/Edit" className="">
+                                <button  className="btn btn-block" onClick={()=>this.sendToPage("/Admin/Stock/Edit")}>Edit</button>
+                            </div>
+                            <div action="/Admin/Stock/Remove" className="">
+                                <button  className="btn btn-block" >Remove</button>
+                            </div>
+                            <div>
+                                <button className="btn btn-block">Export</button>
+                            </div>
                         </div>
                     </div>
                 </div>

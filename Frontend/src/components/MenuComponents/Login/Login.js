@@ -11,6 +11,10 @@ class SignInBox extends React.Component{
         super(props);
         this.onChange = this.onChange.bind(this);
         this.loginHandler = this.loginHandler.bind(this);
+        this.state = {
+            userName:"",
+            password:""
+        }
     }
 
     onChange = (e) => {
@@ -29,12 +33,10 @@ class SignInBox extends React.Component{
             .then(res => {
                 if(this.props.userType.toLowerCase()==="employee"){
                     this.props.history.push("./Admin")
-                }else if(this.props.userType.toLowerCase === "client"||this.props.userType.toLowerCase === "publisher"){
+                }else if(this.props.userType.toLowerCase() === "client"||this.props.userType.toLowerCase === "publisher"){
                     this.props.history.push("./User")
                 }
             })
-
-        
     }
 
     render(){
