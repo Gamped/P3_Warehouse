@@ -62,41 +62,43 @@ export default class AdminAdd extends React.Component {
     render(){
         return(
             <div className="PageStyle rounded">
-                <div className="container col">
-                    <h1 className="title customText_b_big">Add new employee:</h1>
-                    <form>
-                        <input 
-                            type="text" 
-                            className="newForm" 
-                            onChange={this.handleUName}
-                            placeholder="Username"/>
-                        <input 
-                            type="text" 
-                            className="newForm" 
-                            onChange={this.handleName}
-                            placeholder="Name"/>
-                        <input 
-                            type="email" 
-                            className="newForm" 
-                            onChange={this.handleEmail}
-                            placeholder="Email"/>
-                        <input 
-                            type="tel" 
-                            className="newForm" 
-                            onChange={this.handlePhoneNumber}
-                            placeholder="Phone Number"/>
-                        <input 
-                            type="password" 
-                            className="newForm" 
-                            onChange={this.handleNewPass}
-                            placeholder="New password"/>
-                    </form>
-                    <form action="/Admin/Profile" className="newForm stockForm">
-                        <button className="btn-lg btn-block btn-secondary my-2 btn">Back</button>
-                    </form>
-                    <form className="newForm stockForm">
-                        <button onClick={this.addEmployeeHandler} className="btn-lg btn-block btn-secondary my-2 btn">Add new employee</button>
-                    </form>
+                <div className="container col mb-3">
+                    <h1 className="text-center display-3">Add new employee:</h1>
+                    <div className="container">
+                        <form>
+                            <input 
+                                type="text" 
+                                className="form-control mb-2" 
+                                onChange={this.handleUName}
+                                placeholder="Username"/>
+                            <input 
+                                type="text" 
+                                className="form-control mb-2" 
+                                onChange={this.handleName}
+                                placeholder="form-control"/>
+                            <input 
+                                type="email" 
+                                className="form-control mb-2" 
+                                onChange={this.handleEmail}
+                                placeholder="Email"/>
+                            <input 
+                                type="tel" 
+                                className="form-control mb-2" 
+                                onChange={this.handlePhoneNumber}
+                                placeholder="Phone Number"/>
+                            <input 
+                                type="password" 
+                                className="form-control mb-2" 
+                                onChange={this.handleNewPass}
+                                placeholder="New password"/>
+                        </form>
+                        <form action="/Admin/Profile" className="newForm stockForm">
+                            <button className="btn-lg btn-block btn-secondary my-2 btn">Back</button>
+                        </form>
+                        <form className="newForm stockForm">
+                            <button onClick={this.addEmployeeHandler} className="btn-lg btn-block btn-secondary my-2 btn">Add new employee</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         );

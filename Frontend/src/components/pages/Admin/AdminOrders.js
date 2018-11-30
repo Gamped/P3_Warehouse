@@ -118,6 +118,9 @@ export default class AdminOrders extends Component {
                         </div>
                         {this.buttonListShown()}
                     </div>
+                    <div className="col sidebar border border-dark rounded bg-secondary">
+                        
+                    </div>
                     <div className="Table">
                         <ReactTable data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
                     </div>

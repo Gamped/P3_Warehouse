@@ -1,10 +1,12 @@
+.MainContainer{
+    height: 85.9vh;
+}
+
 .CustomerList{
-    height: 94.3vh;
     flex-grow: 1;
 }
 
 .Table{
-    height: 94.3vh;
     flex-grow: 7;
 }
 
