@@ -77,10 +77,6 @@ export default class AdminUsers extends React.Component{
         }
     }
 
-    buttonDropDown(){
-        
-    }
-
     displayUser=(id)=>{
         const x = this.state.userShown;
         return null
