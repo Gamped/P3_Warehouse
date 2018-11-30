@@ -47,8 +47,10 @@ export default class AdminOrders extends Component {
     var buttons = [];
     response.data.forEach((order) => {
       buttons.push({
-        owner: order.owner.nickName,
-        id: order.orderId
+        owner: order.owner.name,
+        orderId: order.orderId,
+        orderName: order.name,
+        state: order.status
       })
     })
 
@@ -62,10 +64,10 @@ export default class AdminOrders extends Component {
     response.data.forEach((order) => {
 
       orders.push({
-        orderId: order.orderId,
-        owner: order.owner.nickName,
+        name: order.orderline.productName,
         date: order.date,
-        itemsToPack: order.orderLines.length
+        quantity: order.orderline.quantity,
+        packed: order.orderline.packed
       });
     });
     console.log(response.data[0]);
@@ -98,15 +100,16 @@ export default class AdminOrders extends Component {
         console.log(JSON.stringify(data));
 
         const columns = [
-            {Header: "Order Id", accessor: "orderId"},
-            {Header: "Owner", accessor: "owner"},
+            {Header: "Product Name", accessor: "productName"},
             {Header: "Date", accessor: "date"},
-            {Header: "Items To Pack", accessor: "itemsToPack"},
+            {Header: "Quantity", accessor: "quantity"},
             {Header: "Packed?", accessor: "packed"}
         ]
 
         const column = [
-            {Header: "Order", accessor: "name"},
+            {Header: "Owner", accessor: "owner"},
+            {Header: "ID", accessor: "orderId"},
+            {Header: "Order", accessor: "orderName"},
             {Header: "Status", accessor: "state"}
         ]
 

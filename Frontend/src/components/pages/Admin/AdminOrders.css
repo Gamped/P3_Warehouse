@@ -3,7 +3,7 @@
 }
 
 .SideBar{
-    flex-grow: 1;
+    flex-grow:7;
 }
 
 .Categories{
@@ -11,6 +11,5 @@
 }
 
 .OrderList{
-    flex-grow: 12;
     background-color: white;
 }
