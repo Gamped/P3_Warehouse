@@ -46,6 +46,9 @@ export default class NewWare extends Component {
     onChangeQuantity = (e) => {
         this.setState({ quantity: e.target.value});
     }
+    onChangeQuantity = (e) => {
+        this.setState({  Owner : e.target.value});
+    }
 
 
     render() {
@@ -53,33 +56,41 @@ export default class NewWare extends Component {
 
         return (
             <div className="PageStyle rounded">
-                <h1 className="title customText_b_big">Add new product</h1>
+                <h1 className=" text-center ">Add new product</h1>
                 <form>
                     <input
                         type="text"
-                        className="newForm"
+                        className="form-control my2 "
                         defaultValue={productName}
                         onChange={this.onChangeProductName}
                         placeholder="Product Name"/>
                     <input
                         type="text"
-                        className="newForm"
+                        className="form-control"
                         defaultValue={productId}
                         onChange={this.onChangeProductId}
                         placeholder="Product Id"/>
                     <input
                         type="text"
-                        className="newForm"
-                        defaultValue={quantity}
+                        className="form-control"
+                        //defaultValue={quantity}
+                        defaultValue={null}
                         onChange={this.onChangeQuantity}
                         placeholder="Quantity"/>
+                    <input
+                        type="text"
+                        className="form-control"
+                        defaultValue={null}
+                        onChange={this.onChangeQuantity}
+                        placeholder="Owner"/>
                 </form>
-                <form action="/Admin/Stock" className="newForm stockForm">
-                    <button className="btn-info btn-lg btn-block btn my-2">Back</button>
-                </form>
-                <form className="newForm stockForm">
+                <form className="">
                     <button className="btn-success btn-lg btn-block btn my-2" onClick={this.onSubmit}>Create product</button>
                 </form>
+                <form action="/Admin/Stock" className="">
+                    <button className="btn-info btn-lg btn-block btn my-2">Back</button>
+                </form>
+               
             </div>
         )     
     }
