@@ -6,3 +6,11 @@
     flex-grow: 1;
 }
 
+.Categories{
+    flex-grow: 3;
+}
+
+.OrderList{
+    flex-grow: 12;
+    background-color: white;
+}
