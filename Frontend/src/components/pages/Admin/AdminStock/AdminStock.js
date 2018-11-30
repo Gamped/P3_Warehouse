@@ -3,7 +3,6 @@ import "../../Pages.css";
 import "./AdminStock.css"
 import axios from 'axios';
 import ReactTable from 'react-table';
-import Buttonlist from '../../../MenuComponents/ButtonList/ButtonList';
 
 export default class AdminStock extends Component {
     constructor(props) {
@@ -37,8 +36,19 @@ export default class AdminStock extends Component {
         this.props.history.push(address);
     }
 
+    removeItem = () => {
+        const selectedId = this.state.selectedId;
+        if(selectedId !== ""){
+            if(window.confirm("You are deleting an item")){
+                //Todo: Få den til at remove et product by id. axios.remove()
+            }
+        }
+        
+    }
+
     render() {
       const data = this.state.products;
+      let del = false;
       const tableHeight = window.innerHeight*0.7;
       const columns = [
           {Header: "Product ID", accessor: "productId"},
@@ -63,7 +73,7 @@ export default class AdminStock extends Component {
                     </div>
                     <div className="Table container col">
                         <h1 className="Header">Stock</h1>
-                  
+
                     <ReactTable 
                         data={data} 
                         columns={columns} 
@@ -89,7 +99,6 @@ export default class AdminStock extends Component {
                           />
 
                         <div className="CRUD container row">
-
                             <div className="">
                                 <button  className="btn btn-block" onClick={()=>this.sendToPage("/Admin/Stock/New")}>New</button>
                             </div>
@@ -97,7 +106,7 @@ export default class AdminStock extends Component {
                                 <button  className="btn btn-block" onClick={()=>this.sendToPage("/Admin/Stock/Edit")}>Edit</button>
                             </div>
                             <div action="/Admin/Stock/Remove" className="">
-                                <button  className="btn btn-block" >Remove</button>
+                                <button  className="btn btn-block" onClick={this.removeItem}>Remove</button>
                             </div>
                             <div>
                                 <button className="btn btn-block">Export</button>
