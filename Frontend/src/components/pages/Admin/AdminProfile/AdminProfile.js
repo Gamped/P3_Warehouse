@@ -17,11 +17,11 @@ const AdminProfile = (props) => {
         <div className="PageStyle rounded">
             <h1 className="title customText_b_big">Profile information</h1>
             <div className="informationBox">
-                <h1 className="infoText customText_b">User name: {userName}</h1>
-                <h1 className="infoText customText_b">Name: {name}</h1>
-                <h1 className="infoText customText_b">Email: {email}</h1>
-                <h1 className="infoText customText_b">Phone number: {phoneNumber}</h1>
-                <h1 className="infoText customText_b">Address: {address}</h1>
+                <h1 className="lead"><strong>User name: {userName}</strong></h1>
+                <h1 className="lead"><strong>Name: {name}</strong></h1>
+                <h1 className="lead"><strong>Email: {email}</strong></h1>
+                <h1 className="lead"><strong>Phone number: {phoneNumber}</strong></h1>
+                <h1 className="lead"><strong>Address: {address}</strong></h1>
 
                 <form action="/Admin/Profile/Edit">
                     <button className="btn-block btn-dark btn my-3" >Edit</button>

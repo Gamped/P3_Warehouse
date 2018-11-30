@@ -34,6 +34,7 @@ export default class AdminStock extends Component {
 
     render() {
       const data = this.state.products;
+      const tableHeight = window.innerHeight*0.7;
       const columns = [
           {Header: "Product ID", accessor: "productId"},
           {Header: "Product Name", accessor: "productName"},
