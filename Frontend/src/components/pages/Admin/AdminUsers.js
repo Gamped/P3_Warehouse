@@ -7,6 +7,7 @@ import TextBox from "../../MenuComponents/TextBox/TextBox";
 export default class AdminUsers extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             publisher: [
                 {name:"Black Betty INC",id: "1"},
