@@ -31,16 +31,16 @@ export default class AdminRemove extends React.Component {
     render(){
         return(
         <div className="PageStyle rounded">
-            <h1 className="title customText_b_big">Remove employee:</h1>
+            <h1 className="text-center">Remove employee:</h1>
                 <form>
                     <input 
                         type="text" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handleUName}
                         placeholder="Username of Employee"/>
                     <input 
                         type="password" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handlePass}
                         placeholder="YOUR password"/>
                 </form>
