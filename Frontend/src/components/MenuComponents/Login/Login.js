@@ -79,13 +79,16 @@ class SignInBox extends React.Component{
 
 const mapStateToProps = (state)=>{
     return{
-        user: state.user
+        loggedIn: state.login.loggedIn
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        login: (user) => {dispatch({type: "LOGIN",user: user})}
+        login: (loggedIn,userType,nickName,userId) => {dispatch({type: "LOGIN",login: { loggedIn:loggedIn,
+        userType:userType,
+        nickName:nickName,
+        userId:userId}})}
     }
 }
 
