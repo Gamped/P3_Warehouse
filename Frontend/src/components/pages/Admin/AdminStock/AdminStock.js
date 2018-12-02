@@ -20,16 +20,17 @@ export default class AdminStock extends Component {
     }
 
     makeRow(response){
-      var products = [];
-      response.data.forEach((product) => {
-        products.push({
-          productId: product.productId,
-          productName: product.productName,
-          quantity: product.quantity,
-          hexId: product.hexId
-        })
-        })
-      return products;
+        var products = [];
+        response.data.forEach((product) => {
+            products.push({
+                productId: product.productId,
+                productName: product.productName,
+                quantity: product.quantity,
+                owner: product.owner.nickName,
+                hexId: product.hexId
+            })
+        });
+        return products;
     }
 
     sendToPage = (address) => {
@@ -48,8 +49,6 @@ export default class AdminStock extends Component {
 
     render() {
       const data = this.state.products;
-      let del = false;
-      const tableHeight = window.innerHeight*0.7;
       const columns = [
           {Header: "Product ID", accessor: "productId"},
           {Header: "Product Name", accessor: "productName"},
