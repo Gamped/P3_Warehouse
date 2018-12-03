@@ -117,6 +117,10 @@ export default class UserOrder extends React.Component {
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
       }
 
+    changeToCart = (event) => {
+        this.props.history.push("",this.state.orderLines)
+    }
+
     render(){
 
         const data = this.state.products;
@@ -131,9 +135,7 @@ export default class UserOrder extends React.Component {
         
         return(
             <div className="PageStyle rounded">
-
-                <UserOrderCart orderLines={[{name:"iron",id:"123823",amount:"5"},{name:"gold",id:"i49392",amount:"1"}]}/>
-
+            
                 <div className="topBox topBoxStyle">
                     <h2 className="topText text-center text-white"> Order:</h2>
                 </div>
