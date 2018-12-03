@@ -64,6 +64,11 @@ public class OrderRepositoryTest {
         Order queryedOrder = orderRepository.findById(orderId).orElse(null);
         Client queryedClient = clientRepository.findById(queryedOrder.getOwner().getHexId()).orElse(null);
         assert(queryedOrder != null && queryedClient.getHexId().equals(client.getHexId()));
+
+        product.setQuantity(123);
+        productRepository.save(product);
+
+        System.out.println(orderRepository.findById(orderId).get());
         /*
         NB: Ved ikke om Java bare refererer til java-objekterne uden om db, eller om DB faktisk henter det til os.
         Får vi problemer med dbRefs senere, er det nok dette vi først skal tjekke.

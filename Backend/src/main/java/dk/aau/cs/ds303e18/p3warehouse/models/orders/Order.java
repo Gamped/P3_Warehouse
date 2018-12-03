@@ -95,4 +95,12 @@ public class Order {
     public String getHexid() {
         return hexid;
     }
+
+    public String toString(){
+        String output = new String();
+        for (OrderLine l : orderLines){
+            output = output + l + " ";
+        }
+        return output;
+    }
 }

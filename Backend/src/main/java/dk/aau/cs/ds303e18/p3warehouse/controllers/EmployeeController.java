@@ -62,18 +62,18 @@ public class EmployeeController {
 
     @PutMapping("/employee/products/{id}")
     Product updateProduct(@PathVariable ObjectId id, @RequestBody Product product) {
-        Optional<Product> optProduct = productRepository.findById(id);
-        Product p = optProduct.get();
-
-        if (product.getProductName() != null) {
-            p.setProductName(product.getProductName());
+        if(id.equals(product.getId().toHexString())){
+            return productRepository.save(product);
         }
-        if (Integer.class.isInstance(product.getQuantity())) {
-            p.setQuantity(product.getQuantity());
+        else{
+            return null;
         }
+    }
 
-        productRepository.save(p);
-        return p;
+    @DeleteMapping("/employee/products/{id}")
+    public void deleteProductById(@PathVariable String id){
+        Product product = productRepository.findById(new ObjectId(id)).orElse(null);
+        ProductManager.removeProductFromDb(product);
     }
 
 

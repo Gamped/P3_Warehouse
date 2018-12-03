@@ -17,4 +17,11 @@ public class ProductManager {
         CustomerManager.saveCustomerToDatabase(owner);
         return productRepository.save(product);
     }
+
+    public static void removeProductFromDb(Product product){
+        Customer owner = CustomerManager.getCustomerFromProduct(product);
+        owner.removeProduct(product);
+        CustomerManager.saveCustomerToDatabase(owner);
+        productRepository.delete(product);
+    }
 }

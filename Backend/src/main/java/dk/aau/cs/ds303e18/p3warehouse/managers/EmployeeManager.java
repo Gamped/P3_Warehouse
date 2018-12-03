@@ -19,4 +19,11 @@ public class EmployeeManager {
         userRepository.save(new User(employee));
         return employeeRepository.save(employee);
     }
+    public static void removeEmployeeFromDb(Employee employee){
+        User user = userRepository.findAll().stream()
+                .filter(x -> x.getId().equals(employee.getId()))
+                .findFirst().get();
+        userRepository.delete(user);
+        employeeRepository.delete(employee);
+    }
 }
