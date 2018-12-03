@@ -27,19 +27,20 @@ public class UserRepositoryTest {
         ObjectId clientId = new ObjectId();
         Client client = new Client(clientId);
         client.setUserType(UserType.CLIENT);
-        client.setUserName("Simon med mus");
+        client.setUserName("Test");
+        client.setPassword("123");
         ContactInformation contactInformation = new ContactInformation();
-        contactInformation.setEmail("Simon@MacSutterPik.xDDDDDDDD");
+        contactInformation.setEmail("123");
         client.setContactInformation(contactInformation);
 
         clientRepository.save(client);
         userRepository.save(new User(client));
         Optional<User> hopefullyAUser = userRepository.findById(clientId);
-        Client hopefullyAClient = clientRepository.findById(client.getHexId()).orElse(null);
+        Client hopefullyAClient = clientRepository.findById(client.getHexId());
 
         assert(hopefullyAClient.getUserName().equals(client.getUserName()));
 
-        clientRepository.delete(client);
+       // clientRepository.delete(client);
         userRepository.delete(userRepository.findByUserName(client.getUserName()).orElse(null));
     }
 }

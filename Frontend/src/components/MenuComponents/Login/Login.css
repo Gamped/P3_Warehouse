@@ -1,23 +1,4 @@
 .signBox{
-    left: 0;
-    top: 40px;
-    bottom: 0;
-    width: 500px;
+    top: 6vh;
     background-image: linear-gradient(rgb(136, 107, 69), rgb(10, 96, 129));
-    position: absolute;
-  }
-
-  .logoPic{
-    position: absolute;
-    top: 220px;
-    left: 125px;
-    width: 230px;
-  }
-
-  .signButton{
-    position: relative;
-    left: 125px;
-    width: 230px;
-    top: 350px;
-    margin: 10px;
   }

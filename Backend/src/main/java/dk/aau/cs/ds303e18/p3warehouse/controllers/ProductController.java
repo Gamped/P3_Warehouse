@@ -21,15 +21,14 @@ public class ProductController {
 
     @GetMapping("/products")
     private Iterable<Product> findAll() {
-
         return productRepository.findAll();
     }
 
     @GetMapping("/products/{id}")
-    Optional<Product> findById(@PathVariable String id) {
+    Product findById(@PathVariable String id) {
 
         ObjectId objectId = new ObjectId(id);
-        Optional<Product> product = productRepository.findById(objectId);
+        Product product = productRepository.findById(objectId).orElse(null);
 
         return product;
     }
@@ -54,7 +53,6 @@ public class ProductController {
        BeanUtils.copyProperties(restProduct, product);
 
        productRepository.save(product);
-
        return "Product updated! \n" + product.getProductName() + "\n" + product.getHexId();
     }
 

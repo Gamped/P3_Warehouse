@@ -26,21 +26,11 @@ import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHisto
 import UserOrder from "./components/pages/User/UserOrder/UserOrder";
 import UserOrderCart from "./components/pages/User/UserOrder/UserOrderCart";
 import UserCartConfirm from "./components/pages/User/UserOrder/UserCartConfirm";
-import {createStore} from "redux";
 import {Provider} from "react-redux";
-import rootReducer from "./reducers/rootReducer"
-
-const initialValue = {
-    user:{loggedIn:"true",
-        userType:"admin",
-        name: "Kevin the machine",
-        userId:"ABC123"}
-};
-
-const store = createStore(rootReducer,initialValue);
+import redux from "./redux/Redux";
 
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={redux}>
         <BrowserRouter>
             <div>
                 <Route exact path="/" component={loginMain}/>

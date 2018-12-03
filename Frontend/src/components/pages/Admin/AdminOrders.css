@@ -1,14 +1,15 @@
-.AdminTable{
-    position: absolute;
-    right: 0px;
-    width: 60%;
-    height: 1vh
+.Table{
+    flex-grow: 5;
+}
+
+.SideBar{
+    flex-grow:7;
+}
+
+.Categories{
+    flex-grow: 3;
 }
 
 .OrderList{
-    position: relative;
-    left: 0px;
-    width: 40%;
-    height: 30%
+    background-color: white;
 }
-

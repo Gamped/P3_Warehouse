@@ -71,7 +71,7 @@ export default class UserProfileEdit extends React.Component {
 
     render(){
         return(
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
                 <h1 className="title customText_b_big">Edit profile:</h1>
                 <form>
                     <input 

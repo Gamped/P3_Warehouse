@@ -15,7 +15,7 @@ public interface ProductRepository extends MongoRepository<Product, ObjectId> {
 
     List<Product> findAll();
 
-    Optional<Product> findById(ObjectId id);
+    Product findById(@PathVariable String hexId);
     //Delete-funktionen crashede mit spring, lav heller denne funktionalitet i en handler, der parser hexstreng om til ObjectId
     Iterable<Product> findByOwner(Customer owner);
 

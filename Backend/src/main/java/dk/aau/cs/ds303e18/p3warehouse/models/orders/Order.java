@@ -1,5 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.orders;
 
+import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
@@ -82,8 +83,10 @@ public class Order {
         return this;
     }
 
-    public Order withNewOrderLine(Product product, int quantity){
-        //TODO: lav exception-checking på at quantity ikke er over produkt.quantity
+    public Order withNewOrderLine(Product product, int quantity)throws InvalidQuantityException{
+        if(product.getQuantity()< quantity) {
+         throw new InvalidQuantityException("Soory to low quantity");
+        }
         orderLines.add(new OrderLine(product, quantity));
         return this;
     }

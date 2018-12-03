@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.stream.Stream;
 
 @Document(collection = "publishers")
+
 public class Publisher extends Customer {
 
     @Id
@@ -27,6 +28,12 @@ public class Publisher extends Customer {
 
     public String getHexId() {
         return id.toString();
+    }
+
+    public int getSizeOfColletion(){
+        int size = 0;
+        size = clients.size();
+        return size;
     }
 
     public  void addClient(Client newClient){

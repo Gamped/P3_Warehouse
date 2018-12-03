@@ -7,78 +7,88 @@ import axios from "axios"
 // The box for sign-in to the system
 class SignInBox extends React.Component{
 
-    // Updates the username part of the state
-    emailTypedHandler = (event) => {
-        this.setState({
-            username: event.target.value
-        })
+    constructor(props) {
+        super(props);
+        this.onChange = this.onChange.bind(this);
+        this.loginHandler = this.loginHandler.bind(this);
+        this.state = {
+            userName:"",
+            password:""
+        }
     }
 
-    // Updates the password part of the state
-    passwordTypedHandler = (event) => {
-        this.setState({
-            password: event.target.value
-        })
+    onChange = (e) => {
+        const state = this.state.product;
+        state[e.target.name] = e.target.value;
     }
 
-    // Logs in
     loginHandler = (event) => {
         event.preventDefault()
 
        axios.get("localhost:8080/users?username=" + this.state.username + "&password="+this.state.password)
             .then(res => {
-                this.props.login({ userType:res.userType, loggedIn:true, name: res.name, userid:res.id})
+                console.log(res)
+                this.props.login({ userType:res.userType, loggedIn:true, name: res.nickName, userid:res.id})
             })
             .then(res => {
-                if(this.props.userType.toLowerCase()==="admin"){
+                if(this.props.userType.toLowerCase()==="employee"){
                     this.props.history.push("./Admin")
-                }else{
+                }else if(this.props.userType.toLowerCase() === "client"||this.props.userType.toLowerCase === "publisher"){
                     this.props.history.push("./User")
                 }
-            }) 
-
-        //We want it to succede a check here. Then get name, id and type on th user.
-       /* if (this.state.username.toLowerCase() ==="admin"){ //Temp work until connected to backend
-            this.props.login({ userType:"admin", loggedIn:"true", name: "Generic Name", userid:"UserID"})
-            console.log(this.props.user.name);
-            this.props.history.push("./Admin")
-        } else if(this.state.username.toLowerCase() ==="user"){
-            this.props.login("publisher", "Generic Name","UserID2")
-            this.props.history.push("./User")
-        } else{
-            alert("Email should be either: User or Admin")
-        }*/
+            })
     }
 
     render(){
-        console.log(this.props)
+
         return(
             //Functionality for responding to user input
             <div>
-                <div className="signBox">
-                    <img src={require('../../../resources/4n_logo_mini.jpg')} className="logoPic" alt="The logo of 4N"/>
-                    <div className="form">
-                        <form>
-                            <input type="Email" placeholder="Email" onChange={this.emailTypedHandler} required></input>
-                            <input type="Password" placeholder="Password" onChange={this.passwordTypedHandler} required></input> 
-                            <button onClick={this.loginHandler} className="signButton" >Sign in</button>
+                
+                <div className="col-sm makeRelative mx-auto mt-5">
+                    <div className="mt-5">    
+                        <form className="form-signin">
+                            <div className="text-center mb-4">
+                                <img src={require('../../../resources/4n_logo_mini.jpg')} className="logoPic" alt="The logo of 4N"/>
+                                <h1 className="h3 mb-3 font-weight-normal">4N Mailhouse</h1>
+                            </div>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                <label htmlFor="inputEmail" ><span className="input-group-text" id="inputGroup-sizing-default">Username</span></label>
+                                </div>
+                                <input type="text" className="form-control" id="inputEmail" placeholder="Username" onChange={this.emailTypedHandler} required autoFocus/>
+                            </div>
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                <label htmlFor="inputPassword"><span className="input-group-text" id="inputGroup-sizing-default">Password</span></label>
+                                </div>
+                                <input type="Password" className="form-control" id="inputPassword" placeholder="Password" onChange={this.passwordTypedHandler} required/>
+                            </div>
+                            
+                            <button onClick={this.loginHandler} className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    
                         </form>
                     </div>
                 </div>
+                
             </div>
         );
     }
 }
 
+
 const mapStateToProps = (state)=>{
     return{
-        user: state.user
+        loggedIn: state.login.loggedIn
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        login: (user) => {dispatch({type: "LOGIN",user: user})}
+        login: (loggedIn,userType,nickName,userId) => {dispatch({type: "LOGIN",login: { loggedIn:loggedIn,
+        userType:userType,
+        nickName:nickName,
+        userId:userId}})}
     }
 }
 

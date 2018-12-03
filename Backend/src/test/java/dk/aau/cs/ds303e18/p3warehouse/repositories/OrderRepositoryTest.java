@@ -1,5 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
+import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
@@ -49,11 +50,13 @@ public class OrderRepositoryTest {
         product.setProductId("1002");
 
         order.setOwner(client);
-        order.withNewOrderLine(product, 5);
-        order.withNewOrderLine(flyerProduct, 300);
+        try {
+            order.withNewOrderLine(product, 5);
+            order.withNewOrderLine(flyerProduct, 300);
+            order.setTitle("Testorder");
+        }catch(InvalidQuantityException e ){
 
-        order.setTitle("Testorder");
-
+        }
         clientRepository.save(client);
         productRepository.save(product);
         orderRepository.save(order);
@@ -62,7 +65,7 @@ public class OrderRepositoryTest {
 
         //Query order and see if mongo automatically refs our products and clients
         Order queryedOrder = orderRepository.findById(orderId).orElse(null);
-        Client queryedClient = clientRepository.findById(queryedOrder.getOwner().getHexId()).orElse(null);
+        Client queryedClient = clientRepository.findById(queryedOrder.getOwner().getHexId());
         assert(queryedOrder != null && queryedClient.getHexId().equals(client.getHexId()));
 
         product.setQuantity(123);
