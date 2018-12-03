@@ -12,7 +12,6 @@ public class User {
 
     private String userName;
     private String password;
-    private String nickName;
     private ObjectId id;  // ID for the child in another collection
     private UserType userType;
 
@@ -23,16 +22,6 @@ public class User {
     public User(User userToCopyFrom){
         BeanUtils.copyProperties(userToCopyFrom, this);
     }
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-    public String getUserName(){
-        return userName;
-    }
 
     public void setUserName(String userName) {
         this.userName = userName;
@@ -41,6 +30,8 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public String getUserName() { return userName; }
 
     public void setPassword(String password) {
         this.password = password;

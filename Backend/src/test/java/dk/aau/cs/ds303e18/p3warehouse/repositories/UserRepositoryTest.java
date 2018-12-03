@@ -40,7 +40,7 @@ public class UserRepositoryTest {
 
         assert(hopefullyAClient.getUserName().equals(client.getUserName()));
 
-       // clientRepository.delete(client);
-        userRepository.delete(userRepository.findByUserName(client.getUserName()).orElse(null));
+        User cleanupUser = userRepository.findByUserName(client.getUserName()).get();
+        userRepository.delete(cleanupUser);
     }
 }

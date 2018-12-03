@@ -24,35 +24,6 @@ public class UserController {
     @Autowired
     EmployeeRepository employeeRepository;
 
-    @GetMapping("/users")
-    private Iterable<User> all() {
-        return userRepository.findAll();
-    }
-
-    @PostMapping("/users")
-    private User newUser(@RequestBody User newUser) {
-        return userRepository.save(newUser);
-    }
-
-    @GetMapping("/users/{userName}")
-    Optional<User> findByUserName(@PathVariable String userName) {
-        return userRepository.findByUserName(userName);
-    }
-
-    @GetMapping("/users/{password}")
-    Optional<User> findByPassword(@PathVariable String password) {
-        return userRepository.findByPassword(password);
-    }
-
-    @GetMapping("/users/{userType}")
-    Optional<User> findByUserType(@PathVariable UserType userType) {
-        return userRepository.findByUserType(userType);
-    }
-
-    @GetMapping("/users/{id}")
-    Optional<User> findById(@PathVariable ObjectId id) {
-        return userRepository.findById(id);
-    }
 
     @GetMapping("/users/login/{userName}/{password}")
     private User authenticateUser(@PathVariable("userName") String userName, @PathVariable("password") String password){
@@ -63,7 +34,7 @@ public class UserController {
 
             switch(user.getUserType()){
                 case CLIENT:
-                    return employeeRepository.findById(user.getId()).get();
+                    return clientRepository.findById(user.getId()).get();
 
                 case PUBLISHER:
                     return publisherRepository.findById(user.getId()).get();

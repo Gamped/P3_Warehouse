@@ -32,7 +32,7 @@ public class OrderRepositoryTest {
     public void dbRefTest(){
         Client client = new Client(new ObjectId());
         client.setUserName("simonusr");
-        client.setNickName("Simon A/S");
+        client.getContactInformation().setNickName("Simon A/S");
 
         ObjectId orderId = new ObjectId();
         Order order = new Order(orderId);

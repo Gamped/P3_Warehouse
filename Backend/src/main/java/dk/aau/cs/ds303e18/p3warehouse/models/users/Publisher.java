@@ -18,7 +18,6 @@ public class Publisher extends Customer {
     private ObjectId id = new ObjectId();
     @DBRef
     private Collection<Client> clients;
-    private String publisherName;
 
     public Publisher(ObjectId id){
         super(id);
@@ -30,8 +29,8 @@ public class Publisher extends Customer {
         return id.toString();
     }
 
-    public int getSizeOfColletion(){
-        int size = 0;
+    public int getNumberOfClients(){
+        int size;
         size = clients.size();
         return size;
     }
@@ -46,16 +45,6 @@ public class Publisher extends Customer {
 
     public Stream<Client> getClientStream(){
         return clients.stream();
-    }
-
-    //public void setHexId(String hexId) { this.hexId = hexId; } No reason to set hexid if our getter generates it for us.
-
-    public String getPublisherName() {
-        return publisherName;
-    }
-
-    public void setPublisherName(String publisherName) {
-        this.publisherName = publisherName;
     }
 }
 
