@@ -45,10 +45,10 @@ export default class AdminRemove extends React.Component {
                         placeholder="YOUR password"/>
                 </form>
                 <form action="/Admin/Profile" className="newForm stockForm">
-                    <button className="btn-lg btn-success btn-block my-2 btn">Back</button>
+                    <button className="btn-lg btn-danger btn-block my-2 btn">REMOVE employee</button>
                 </form>
                 <form action="/Admin/Profile" className="newForm stockForm">
-                    <button className="btn-lg btn-danger btn-block my-2 btn">REMOVE employee</button>
+                    <button className="btn-info btn-lg btn-block btn my-2">Back</button>
                 </form>
         </div>);
     }
