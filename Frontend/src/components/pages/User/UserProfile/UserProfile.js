@@ -25,10 +25,10 @@ const UserProfile = (props) => {
                 <h1 className="infoText customText_b">CVR: {cvr}</h1>
 
                 <form action="/User/Profile/Edit">
-                    <button className="infoButton" >Edit</button>
+                    <button className="btn-lg btn-block btn-warning my-2" >Edit</button>
                 </form>
                 <form action="/User/Profile/OrderHistory">
-                    <button className="infoButton" >Order histroy</button>
+                    <button className="btn-lg btn-block my-2" >Order histroy</button>
                 </form>
             </div>
         </div>
