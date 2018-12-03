@@ -45,7 +45,7 @@ public class ClientController {
         return clientRepository.findAll();
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("clients/products/{id}")
     Client findById(@PathVariable String id) {
 
         ObjectId objectId = new ObjectId(id);
