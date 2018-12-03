@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.UserRepository;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
 import java.util.Optional;
-
+@RequestMapping("/api")
+@CrossOrigin
 @RestController
 public class UserController {
 
@@ -53,10 +54,13 @@ public class UserController {
         return userRepository.findById(id);
     }
 
-    @GetMapping("/users?name={username}&password={password}")
-    private User authenticateUser(@PathVariable String username, @PathVariable String password){
-        User user = userRepository.findByUserName(username).orElse(null);
+    @GetMapping("/users/login/{userName}/{password}")
+    private User authenticateUser(@PathVariable("userName") String userName, @PathVariable("password") String password){
+        User user = userRepository.findByUserName(userName).orElse(null);
+        System.out.println(user.toString());
+
         if(user != null && user.getPassword().equals(password)){
+
             switch(user.getUserType()){
                 case CLIENT:
                     return employeeRepository.findById(user.getId()).get();

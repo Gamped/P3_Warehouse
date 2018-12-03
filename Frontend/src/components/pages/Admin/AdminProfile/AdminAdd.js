@@ -1,23 +1,33 @@
 import React from 'react';
 import "../../Pages.css";
 import "./AdminProfile.css";
+import axios from "axios";
 
 export default class AdminAdd extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: props.ID,
             userName: "",
-            name: "",
+            nickName: "",
             email: "",
             phoneNumber: "",
-            passwordNew: "",
+            password: "",
         };
     }
 
-    /*
-    * SOME FUNCTION TO RETRIEVE & SEND INFO FROM DB
-    */
+    addEmployeeHandler = (event) =>{
+        event.preventDefault();
+        const {userName, name, email,phoneNumber,password} = this.state;
+
+        setTimeout(function () {
+            axios.post('http://localhost:8080/employee', {userName, name, email, phoneNumber, password}).then((result)=> {
+                this.props.history.goBack();
+            }).catch((err) => {
+            console.log(err.response);
+            });
+        }, 1000);
+        this.props.history.goBack();
+    }
 
     handleUName = (event) => {
         this.setState({
@@ -27,7 +37,7 @@ export default class AdminAdd extends React.Component {
 
     handleName = (event) => {
         this.setState({
-            name: event.target.value,
+            nickName: event.target.value,
         });
     }
 
@@ -45,47 +55,51 @@ export default class AdminAdd extends React.Component {
 
     handleNewPass = (event) => {
         this.setState({
-            passwordNew: event.target.value,
+            password: event.target.value,
         });
     }
 
     render(){
         return(
-            <div className="PageStyle">
-                <h1 className="title customText_b_big">Add new employee:</h1>
-                    <form>
-                        <input 
-                            type="text" 
-                            className="newForm" 
-                            onChange={this.handleUName}
-                            placeholder="User name"/>
-                        <input 
-                            type="text" 
-                            className="newForm" 
-                            onChange={this.handleName}
-                            placeholder="Name"/>
-                        <input 
-                            type="email" 
-                            className="newForm" 
-                            onChange={this.handleEmail}
-                            placeholder="Email"/>
-                        <input 
-                            type="tel" 
-                            className="newForm" 
-                            onChange={this.handlePhoneNumber}
-                            placeholder="Phone Number"/>
-                        <input 
-                            type="password" 
-                            className="newForm" 
-                            onChange={this.handleNewPass}
-                            placeholder="New password"/>
-                    </form>
-                    <form action="/Admin/Profile" className="newForm stockForm">
-                        <button className="newButton stockButton_f btn">Back</button>
-                    </form>
-                    <form action="/Admin/Profile" className="newForm stockForm">
-                        <button className="newButton stockButton_f btn">Add new employee</button>
-                    </form>
+            <div className="PageStyle rounded">
+                <div className="container col mb-3">
+                    <h1 className="text-center display-3">Add new employee:</h1>
+                    <div className="container">
+                        <form>
+                            <input 
+                                type="text" 
+                                className="form-control mb-2" 
+                                onChange={this.handleUName}
+                                placeholder="Username"/>
+                            <input 
+                                type="text" 
+                                className="form-control mb-2" 
+                                onChange={this.handleName}
+                                placeholder="form-control"/>
+                            <input 
+                                type="email" 
+                                className="form-control mb-2" 
+                                onChange={this.handleEmail}
+                                placeholder="Email"/>
+                            <input 
+                                type="tel" 
+                                className="form-control mb-2" 
+                                onChange={this.handlePhoneNumber}
+                                placeholder="Phone Number"/>
+                            <input 
+                                type="password" 
+                                className="form-control mb-2" 
+                                onChange={this.handleNewPass}
+                                placeholder="New password"/>
+                        </form>
+                        <form action="/Admin/Profile" className="newForm stockForm">
+                            <button className="btn-lg btn-block btn-secondary my-2 btn">Back</button>
+                        </form>
+                        <form className="newForm stockForm">
+                            <button onClick={this.addEmployeeHandler} className="btn-lg btn-block btn-secondary my-2 btn">Add new employee</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         );
     }

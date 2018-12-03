@@ -3,12 +3,11 @@ import "../Pages.css";
 import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
 import "./AdminUsers.css";
 import TextBox from "../../MenuComponents/TextBox/TextBox";
-import axios from 'axios';
-import ReactTable from 'react-table';
 
-export default class AdminUsers extends React.Component{
+export default class AdminUsers extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             publisher: [
                 {name:"Black Betty INC",id: "1"},
@@ -78,17 +77,16 @@ export default class AdminUsers extends React.Component{
     }
 
     displayUser=(id)=>{
-        const x = this.state.userShown;
         return null
         // todo. Burde nok gette informationen fra backenden, da vi ellers kan nøjes med name og id.
     }
 
     render(){
         return(
-            <div className="PageStyle">
-                <div className="userPageStyle">
+            <div className="PageStyle rounded">
+                <div className="userPageStyle rounded">
                     <div className="container row">
-                        <div className="col sidebar fullbar border border-dark rounded bg-secondary">
+                        <div className="col sidebar border border-dark rounded bg-secondary">
                             <div className="border border-light rounded bg-info">
                                 <ButtonList buttons={this.state.tabs} color="secondary" link={false} action={this.changeList}/>
                             </div>

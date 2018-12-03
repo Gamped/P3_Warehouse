@@ -65,7 +65,7 @@ export default class AdminProfileEdit extends React.Component {
 
     render(){
         return(
-            <div className="PageStyle">
+            <div className="PageStyle rounded">
                 <h1 className="title customText_b_big">Edit profile:</h1>
                     <form>
                         <input 
@@ -105,10 +105,10 @@ export default class AdminProfileEdit extends React.Component {
                             placeholder="New password"/>
                     </form>
                     <form action="/Admin/Profile" className="newForm stockForm">
-                        <button className="newButton stockButton_f btn">Back</button>
+                        <button className="btn-block btn-lg my-2 btn-secondary btn">Back</button>
                     </form>
                     <form action="/Admin/Profile" className="newForm stockForm">
-                        <button className="newButton stockButton_f btn">Edit profile</button>
+                        <button className="btn-block btn-lg my-2 btn-secondary btn">Edit profile</button>
                     </form>
             </div>
         );
