@@ -22,7 +22,7 @@ export default class UserOrder extends React.Component {
             products: [],
             selected: null,
             selectedId: "",
-            orderLines: []
+            orderLines: [{name:"iron",id:"123823",amount:"5"},{name:"gold",id:"i49392",amount:"1"}]
         };
 
         this.makeRow = this.makeRow.bind(this);
@@ -120,7 +120,6 @@ export default class UserOrder extends React.Component {
     render(){
 
         const data = this.state.products;
-        const tableHeight = window.innerHeight*0.7;
 
         const columns = [
             {Header: "Product Id", accessor: "productId"},
@@ -128,11 +127,12 @@ export default class UserOrder extends React.Component {
             {Header: "Amount", accessor: "amount", Cell: this.renderEditable},
             {Header: "Quantity", accessor: "quantity"},
             {Header: "Owner", accessor: "owner"}];
-
+        
+        
         return(
             <div className="PageStyle rounded">
 
-            <UserOrderCart orderLines={this.state.orderLines}/>
+                <UserOrderCart orderLines={[{name:"iron",id:"123823",amount:"5"},{name:"gold",id:"i49392",amount:"1"}]}/>
 
                 <div className="topBox topBoxStyle">
                     <h2 className="topText text-center text-white"> Order:</h2>
