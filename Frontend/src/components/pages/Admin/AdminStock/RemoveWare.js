@@ -26,7 +26,7 @@ const RemoveWare =(props)=> {
             <form>
                 <input 
                     type="text" 
-                    className="newForm" 
+                    className="my-2 form-control" 
                     onChange={handlePName}
                     placeholder="Please enter product name to confirm"/>
             </form>

@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.GeneratedValue;
 
-@Document(collection = "products")
+@Document(collection = "clients")
 public class Product {
 
     @Id

@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestClientModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.web.bind.annotation.*;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
+
+import javax.validation.constraints.Null;
+
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
@@ -19,23 +23,39 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 import java.util.List;
 import java.util.Optional;
 
+
+@RequestMapping("/api")
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
 public class ClientController {
 
     @Autowired
     ClientRepository clientRepository;
+    @Autowired
+    ProductRepository productRepository;
 
     @GetMapping("/clients")
     private Iterable<Client> findAll() {
         return clientRepository.findAll();
     }
 
-    @GetMapping("/clients/{id}")
-    Optional<Client> findById(@PathVariable ObjectId id) {
 
-        return clientRepository.findById(id);
+    @GetMapping("/clients/products")
+    private Iterable<Client> findAllProdcts() {
+        return clientRepository.findAll();
+    }
+
+    @GetMapping("/products/{id}")
+    Client findById(@PathVariable String id) {
+
+        ObjectId objectId = new ObjectId(id);
+        Client product = clientRepository.findById(objectId).orElse(null);
+
+        return product;
+    }
+
+    @GetMapping("/clients/{id}")
+    Client findById(@PathVariable ObjectId id) { return clientRepository.findById(id).orElse(null);
     }
 
     @PostMapping("/clients/{publisherId}/new")
@@ -49,19 +69,32 @@ public class ClientController {
         return clientRepository.save(newClient);
     }
 
+    @PutMapping("/client/products/{hexId}")
+    String update(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
+
+        ObjectId id = new ObjectId(hexId);
+        Product product = productRepository.findById(id).orElse(null);
+        BeanUtils.copyProperties(restProduct, product);
+        productRepository.save(product);
+
+        return "Product updated! \n" + product.getProductName() + "\n" + product.getHexId();
+    }
+
+
     @PutMapping("/clients/edit/{hexId}")
     String update(@PathVariable("hexId") String hexId, @RequestBody RestClientModel restClientModel) {
 
         ObjectId id = new ObjectId(hexId);
-        Optional<Client> optClient = clientRepository.findById(id);
-        Client clientToSave = optClient.get();
+        Client client = clientRepository.findById(id).orElse(null);
 
-        BeanUtils.copyProperties(restClientModel, clientToSave);
 
-        clientRepository.save(clientToSave);
+        BeanUtils.copyProperties(restClientModel, client);
 
-        return "Publisher updated! \n" + clientToSave.getClientName() + "\n" + clientToSave.getHexId();
+        clientRepository.save(client);
+
+        return "Publisher updated! \n" + client.getClientName() + "\n" + client.getHexId();
     }
+
 
     @DeleteMapping("/clients/delete/{id}")
     void delete(@PathVariable String hexId) {

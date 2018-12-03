@@ -36,7 +36,7 @@ public class UserRepositoryTest {
         clientRepository.save(client);
         userRepository.save(client);
         Optional<User> hopefullyAUser = userRepository.findById(clientId);
-        Client hopefullyAClient = clientRepository.findById(client.getHexId()).orElse(null);
+        Client hopefullyAClient = clientRepository.findById(client.getHexId());
 
         assert(hopefullyAClient.getUserName().equals(client.getUserName()));
 

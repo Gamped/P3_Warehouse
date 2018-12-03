@@ -48,14 +48,15 @@ export default class AdminStock extends Component {
 
     render() {
       const data = this.state.products;
-      let del = false;
-      const tableHeight = window.innerHeight*0.7;
+      //const tableHeight = window.innerHeight*0.7;
       const columns = [
           {Header: "Product ID", accessor: "productId"},
           {Header: "Product Name", accessor: "productName"},
           {Header: "Quantity", accessor: "quantity"},
           {Header: "Owner", accessor: "owner"}
       ]
+
+
 
         return(
             <div className="PageStyle rounded">
