@@ -79,7 +79,7 @@ public class EmployeeController {
     @GetMapping("/employee/clients")
     private Collection<Client> findAllClients() {
         return clientRepository.findAll();
-    }
+}
 
     @GetMapping("/employee/publishers")
     private Collection<Publisher> findAllPublishers() {
