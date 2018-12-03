@@ -21,15 +21,14 @@ public class ProductController {
 
     @GetMapping("/products")
     private Iterable<Product> findAll() {
-
         return productRepository.findAll();
     }
 
     @GetMapping("/products/{id}")
-    Optional<Product> findById(@PathVariable String id) {
+    Product findById(@PathVariable String id) {
 
         ObjectId objectId = new ObjectId(id);
-        Optional<Product> product = productRepository.findById(objectId);
+        Product product = productRepository.findById(objectId).orElse(null);
 
         return product;
     }
@@ -49,14 +48,12 @@ public class ProductController {
     String update(@PathVariable("hexId") String hexId, @RequestBody RestProductModel restProduct) {
 
        ObjectId id = new ObjectId(hexId);
-       Optional<Product> optProduct = productRepository.findById(id);
-       Product productToSave = optProduct.get();
+       Product Product = productRepository.findById(id).orElse(null);
+       BeanUtils.copyProperties(restProduct, Product);
 
-       BeanUtils.copyProperties(restProduct, productToSave);
+       productRepository.save(Product);
 
-       productRepository.save(productToSave);
-
-       return "Product updated! \n" + productToSave.getProductName() + "\n" + productToSave.getHexId();
+       return "Product updated! \n" + Product.getProductName() + "\n" + Product.getHexId();
     }
 
     @DeleteMapping("/products/delete/{id}")

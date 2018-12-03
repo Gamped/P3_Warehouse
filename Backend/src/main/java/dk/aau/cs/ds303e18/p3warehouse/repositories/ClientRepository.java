@@ -15,6 +15,6 @@ public interface ClientRepository extends MongoRepository<Client, ObjectId> {
 
     public Publisher findByPublisherId(@PathVariable ObjectId publisherId);
 
-    Optional<Client> findById(@PathVariable String hexId);
+    Client findById(@PathVariable String hexId);
 
 }

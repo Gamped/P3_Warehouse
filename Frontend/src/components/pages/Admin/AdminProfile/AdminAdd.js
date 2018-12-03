@@ -92,11 +92,11 @@ export default class AdminAdd extends React.Component {
                                 onChange={this.handleNewPass}
                                 placeholder="New password"/>
                         </form>
-                        <form action="/Admin/Profile" className="newForm stockForm">
-                            <button className="btn-lg btn-block btn-secondary my-2 btn">Back</button>
-                        </form>
                         <form className="newForm stockForm">
-                            <button onClick={this.addEmployeeHandler} className="btn-lg btn-block btn-secondary my-2 btn">Add new employee</button>
+                            <button onClick={this.addEmployeeHandler} className="btn-success btn-lg btn-block btn my-2">Add new employee</button>
+                        </form>
+                        <form action="/Admin/Profile" className="newForm stockForm">
+                            <button className="btn-info btn-lg btn-block btn my-2">Back</button>
                         </form>
                     </div>
                 </div>

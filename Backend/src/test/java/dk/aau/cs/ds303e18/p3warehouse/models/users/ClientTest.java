@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -28,7 +29,14 @@ public class ClientTest {
         ObjectId CId = new ObjectId();
         Client client = new Client(CId);
         assertNotNull(client.getHexId());
-        //clientRepository.deleteById(CId);
+    }
+
+    @Test
+    public void setNameClient(){
+        ObjectId CId = new ObjectId();
+        Client client = new Client(CId);
+        client.setClientName("TestName");
+        assertEquals(client.getClientName(),"TestName");
     }
 
     @Test
@@ -36,8 +44,8 @@ public class ClientTest {
         ObjectId CId = new ObjectId();
         Client client = new Client(CId);
         clientRepository.save(client);
-        Optional<Client> optionalClient = clientRepository.findById(client.getHexId());
-        Client retrievedClient = optionalClient.get();
+        Client Client = clientRepository.findById(client.getHexId());
+        Client retrievedClient = Client;
         Assert.assertEquals(client.getHexId(), retrievedClient.getHexId());
         clientRepository.deleteById(CId);
     }

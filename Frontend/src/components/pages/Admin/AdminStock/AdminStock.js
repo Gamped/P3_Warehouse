@@ -56,6 +56,8 @@ export default class AdminStock extends Component {
           {Header: "Owner", accessor: "owner"}
       ]
 
+
+
         return(
             <div className="PageStyle rounded">
                 <div className="MainContainer container row">
