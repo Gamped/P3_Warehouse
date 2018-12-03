@@ -21,7 +21,7 @@ export default class PublisherClient extends React.Component {
                 </div>
   
                 <div className="stockListBox 'contentBoxStyle'">
-                    <table className="stockTable">
+                    <table className="table">
                         <tbody>
                             <tr>
                                 <th>Product name</th>
@@ -34,9 +34,9 @@ export default class PublisherClient extends React.Component {
   
                 <div className="bottomBoxStyle bottomBox">
                     <form action="/User/Clients/Request" className="pubForm">
-                        <button  className="pubButton_f btn" >Request client change</button>
+                        <button  className="btn-warning pubButton_f btn" >Request client change</button>
                     </form>
-                    <button className="pubButton btn">Export their stock</button>
+                    <button className="btn-info pubButton btn">Export their stock</button>
                 </div>
             </div>
         );

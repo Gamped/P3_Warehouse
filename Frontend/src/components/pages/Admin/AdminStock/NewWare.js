@@ -52,11 +52,11 @@ export default class NewWare extends Component {
 
 
     render() {
-      const {productName, productId, quantity,Owner} = this.state;
+      const {productName, productId, quantity, Owner} = this.state;
 
         return (
             <div className="PageStyle rounded">
-                <h1 className=" text-center my -2">Add new product</h1>
+                <h1 className=" text-center">Add new product</h1>
                 <form>
                     <input
                         type="text "

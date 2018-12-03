@@ -3,9 +3,8 @@ import "../../Pages.css";
 import "./UserOrder.css";
 import "./UserCart.css";
 import {shrinkToHtmlNames} from './../../../../global.js';
-import axios from 'axios';
 
-export default class UserOrder extends React.Component {
+class UserOrderCart extends React.Component {
     constructor() {
         super();
         
@@ -17,17 +16,9 @@ export default class UserOrder extends React.Component {
             addressForm: addressForm,
             htmlNames: htmlNames,
             quarry: "",
-            previousAddresses: []
+            previousAddresses: [],
+            orderLines:[]
         };
-    }
-
-    componentWillMount() {
-       
-        //TODO: Make route for address saving previous addresses
-        //axios.get('http://localhost:8080/user/'+this.props.userId+'/previousAddresses')
-        // .then((response) => { 
-        //    this.setState({previousAddresses: response.data})
-      //  })
     }
  
     onChange = (e) => {
@@ -50,64 +41,67 @@ export default class UserOrder extends React.Component {
     }
 
     render(){
-        
         return(
             <div className="PageStyle rounded">
-                         <div className="topBox topBoxStyle">
-                    <h2 className="topText text-center text-white"> Cart:</h2>
-                </div>
-
-                <div className="cartBox contentBoxStyle">
-                    <select 
-                        className="cartDropdown" 
-                        value={this.state.previousAddresses.addressLine}
-                        onChange={this.handlePreviousAddressSelect}>
-
-                        <option value="">[Use previous addresses]</option>
-                        {this.state.previousAddresses.map(address =>
-                            <option value={address}>{address}</option>
-                        )}
-                    </select> 
-
-                    <div className="productListBox bottomBoxStyle">
-                       
-                        <table className="cartTable">
-                            <tbody>
-                                <tr>
-                                    <th>Product name</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div className="infoBox">
-                        <div className="cartButtonBox">
-                            <form action="/User/Order/" className="cartButtonForm cartButton">
-                                <button className=" stockButton_f btn">Cancel</button>
-                            </form>
-                            <form action="/User/Order/Cart/Confirm" className="cartButtonForm cartButton">
-                                <button className=" stockButton_f btn">Send order</button>
-                            </form>
-                            <h1 className="cartTxt customText_b">Where to send:</h1>
+                    <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
+                <div className="container">
+                    <div className="row">
+                        <div className="col">
+                            <div className="container my-3">
+                                <table className="table table-dark">
+                                    <thead>
+                                        <th scope="col">Product ID</th>
+                                        <th scope="col">Product name</th>
+                                        <th scope="col">Amount</th>
+                                    </thead>
+                                    <tbody>
+                                        
+                                            {this.state.orderLines.map((line)=>{
+                                                return(
+                                                <tr>
+                                                    <th scope="row">{line.id}</th>
+                                                    <td>{line.name}</td>
+                                                    <td>{line.amount}</td>
+                                                </tr>
+                                                ) 
+                                            })}
+                                            
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        <form className="cartFormPlacer">
-                            {this.state.addressForm.map((placeholder, i) => {
-                                return(
-                               <input 
-                               type="text" 
-                               className="cartForm" 
-                               name= {this.state.htmlNames[i]}
-                               onChange={this.onChange}
-                                   placeholder={placeholder}/> 
-                                )
-                            })}
-        
-                        </form>
-                    </div>
+                        <div className="col container">
+                            <form action="/User/Order/Cart/Confirm" className="container">
+                                <button className=" btn-success btn btn-block my-3">Send order</button>
+                            </form>
+                            <form action="/User/Order/" className="container my-3">
+                                <button className=" btn-danger btn btn-block">Cancel order</button>
+                            </form>
+                                <h4 className="text-center my-2">Where to send the order:</h4>
+
+                            <form className="">
+                                {this.state.addressForm.map((placeholder, i) => {
+                                    return(
+                                <input 
+                                type="text" 
+                                className="input-group mb-3" 
+                                name= {this.state.htmlNames[i]}
+                                onChange={this.onChange}
+                                    placeholder={placeholder}
+                                    key={placeholder}/> 
+                                    )
+                                })}
+            
+                            </form>
+                    
+                        </div>
+                    </div>        
                 </div>
             </div>
         );
     }
 }
+
+export default UserOrderCart;
