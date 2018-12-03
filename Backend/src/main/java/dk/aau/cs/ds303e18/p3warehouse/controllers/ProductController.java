@@ -24,13 +24,12 @@ public class ProductController {
         return productRepository.findAll();
     }
 
-    @GetMapping("/products/{id}")
-    Product findById(@PathVariable String id) {
+    @GetMapping("/products/{hexId}")
+    Product findById(@PathVariable("hexId") String hexId) {
 
-        ObjectId objectId = new ObjectId(id);
-        Product product = productRepository.findById(objectId).orElse(null);
+        ObjectId objectId = new ObjectId(hexId);
+       return productRepository.findById(objectId).orElse(null);
 
-        return product;
     }
 
     @PostMapping("/products/new")
@@ -47,23 +46,24 @@ public class ProductController {
     @PutMapping("/products/edit/{hexId}")
     String update(@PathVariable("hexId") String hexId, @RequestBody RestProductModel restProduct) {
 
-       ObjectId id = new ObjectId(hexId);
-       Product Product = productRepository.findById(id).orElse(null);
-       BeanUtils.copyProperties(restProduct, Product);
+        ObjectId id = new ObjectId(hexId);
+        Product Product = productRepository.findById(id).orElse(null);
+        BeanUtils.copyProperties(restProduct, Product);
 
-       productRepository.save(Product);
+        productRepository.save(Product);
 
-       return "Product updated! \n" + Product.getProductName() + "\n" + Product.getHexId();
+        return "Product updated! \n" + Product.getProductName() + "\n" + Product.getHexId();
     }
 
-    @DeleteMapping("/products/delete/{id}")
-    void delete(@PathVariable String hexId) {
+
+    @DeleteMapping("/products/delete/{hexId}")
+    void delete(@PathVariable("hexId") String hexId) {
         ObjectId id = new ObjectId(hexId);
         productRepository.deleteById(id);
     }
 
-    @GetMapping("/clients/{id}/products")
-    Iterable<Product> findByOwner(@RequestBody Customer owner) {
+    @GetMapping("/products/{id}/products")
+    Iterable<Product> findByOwner(@PathVariable("id") String id, @RequestBody Customer owner) {
         return productRepository.findByOwner(owner);
     }
 
