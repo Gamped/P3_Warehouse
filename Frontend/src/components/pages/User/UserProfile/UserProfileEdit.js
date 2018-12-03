@@ -72,55 +72,56 @@ export default class UserProfileEdit extends React.Component {
     render(){
         return(
             <div className="PageStyle rounded">
-                <h1 className="title customText_b_big">Edit profile:</h1>
+                <h1 className="text-center">Edit profile:</h1>
                 <form>
                     <input 
                         type="text" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handleUName}
                         placeholder="User name"/>
                     <input 
                         type="text" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handleName}
                         placeholder="Name"/>
                     <input 
                         type="email" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handleEmail}
                         placeholder="Email"/>
                     <input 
                         type="tel" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handlePhoneNumber}
                         placeholder="Phone Number"/>
                     <input 
                         type="text" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handleAddress}
                         placeholder="Address"/>
                     <input 
                         type="text" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handleCVR}
                         placeholder="CVR"/>
                     <input 
                         type="password" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handleCurPass}
                         placeholder="Current password"/>
                     <input 
                         type="password" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handleNewPass}
                         placeholder="New password"/>
                 </form>
                 <form action="/User/Profile" className="newForm stockForm">
-                    <button className="newButton stockButton_f btn">Back</button>
+                    <button className="btn-lg btn-block btn-warning my-2">Edit profile</button>
                 </form>
                 <form action="/User/Profile" className="newForm stockForm">
-                    <button className="newButton stockButton_f btn">Edit profile</button>
+                    <button className="btn-info btn-lg btn-block btn my-2">Back</button>
                 </form>
+
             </div>
         );
     }

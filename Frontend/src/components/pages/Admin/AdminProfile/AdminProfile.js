@@ -26,14 +26,14 @@ export default class AdminProfile extends React.Component {
                     <h1 className="lead"><strong>Phone number: {phoneNumber}</strong></h1>
                     <h1 className="lead"><strong>Address: {address}</strong></h1>
 
-                    <form action="/Admin/Profile/Edit">
-                        <button className="btn-block btn-dark btn my-3" >Edit</button>
-                    </form>
                     <form action="/Admin/Profile/AddEmployee">
-                        <button className="btn-block btn-dark btn my-3" >Add employee</button>
+                        <button className="btn-block btn-success btn my-2" >Add employee</button>
+                    </form>
+                    <form action="/Admin/Profile/Edit">
+                        <button className="btn-block btn-warning btn my-2" >Edit employee</button>
                     </form>
                     <form action="/Admin/Profile/RemoveEmployee">
-                        <button className="btn-block btn-dark btn my-3" >Remove employee</button>
+                        <button className="btn-block btn-danger btn my-2" >Remove employee</button>
                     </form>
                 </div>
             </div>

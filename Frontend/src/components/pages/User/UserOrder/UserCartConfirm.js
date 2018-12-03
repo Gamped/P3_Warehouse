@@ -45,12 +45,6 @@ export default class UserCartConfirm extends React.Component {
 
                     <div className="infoBox">
                         <div className="cartButtonBox">
-                            <form action="/User/Order/Cart" className="cartButtonForm cartButton">
-                                <button className=" stockButton_f btn">Back</button>
-                            </form>
-                            <form action="/User" className="cartButtonForm cartButton">
-                                <button className=" stockButton_f btn">CONFIRM order</button>
-                            </form>
                             <h1 className="cartTxt customText_b">Please verify:</h1>
                             <br/>
                             <br/>
@@ -62,6 +56,12 @@ export default class UserCartConfirm extends React.Component {
                             <h1 className="confirmText customText_b">Zip and city: </h1>
                             <h1 className="confirmText customText_b">Country: </h1>
                         </div>
+                        <form action="/User/Order/Cart" className="cartButtonForm cartButton">
+                                <button className=" stockButton_f btn">Back</button>
+                            </form>
+                            <form action="/User" className="cartButtonForm cartButton">
+                                <button className=" stockButton_f btn">CONFIRM order</button>
+                            </form>
                     </div>
                 </div>
             </div>
