@@ -23,7 +23,7 @@ export default class UserOrder extends React.Component {
             products: [],
             selected: null,
             selectedId: "",
-            orderLines: []
+            orderLines: [{name:"iron",id:"123823",amount:"5"},{name:"gold",id:"i49392",amount:"1"}]
         };
 
         this.makeRow = this.makeRow.bind(this);
@@ -124,17 +124,19 @@ export default class UserOrder extends React.Component {
         console.log(data);
         console.log(JSON.stringify(data));
     
+
         const columns = [
             {Header: "Product Id", accessor: "productId"},
             {Header: "Product Name", accessor: "productName"},
             {Header: "Amount", accessor: "amount", Cell: this.renderEditable},
             {Header: "Quantity", accessor: "quantity"},
             {Header: "Owner", accessor: "owner"}];
-
+        
+        
         return(
             <div className="PageStyle rounded">
-            <UserOrderCart orderLines={this.state.orderLines}/>
 
+            <UserOrderCart orderLines={this.state.orderLines}/>
            <nav class="navbar navbar-light bg-light">
                 <a class="navbar-brand" href="#"></a>
 
