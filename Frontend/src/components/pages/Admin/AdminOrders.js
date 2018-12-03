@@ -16,22 +16,18 @@ export default class AdminOrders extends Component {
         {name:"Finished Orders",id:1},
         {name:"Pending Orders",id:2}
     ],
-    finishedOrders: [
-        {name: "Ground Beef", id:"2"},
-        {name: "Iron Halo", id:"3"},
-        {name: "Plasma Blaster", id:"4"},
-        {name: "Fist of the dragon", id:"5"},
-        {name: "Russian Molotov Cocktail", id:"6"},
-    ],
-    inProgressOrders: [
-        {name: "Oatmeal", id:"7"},
-        {name: "Cactus and lube", id:"8"},
-        {name: "Firebowl", id:"9"},
-    ],
-    pendingOrders: [
-        {name: "The golden Bra Of Ming", id:"10"},
-        {name: "Silver girls", id:"11"},
-        {name: "Fidget spinners", id:"12"},
+    orderEntries: [
+        {name: "Ground Beef", state: "Finished", id:"2"},
+        {name: "Iron Halo", state: "Finished", id:"3"},
+        {name: "Plasma Blaster", state: "Finished", id:"4"},
+        {name: "Fist of the dragon", state: "Finished", id:"5"},
+        {name: "Russian Molotov Cocktail", state: "Finished", id:"6"},
+        {name: "Oatmeal", state: "In Progress", id:"7"},
+        {name: "Cactus and lube", state: "In Progress", id:"8"},
+        {name: "Firebowl", state: "In Progress", id:"9"},
+        {name: "The golden Bra Of Ming", state: "Pending", id:"10"},
+        {name: "Silver girls", state: "Pending", id:"11"},
+        {name: "Fidget spinners", state: "Pending", id:"12"},
     ],
     listShown: 0,}
     this.makeRow = this.makeRow.bind(this);
@@ -51,8 +47,10 @@ export default class AdminOrders extends Component {
     var buttons = [];
     response.data.forEach((order) => {
       buttons.push({
-        owner: order.owner.nickName,
-        id: order.orderId
+        owner: order.owner.name,
+        orderId: order.orderId,
+        orderName: order.name,
+        state: order.status
       })
     })
 
@@ -66,10 +64,10 @@ export default class AdminOrders extends Component {
     response.data.forEach((order) => {
 
       orders.push({
-        orderId: order.orderId,
-        owner: order.owner.nickName,
-        date: order.date,
-        itemsToPack: order.orderLines.length
+       // name: order.orderline.productName,
+       // date: order.date,
+       // quantity: order.orderline.quantity,
+       // packed: order.orderline.packed
       });
     });
     console.log(response.data[0]);
@@ -96,30 +94,32 @@ export default class AdminOrders extends Component {
 }
 
     render() {
+        const orderFields = this.state.orderEntries;
         const data = this.state.orders;
         console.log(data);
         console.log(JSON.stringify(data));
 
         const columns = [
-            {Header: "Order Id", accessor: "orderId"},
-            {Header: "Owner", accessor: "owner"},
+            {Header: "Product Name", accessor: "productName"},
             {Header: "Date", accessor: "date"},
-            {Header: "Items To Pack", accessor: "itemsToPack"},
+            {Header: "Quantity", accessor: "quantity"},
             {Header: "Packed?", accessor: "packed"}
+        ]
+
+        const column = [
+            {Header: "Owner", accessor: "owner"},
+            {Header: "ID", accessor: "orderId"},
+            {Header: "Order", accessor: "orderName"},
+            {Header: "Status", accessor: "state"}
         ]
 
         return (
             <div className="PageStyle rounded">
                 <div className="container row">
-                    <div className="col sidebar border border-dark rounded bg-secondary">
-
-                        <div className="border border-light rounded bg-info">
-                            <ButtonList buttons={this.state.tabs} color="secondary" link={false} action={this.changeList}/>
+                    <div className="SideBar col sidebar border border-dark rounded bg-secondary">
+                        <div className="OrderList">
+                            <ReactTable data={orderFields} columns={column} showPagination={false} className="-striped -highlight"/>
                         </div>
-                        {this.buttonListShown()}
-                    </div>
-                    <div className="col sidebar border border-dark rounded bg-secondary">
-                        
                     </div>
                     <div className="Table">
                         <ReactTable data={data} columns={columns} showPagination={false} className="-striped -highlight"/>

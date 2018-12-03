@@ -3,12 +3,11 @@ import "../../Pages.css";
 import "./AdminStock.css"
 import axios from 'axios';
 import ReactTable from 'react-table';
-import Buttonlist from '../../../MenuComponents/ButtonList/ButtonList';
 
 export default class AdminStock extends Component {
     constructor(props) {
         super(props);
-        this.state = { products: [] };
+        this.state = { products: [], selected: null, selectedId: "" };
         this.makeRow = this.makeRow.bind(this);
     }
 
@@ -26,10 +25,25 @@ export default class AdminStock extends Component {
         products.push({
           productId: product.productId,
           productName: product.productName,
-          quantity: product.quantity
+          quantity: product.quantity,
+          hexId: product.hexId
         })
         })
       return products;
+    }
+
+    sendToPage = (address) => {
+        this.props.history.push(address);
+    }
+
+    removeItem = () => {
+        const selectedId = this.state.selectedId;
+        if(selectedId !== ""){
+            if(window.confirm("You are deleting an item")){
+                //Todo: Få den til at remove et product by id. axios.remove()
+            }
+        }
+        
     }
 
     render() {
@@ -58,20 +72,46 @@ export default class AdminStock extends Component {
                     <div className="CustomerList col border-dark rounded bg-secondary">
                         <h1 className="Header">Filter by:</h1>
                     </div>
+                    <div className="Table container col">
+                        <h1 className="Header">Stock</h1>
 
-                    <div className="Table">
-                        <ReactTable data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
+                    <ReactTable 
+                        data={data} 
+                        columns={columns} 
+                        showPagination={false} 
+                        className="-striped -highlight"
+                        getTrProps={(state, rowInfo) => {
+                            if (rowInfo && rowInfo.row) {
+                              return {
+                                onClick: (e) => {
+                                    
+                                  this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                  console.log(rowInfo.original)
+                                },
+                                style: {
+                                  background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                  color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                }
+                              }
+                            }else{
+                              return {}
+                            }
+                        }}
+                          />
+
                         <div className="CRUD container row">
-                            <form action="/Admin/Stock/New" className="stockForm">
-                                <button  className="stockButton_f btn" >New</button>
-                            </form>
-                            <form action="/Admin/Stock/Edit" className="stockForm">
-                                <button  className="stockButton_f btn" >Edit</button>
-                            </form>
-                            <form action="/Admin/Stock/Remove" className="stockForm">
-                                <button  className="stockButton_f btn" >Remove</button>
-                            </form>
-                            <button className="stockButton btn">Export</button>
+                            <div className="">
+                                <button  className="btn btn-block" onClick={()=>this.sendToPage("/Admin/Stock/New")}>New</button>
+                            </div>
+                            <div action="/Admin/Stock/Edit" className="">
+                                <button  className="btn btn-block" onClick={()=>this.sendToPage("/Admin/Stock/Edit")}>Edit</button>
+                            </div>
+                            <div action="/Admin/Stock/Remove" className="">
+                                <button  className="btn btn-block" onClick={this.removeItem}>Remove</button>
+                            </div>
+                            <div>
+                                <button className="btn btn-block">Export</button>
+                            </div>
                         </div>
                     </div>
                 </div>
