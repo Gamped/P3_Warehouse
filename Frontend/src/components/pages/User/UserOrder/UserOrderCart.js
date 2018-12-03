@@ -3,7 +3,6 @@ import "../../Pages.css";
 import "./UserOrder.css";
 import "./UserCart.css";
 import {shrinkToHtmlNames} from './../../../../global.js';
-import axios from 'axios';
 
 class UserOrderCart extends React.Component {
     constructor() {
@@ -18,7 +17,7 @@ class UserOrderCart extends React.Component {
             htmlNames: htmlNames,
             quarry: "",
             previousAddresses: [],
-            orderLines: [{name:"iron",id:"123823",amount:"5"},{name:"gold",id:"i49392",amount:"1"}]
+            orderLines:[]
         };
     }
  
@@ -42,15 +41,12 @@ class UserOrderCart extends React.Component {
     }
 
     render(){
-        console.log(this.props)
-        
         return(
             <div className="PageStyle rounded">
                     <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
                 <div className="container">
                     <div className="row">
                         <div className="col">
-
                             <div className="container my-3">
                                 <table className="table table-dark">
                                     <thead>
@@ -93,7 +89,8 @@ class UserOrderCart extends React.Component {
                                 className="input-group mb-3" 
                                 name= {this.state.htmlNames[i]}
                                 onChange={this.onChange}
-                                    placeholder={placeholder}/> 
+                                    placeholder={placeholder}
+                                    key={placeholder}/> 
                                     )
                                 })}
             

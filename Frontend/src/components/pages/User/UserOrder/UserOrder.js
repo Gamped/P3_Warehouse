@@ -119,15 +119,16 @@ export default class UserOrder extends React.Component {
       }
 
     changeToCart = (event) => {
-        this.props.history.push("",this.state.orderLines)
+        this.props.history.push({
+            pathname: "/User/Order/Cart",
+            search: "?the=query",
+            state: this.state
+          })
     }
 
     render(){
+        console.log(this.state.orderLines)
         const data = this.state.products;
-        const tableHeight = window.innerHeight*0.7;
-        console.log(data);
-        console.log(JSON.stringify(data));
-    
 
         const columns = [
             {Header: "Product Id", accessor: "productId"},
@@ -150,8 +151,8 @@ export default class UserOrder extends React.Component {
                         className="serachBar" 
                         onChange={this.handleQuarry}
                         placeholder="Search for product(s)"/>
-                    <form action="/User/Order/Cart" className="orderForm">
-                        <button className="exportButton stockButton_f btn">Go to cart</button>
+                    <form className="orderForm">
+                        <button className="exportButton stockButton_f btn" onClick={this.changeToCart}>Go to cart</button>
                     </form>
             </nav>         
                 
