@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@RequestMapping("/api")
 @RestController
 @CrossOrigin
-@RequestMapping("/api")
 public class OrderController {
 
     @Autowired
