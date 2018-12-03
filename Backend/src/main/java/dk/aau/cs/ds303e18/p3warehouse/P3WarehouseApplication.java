@@ -19,11 +19,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @EnableMongoRepositories(basePackages = "dk.aau.cs.ds303e18.p3warehouse.repositories")
 @EnableWebSecurity
 @SpringBootApplication
-
-
 public class P3WarehouseApplication {
 
-	@Autowired private ProductRepository productRepository;
+	@Autowired
+	private ProductRepository productRepository;
 
 	public static void main(String[] args) {
 

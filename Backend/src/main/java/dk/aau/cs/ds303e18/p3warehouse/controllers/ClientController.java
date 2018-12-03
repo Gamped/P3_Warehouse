@@ -41,11 +41,11 @@ public class ClientController {
 
 
     @GetMapping("/clients/products")
-    private Iterable<Client> findAllProdcts() {
+    private Iterable<Client> findAllProducts() {
         return clientRepository.findAll();
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("clients/products/{id}")
     Client findById(@PathVariable String id) {
 
         ObjectId objectId = new ObjectId(id);

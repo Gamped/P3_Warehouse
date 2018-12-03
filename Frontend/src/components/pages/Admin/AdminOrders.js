@@ -7,6 +7,7 @@ import ReactTable from "react-table";
 
 export default class AdminOrders extends Component {
 
+
     constructor() {
         super();
         this.state = { 
@@ -134,8 +135,8 @@ export default class AdminOrders extends Component {
             );
         }
     }
-
         return checkBoxColumn;
+
     }
 
     render() {
@@ -199,6 +200,7 @@ export default class AdminOrders extends Component {
                     </div>
                 </div>
             </div>
+          
         )
     }
 }
