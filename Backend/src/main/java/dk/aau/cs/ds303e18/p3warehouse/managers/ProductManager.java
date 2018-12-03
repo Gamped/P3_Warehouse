@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ProductManager {
     @Autowired
     private static ProductRepository productRepository;
+
     public static Product addProductToDb(Product product){
         Customer owner = CustomerManager.getCustomerFromProduct(product);
         owner.addProduct(product);
