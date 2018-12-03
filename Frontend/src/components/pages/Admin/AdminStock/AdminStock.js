@@ -93,16 +93,16 @@ export default class AdminStock extends Component {
 
                         <div className="CRUD container row">
                             <div className="">
-                                <button  className="btn btn-block" onClick={()=>this.sendToPage("/Admin/Stock/New")}>New</button>
+                                <button  className="btn-success btn-lg btn-block my-2" onClick={()=>this.sendToPage("/Admin/Stock/New")}>New</button>
                             </div>
                             <div action="/Admin/Stock/Edit" className="">
-                                <button  className="btn btn-block" onClick={()=>this.sendToPage("/Admin/Stock/Edit")}>Edit</button>
+                                <button  className="btn-lg btn-block btn-warning my-2" onClick={()=>this.sendToPage("/Admin/Stock/Edit")}>Edit</button>
                             </div>
                             <div action="/Admin/Stock/Remove" className="">
-                                <button  className="btn btn-block" onClick={this.removeItem}>Remove</button>
+                                <button  className="btn-lg btn-danger btn-block my-2" onClick={this.removeItem}>Remove</button>
                             </div>
                             <div>
-                                <button className="btn btn-block">Export</button>
+                                <button className="btn-lg btn-block btn-block my-2">Export</button>
                             </div>
                         </div>
                     </div>

@@ -1,3 +1,4 @@
+
 import React from 'react';
 import "../../Pages.css";
 import "./UserOrder.css";
@@ -118,8 +119,11 @@ export default class UserOrder extends React.Component {
       }
 
     render(){
-
         const data = this.state.products;
+        const tableHeight = window.innerHeight*0.7;
+        console.log(data);
+        console.log(JSON.stringify(data));
+    
 
         const columns = [
             {Header: "Product Id", accessor: "productId"},
@@ -132,13 +136,11 @@ export default class UserOrder extends React.Component {
         return(
             <div className="PageStyle rounded">
 
-                <UserOrderCart orderLines={[{name:"iron",id:"123823",amount:"5"},{name:"gold",id:"i49392",amount:"1"}]}/>
+            <UserOrderCart orderLines={this.state.orderLines}/>
+           <nav class="navbar navbar-light bg-light">
+                <a class="navbar-brand" href="#"></a>
 
-                <div className="topBox topBoxStyle">
-                    <h2 className="topText text-center text-white"> Order:</h2>
-                </div>
-
-                <div className="deciderBox leftBoxStyle">
+                    <h2 className=" text-left "> Order:</h2>
                     <input 
                         type="text" 
                         className="serachBar" 
@@ -147,41 +149,22 @@ export default class UserOrder extends React.Component {
                     <form action="/User/Order/Cart" className="orderForm">
                         <button className="exportButton stockButton_f btn">Go to cart</button>
                     </form>
+            </nav>         
+                
+                <div className=" table-bordered">
+                
+                    <div className="SideBar col sidebar border border-dark rounded bg-secondary">
+                            <div className="OrderList">
+                                 <ReactTable  data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
+                            </div>
+                    </div>
+                            <div className="Table">
+                                <ReactTable data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
+                            </div>
                 </div>
                 
-                <div className="listBox contentBoxStyle">
-                <ReactTable 
-                        data={data} 
-                        columns={columns} 
-                        showPagination={false} 
-                        className="-striped -highlight"
-                        getTrProps={(state, rowInfo) => {
-                            if (rowInfo && rowInfo.row) {
-                              return {
-                                onClick: (e) => {
 
-                                    this.setStateAsSelected(rowInfo);
-                                },
-                                style: {
-                                  background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                  color: rowInfo.index === this.state.selected ? 'white' : 'black'
-                                }
-                              }
-                            }else{
-                              return {}
-                            }
-                        }}
-                          />
-                </div>
-                <div className="container row">
-             <div className="col my-2">
-                 <button type="button" className="btn btn-success" onClick={this.addSelectedToOrderLine}>Add to order</button>
-             </div>
-             <div className="col my-2">
-                 <button type="button" className="btn btn-warning" onClick={this.undoOrderLine}>Undo</button>
-             </div>
-             </div>
-             </div>
+            </div>
           
             
             );
