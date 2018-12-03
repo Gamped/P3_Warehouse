@@ -41,7 +41,7 @@ public class ClientController {
 
 
     @GetMapping("/clients/products")
-    private Iterable<Client> findAllProdcts() {
+    private Iterable<Client> findAllProducts() {
         return clientRepository.findAll();
     }
 

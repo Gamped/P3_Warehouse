@@ -16,7 +16,7 @@ export default class AdminStock extends Component {
             .then((response) => {
                 const products = this.makeRow(response);
                 this.setState({ products: products });
-              })
+            })
     }
 
     makeRow(response){
