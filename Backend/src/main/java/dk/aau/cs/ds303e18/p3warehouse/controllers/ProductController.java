@@ -48,12 +48,12 @@ public class ProductController {
     String update(@PathVariable("hexId") String hexId, @RequestBody RestProductModel restProduct) {
 
        ObjectId id = new ObjectId(hexId);
-       Product Product = productRepository.findById(id).orElse(null);
-       BeanUtils.copyProperties(restProduct, Product);
+       Product product = productRepository.findById(id).orElse(null);
 
-       productRepository.save(Product);
+       BeanUtils.copyProperties(restProduct, product);
 
-       return "Product updated! \n" + Product.getProductName() + "\n" + Product.getHexId();
+       productRepository.save(product);
+       return "Product updated! \n" + product.getProductName() + "\n" + product.getHexId();
     }
 
     @DeleteMapping("/products/delete/{id}")

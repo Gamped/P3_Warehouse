@@ -25,7 +25,7 @@ class SignInBox extends React.Component{
     loginHandler = (event) => {
         event.preventDefault()
 
-        axios.get("http://localhost:8080/" + this.state.userName + "/" + this.state.password)
+       axios.get("localhost:8080/users?username=" + this.state.username + "&password="+this.state.password)
             .then(res => {
                 console.log(res)
                 this.props.login({ userType:res.userType, loggedIn:true, name: res.nickName, userid:res.id})

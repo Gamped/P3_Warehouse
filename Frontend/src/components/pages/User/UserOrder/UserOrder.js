@@ -118,6 +118,10 @@ export default class UserOrder extends React.Component {
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
       }
 
+    changeToCart = (event) => {
+        this.props.history.push("",this.state.orderLines)
+    }
+
     render(){
         const data = this.state.products;
         const tableHeight = window.innerHeight*0.7;
