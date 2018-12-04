@@ -31,7 +31,7 @@ export default class UserOrder extends React.Component {
         this.undoOrderLine = this.undoOrderLine.bind(this);
         this.makeRow = this.makeRow.bind(this);
         this.renderEditable = this.renderEditable.bind(this);
-        this.setStateAsSelected = this.setStateAsSelected.bind(this);
+      //  this.setStateAsSelected = this.setStateAsSelected.bind(this);
     }
 
 
@@ -92,31 +92,31 @@ export default class UserOrder extends React.Component {
       };
 
     addSelectedToOrderLine = () => {
-       
-        this.state.orderLines.push(this.state.products[this.state.selected]); 
+    
+
+      //  this.setState({orderLines: [...this.state.orderLines, this.state.product[this.state.selected]]}); 
+      this.state.orderLines.push(this.state.products[this.state.selected]);  
+      console.log(this.state.orderLines)
+            
       }
 
     undoOrderLine = () => {
 
         this.state.orderLines.splice(-1, 1);
-        console.log(this.state.orderLines)
       }
 
     checkIfPreviouslyAdded = (orderLine) => {
           
-        if(this.state.orderLines.filter(line => orderLine.hexId == line.hexId)) {
-            this.previouslyAddedWarning();
-      }
+        if(this.state.orderLines.filter(line => orderLine.hexId === line.hexId)) {
+            this.previouslyAddedWarning(); 
+        }
     }
     
     previouslyAddedWarning = () => {
         //TODO: Render popup warning
+        console.log("Item already added!")
     }
 
-    setStateAsSelected = (rowInfo) => {
-
-        this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-      }
 
     changeToCart = (event) => {
         this.props.history.push({
@@ -127,7 +127,6 @@ export default class UserOrder extends React.Component {
     }
 
     render(){
-        console.log(this.state.orderLines)
         const data = this.state.products;
         const columns = [
             {Header: "Product Id", accessor: "productId"},
@@ -160,7 +159,28 @@ export default class UserOrder extends React.Component {
                     <div className="SideBar col rounded bg-secondary">
                          <div class="col-my-auto">
                                  <div className="OrderList">
-                                    <ReactTable  data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
+                                    <ReactTable  
+                                    data={data} 
+                                    columns={columns} 
+                                    showPagination={false} 
+                                    className="-striped -highlight"
+                                    getTrProps={(state, rowInfo) => {
+                                        if (rowInfo && rowInfo.row) {
+                                          return {
+                                            onClick: () => {
+                                                
+                                                this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                            },
+                                            style: {
+                                              background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                              color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                            }
+                                          }
+                                        }else{
+                                          return {}
+                                        }
+                                    }}
+                                    />
                                  </div>
                          </div>  
                     </div>  
