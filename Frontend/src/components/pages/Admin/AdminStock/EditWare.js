@@ -65,16 +65,15 @@ export default class EditWare extends Component {
                         defaultValue={this.state.product.quantity}
                         onChange={this.onChange}
                         placeholder="Quantity"/>
-                </div>
-                <div className="newForm stockForm">
+                 </div>
+                 <div className="newForm stockForm">
                     <button className="newButton stockButton_f btn">Back</button>
-                </div>
-                <div className="newForm stockForm">
+                 </div>
+                 <div className="newForm stockForm">
                     <button className="newButton stockButton_f btn" onClick={this.onSubmit} >Edit product</button>
-                </div>
-                <h1 className="note customText_b_big">Please double check to make sure you have changed to the correct info</h1>
+                 </div>
+                 <h1 className="note customText_b_big">Please double check to make sure you have changed to the correct info</h1>
             </div>
         );
-
     }
 }

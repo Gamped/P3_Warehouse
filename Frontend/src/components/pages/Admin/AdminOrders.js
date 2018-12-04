@@ -165,6 +165,14 @@ export default class AdminOrders extends Component {
             <div className="PageStyle rounded">
                 <div className="container row">
                     <div className="SideBar col sidebar border border-dark rounded bg-secondary">
+
+                        <div className="OrderList ">
+                           
+                            <div className=" md-2">
+                            <button type= "button" className="btn btn-success mx-2" >Create order </button>
+                            <button type= "button" className="btn btn-warning mx-2" >Edit order   </button>                            
+                            <button type= "button" className="btn btn-danger mx-2"  >Del order    </button>
+
                         <div className="OrderList">
                             <ReactTable data={orders}
                              columns={orderColumns} 
@@ -188,8 +196,26 @@ export default class AdminOrders extends Component {
                                 }
                             }}
                              />
+
                         </div>
+                       </div>
+                       
                     </div>
+
+                    <div className="SideBar col sidebar border border-dark rounded bg-secondary">
+                       <div className="container ">
+                           <div className="OrderList">
+                              
+                                 <div className="  px-1">
+                                   <button type= "button" className="btn btn-info mx-0">Export order To </button>  
+                                   <button type= "button" className="btn btn-dark mx-5">Fineshed order </button>  
+                                 </div>  
+                               </div>
+                             </div>                        
+                         </div>
+                     </div> 
+                 </div>
+
                     <div className="Table">
                         <ReactTable 
                         data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} 
@@ -200,7 +226,7 @@ export default class AdminOrders extends Component {
                     </div>
                 </div>
             </div>
-          
+
         )
     }
 }
