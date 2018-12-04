@@ -3,139 +3,209 @@ import "../Pages.css";
 import "./AdminOrders.css";
 import axios from "axios";
 import ReactTable from "react-table";
-import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
 
 
 export default class AdminOrders extends Component {
 
-  constructor() {
-    super();
-    this.state = { data: [], orders: [],
-    tabs: [
-        {name:"In Progress Orders",id:0},
-        {name:"Finished Orders",id:1},
-        {name:"Pending Orders",id:2}
-    ],
-    orderEntries: [
-        {name: "Ground Beef", state: "Finished", id:"2"},
-        {name: "Iron Halo", state: "Finished", id:"3"},
-        {name: "Plasma Blaster", state: "Finished", id:"4"},
-        {name: "Fist of the dragon", state: "Finished", id:"5"},
-        {name: "Russian Molotov Cocktail", state: "Finished", id:"6"},
-        {name: "Oatmeal", state: "In Progress", id:"7"},
-        {name: "Cactus and lube", state: "In Progress", id:"8"},
-        {name: "Firebowl", state: "In Progress", id:"9"},
-        {name: "The golden Bra Of Ming", state: "Pending", id:"10"},
-        {name: "Silver girls", state: "Pending", id:"11"},
-        {name: "Fidget spinners", state: "Pending", id:"12"},
-    ],
-    listShown: 0,}
-    this.makeRow = this.makeRow.bind(this);
-    this.makeButtonData = this.makeButtonData.bind(this);
-  }
 
-    componentDidMount() {
-        axios.get('http://localhost:8080/api/orders')
-            .then((response) => {
-                const orders = this.makeButtonData(response);
-                this.setState({ orders: orders })
-            })
+    constructor() {
+        super();
+        this.state = { 
+            orders: [], 
+            orderLines: [], 
+            selectedOrder: [],
+            selected: null, 
+            selectedIndex: -1,
+            packed: {},
+            allPacked: 0
+        }
+
+        this.getData = this.getData.bind(this);
+        this.setStateAsSelected = this.setStateAsSelected.bind(this);
+        this.showOrderLines = this.showOrderLines.bind(this);
+        this.toggleRow = this.toggleRow.bind(this);
     }
 
-    makeButtonData(response) {
+    componentDidMount() {
+
+        axios.get("http://localhost:8080/api/orders")
+        .then((response) => {
+            const ordersData = this.getData(response.data);
+        
+            this.setState({ 
+                data: response.data,
+                orders: ordersData
+            });
+        });
+    }
+
+    getData(data) {
         var orders = [];
-        response.data.forEach((order) => {
+        data.forEach((order) => {
+
             orders.push({
-                owner: order.owner.nickName,
-                orderId: order.orderId,
-                orderName: order.title,
-                state: order.status
-            })
-        })
+                owner: order.owner.userName,
+                orderId: order.orderId
+            });
+        });
+        
         return orders;
     }
 
-  makeRow(response) {
-    var orders = [];
-    response.data.forEach((order) => {
 
-      orders.push({
-       // name: order.orderline.productName,
-       // date: order.date,
-       // quantity: order.orderline.quantity,
-       // packed: order.orderline.packed
-      });
-    });
-    console.log(response.data[0]);
-    console.log(orders);
-    return orders;
-  }
+    setStateAsSelected = (rowInfo) => {
 
-  changeList=(input)=>{
-    this.setState({listShown: input});
-  }
-
-  buttonListShown=()=>{
-    const x=this.state.listShown;
-    switch(x){
-        case 0:
-            return(<ButtonList buttons={this.state.inProgressOrders} color="dark" link={false} action={this.changeUser} />)
-        case 1:
-            return(<ButtonList buttons={this.state.finishedOrders} color="dark" link={false} action={this.changeUser} />)
-        case 2:
-            return(<ButtonList buttons={this.state.pendingOrders} color="dark" link={false} action={this.changeUser} />)
-        default:
-            return(<h2 className="color-red">ERROR</h2>)
+        this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId });
     }
-}
+
+    showOrderLines = (rowInfo) => {
+        const selectedOrder = this.state.data[rowInfo.index].orderLines;
+        let orderLines = [];
+        
+        selectedOrder.map(orderLine => {
+            orderLines.push({
+                productName: orderLine.product.productName,
+                date: orderLine.product.date,
+                amount: orderLine.quantity
+              
+            });
+        });
+
+        
+        this.setState({orderLines: orderLines});
+    }
+
+
+    toggleRow(productName) {
+
+		const packedItem = Object.assign({}, this.state.packed);
+		packedItem[productName] = !this.state.packed[productName];
+        this.setState({
+			packed: packedItem,
+			selectAll: 2
+		});
+	}
+
+	toggleSelectAll() {
+		let packedItem = {};
+
+		if (this.state.selectAll === 0) {
+			this.state.data.forEach(x => {
+				packedItem[x.productName] = true;
+			});
+        }
+
+		this.setState({
+			packed: packedItem,
+			allPacked: this.state.allPacked === 0 ? 1 : 0
+        });
+        
+        if (this.state.allPacked == 1) {
+            //TODO: ACTIVATE FINISH ORDER BUTTON
+        }
+	}
+
+    getCheckBoxColumn() {
+       const checkBoxColumn = {
+        id: "checkbox",
+        accessor: "",
+        Cell: ({ original }) => {
+            return (
+                <input
+                    type="checkbox"
+                    className="checkbox"
+                    checked={this.state.packed[original.productName] === true}
+                    onChange={() => this.toggleRow(original.productName)}
+                />
+            );
+        },
+        Header: x => {
+            return (
+                <input
+                    type="checkbox"
+                    className="checkbox"
+                    checked={this.state.selectAll === 1}
+                    ref={input => {
+                        if (input) {
+                            input.indeterminate = this.state.selectAll === 2;
+                        }
+                    }}
+                    onChange={() => this.toggleSelectAll()}
+                />
+            );
+        }
+    }
+        return checkBoxColumn;
+
+    }
 
     render() {
-        const orderFields = this.state.orders;
-        const data = this.state.orders;
-        console.log(data);
-        console.log(JSON.stringify(data));
+      
+        const orders = this.state.orders;
 
-        const column = [
+        let noSelectedOrderItem = [{
+            productName: "No selected order",
+            date: 0,
+            amount: 0,
+            packed: 0
+        }];
+  
+        const orderColumns = [
             {Header: "Owner", accessor: "owner"},
-            {Header: "ID", accessor: "orderId"},
-            {Header: "Order", accessor: "orderName"},
-            {Header: "Status", accessor: "state"}
-        ]
+            {Header: "ID", accessor: "orderId"}
+        ];
 
-        const columns = [
+        const orderLineColumns = [
             {Header: "Product Name", accessor: "productName"},
             {Header: "Date", accessor: "date"},
-            {Header: "Quantity", accessor: "quantity"},
-            {Header: "Packed?", accessor: "packed"}
-        ]
+            {Header: "Amount", accessor: "amount"},
+            this.getCheckBoxColumn()];
 
         return (
             <div className="PageStyle rounded">
                 <div className="container row">
                     <div className="SideBar col sidebar border border-dark rounded bg-secondary">
+
                         <div className="OrderList ">
-                            <ReactTable data={orderFields} columns={column} showPagination={false} className="-striped -highlight"/>
-                            <div className=" md-2">
+                            <ReactTable data={orders}columns={orderColumns} showPagination={false}  className="-striped -highlight"getTrProps={(state, rowInfo) => {
+                                if (rowInfo && rowInfo.row) {
+                                  return {
+                                    onClick: (e) => {
+                                       this.setStateAsSelected(rowInfo);
+                                       this.showOrderLines(rowInfo);
+                                    },
+                                    style: {
+                                      background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                      color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                    }
+                                  }
+                                }else{
+                                  return {}
+                                }
+                            }}
+                             />
+
+                        </div>
+                        <div className=" md-2">
                             <button type= "button" className="btn btn-success mx-2" >Create order </button>
                             <button type= "button" className="btn btn-warning mx-2" >Edit order   </button>                            
                             <button type= "button" className="btn btn-danger mx-2"  >Del order    </button>
-                        </div>
+                            </div>
                        </div>
                        
                     </div>
                     <div className="SideBar col sidebar border border-dark rounded bg-secondary">
                        <div className="container ">
-                           <div className="OrderList">
-                               <ReactTable data={data} columns={columns} showPagination={false} className="-striped -highlight"/>
-                                 <div className="  px-1">
+                 </div>
+                    <div className="Table">
+                        <ReactTable  data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns} showPagination={false} className="-striped -highlight"/>
+                        <div className="  px-1">
                                    <button type= "button" className="btn btn-info mx-0">Export order To </button>  
                                    <button type= "button" className="btn btn-dark mx-5">Fineshed order </button>  
-                                 </div>  
-                                 </div>
-                         </div>                        
-                     </div>
-                     </div> 
-                 </div>
+                        </div>  
+                    </div>
+                </div>
+            </div>
         )
     }
 }

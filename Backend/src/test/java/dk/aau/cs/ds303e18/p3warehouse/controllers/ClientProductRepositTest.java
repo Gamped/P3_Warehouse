@@ -7,7 +7,6 @@ import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import org.bson.types.ObjectId;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
