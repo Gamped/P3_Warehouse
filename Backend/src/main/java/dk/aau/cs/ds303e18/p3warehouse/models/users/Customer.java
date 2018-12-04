@@ -15,7 +15,6 @@ public class Customer extends User {
     private Collection<Product> customerProducts;
     @DBRef
     private Collection<Order> customerOrders;
-
     private String hexId;
 
     Customer(ObjectId id){

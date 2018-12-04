@@ -42,7 +42,7 @@ public class PublisherRepositoryTest {
         Client client2 = new Client(idC2);
         publisher.addClient(client);
         publisher.addClient(client2);
-        Assert.assertEquals(publisher.getSizeOfColletion(),2);
+        Assert.assertEquals(publisher.getNumberOfClients(),2);
     }
     @Test
     public void publisherLoadClientForDb(){

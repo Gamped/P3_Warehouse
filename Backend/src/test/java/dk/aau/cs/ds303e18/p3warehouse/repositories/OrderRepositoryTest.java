@@ -53,6 +53,11 @@ public class OrderRepositoryTest {
         client.setNickName("Simon A/S");
         client.setPublisher(publisher);
         client.setUserType(UserType.CLIENT);
+        client.setUserName("simonusr");
+        client.getContactInformation().setNickName("Simon A/S");
+
+        ObjectId orderId = new ObjectId();
+        Order order = new Order(orderId);
 
         Product product = new Product(new ObjectId());
         product.setOwner(client);

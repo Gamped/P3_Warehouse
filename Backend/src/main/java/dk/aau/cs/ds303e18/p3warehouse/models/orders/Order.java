@@ -26,6 +26,7 @@ public class Order {
     private String title;
     private String hexid;
     private Date date;
+    private String address;
 
     public Order(ObjectId id){
         this.id = id;
@@ -72,6 +73,14 @@ public class Order {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getAddress(){
+        return address;
+    }
+
+    public void setAddress(String address){
+        this. address = address;
     }
 
 

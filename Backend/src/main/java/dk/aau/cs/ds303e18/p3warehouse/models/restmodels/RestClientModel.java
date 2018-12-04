@@ -1,4 +1,4 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.restmodels;
 
-public class RestClientModel {
+public class RestClientModel extends RestCustomerModel{
 }

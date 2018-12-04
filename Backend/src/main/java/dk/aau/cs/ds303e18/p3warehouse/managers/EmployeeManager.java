@@ -16,7 +16,9 @@ public class EmployeeManager {
     private static UserRepository userRepository;
 
     public static Employee saveEmployeeToDb(Employee employee){
-        userRepository.save(new User(employee));
+        User user = new User(employee.getId());
+        user.copyFrom(employee);
+        userRepository.save(user);
         return employeeRepository.save(employee);
     }
     public static void removeEmployeeFromDb(Employee employee){

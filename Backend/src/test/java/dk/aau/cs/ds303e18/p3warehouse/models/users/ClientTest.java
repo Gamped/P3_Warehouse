@@ -25,18 +25,10 @@ public class ClientTest {
     ClientRepository clientRepository;
 
     @Test
-    public void newclient(){
+    public void newClient(){
         ObjectId CId = new ObjectId();
         Client client = new Client(CId);
         assertNotNull(client.getHexId());
-    }
-
-    @Test
-    public void setNameClient(){
-        ObjectId CId = new ObjectId();
-        Client client = new Client(CId);
-        client.setClientName("TestName");
-        assertEquals(client.getClientName(),"TestName");
     }
 
     @Test
