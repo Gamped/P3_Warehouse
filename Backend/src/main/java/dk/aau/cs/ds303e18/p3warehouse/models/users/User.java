@@ -1,7 +1,9 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.users;
 
+import com.mongodb.lang.NonNull;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -12,26 +14,17 @@ public class User {
 
     private String userName;
     private String password;
-    private String nickName;
+    @NonNull
     private ObjectId id;  // ID for the child in another collection
     private UserType userType;
 
-    protected User(ObjectId id) {
+    public User(ObjectId id) {
         this.id = id;
     }
 
-    public User(User userToCopyFrom){
+    public User copyFrom(User userToCopyFrom){
         BeanUtils.copyProperties(userToCopyFrom, this);
-    }
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-    public String getUserName(){
-        return userName;
+        return this;
     }
 
     public void setUserName(String userName) {
@@ -41,6 +34,8 @@ public class User {
     public String getPassword() {
         return password;
     }
+
+    public String getUserName() { return userName; }
 
     public void setPassword(String password) {
         this.password = password;

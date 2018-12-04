@@ -34,13 +34,16 @@ public class UserRepositoryTest {
         client.setContactInformation(contactInformation);
 
         clientRepository.save(client);
-        userRepository.save(new User(client));
+
+        User user = new User(client.getId());
+        user.copyFrom(client);
+        userRepository.save(user);
         Optional<User> hopefullyAUser = userRepository.findById(clientId);
+
         Client hopefullyAClient = clientRepository.findById(client.getHexId());
 
         assert(hopefullyAClient.getUserName().equals(client.getUserName()));
-
-       // clientRepository.delete(client);
-        userRepository.delete(userRepository.findByUserName(client.getUserName()).orElse(null));
+        userRepository.delete(user);
+        clientRepository.delete(client);
     }
 }

@@ -5,6 +5,7 @@ public class ContactInformation {
     private String phoneNumber;
     private String address;
     private String zipCode;
+    private String nickName;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -36,6 +37,14 @@ public class ContactInformation {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
     
     @Override

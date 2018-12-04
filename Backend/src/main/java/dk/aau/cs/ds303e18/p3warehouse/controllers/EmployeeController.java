@@ -18,7 +18,6 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
  import org.springframework.web.bind.annotation.*;
 
  import java.util.Collection;
- import java.util.Optional;
 
 @RestController
 public class EmployeeController {
@@ -51,7 +50,7 @@ public class EmployeeController {
     Product createProduct(@RequestBody RestProductModel restProduct) {
         Product product = new Product(new ObjectId());
         BeanUtils.copyProperties(restProduct, product);
-        return ProductManager.addProductToDb(product);
+        return ProductManager.saveProductToDb(product);
     }
 
     @PutMapping("/employee/products/{id}")

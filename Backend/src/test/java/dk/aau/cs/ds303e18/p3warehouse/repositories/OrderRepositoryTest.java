@@ -50,7 +50,7 @@ public class OrderRepositoryTest {
 
         Client client = new Client(new ObjectId());
         client.setUserName("simon123");
-        client.setNickName("Simon A/S");
+        client.getContactInformation().setNickName("Simon A/S");
         client.setPublisher(publisher);
         client.setUserType(UserType.CLIENT);
 
