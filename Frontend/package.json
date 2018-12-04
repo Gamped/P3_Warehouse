@@ -8,6 +8,7 @@
     "bson": "^4.0.0",
     "bson-objectid": "^1.2.4",
     "history": "^4.7.2",
+    "jspdf": "^1.4.1",
     "radium": "^0.25.0",
     "react": "^16.6.0",
     "react-bootstrap": "^0.32.4",

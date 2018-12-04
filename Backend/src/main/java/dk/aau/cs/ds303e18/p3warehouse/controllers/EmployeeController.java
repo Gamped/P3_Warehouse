@@ -24,8 +24,11 @@ public class EmployeeController {
 
     @Autowired
     EmployeeRepository employeeRepository;
+    @Autowired
     ProductRepository productRepository;
+    @Autowired
     ClientRepository clientRepository;
+    @Autowired
     PublisherRepository publisherRepository;
 
     @PostMapping("/employee")
@@ -41,15 +44,6 @@ public class EmployeeController {
     @GetMapping("/employee/{hexId}")
     private Employee getOneEmployee(@PathVariable String hexId){
         return employeeRepository.findById(new ObjectId(hexId)).orElse(null);
-    }
-    @GetMapping("/employee/products")
-    private Collection<Product> findAllProducts() {
-        return productRepository.findAll();
-    }
-
-    @GetMapping("/employee/products/{id}")
-    private Product findProduct(@PathVariable ObjectId id) {
-        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException());
     }
 
     @PostMapping("/employee/products")
@@ -84,10 +78,12 @@ public class EmployeeController {
     @GetMapping("/employee/clients")
     private Collection<Client> findAllClients() {
         return clientRepository.findAll();
-    }
+}
 
     @GetMapping("/employee/publishers")
     private Collection<Publisher> findAllPublishers() {
         return publisherRepository.findAll();
     }
+
+
 }
