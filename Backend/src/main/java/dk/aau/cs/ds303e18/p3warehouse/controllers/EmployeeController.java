@@ -20,8 +20,8 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
  import java.util.Collection;
 
 @RestController
-@RequestMapping("/api")
 @CrossOrigin
+@RequestMapping("/api")
 public class EmployeeController {
 
     @Autowired
@@ -72,8 +72,10 @@ public class EmployeeController {
 
     @DeleteMapping("/employee/products/{id}")
     public void deleteProductById(@PathVariable String id){
-        Product product = productRepository.findById(new ObjectId(id)).orElse(null);
-        ProductManager.removeProductFromDb(product);
+        productRepository.deleteByHexId(id);
+        
+        // Product product = productRepository.delete(new ObjectId(id)).orElse(null);
+       // ProductManager.removeProductFromDb(product);
     }
 
 
