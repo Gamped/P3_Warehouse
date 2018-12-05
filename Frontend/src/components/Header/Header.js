@@ -5,7 +5,7 @@ import ButtonList from "../MenuComponents/ButtonList/ButtonList"
 
 // The header component
 class Header extends React.Component {
- 
+
     exitHandler = (event) =>{
         event.preventDefault();
         this.props.history.replace("/")
@@ -14,7 +14,7 @@ class Header extends React.Component {
     render(){
         let buttons=[]
         const user = this.props.userType;
-        if(user==="ADMIN"){
+        if(user==="EMPLOYEE"){
             buttons= [
                 {name: "Home",location: "/Admin", id:"1"},
                 {name: "Orders",location:"/Admin/Orders", id:"2"},
@@ -70,13 +70,13 @@ class Header extends React.Component {
 
 const mapStateToProps = (state)=>{
     return{
-        userType: state.login.userType
+        userType: state.loginReducer.userType
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        login: (user) => {dispatch({type: "LOGOUT"})}
+        login: (user) => {dispatch({type: "LOGOUT",})}
     }
 }
 
