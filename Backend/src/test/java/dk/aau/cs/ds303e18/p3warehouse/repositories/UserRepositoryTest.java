@@ -56,8 +56,6 @@ public class UserRepositoryTest {
         noteProduct.setProductName("Notes");
 
 
-        flyerProduct.setOwner(client);
-        noteProduct.setOwner(client);
         client.addProduct(flyerProduct);
         client.addProduct(noteProduct);
 
