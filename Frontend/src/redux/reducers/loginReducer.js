@@ -1,18 +1,31 @@
-const inistialState = { loggedIn:"false",
+const initialState ={loggedIn:"False",
 userType:"",
 nickName:"",
-userId:""};
+userId:"",};
 
-const loginReducer = (state = inistialState, action) => {
+const loginReducer = (state = initialState, action) => {
     switch(action.type){
-        case "LOGIN":
-            let loggeProfile = action.user
-            return {user:loggeProfile};
+        case "SET_USERTYPE":
+            state = {...state, userType: action.payload}
+            console.log(state)
+            break;
+        case "SET_USERNAME":
+            state = {...state, nickName: action.payload}
+            console.log(state)
+            break;
+        case "SET_USERID":
+            state = {...state, userId: action.payload}
+            console.log(state)
+            break;
+        case "SET_LOGIN":
+            state = {...state, loggedIn: action.payload}
+            console.log(state)
+            break;
         case "LOGOUT":
-            return {user:inistialState}
-        default:
-            return state;
+            state ={...state, initialState} 
+            break;
     }  
+    return state
 }
 
 export default loginReducer;
