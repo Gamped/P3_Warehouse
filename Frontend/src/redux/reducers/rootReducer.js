@@ -5,7 +5,7 @@ import orderReducer from "./orderReducer"
 
 
 export default combineReducers({
-    login: loginReducer,
-    order: orderReducer,
-    session: sessionReducer
+    loginReducer,
+    orderReducer,
+    sessionReducer
 })

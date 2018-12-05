@@ -1,5 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -12,7 +13,7 @@ public class Client extends Customer {
     @Id
     ObjectId id;
 
-    @DBRef
+
     Publisher publisher;
 
     public Client(ObjectId id) {
@@ -25,6 +26,7 @@ public class Client extends Customer {
         return id.toString();
     }
 
+    @JsonIgnore
     public Publisher getPublisher() {
         return publisher;
     }
@@ -33,6 +35,7 @@ public class Client extends Customer {
         this.publisher = publisher;
     }
 
+    @JsonIgnore
     public ObjectId getId() {
         return id;
     }

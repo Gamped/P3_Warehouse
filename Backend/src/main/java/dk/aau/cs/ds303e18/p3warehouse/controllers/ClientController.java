@@ -39,7 +39,7 @@ public class ClientController {
     ProductRepository productRepository;
 
     @GetMapping("/clients")
-    private Collection<Client> findAllClients() {
+    private Iterable<Client> findAllClients() {
         return clientRepository.findAll();
     }
 
@@ -47,7 +47,7 @@ public class ClientController {
     Client findClientById(@PathVariable ObjectId id) { return clientRepository.findById(id).orElse(null);
     }
 
-    @PostMapping("/clients")
+    @PostMapping("/clients/post")
     private Client newIndependentClient( @RequestBody RestClientModel restClientModel) {
 
         Client newClient = new Client(new ObjectId());
@@ -77,7 +77,7 @@ public class ClientController {
     private Product addNewProductToClient(@PathVariable String hexId, @RequestBody RestProductModel restProduct){
         Customer owner = clientRepository.findById(new ObjectId(hexId)).orElse(null);
         Product product = new Product(new ObjectId());
-        product.setOwner(owner);
+        
         BeanUtils.copyProperties(restProduct, product);
         return ProductManager.saveProductToDb(product);
     }
@@ -88,14 +88,14 @@ public class ClientController {
         return productRepository.findAllByOwner(client);
     }
 
-    @GetMapping("/client/products/{id}")
+    @GetMapping("/clients/products/{id}")
     Product findProductById(@PathVariable String id) {
 
         ObjectId objectId = new ObjectId(id);
         return productRepository.findById(objectId).orElse(null);
     }
 
-    @PutMapping("/client/products/{hexId}")
+    @PutMapping("/clients/products/{hexId}")
     String updateClientProduct(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
 
         ObjectId id = new ObjectId(hexId);
