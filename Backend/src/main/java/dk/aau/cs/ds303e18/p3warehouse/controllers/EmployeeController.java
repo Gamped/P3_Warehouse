@@ -20,6 +20,8 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
  import java.util.Collection;
 
 @RestController
+@RequestMapping("/api")
+@CrossOrigin
 public class EmployeeController {
 
     @Autowired
@@ -44,6 +46,11 @@ public class EmployeeController {
     @GetMapping("/employee/{hexId}")
     private Employee getOneEmployee(@PathVariable String hexId){
         return employeeRepository.findById(new ObjectId(hexId)).orElse(null);
+    }
+
+    @GetMapping("/employee/products")
+    Iterable<Product> findAllProducts() {
+        return productRepository.findAll();
     }
 
     @PostMapping("/employee/products")

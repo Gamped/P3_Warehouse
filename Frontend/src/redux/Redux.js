@@ -6,7 +6,6 @@ import thunk from "redux-thunk";
 const inistialState = {login:{loggedIn:"True",
 
 userType:"ADMIN",
-
 nickName:"Kev The Machine",
 userId:"AESD1238",}};
 
