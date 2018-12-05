@@ -195,38 +195,12 @@ export default class NewOrder extends Component{
                         </div>
 
                         <div className="">
-                        <input
-                        type="text"
-                        name="company"
-                        className="newForm"
-                        onChange={this.onChange}
-                        placeholder="Company"/>
-                         <input
-                        type="text"
-                        name="contactPerson"
-                        className="newForm"
-                        onChange={this.onChange}
-                        placeholder="Contact Person"/>
-                         <input
-                        type="text"
-                        name="address"
-                        className="newForm"
-                        
-                        onChange={this.onChange}
-                        placeholder="Address"/>
-                         <input
-                        type="text"
-                        name="zipCode"
-                        className="newForm"
-                        onChange={this.onChange}
-                        placeholder="Zipcode"/>
+                            <input type="text" name="company" className="newForm" onChange={this.onChange} placeholder="Company"/> 
+                            <input type="text" name="contactPerson" className="newForm" onChange={this.onChange} placeholder="Contact Person"/>
+                            <input type="text" name="address" className="newForm" onChange={this.onChange} placeholder="Address"/>
+                            <input type="text" name="zipCode" className="newForm" onChange={this.onChange} placeholder="Zipcode"/>
+                            <input type="text" name="city" className="newForm" onChange={this.onChange} placeholder="City"/>
                         </div>
-                        <input
-                        type="text"
-                        name="city"
-                        className="newForm"
-                        onChange={this.onChange}
-                        placeholder="City"/>
                     </div>
                 </div>
             </div>
