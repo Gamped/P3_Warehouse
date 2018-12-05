@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 public class Customer extends User {
     private ContactInformation contactInformation;
+
     @DBRef
     private Collection<Product> customerProducts;
     @DBRef
