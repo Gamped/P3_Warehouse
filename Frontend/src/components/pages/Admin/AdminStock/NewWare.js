@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
+import axios from 'axios';
 import "../../Pages.css";
 import "./AdminStock.css";
-import axios from 'axios';
 
 
 export default class NewWare extends Component {
