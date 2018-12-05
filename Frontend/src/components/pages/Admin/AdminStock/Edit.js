@@ -47,7 +47,7 @@ export default class Edit extends Component {
         e.preventDefault();
         const { productName, productId, quantity } = this.state.product;
     
-        axios.put('http://localhost:8080/api/products/edit/'+this.state.hexId, {productName, productId, quantity})
+        axios.put('http://localhost:8080/api/employee/product/'+this.state.hexId, {productName, productId, quantity})
             .then((result) => {
 
                  this.props.history.push("/Admin/Stock/");
