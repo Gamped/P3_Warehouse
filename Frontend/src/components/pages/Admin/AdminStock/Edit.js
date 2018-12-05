@@ -4,21 +4,37 @@ import axios from 'axios';
 import "../../Pages.css";
 import "./AdminStock.css";
 
-export default class EditWare extends Component {
+export default class Edit extends Component {
     constructor(props) {
         super(props);
         this.state = { product: {}, hexId: this.props.match.params.id };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.getProduct = this.getProduct.bind(this);
+        this.setProduct = this.setProduct.bind(this);
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/api/products/' + this.state.hexId).
-            then(response => {
-                 this.setState({ product: response.data });
-                 console.log(this.state.product);
-            }
-        )
+        this.getProduct();
+        console.log(this.props.match.params.id)
+    }
+
+    getProduct = () => {
+        axios.get('http://localhost:8080/api/employee/product/'+this.props.match.params.id)
+        .then(response => {
+           
+            this.setProduct(response.data)
+        })        
+    }
+
+    setProduct = (data) => {
+        let product = {
+        productName: data.productName,
+        productId: data.productId,
+        quantity: data.quantity
+        }
+
+        this.setState({product: product})
     }
 
     onChange = (e) => {

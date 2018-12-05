@@ -13,7 +13,7 @@ import AdminRemove from "./components/pages/Admin/AdminProfile/AdminRemove";
 import AdminProfileEdit from "./components/pages/Admin/AdminProfile/AdminProfileEdit";
 import AdminStock from "./components/pages/Admin/AdminStock/AdminStock";
 import NewWare from "./components/pages/Admin/AdminStock/NewWare";
-import EditWare from "./components/pages/Admin/AdminStock/EditWare";
+import Edit from "./components/pages/Admin/AdminStock/Edit";
 import RemoveWare from "./components/pages/Admin/AdminStock/RemoveWare";
 import AdminUsers from "./components/pages/Admin/AdminUsers";
 import UserHome from "./components/pages/User/UserHome";
@@ -45,7 +45,7 @@ ReactDOM.render(
                 <Route exact path="/Admin/Profile/Edit" component={AdminProfileEdit}/>
                 <Route exact path="/Admin/Stock" component={AdminStock}/>
                 <Route exact path="/Admin/Stock/New" component={NewWare}/>
-                <Route exact path="/Admin/Stock/Edit/:id" component={EditWare}/>
+                <Route exact path="/Admin/Stock/Edit/:id" component={Edit}/>
                 <Route exact path="/Admin/Stock/Remove" component={RemoveWare}/>
                 <Route exact path="/Admin/Users" component={AdminUsers}/>
 
