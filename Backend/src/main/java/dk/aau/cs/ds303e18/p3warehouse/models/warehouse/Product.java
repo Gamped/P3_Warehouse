@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.warehouse;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import org.bson.types.ObjectId;
@@ -22,7 +23,7 @@ public class Product {
 
     private String hexId;
 
-    @DBRef
+
     private Customer owner;
 
 

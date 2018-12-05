@@ -11,13 +11,13 @@ import java.util.HashSet;
 import java.util.stream.Stream;
 
 @Document(collection = "publishers")
+
 public class Publisher extends Customer {
 
     @Id
     private ObjectId id = new ObjectId();
     @DBRef
     private Collection<Client> clients;
-    private String publisherName;
 
     public Publisher(ObjectId id){
         super(id);
@@ -27,6 +27,12 @@ public class Publisher extends Customer {
 
     public String getHexId() {
         return id.toString();
+    }
+
+    public int getNumberOfClients(){
+        int size;
+        size = clients.size();
+        return size;
     }
 
     public  void addClient(Client newClient){
@@ -39,16 +45,6 @@ public class Publisher extends Customer {
 
     public Stream<Client> getClientStream(){
         return clients.stream();
-    }
-
-    //public void setHexId(String hexId) { this.hexId = hexId; } No reason to set hexid if our getter generates it for us.
-
-    public String getPublisherName() {
-        return publisherName;
-    }
-
-    public void setPublisherName(String publisherName) {
-        this.publisherName = publisherName;
     }
 }
 

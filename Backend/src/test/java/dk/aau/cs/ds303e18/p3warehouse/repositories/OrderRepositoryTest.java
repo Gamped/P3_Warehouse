@@ -1,7 +1,11 @@
 package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
+import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.ContactInformation;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
 import org.junit.Test;
@@ -9,6 +13,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -27,14 +33,29 @@ public class OrderRepositoryTest {
         System.out.println("Object ID: " + order.getId());
         orderRepository.save(order);
     }
+
+    @Test
+    public void deletAllEntries(){
+
+        //orderRepository.deleteAll();
+    }
+
     @Test
     public void dbRefTest(){
-        Client client = new Client(new ObjectId());
-        client.setUserName("simonusr");
-        client.setNickName("Simon A/S");
 
-        ObjectId orderId = new ObjectId();
-        Order order = new Order(orderId);
+        ObjectId pubId = new ObjectId();
+        Publisher publisher = new Publisher(pubId);
+        publisher.setUserName("Peter 4N");
+        publisher.setUserType(UserType.PUBLISHER);
+
+
+        Client client = new Client(new ObjectId());
+        client.setUserName("simon123");
+        ContactInformation contactInformation = new ContactInformation();
+        contactInformation.setNickName("Simon A/S");
+
+        client.setPublisher(publisher);
+        client.setUserType(UserType.CLIENT);
 
         Product product = new Product(new ObjectId());
         product.setOwner(client);
@@ -48,12 +69,20 @@ public class OrderRepositoryTest {
         product.setQuantity(500);
         product.setProductId("1002");
 
+        ObjectId orderId = new ObjectId();
+        Order order = new Order(orderId);
         order.setOwner(client);
-        order.withNewOrderLine(product, 5);
-        order.withNewOrderLine(flyerProduct, 300);
+        order.setDate(new Date());
 
-        order.setTitle("Testorder");
 
+
+        try {
+            order.withNewOrderLine(product, 5);
+            order.withNewOrderLine(flyerProduct, 300);
+            order.setTitle("Testorder");
+        }catch(InvalidQuantityException e ){
+
+        }
         clientRepository.save(client);
         productRepository.save(product);
         orderRepository.save(order);
@@ -62,17 +91,13 @@ public class OrderRepositoryTest {
 
         //Query order and see if mongo automatically refs our products and clients
         Order queryedOrder = orderRepository.findById(orderId).orElse(null);
-        Client queryedClient = clientRepository.findById(queryedOrder.getOwner().getHexId()).orElse(null);
+        Client queryedClient = clientRepository.findById(queryedOrder.getOwner().getHexId());
         assert(queryedOrder != null && queryedClient.getHexId().equals(client.getHexId()));
-        /*
-        NB: Ved ikke om Java bare refererer til java-objekterne uden om db, eller om DB faktisk henter det til os.
-        Får vi problemer med dbRefs senere, er det nok dette vi først skal tjekke.
-        Håber en venlig sjæl kan huske det, for jeg kan nok ikke.
-        */
 
-        clientRepository.delete(client);
-        productRepository.delete(product);
-        orderRepository.delete(order);
+      //  clientRepository.delete(client);
+      //  productRepository.delete(product);
+     //   orderRepository.delete(order);
+
 
     }
 }

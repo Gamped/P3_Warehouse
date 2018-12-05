@@ -8,6 +8,8 @@ const loginReducer = (state = inistialState, action) => {
         case "LOGIN":
             let loggeProfile = action.user
             return {user:loggeProfile};
+        case "LOGOUT":
+            return {user:inistialState}
         default:
             return state;
     }  

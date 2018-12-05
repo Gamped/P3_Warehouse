@@ -11,8 +11,6 @@ class Header extends React.Component {
         this.props.history.replace("/")
     }
 
-
-
     render(){
         let buttons=[]
         const user = this.props.userType;
@@ -40,8 +38,7 @@ class Header extends React.Component {
                 {name: "Clients",location:"/User/Clients",id:"5"}
             ]
         }else{
-            console.log(user)
-            buttons=[]
+            this.props.history.push("/")
         }
 
         const title= "4N: " + this.props.title

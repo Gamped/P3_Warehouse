@@ -46,18 +46,17 @@ public class PublisherController {
         return publisher;
     }
 
-    @PostMapping("/publishers/new")
+    @PostMapping("/publishers")
     private Publisher newPublisher(@RequestBody RestPublisherModel restPublisher) {
 
         ObjectId id = new ObjectId();
         Publisher newPublisher = new Publisher(id);
-        newPublisher.setPublisherName(restPublisher.getPublisherName());
         BeanUtils.copyProperties(restPublisher, newPublisher);
 
         return publisherRepository.save(newPublisher);
     }
 
-    @PutMapping("/publishers/edit/{hexId}")
+    @PutMapping("/publishers/{hexId}")
     String update(@PathVariable("hexId") String hexId, @RequestBody RestPublisherModel restPublisher) {
 
         ObjectId id = new ObjectId(hexId);
@@ -68,10 +67,10 @@ public class PublisherController {
 
         publisherRepository.save(publisherToSave);
 
-        return "Publisher updated! \n" + publisherToSave.getPublisherName() + "\n" + publisherToSave.getHexId();
+        return "Publisher updated! \n" + publisherToSave.getUserName() + "\n" + publisherToSave.getHexId();
     }
 
-    @DeleteMapping("/publishers/delete/{id}")
+    @DeleteMapping("/publishers/{id}")
     void delete(@PathVariable String hexId) {
         ObjectId id = new ObjectId(hexId);
 

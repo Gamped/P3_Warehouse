@@ -1,3 +1,4 @@
+
 import React from 'react';
 import "../../Pages.css";
 import "./UserOrder.css";
@@ -30,7 +31,7 @@ export default class UserOrder extends React.Component {
         this.undoOrderLine = this.undoOrderLine.bind(this);
         this.makeRow = this.makeRow.bind(this);
         this.renderEditable = this.renderEditable.bind(this);
-        this.setStateAsSelected = this.setStateAsSelected.bind(this);
+      //  this.setStateAsSelected = this.setStateAsSelected.bind(this);
     }
 
 
@@ -91,37 +92,42 @@ export default class UserOrder extends React.Component {
       };
 
     addSelectedToOrderLine = () => {
-       
-        this.state.orderLines.push(this.state.products[this.state.selected]); 
+    
+
+      //  this.setState({orderLines: [...this.state.orderLines, this.state.product[this.state.selected]]}); 
+      this.state.orderLines.push(this.state.products[this.state.selected]);  
+      console.log(this.state.orderLines)
+            
       }
 
     undoOrderLine = () => {
 
         this.state.orderLines.splice(-1, 1);
-        console.log(this.state.orderLines)
       }
 
     checkIfPreviouslyAdded = (orderLine) => {
           
-        if(this.state.orderLines.filter(line => orderLine.hexId == line.hexId)) {
-            this.previouslyAddedWarning();
-      }
+        if(this.state.orderLines.filter(line => orderLine.hexId === line.hexId)) {
+            this.previouslyAddedWarning(); 
+        }
     }
     
     previouslyAddedWarning = () => {
         //TODO: Render popup warning
+        console.log("Item already added!")
     }
 
-    setStateAsSelected = (rowInfo) => {
 
-        this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-      }
+    changeToCart = (event) => {
+        this.props.history.push({
+            pathname: "/User/Order/Cart",
+            search: "?the=query",
+            state: this.state
+          })
+    }
 
     render(){
-
         const data = this.state.products;
-        const tableHeight = window.innerHeight*0.7;
-
         const columns = [
             {Header: "Product Id", accessor: "productId"},
             {Header: "Product Name", accessor: "productName"},
@@ -131,57 +137,70 @@ export default class UserOrder extends React.Component {
 
         return(
             <div className="PageStyle rounded">
-
             <UserOrderCart orderLines={this.state.orderLines}/>
-
-                <div className="topBox topBoxStyle">
-                    <h2 className="topText text-center text-white"> Order:</h2>
-                </div>
-
-                <div className="deciderBox leftBoxStyle">
-                    <input 
-                        type="text" 
-                        className="serachBar" 
-                        onChange={this.handleQuarry}
-                        placeholder="Search for product(s)"/>
-                    <form action="/User/Order/Cart" className="orderForm">
-                        <button className="exportButton stockButton_f btn">Go to cart</button>
-                    </form>
+            <nav class="navbar navbar-light bg-light"> 
+                <h2 className=" text-center "> Order:</h2>
+            </nav>   
+                <nav class="navbar navbar-light bg-light">                   
+                        <form class = "form-inline">
+                            <input  class="from-control mr-sm-2 " 
+                                    type="search" 
+                                    placeholder="Search for product(s)" aria-label="Search"/>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Search</button>
+                        </form>
+                        <div>
+                            <form action="/User/Order/Cart" className="orderForm">
+                                 <button className="exportButton stockButton_f btn">Go to cart</button>
+                            </form>
+                        </div>      
+                </nav>         
+                
+                <div className="table">
+                    <div className="SideBar col rounded bg-secondary">
+                         <div class="col-my-auto">
+                                 <div className="OrderList">
+                                    <ReactTable  
+                                    data={data} 
+                                    columns={columns} 
+                                    showPagination={false} 
+                                    className="-striped -highlight"
+                                    getTrProps={(state, rowInfo) => {
+                                        if (rowInfo && rowInfo.row) {
+                                          return {
+                                            onClick: () => {
+                                                
+                                                this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                            },
+                                            style: {
+                                              background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                              color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                            }
+                                          }
+                                        }else{
+                                          return {}
+                                        }
+                                    }}
+                                    />
+                                 </div>
+                         </div>  
+                    </div>  
+                    <nav class="navbarToButtoms navbar-light bg-light"> 
+                         <div className="container row">
+                             <div className="col my-2">
+                                 <button type="button" className="btn-success btn-lg btn-block btn my-2" onClick={this.addSelectedToOrderLine}>Add to order</button>
+                             </div>
+                             <div className="col my-2">
+                                 <button type="button" className="btn-lg btn-block btn-warning my-2" onClick={this.undoOrderLine}>Undo</button>
+                            </div>
+                        </div>
+                    </nav>      
                 </div>
                 
-                <div className="listBox contentBoxStyle">
-                <ReactTable 
-                        data={data} 
-                        columns={columns} 
-                        showPagination={false} 
-                        className="-striped -highlight"
-                        getTrProps={(state, rowInfo) => {
-                            if (rowInfo && rowInfo.row) {
-                              return {
-                                onClick: (e) => {
+   
+                
+                
 
-                                    this.setStateAsSelected(rowInfo);
-                                },
-                                style: {
-                                  background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                  color: rowInfo.index === this.state.selected ? 'white' : 'black'
-                                }
-                              }
-                            }else{
-                              return {}
-                            }
-                        }}
-                          />
-                </div>
-                <div className="container row">
-             <div className="col my-2">
-                 <button type="button" className="btn btn-success" onClick={this.addSelectedToOrderLine}>Add to order</button>
-             </div>
-             <div className="col my-2">
-                 <button type="button" className="btn btn-warning" onClick={this.undoOrderLine}>Undo</button>
-             </div>
-             </div>
-             </div>
+            </div>
           
             
             );

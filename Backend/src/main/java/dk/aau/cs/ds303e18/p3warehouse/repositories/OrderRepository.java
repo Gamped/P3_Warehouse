@@ -7,9 +7,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.web.JsonPath;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Collection;
+
 public interface OrderRepository extends MongoRepository<Order, ObjectId> {
-
-    void deleteById(@PathVariable String hexId);
-
-    Iterable<Order> findByOwner(Customer owner);
+    Collection<Order> findAllByOwner();
 }
