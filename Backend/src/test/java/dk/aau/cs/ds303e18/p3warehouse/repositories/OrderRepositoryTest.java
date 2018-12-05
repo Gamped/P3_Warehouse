@@ -44,20 +44,15 @@ public class OrderRepositoryTest {
 
         ObjectId pubId = new ObjectId();
         Publisher publisher = new Publisher(pubId);
-        publisher.setPublisherName("Peter 4N");
+        publisher.setUserName("Peter 4N");
         publisher.setUserType(UserType.PUBLISHER);
 
 
         Client client = new Client(new ObjectId());
         client.setUserName("simon123");
-        client.setNickName("Simon A/S");
+        client.getContactInformation().setNickName("Simon A/S");
         client.setPublisher(publisher);
         client.setUserType(UserType.CLIENT);
-        client.setUserName("simonusr");
-        client.getContactInformation().setNickName("Simon A/S");
-
-        ObjectId orderId = new ObjectId();
-        Order order = new Order(orderId);
 
         Product product = new Product(new ObjectId());
         product.setOwner(client);

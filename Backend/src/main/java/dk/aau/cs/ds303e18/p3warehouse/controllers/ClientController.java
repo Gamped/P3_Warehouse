@@ -88,14 +88,14 @@ public class ClientController {
         return productRepository.findAllByOwner(client);
     }
 
-    @GetMapping("/client/products/{id}")
+    @GetMapping("/clients/products/{id}")
     Product findProductById(@PathVariable String id) {
 
         ObjectId objectId = new ObjectId(id);
         return productRepository.findById(objectId).orElse(null);
     }
 
-    @PutMapping("/client/products/{hexId}")
+    @PutMapping("/clients/products/{hexId}")
     String updateClientProduct(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
 
         ObjectId id = new ObjectId(hexId);

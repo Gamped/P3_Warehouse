@@ -25,7 +25,6 @@ class UserOrderCart extends React.Component {
         const state = this.state.orderDetails;
         state[e.target.name] = e.target.value;
         this.setState({orderDetails:state});
-        console.log(JSON.stringify(this.state.orderDetails))
     }
 
     handlePreviousAddressSelect = (event) => {

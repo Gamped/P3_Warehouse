@@ -14,7 +14,6 @@ public class User {
 
     private String userName;
     private String password;
-    @NonNull
     private ObjectId id;  // ID for the child in another collection
     private UserType userType;
 
