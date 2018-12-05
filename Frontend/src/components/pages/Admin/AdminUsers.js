@@ -3,17 +3,11 @@ import "../Pages.css";
 import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
 import "./AdminUsers.css";
 import TextBox from "../../MenuComponents/TextBox/TextBox";
-import ReactTable from "react-table";
 
 export default class AdminUsers extends React.Component {
     constructor(props) {
         super(props);
-        const user = this.state.user;
 
-        const userColumns = [
-            {Header: "username", accessor: "usertype"},
-        ];
-  
         this.state = {
             publisher: [
                 {name:"Black Betty INC",id: "1"},
@@ -86,33 +80,44 @@ export default class AdminUsers extends React.Component {
         return null
         // todo. Burde nok gette informationen fra backenden, da vi ellers kan nøjes med name og id.
     }
-  
 
     render(){
         return(
             <div className="PageStyle rounded">
                 <div className="userPageStyle rounded">
-                    <div className="SideBar col sidebar border border-dark rounded bg-secondary"></div>
-                        <div className="container row"> 
-                        <div className="Table">
-                            <ReactTable 
-                        showPagination={false}
-                        className = "-striped -highlight"
-                        /> 
-                        </div>
-                        </div>
-                      
-                            <div className="col-sm text-center">
-                             <TextBox type="user" id={this.state.userShown}/>
-                                <div className="container row">
-                                    <div className="col my-2">
-                                       <button type="button" className="btn btn-danger">Delete this user</button>
-                                       <button type="button" className="btn btn-warning">Edit this user</button>
-                                    </div>
-                                </div>
+                    <div className="container row">
+                        <div className="wapper">
+                                <div className="sidebar bg-secondary">
+                                    <div className="border border-light rounded mx-5">
+                                        <thead class="thead-dark my-4">
+                                            <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Username</th>
+                                            <th scope="col">Usertype</th>
+                                            <th scope="col ">checkboxs</th>
+                                            </tr>
+                                        </thead>
+                                    </div> 
+                                 <div className="mx-5">
+                                    <ButtonList buttons={[{name:"Create User",id:0}]} color="btn-success" link={false} action={this.changeList}/>
+                                    <button type = "button" className="btn btn-success">Create user</button>   
+                                 </div> 
                             </div>
                     </div>
+                        <div className="col-sm text-center">
+                            <TextBox type="user" id={this.state.userShown}/>
+                            <div className="container row">
+                                <div className="col my-2">
+                                    <button type="button" className="btn btn-danger">Delete this user</button>
+                                </div>
+                                <div className="col my-2">
+                                    <button type="button" className="btn btn-warning">Edit this user</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
         );
     }
 }
