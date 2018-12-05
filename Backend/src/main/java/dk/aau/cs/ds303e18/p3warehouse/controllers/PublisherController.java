@@ -5,7 +5,6 @@ import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
-import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.OrderRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
@@ -15,9 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequestMapping("/api")
 @CrossOrigin
@@ -27,14 +27,12 @@ public class PublisherController {
     @Autowired
     PublisherRepository publisherRepository;
     @Autowired
-    ClientRepository clientRepository;
-    @Autowired
     ProductRepository productRepository;
     @Autowired
     OrderRepository orderRepository;
 
     @GetMapping("/publishers")
-    private Iterable<Publisher> findAll() {
+    Iterable<Publisher> findAll() {
 
         return publisherRepository.findAll();
     }
@@ -80,39 +78,30 @@ public class PublisherController {
         publisherRepository.deleteById(id);
     }
 
-    @GetMapping("/publisher/clients/products")
-    Iterable<Product> findAllClientsProducts() {
+    @GetMapping("/publishers/clients/products")
+    Iterable<Product> findAllClientsProducts(@RequestBody Publisher publisher) {
+        Stream<Client> clientStream = publisher.getClientStream();
 
-        Collection<ObjectId> ids = null;
-        ObjectId id = new ObjectId();
-        Publisher publisher = new Publisher(id);
-        for (Client client : publisher.getClients()) {
-             ids  = Collections.singleton(client.getId());
-        }
-
-        return productRepository.findByOwner(publisher);
+        return productRepository.findByOwner(clientStream.iterator().next());
     }
 
-    @GetMapping("/publisher/client/{id}/products")
-    Iterable<Product> findProductsByClientId(@PathVariable String clientId) {
-        ObjectId id = new ObjectId(clientId);
+    @GetMapping("/publishers/client/{hexId}/products")
+    Iterable<Product> findProductsByClientId(@PathVariable("hexId") String hexId) {
+        ObjectId id = new ObjectId(hexId);
         Client client = new Client(id);
 
         return productRepository.findByOwner(client);
     }
 
-    @GetMapping("/publisher/clients/orders")
-    private Iterable<Order> findAllClientOrders() {
-        ObjectId id = new ObjectId();
-        Publisher publisher = new Publisher(id);
+    @GetMapping("/publishers/clients/orders")
+    Iterable<Order> findAllClientOrders(@RequestBody Publisher publisher) {
+        Stream<Client> clients = publisher.getClientStream();
 
-        return orderRepository.findAll();
+        return orderRepository.findByOwner(clients.iterator().next());
     }
 
-    @GetMapping("/publisher/client/{id}/order")
-    Iterable<Order> findOneClientOrders(@PathVariable String clientId) {
-        ObjectId id = new ObjectId(clientId);
-        Client client = new Client(id);
+    @GetMapping("/publishers/client/{clientId}/order")
+    Iterable<Order> findOneClientOrders(@RequestBody Client client) {
 
         return orderRepository.findByOwner(client);
     }

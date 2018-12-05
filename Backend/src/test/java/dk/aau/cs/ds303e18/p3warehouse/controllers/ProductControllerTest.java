@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import org.bson.types.ObjectId;
@@ -13,10 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
@@ -111,6 +109,27 @@ public class ProductControllerTest {
 
         System.out.println(products);
 
-        assertEquals(productList, productRepository.findAll());
+        assertEquals(products, productRepository.findAll());
+    }
+
+    @Test
+    public void testFindOwner() {
+        ObjectId productId = new ObjectId();
+        ObjectId pId = new ObjectId();
+        ObjectId clientId = new ObjectId();
+        Product product = new Product(productId);
+        Product product_new = new Product(pId);
+        Client client = new Client(clientId);
+        List<Product> productList = new ArrayList<>();
+        productList.add(product);
+        productList.add(product_new);
+
+        when(productRepository.findByOwner(client)).thenReturn(productList);
+
+        Iterable<Product> products = productController.findByOwner(client);
+
+        verify(productRepository).findByOwner(client);
+
+        assertEquals(product, products);
     }
 }
