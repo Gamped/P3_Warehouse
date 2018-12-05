@@ -12,7 +12,7 @@ export default class AdminStock extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/api/products')
+        axios.get('http://localhost:8080/api/employee/products')
             .then((response) => {
                 const products = this.makeRow(response);
                 this.setState({ products: products });
@@ -26,7 +26,7 @@ export default class AdminStock extends Component {
                 productId: product.productId,
                 productName: product.productName,
                 quantity: product.quantity,
-                owner: product.owner.nickName,
+                owner: product.owner.userName,
                 hexId: product.hexId
             })
         });
