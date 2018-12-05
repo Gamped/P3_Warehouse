@@ -3,6 +3,7 @@ package dk.aau.cs.ds303e18.p3warehouse.repositories;
 import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.ContactInformation;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
@@ -44,13 +45,15 @@ public class OrderRepositoryTest {
 
         ObjectId pubId = new ObjectId();
         Publisher publisher = new Publisher(pubId);
-        publisher.setPublisherName("Peter 4N");
+        publisher.setUserName("Peter 4N");
         publisher.setUserType(UserType.PUBLISHER);
 
 
         Client client = new Client(new ObjectId());
         client.setUserName("simon123");
-        client.setNickName("Simon A/S");
+        ContactInformation contactInformation = new ContactInformation();
+        contactInformation.setNickName("Simon A/S");
+
         client.setPublisher(publisher);
         client.setUserType(UserType.CLIENT);
 

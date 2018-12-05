@@ -18,9 +18,10 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
  import org.springframework.web.bind.annotation.*;
 
  import java.util.Collection;
- import java.util.Optional;
 
 @RestController
+@CrossOrigin
+@RequestMapping("/api")
 public class EmployeeController {
 
     @Autowired
@@ -47,11 +48,16 @@ public class EmployeeController {
         return employeeRepository.findById(new ObjectId(hexId)).orElse(null);
     }
 
+    @GetMapping("/employee/products")
+    Iterable<Product> findAllProducts() {
+        return productRepository.findAll();
+    }
+
     @PostMapping("/employee/products")
     Product createProduct(@RequestBody RestProductModel restProduct) {
         Product product = new Product(new ObjectId());
         BeanUtils.copyProperties(restProduct, product);
-        return ProductManager.addProductToDb(product);
+        return ProductManager.saveProductToDb(product);
     }
 
     @PutMapping("/employee/products/{id}")
@@ -66,8 +72,10 @@ public class EmployeeController {
 
     @DeleteMapping("/employee/products/{id}")
     public void deleteProductById(@PathVariable String id){
-        Product product = productRepository.findById(new ObjectId(id)).orElse(null);
-        ProductManager.removeProductFromDb(product);
+        productRepository.deleteByHexId(id);
+        
+        // Product product = productRepository.delete(new ObjectId(id)).orElse(null);
+       // ProductManager.removeProductFromDb(product);
     }
 
 

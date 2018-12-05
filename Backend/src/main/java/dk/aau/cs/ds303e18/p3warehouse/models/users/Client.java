@@ -1,7 +1,9 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.users;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "clients")
@@ -10,12 +12,11 @@ public class Client extends Customer {
 
     @Id
     ObjectId id;
-  
+
+
     Publisher publisher;
 
-    String clientName;
-
-    public Client(ObjectId id){
+    public Client(ObjectId id) {
         super(id);
         this.id = id;
     }
@@ -24,6 +25,8 @@ public class Client extends Customer {
     public String getHexId() {
         return id.toString();
     }
+
+    @JsonIgnore
     public Publisher getPublisher() {
         return publisher;
     }
@@ -32,19 +35,13 @@ public class Client extends Customer {
         this.publisher = publisher;
     }
 
+    @JsonIgnore
     public ObjectId getId() {
         return id;
     }
 
-    @Override public String toString(){
+    @Override
+    public String toString() {
         return id + " " + this.getUserName() + " " + this.getContactInformation();
-    }
-
-    public String getClientName() {
-        return this.clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
     }
 }

@@ -12,7 +12,7 @@ export default class AdminStock extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/api/products')
+        axios.get('http://localhost:8080/api/employee/products')
             .then((response) => {
                 const products = this.makeRow(response);
                 this.setState({ products: products });
@@ -26,7 +26,6 @@ export default class AdminStock extends Component {
                 productId: product.productId,
                 productName: product.productName,
                 quantity: product.quantity,
-                owner: product.owner.nickName,
                 hexId: product.hexId
             })
         });
@@ -40,8 +39,11 @@ export default class AdminStock extends Component {
     removeItem = () => {
         const selectedId = this.state.selectedId;
         if(selectedId !== ""){
+            
             if(window.confirm("You are deleting an item")){
-                //Todo: Få den til at remove et product by id. axios.remove()
+               
+                axios.delete('http://localhost:8080/api/employee/products/'+this.state.selectedId)
+                    
             }
         }
         
@@ -52,8 +54,7 @@ export default class AdminStock extends Component {
       const columns = [
           {Header: "Product ID", accessor: "productId"},
           {Header: "Product Name", accessor: "productName"},
-          {Header: "Quantity", accessor: "quantity"},
-          {Header: "Owner", accessor: "owner"}
+          {Header: "Quantity", accessor: "quantity"}
       ]
 
 
@@ -96,7 +97,7 @@ export default class AdminStock extends Component {
                                 <button  className="btn-success btn-lg btn-block my-2" onClick={()=>this.sendToPage("/Admin/Stock/New")}>New</button>
                             </div>
                             <div action="/Admin/Stock/Edit" className="">
-                                <button  className="btn-lg btn-block btn-warning my-2" onClick={()=>this.sendToPage("/Admin/Stock/Edit")}>Edit</button>
+                                <button  className="btn-lg btn-block btn-warning my-2" onClick={()=>this.sendToPage("/Admin/Stock/Edit/"+this.state.selectedId)}>Edit</button>
                             </div>
                             <div action="/Admin/Stock/Remove" className="">
                                 <button  className="btn-lg btn-danger btn-block my-2" onClick={this.removeItem}>Remove</button>
