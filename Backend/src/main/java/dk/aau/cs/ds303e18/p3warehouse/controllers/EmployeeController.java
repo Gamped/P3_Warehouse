@@ -55,6 +55,11 @@ public class EmployeeController {
         return productRepository.findAll();
     }
 
+    @GetMapping("/employee/product/{hexId}")
+    Optional<Product> findProductById(@PathVariable String hexId) {
+        return productRepository.findById(new ObjectId(hexId));
+    }
+
     @PostMapping("/employee/products")
     void createProduct(@RequestBody RestProductModel restProduct) {
         Product product = new Product(new ObjectId());
@@ -63,7 +68,7 @@ public class EmployeeController {
 
     }
 
-    @PutMapping("/employee/products/{hexId}")
+    @PutMapping("/employee/product/{hexId}")
     String updateProduct(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
 
         ObjectId id = new ObjectId(hexId);
