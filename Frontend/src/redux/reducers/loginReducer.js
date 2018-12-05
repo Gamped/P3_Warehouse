@@ -1,7 +1,7 @@
-const initialState ={loggedIn:"False",
-userType:"",
-nickName:"",
-userId:"",};
+const initialState ={loggedIn:"True",
+userType:"EMPLOYEE",
+nickName:"Kev The Machine",
+userId:"ABC123",};
 
 const loginReducer = (state = initialState, action) => {
     switch(action.type){
