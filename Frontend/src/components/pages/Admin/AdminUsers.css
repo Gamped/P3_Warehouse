@@ -1,0 +1,7 @@
+.SelectionBar{
+    flex-grow: 10;
+}
+
+.ContentBar{
+    flex-grow: 30;
+}

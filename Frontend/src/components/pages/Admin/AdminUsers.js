@@ -86,25 +86,11 @@ export default class AdminUsers extends React.Component {
             <div className="PageStyle rounded">
                 <div className="userPageStyle rounded">
                     <div className="container row">
-                        <div className="wapper">
-                                <div className="sidebar bg-secondary">
-                                    <div className="border border-light rounded mx-5">
-                                        <thead class="thead-dark my-4">
-                                            <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Username</th>
-                                            <th scope="col">Usertype</th>
-                                            <th scope="col ">checkboxs</th>
-                                            </tr>
-                                        </thead>
-                                    </div> 
-                                 <div className="mx-5">
-                                    <ButtonList buttons={[{name:"Create User",id:0}]} color="btn-success" link={false} action={this.changeList}/>
-                                    <button type = "button" className="btn btn-success">Create user</button>   
-                                 </div> 
-                            </div>
-                    </div>
-                        <div className="col-sm text-center">
+
+                        <div className="SelectionBar col sidebar border border-dark rounded bg-secondary">
+                            
+                        </div>
+                        <div className="ContentBar col-sm text-center">
                             <TextBox type="user" id={this.state.userShown}/>
                             <div className="container row">
                                 <div className="col my-2">

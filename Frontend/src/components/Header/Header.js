@@ -8,6 +8,7 @@ class Header extends React.Component {
 
     exitHandler = (event) =>{
         event.preventDefault();
+        this.props.logout()
         this.props.history.replace("/")
     }
 
@@ -76,7 +77,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        login: (user) => {dispatch({type: "LOGOUT",})}
+        logout: () => {dispatch({type: "LOGOUT"})}
     }
 }
 

@@ -29,6 +29,7 @@ import UserCartConfirm from "./components/pages/User/UserOrder/UserCartConfirm";
 import {Provider} from "react-redux";
 import redux from "./redux/Redux";
 import NewOrder from './components/pages/Admin/AdminOrders/NewOrder';
+import EditOrder from './components/pages/Admin/AdminOrders/EditOrder';
 
 ReactDOM.render(
     <Provider store={redux}>
@@ -41,6 +42,7 @@ ReactDOM.render(
                 <Route exact path="/Admin/*" component={adminMain}/>
                 <Route exact path="/Admin/Orders" component={AdminOrders}/>
                 <Route exact path="/Admin/Orders/New" component={NewOrder}/>
+                <Route exact path="/Admin/Orders/Edit" component={EditOrder}/>
                 <Route exact path="/Admin/Profile" component={AdminProfile}/>
                 <Route exact path="/Admin/Profile/AddEmployee" component={AdminAdd}/>
                 <Route exact path="/Admin/Profile/RemoveEmployee" component={AdminRemove}/>

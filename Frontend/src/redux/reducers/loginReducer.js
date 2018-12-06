@@ -1,5 +1,5 @@
 const initialState ={loggedIn:"True",
-userType:"EMPLOYEE",
+userType:"PUBLISHER",
 nickName:"Kev The Machine",
 userId:"ABC123",};
 
@@ -24,6 +24,7 @@ const loginReducer = (state = initialState, action) => {
         case "LOGOUT":
             state ={...state, initialState} 
             break;
+        default:
     }  
     return state
 }

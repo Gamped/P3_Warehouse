@@ -63,12 +63,11 @@ export default class AdminOrders extends Component {
         let orderLines = [];
         
         selectedOrder.map(orderLine => {
-            orderLines.push({
+            return {...orderLine,
                 productName: orderLine.product.productName,
                 date: orderLine.product.date,
                 amount: orderLine.quantity
-              
-            });
+            }
         });
 
         
@@ -100,7 +99,7 @@ export default class AdminOrders extends Component {
 			allPacked: this.state.allPacked === 0 ? 1 : 0
         });
         
-        if (this.state.allPacked == 1) {
+        if (this.state.allPacked === 1) {
             //TODO: ACTIVATE FINISH ORDER BUTTON
         }
 	}
@@ -194,9 +193,9 @@ export default class AdminOrders extends Component {
                              />
                         </div>
                         <div className=" md-2">
-                                <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order </button>
-                                <button type= "button" className="btn btn-warning mx-2" >Edit order   </button>                            
-                                <button type= "button" className="btn btn-danger mx-2"  >Del order    </button>
+                                <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>
+                                <button type= "button" className="btn btn-warning mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit")}>Edit order</button>                            
+                                <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.sendToPage("/Admin/Orders/Delete")}>Del order</button>
                         </div>
                     </div>
                         <div className="Table">
