@@ -1,0 +1,12 @@
+.Contents{
+    position: relative;
+    top: 2vh;
+    width: 80vw;
+    left: 2.5vw;
+}
+
+.Buttons{
+    position: relative;
+    top: 2vh;
+    justify-content: center;
+}
