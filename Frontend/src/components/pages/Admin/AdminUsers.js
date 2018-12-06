@@ -98,6 +98,7 @@ export default class AdminUsers extends Component {
             <div className="PageStyle rounded">
                 <div className="userPageStyle rounded">
                     <div className="container row">
+
                         <div className="SelectionBar col sidebar border border-dark rounded bg-secondary userNavbar">
                             <div className="border border-light rounded bg-info">
                             <ReactTable 
@@ -221,6 +222,7 @@ export default class AdminUsers extends Component {
                                     </div>
 
                                   
+
 
 
                                 </div>
