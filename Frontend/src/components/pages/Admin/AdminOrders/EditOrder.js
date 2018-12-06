@@ -22,6 +22,10 @@ export default class EditOrder extends Component{
         }
     }
 
+    sendToPage = (address) => {
+        this.props.history.push(address);
+    }
+
     render(){
         const orderLineColumns=[ /*You might wanna do something fancy where you can edit the quantity directly in the table*/
             {Header: "Products", accessor:"product"},
@@ -54,8 +58,8 @@ export default class EditOrder extends Component{
                         }}
                     />
                     <div className="Buttons container row">
-                        <button className="btn btn-warning btn-lg mx-2">Edit Address</button>
-                        <button className="btn btn-warning btn-lg mx-2">Edit Contents</button>
+                        <button className="btn btn-warning btn-lg mx-2" onClick={this.sendToPage("/Admin/Orders/Edit/OrderAddress")}>Edit Address</button>
+                        <button className="btn btn-warning btn-lg mx-2" onClick={this.sendToPage("/Admin/Orders/Edit/OrderContent")}>Edit Contents</button>
                     </div>
                 </div>
             </div>
