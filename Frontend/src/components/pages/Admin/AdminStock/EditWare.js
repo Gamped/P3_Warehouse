@@ -13,8 +13,8 @@ export default class EditWare extends Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/api/products/' + this.state.hexId).
-            then(response => {
+        axios.get('http://localhost:8080/api/products/' + this.state.hexId)
+            .then(response => {
                  this.setState({ product: response.data });
                  console.log(this.state.product);
             }

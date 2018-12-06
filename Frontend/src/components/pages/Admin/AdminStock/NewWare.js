@@ -73,14 +73,13 @@ export default class NewWare extends Component {
                     <input
                         type="text"
                         className="my-2 form-control"
-                        //defaultValue={quantity}
-                        defaultValue={null}
+                        defaultValue={quantity}
                         onChange={this.onChangeQuantity}
                         placeholder="Quantity"/>
                     <input
                         type="text"
                         className="my-2 form-control"
-                        defaultValue={null}
+                        defaultValue={Owner}
                         onChange={this.onChangeOwner}
                         placeholder="Owner"/>
                 </form>

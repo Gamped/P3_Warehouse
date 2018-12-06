@@ -4,7 +4,6 @@ import "../../Pages.css";
 import "./UserOrder.css";
 import axios from 'axios';
 import ReactTable from 'react-table';
-import UserOrderCart from './UserOrderCart.js';
 import { connect } from "react-redux";
 
 //TODO: Render warning in previouslyAddedWarning
@@ -78,7 +77,7 @@ class UserOrder extends React.Component {
                 
                 this.state.products
                 .filter(product => 
-                    product.hexId == cellInfo.original.hexId)
+                    product.hexId === cellInfo.original.hexId)
                 .map(product => 
                     product.amount = typedAmount)
 

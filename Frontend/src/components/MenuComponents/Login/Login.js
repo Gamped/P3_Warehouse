@@ -19,7 +19,6 @@ class SignInBox extends React.Component{
     }
 
     onChange = (e) => {
-        const state = this.state.product;
         this.setState({[e.target.name]: e.target.value});
     }
 

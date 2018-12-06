@@ -24,6 +24,7 @@ const loginReducer = (state = initialState, action) => {
         case "LOGOUT":
             state ={...state, initialState} 
             break;
+        default:
     }  
     return state
 }
