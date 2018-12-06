@@ -1,5 +1,5 @@
 const initialState ={loggedIn:"True",
-userType:"PUBLISHER",
+userType:"EMPLOYEE",
 nickName:"Kev The Machine",
 userId:"ABC123",};
 

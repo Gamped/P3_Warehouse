@@ -86,9 +86,7 @@ export default class AdminUsers extends React.Component {
             <div className="PageStyle rounded">
                 <div className="userPageStyle rounded">
                     <div className="container row">
-
-                        <div className="SelectionBar col sidebar border border-dark rounded bg-secondary">
-                            
+                        <div className="SelectionBar col sidebar border border-dark rounded bg-secondary">                          
                         </div>
                         <div className="ContentBar col-sm text-center">
                             <TextBox type="user" id={this.state.userShown}/>
