@@ -70,9 +70,10 @@ export default class UserStock extends React.Component {
                 </div>
 
                 <div className="listBox contentBoxStyle">
-                    <GenericTable 
+                    <ReactTable
                         columns={columns}
                         data={this.state.products}
+                        
                     />
                 </div>
             </div>

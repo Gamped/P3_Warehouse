@@ -10,7 +10,7 @@ export default class GenericTable extends Component{
             columns: props.columns,
 
             selected: null,
-            selectedId: "",
+            selectedId: ""
         }
     }
 

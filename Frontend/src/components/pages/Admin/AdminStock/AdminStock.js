@@ -74,7 +74,7 @@ export default class AdminStock extends Component {
                     <div className="Table container col">
                         <h1 className="Header">Stock</h1>
 
-                    <ReactTable 
+                    <ReactTable
                         data={this.state.products} 
                         columns={columns} 
                         showPagination={false} 
