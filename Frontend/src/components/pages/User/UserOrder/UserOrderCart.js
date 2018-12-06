@@ -3,6 +3,7 @@ import "../../Pages.css";
 import "./UserOrder.css";
 import "./UserCart.css";
 import {shrinkToHtmlNames} from './../../../../global.js';
+import { connect } from "react-redux";
 
 class UserOrderCart extends React.Component {
     constructor() {
@@ -39,6 +40,17 @@ class UserOrderCart extends React.Component {
         });
     }
 
+    createCells = () =>{
+        let lines = this.props.order
+        return lines.map((line)=>{
+            <tr>
+                <th scope="row">{line.id}</th>
+                <td>{line.name}</td>
+                <td>{line.amount}</td>
+            </tr>
+        })
+    }
+
     render(){
         return(
             <div className="PageStyle rounded">
@@ -54,18 +66,7 @@ class UserOrderCart extends React.Component {
                                         <th scope="col">Amount</th>
                                     </thead>
                                     <tbody>
-                                        
-                                            {this.state.orderLines.map((line)=>{
-                                                return(
-                                                <tr>
-                                                    <th scope="row">{line.id}</th>
-                                                    <td>{line.name}</td>
-                                                    <td>{line.amount}</td>
-                                                </tr>
-                                                ) 
-                                            })}
-                                            
-                                        
+                                        {this.createCells}                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -103,4 +104,10 @@ class UserOrderCart extends React.Component {
     }
 }
 
-export default UserOrderCart;
+const mapStateToProps = (state)=>{
+    return{
+        userType: state.orderReducer.order
+    }
+}
+
+export default connect(mapStateToProps)(UserOrderCart);

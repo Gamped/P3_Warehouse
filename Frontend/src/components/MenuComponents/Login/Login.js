@@ -43,9 +43,9 @@ class SignInBox extends React.Component{
                 this.props.setlogIn("True")
             })
             .then(res => {
-                if(this.state.userType==="employee"){
+                if(res.userType==="EMPLOYEE"){
                     this.props.history.push("./Admin")
-                }else if(this.state.userType === "client"){
+                }else if(res.userType === "CLIENT"||res.userType==="PUBLISHER"){
                     this.props.history.push("./User")
                 }
             })
