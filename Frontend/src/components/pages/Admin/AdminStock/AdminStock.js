@@ -103,7 +103,7 @@ export default class AdminStock extends Component {
                                 <button  className="btn-success btn-lg btn-block my-2" onClick={()=>this.sendToPage("/Admin/Stock/New")}>New</button>
                             </div>
                             <div action="/Admin/Stock/Edit" className="">
-                                <Link className="btn-lg btn-block btn-warning my-2" to={`/Admin/Stock/Edit/${selectedId}`}>Edit</Link>
+                                <Link  className="btn-lg btn-block btn-warning my-2" to={`/Admin/Stock/Edit/${selectedId}`}>Edit</Link>
                                 
                             </div>
                             <div action="/Admin/Stock/Remove" className="">
