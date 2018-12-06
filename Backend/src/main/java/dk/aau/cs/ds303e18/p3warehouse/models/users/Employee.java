@@ -15,4 +15,12 @@ public class Employee extends User {
         super(new ObjectId());
         this.id = id;
     }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

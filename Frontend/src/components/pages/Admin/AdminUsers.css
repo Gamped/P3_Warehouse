@@ -1,7 +1,8 @@
 .SelectionBar{
-    flex-grow: 10;
+    flex-grow: 15;
 }
 
 .ContentBar{
-    flex-grow: 30;
+    flex-grow: 40;
 }
+
