@@ -98,7 +98,7 @@ class UserOrder extends React.Component {
       }
 
     undoOrderLine = () => {
-        this.setState({orderLines: state.orderLines.splice(-1, 1)})
+        this.setState({orderLines: this.state.orderLines.splice(-1, 1)})
       }
 
     checkIfPreviouslyAdded = (orderLine) => {

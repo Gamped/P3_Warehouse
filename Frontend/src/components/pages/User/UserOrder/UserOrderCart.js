@@ -42,13 +42,13 @@ class UserOrderCart extends React.Component {
 
     createCells = () =>{
         let lines = this.props.order
-        return lines.map((line)=>{
+        return lines.map((line)=>{return(
             <tr>
                 <th scope="row">{line.id}</th>
                 <td>{line.name}</td>
                 <td>{line.amount}</td>
             </tr>
-        })
+        )})
     }
 
     render(){
