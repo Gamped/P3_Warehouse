@@ -34,17 +34,17 @@ public class EmployeeController {
     PublisherRepository publisherRepository;
 
     @PostMapping("/employee")
-    private Employee newEmployee(@RequestBody Employee employee){
+    Employee newEmployee(@RequestBody Employee employee){
         return EmployeeManager.saveEmployeeToDb(employee);
     }
 
     @GetMapping("/employee")
-    private Collection<Employee> getAllEmployees() {
+     Collection<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
     @GetMapping("/employee/{hexId}")
-    private Employee getOneEmployee(@PathVariable String hexId){
+    Employee getOneEmployee(@PathVariable String hexId){
         return employeeRepository.findById(new ObjectId(hexId)).orElse(null);
     }
 

@@ -1,5 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
+import dk.aau.cs.ds303e18.p3warehouse.managers.EmployeeManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Employee;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.EmployeeRepository;
 import org.bson.types.ObjectId;
@@ -12,12 +13,15 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -42,16 +46,27 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void testDeleteEmployeeById() {
+    public void testFindAllEmployees() {
         ObjectId id = new ObjectId();
+        ObjectId objectId = new ObjectId();
+        ObjectId employeeId = new ObjectId();
+
         Employee employee = new Employee(id);
+        Employee secondEmployee = new Employee(objectId);
+        Employee thirdEmployee = new Employee(employeeId);
 
-        when(employeeRepository.findById(id)).thenReturn(Optional.ofNullable(employee));
+        List<Employee> employeeList = new LinkedList<>();
+        employeeList.add(employee);
+        employeeList.add(secondEmployee);
+        employeeList.add(thirdEmployee);
 
-        employeeController.deleteById(id);
-        verify(employeeRepository).deleteById(id);
-        List<Employee> employees = new LinkedList<>();
-        assertEquals(employees, employeeRepository.findAll());
+        when(employeeRepository.findAll()).thenReturn(employeeList);
+
+        Collection<Employee> employees = employeeController.getAllEmployees();
+        verify(employeeRepository).findAll();
+
+        assertEquals(3, employees.size());
+        assertEquals(employeeList, employees);
     }
 
     @Test
@@ -59,11 +74,42 @@ public class EmployeeControllerTest {
         ObjectId id = new ObjectId();
         Employee employee = new Employee(id);
 
-        when(employeeRepository.findById(id)).thenReturn(Optional.ofNullable(employee));
+        when(employeeRepository.findById(id)).thenReturn(Optional.of(employee));
 
-        //Optional<Employee> optEmployee = employeeController.findById(id);
-       // Employee retrievedEmployee = optEmployee.get();
-
-        //assertEquals(employee.getId(), retrievedEmployee.getId());
+        Employee retrievedEmployee = employeeController.getOneEmployee(String.valueOf(id));
+        verify(employeeRepository).findById(id);
+        assertEquals(employee.getId(), retrievedEmployee.getId());
     }
+
+    @Test
+    public void testNewEmployee() {
+        ObjectId id = new ObjectId();
+        Employee employee = new Employee(id);
+
+        when(employeeRepository.save(employee)).thenReturn(employee);
+
+        employeeController.newEmployee(employee);
+
+        verify(employeeRepository).save(employee);
+
+        assertSame(id, employee.getId());
+    }
+
+    @Test
+    public void testDeleteEmployeeById() {
+        ObjectId id = new ObjectId();
+        Employee employee = new Employee(id);
+        employee.setUserName("fred");
+        List<Employee> employeeList = new LinkedList<>();
+        employeeList.add(employee);
+
+        when(employeeRepository.findAll()).thenReturn(employeeList);
+
+        employeeController.deleteById(id);
+        verify(employeeRepository).deleteById(id);
+
+        assertEquals(0, employeeRepository.findAll().size());
+    }
+
+
 }

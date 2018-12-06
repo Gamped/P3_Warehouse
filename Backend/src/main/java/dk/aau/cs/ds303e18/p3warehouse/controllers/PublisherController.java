@@ -47,7 +47,7 @@ public class PublisherController {
     }
 
     @PostMapping("/publishers")
-    private Publisher newPublisher(@RequestBody RestPublisherModel restPublisher) {
+    Publisher newPublisher(@RequestBody RestPublisherModel restPublisher) {
 
         ObjectId id = new ObjectId();
         Publisher newPublisher = new Publisher(id);
@@ -77,11 +77,11 @@ public class PublisherController {
         publisherRepository.deleteById(id);
     }
 
-    @GetMapping("/publishers/clients/products")
+    /*@GetMapping("/publishers/clients/products")
     Iterable<Product> findAllClientsProducts(@RequestBody Publisher publisher) {
         Stream<Client> clientStream = publisher.getClientStream();
 
-        return productRepository.findByOwner(clientStream.iterator().next());
+        //return productRepository.findByOwner(clientStream.iterator().next());
     }
 
     @GetMapping("/publishers/client/{hexId}/products")
@@ -103,5 +103,5 @@ public class PublisherController {
     Iterable<Order> findOneClientOrders(@RequestBody Client client) {
 
         return orderRepository.findByOwner(client);
-    }
+    }*/
 }
