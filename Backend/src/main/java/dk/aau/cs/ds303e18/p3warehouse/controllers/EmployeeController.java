@@ -40,11 +40,19 @@ public class EmployeeController {
         return EmployeeManager.saveEmployeeToDb(employee);
     }
 
-    @PostMapping("/employee/products")
-    String createProduct(@RequestBody RestProductModel restProduct) {
+    @PostMapping("/employee/products/assignTo={customerId}/withUserType={userType}")
+    String createProduct(@PathVariable("customerId") String customerId, @PathVariable("userType") String userType,
+                         @RequestBody RestProductModel restProduct) {
+
+        if (userType == "DEFAULT" || customerId == "DEFAULT") {
+            return "Could not create, customerId or userType is not set!";
+        }
+
         Product product = new Product(new ObjectId());
+
         BeanUtils.copyProperties(restProduct, product);
         productRepository.save(product);
+
         return "Created!";
     }
 
