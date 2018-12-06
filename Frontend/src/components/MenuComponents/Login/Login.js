@@ -19,8 +19,7 @@ class SignInBox extends React.Component{
     }
 
     onChange = (e) => {
-        const state = this.state.product;
-        state[e.target.name] = e.target.value;
+        this.setState({[e.target.name]: e.target.value});
     }
 
     toggleCheckbox= (e) =>{
@@ -43,9 +42,9 @@ class SignInBox extends React.Component{
                 this.props.setlogIn("True")
             })
             .then(res => {
-                if(this.state.userType==="employee"){
+                if(res.userType==="EMPLOYEE"){
                     this.props.history.push("./Admin")
-                }else if(this.state.userType === "client"){
+                }else if(res.userType === "CLIENT"||res.userType==="PUBLISHER"){
                     this.props.history.push("./User")
                 }
             })
@@ -75,14 +74,6 @@ class SignInBox extends React.Component{
                                 <label htmlFor="inputPassword"><span className="input-group-text" id="inputGroup-sizing-default">Password</span></label>
                                 </div>
                                 <input type="Password" className="form-control" id="inputPassword" name="password" placeholder="Password" onChange={this.onChange} required/>
-                            </div>
-                            <div className="input-group mb-3">
-                                <div className="input-group-prepend center">
-                                    <div className="input-group-text">
-                                        <input type="checkbox" aria-label="employee textbox" id="EmployeeCheckbox" onChange={this.toggleCheckbox}/>
-                                    </div>
-                                    <label className="form-control" htmlFor="EmployeeCheckbox">Employee?</label>
-                                </div>
                             </div>
 
                             <button onClick={this.loginHandler} className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
