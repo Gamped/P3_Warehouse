@@ -1,104 +1,240 @@
-import React from 'react';
-import "../Pages.css";
-import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
+import React,{Component} from 'react';
 import "./AdminUsers.css";
+import "../Pages.css";
+import axios from 'axios';
+import ReactTable from 'react-table';
+
 import TextBox from "../../MenuComponents/TextBox/TextBox";
 
-export default class AdminUsers extends React.Component {
+export default class AdminUsers extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            publisher: [
-                {name:"Black Betty INC",id: "1"},
-                {name:"Toys r us" , id:"2"},
-                {name:"Fightclub" , id:"3"},
-                {name:"I.C.U.P." , id:"4"},
-                {name:"Aalborg Zoo" , id:"5"},
-                {name:"Ådal og Søn" , id:"6"},
-            ],
-            pClient:[
-                {name:"We do books", id:"7"},
-                {name:"Aprature science", id:"8"},
-                {name:"Alef zero",id:"9"},
-                {name:"The Ironhands",id:"10"},
-                {name:"Dark Angels",id:"11"},
-                {name:"Emperor's Children",id:"12"},
-                {name:"Iron Warriors",id:"13"},
-                {name:"White Scars",id:"14"},
-                {name:"Space Wolves",id:"15"},
-                {name:"Imperial Fists",id:"16"},
-                {name:"Night Lords",id:"17"},
-                {name:"Blood Angels",id:"18"},
-                {name:"Iron Hands",id:"19"},
-            ],
-            iClient:[
-                {name:"Duke Helbrecht",id:"20"},
-                {name:"Triumph",id:"21"},
-                {name:"His Will",id:"22"},
-                {name:"Godefroy Magnificat",id:"23"},
-                {name:"Divine Right",id:"24"},
-                {name:"Dominus Astra",id:"25"},
-                {name:"Indomitable Wrath",id:"26"},
-                {name:"Legatus Stygies",id:"27"},
-                {name:"Lord of Light",id:"28"},
-                {name:"	Corax",id:"29"},
-            ],
-            tabs: [
-                {name:"Publishers",id:0},
-                {name:"Publisher's clients",id:1},
-                {name:"Independent clients",id:2}
-            ],
-            listShown: 0,
-            userShown: 0,
+            customers: [],
+            selectedCustomer: [],
+            selected: null,
+            selectedId: ""
         };
     }
-    changeList=(input)=>{
-        this.setState({listShown: input});
+
+    componentDidMount() {
+
+       this.getClients();
+       this.getPublishers();      
     }
 
-    changeUser=(input)=>{
-        this.setState({userShown: input});
-        console.log(input)
+    getClients() {
+        axios.get('http://localhost:8080/api/employee/clients')
+        .then((response) => {
+
+            const clients = this.makeCustomerData(response.data);
+            this.concatinateWithNewData(clients);
+        })
     }
 
-    buttonListShown=()=>{
-        const x=this.state.listShown;
-        switch(x){
-            case 0:
-                return(<ButtonList buttons={this.state.publisher} color="dark" link={false} action={this.changeUser} />)
-            case 1:
-                return(<ButtonList buttons={this.state.pClient} color="dark" link={false} action={this.changeUser} />)
-            case 2:
-                return(<ButtonList buttons={this.state.iClient} color="dark" link={false} action={this.changeUser} />)
-            default:
-                return(<h2 className="color-red">ERROR</h2>)
-        }
+    getPublishers() {
+        axios.get('http://localhost:8080/api/employee/publishers')
+        .then((response) => {
+
+            const publishers = this.makeCustomerData(response.data);
+            this.concatinateWithNewData(publishers);
+    });
     }
 
-    displayUser=(id)=>{
-        return null
-        // todo. Burde nok gette informationen fra backenden, da vi ellers kan nøjes med name og id.
+    makeCustomerData(data){
+        var customers = [];
+        data.forEach((customer) => {
+
+            customers.push({
+                userName: customer.userName,
+                password: customer.password,
+                hexId: customer.hexId,
+                nickName: customer.contactInformation.nickName,
+                email: customer.contactInformation.email,
+                phoneNumber: customer.contactInformation.phoneNumber,
+                address: customer.contactInformation.address,
+                zipCode: customer.contactInformation.zipCode              
+            })
+        });
+        return customers;
+    }
+
+ 
+    concatinateWithNewData(newData) {
+    
+        const customersCopy = this.state.customers;
+        let concatinatedData = customersCopy.concat(newData);
+        this.setState({ customers: concatinatedData });
+    }
+    
+    getColumns = () => {
+    return [{
+        Header: "Customer",
+        accessor: "nickName"
+        }]    
+    }
+
+    onChange = (e) => {
+        const state = this.state.selectedCustomer;
+        state[e.target.name] = e.target.value;
+        this.setState({selectedCustomer:state});
+    }
+
+    onSubmit = () => {
+    
+
+    }
+ 
+    onDelete = () => {
+
     }
 
     render(){
+
+        let selectedCustomer = this.state.selectedCustomer;
+        let columns = this.getColumns();
         return(
             <div className="PageStyle rounded">
                 <div className="userPageStyle rounded">
                     <div className="container row">
-                        <div className="SelectionBar col sidebar border border-dark rounded bg-secondary">
+
+                        <div className="SelectionBar col sidebar border border-dark rounded bg-secondary userNavbar">
+                            <div className="border border-light rounded bg-info">
+                            <ReactTable 
+                            data={this.state.customers}
+                            columns={columns} 
+                            showPagination={false} 
+                            className="-striped -highlight"getTrProps={(state, rowInfo) => {
+                                if (rowInfo && rowInfo.row) {
+                                  return {
+                                    onClick: (e) => {
+                                        this.setState({selected: rowInfo.index, 
+                                            selectedId: rowInfo.original.hexId,
+                                            selectedCustomer: this.state.customers[rowInfo.index] });
+                                        
+                                    },
+                                    style: {
+                                      background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                      color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                    }
+                                  }
+                                }else{
+                                  return {}
+                                }
+                               }
+                            }
+                             />
+                             </div>
                             
+                           
                         </div>
-                        <div className="ContentBar col-sm text-center">
-                            <TextBox type="user" id={this.state.userShown}/>
-                            <div className="container row">
-                                <div className="col my-2">
-                                    <button type="button" className="btn btn-danger">Delete this user</button>
+                        
+                        <div className="ContentBar  col-sm text-center">
+                           <div className="container col">
+                                <div className="container col">
+                                    <div className="row">
+
+                                         <div className="col-xs-6 form-group">
+                                            <label>Nick Name</label>
+                                                 <input 
+                                                 className="form-control" 
+                                                 type="text"
+                                                 defaultValue={selectedCustomer.nickName}
+                                                 name="nickName"                                        
+                                                 />
+                                        </div>
+
+                                         <div className="col-xs-6 form-group">
+                                            <label>User Name</label>
+                                                 <input 
+                                                 className="form-control" 
+                                                 type="text"
+                                                 defaultValue={selectedCustomer.userName}
+                                                 name="userName"                                        
+                                                 />
+                                        </div>
+
+                                         <div className="col-xs-6 form-group">
+                                            <label>Email</label>
+                                                 <input 
+                                                 className="form-control" 
+                                                 type="text"
+                                                 defaultValue={selectedCustomer.email}
+                                                 name="email"                                        
+                                                 />
+                                        </div>
+
+                                         <div className="col-xs-6 form-group">
+                                            <label>Phone number</label>
+                                                 <input 
+                                                 className="form-control" 
+                                                 type="text"
+                                                 defaultValue={selectedCustomer.phoneNumber}
+                                                 name="phoneNumber"                                        
+                                                 />
+                                        </div>
+
+                                         <div className="col-xs-6 form-group">
+                                            <label>Address</label>
+                                                 <input 
+                                                 className="form-control" 
+                                                 type="text"
+                                                 defaultValue={selectedCustomer.address}
+                                                 name="address"                                        
+                                                 />
+                                        </div>
+
+                                         <div className="col-xs-6 form-group">
+                                            <label>Zipcode</label>
+                                                 <input 
+                                                 className="form-control" 
+                                                 type="text"
+                                                 defaultValue={selectedCustomer.zipCode}
+                                                 name="zipCode"                                        
+                                                 />
+                                        </div>
+
+                                        <br></br>
+                                        
+                                         <label>Change password:</label><br></br>
+                                           
+
+                                        <div className="col-xs-6 form-group">
+                                            <label>New password</label>
+                                                 <input 
+                                                 className="form-control" 
+                                                 type="password"
+                                                 placeholder="Minimum 6 characters"
+                                                 name="newPassword"                                        
+                                                 />
+                                        </div>
+
+                                        <div className="col-xs-6 form-group">
+                                            <label>Confirm password</label>
+                                                 <input 
+                                                 className="form-control" 
+                                                 type="password"
+                                                 placeholder="Retype new password"
+                                                 name="confirmedNewPassword"                                        
+                                                 />
+                                        </div>
+                                    </div>
+
+                                  
+
+
+
                                 </div>
-                                <div className="col my-2">
-                                    <button type="button" className="btn btn-warning">Edit this user</button>
-                                </div>
-                            </div>
+                                <div className="container row">
+                                    <div className="col my-2">
+                                        <button type="button" onClick={this.onDelete} className="btn btn-danger">Delete this user</button>
+                                    </div>
+                                    <div className="col my-2">
+                                        <button type="button" onClick={this.onSubmit} className="btn btn-warning">Confirm edit</button>
+                                    </div>
+                                </div>  
+                           </div>
                         </div>
                     </div>
                 </div>

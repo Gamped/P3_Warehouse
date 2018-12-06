@@ -15,5 +15,4 @@ import java.util.Optional;
 public interface ProductRepository extends MongoRepository<Product, ObjectId> {
     Collection<Product> findAllByOwner(Customer owner);
 
-    void deleteByHexId(String hexId);
 }

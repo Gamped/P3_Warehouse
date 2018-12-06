@@ -1,9 +1,14 @@
-const initialState ={loggedIn:"True",
-userType:"EMPLOYEE",
+const initialState ={loggedIn:"False",
+userType:"",
+nickName:"",
+userId:"",};
+
+const devState ={loggedIn:"True",
+userType:"PUBLISHER",
 nickName:"Kev The Machine",
 userId:"ABC123",};
 
-const loginReducer = (state = initialState, action) => {
+const loginReducer = (state = devState, action) => {
     switch(action.type){
         case "SET_USERTYPE":
             state = {...state, userType: action.payload}
@@ -24,6 +29,7 @@ const loginReducer = (state = initialState, action) => {
         case "LOGOUT":
             state ={...state, initialState} 
             break;
+        default:
     }  
     return state
 }

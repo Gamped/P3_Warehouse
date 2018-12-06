@@ -4,7 +4,7 @@ import "../../Pages.css";
 import "./UserOrder.css";
 import axios from 'axios';
 import ReactTable from 'react-table';
-import UserOrderCart from './UserOrderCart.js';
+import { connect } from "react-redux";
 
 //TODO: Render warning in previouslyAddedWarning
 //TODO: Put items in cart notification symbol on cart button
@@ -12,7 +12,7 @@ import UserOrderCart from './UserOrderCart.js';
 //TODO: Fix textfield in row errors
 //TODO: Properly pass orderLines in state as props to UserOrderCart child
 
-export default class UserOrder extends React.Component {
+class UserOrder extends React.Component {
     
     constructor(props) {
         super(props);
@@ -77,7 +77,7 @@ export default class UserOrder extends React.Component {
                 
                 this.state.products
                 .filter(product => 
-                    product.hexId == cellInfo.original.hexId)
+                    product.hexId === cellInfo.original.hexId)
                 .map(product => 
                     product.amount = typedAmount)
 
@@ -92,17 +92,12 @@ export default class UserOrder extends React.Component {
       };
 
     addSelectedToOrderLine = () => {
-    
-
-      //  this.setState({orderLines: [...this.state.orderLines, this.state.product[this.state.selected]]}); 
-      this.state.orderLines.push(this.state.products[this.state.selected]);  
+      this.setState({orderLines: [...this.state.orderLines, this.state.selected]}); 
       console.log(this.state.orderLines)
-            
       }
 
     undoOrderLine = () => {
-
-        this.state.orderLines.splice(-1, 1);
+        this.setState({orderLines: this.state.orderLines.splice(-1, 1)})
       }
 
     checkIfPreviouslyAdded = (orderLine) => {
@@ -119,11 +114,8 @@ export default class UserOrder extends React.Component {
 
 
     changeToCart = (event) => {
-        this.props.history.push({
-            pathname: "/User/Order/Cart",
-            search: "?the=query",
-            state: this.state
-          })
+        this.props.addItemToCart(this.state.orderLines)
+        this.props.history.push("/User/Order/Cart")
     }
 
     render(){
@@ -137,7 +129,6 @@ export default class UserOrder extends React.Component {
 
         return(
             <div className="PageStyle rounded">
-            <UserOrderCart orderLines={this.state.orderLines}/>
             <nav class="navbar navbar-light bg-light"> 
                 <h2 className=" text-center "> Order:</h2>
             </nav>   
@@ -207,4 +198,19 @@ export default class UserOrder extends React.Component {
     }
 
 }
+
+const mapStateToProps = (state)=>{
+    return{
+        userType: state.orderReducer
+    }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        addItemToCart: (item) => {dispatch({type: "ADD_ITEMTOORDER",payload: {item}})}
+    }
+}
+
+export default connect(mapStateToProps ,mapDispatchToProps)(UserOrder)
+
 
