@@ -22,7 +22,7 @@ class SignInBox extends React.Component{
         this.setState({[e.target.name]: e.target.value});
     }
 
-    toggleCheckbox= (e) =>{
+    toggleCheckbox= (e) => {
         if(this.state.userType === "client"){
             this.setState({userType:"employee"})
         }else{
