@@ -5,6 +5,7 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
  import dk.aau.cs.ds303e18.p3warehouse.managers.ProductManager;
  import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
  import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
+ import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
  import dk.aau.cs.ds303e18.p3warehouse.models.users.Employee;
  import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
  import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
@@ -18,6 +19,7 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
  import org.springframework.web.bind.annotation.*;
 
  import java.util.Collection;
+ import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -53,27 +55,41 @@ public class EmployeeController {
         return productRepository.findAll();
     }
 
-    @PostMapping("/employee/products")
-    Product createProduct(@RequestBody RestProductModel restProduct) {
-        Product product = new Product(new ObjectId());
-        BeanUtils.copyProperties(restProduct, product);
-        return ProductManager.saveProductToDb(product);
+    @GetMapping("/employee/product/{hexId}")
+    Optional<Product> findProductById(@PathVariable String hexId) {
+        return productRepository.findById(new ObjectId(hexId));
     }
 
-    @PutMapping("/employee/products/{id}")
-    Product updateProduct(@PathVariable ObjectId id, @RequestBody Product product) {
-        if(id.equals(product.getId().toHexString())){
-            return productRepository.save(product);
-        }
-        else{
-            return null;
-        }
+    @PostMapping("/employee/products")
+    void createProduct(@RequestBody RestProductModel restProduct) {
+        Product product = new Product(new ObjectId());
+        BeanUtils.copyProperties(restProduct, product);
+        productRepository.save(product);
+
     }
+
+    @PutMapping("/employee/product/{hexId}")
+    String updateProduct(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
+
+        ObjectId id = new ObjectId(hexId);
+
+        Optional<Product> optProduct = productRepository.findById(id);
+
+        Product product = optProduct.get();
+
+        BeanUtils.copyProperties(restProduct, product);
+
+        productRepository.save(product);
+
+        return "Updated Product: " + product.toString();
+
+    }
+
 
     @DeleteMapping("/employee/products/{id}")
     public void deleteProductById(@PathVariable String id){
         productRepository.deleteByHexId(id);
-        
+
         // Product product = productRepository.delete(new ObjectId(id)).orElse(null);
        // ProductManager.removeProductFromDb(product);
     }
