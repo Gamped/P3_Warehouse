@@ -34,6 +34,7 @@ public class ClientControllerTest {
     @InjectMocks
     private ClientController clientController;
 
+    private EmployeeController employeeController;
     @Mock
     private ClientRepository clientRepository;
 
@@ -95,10 +96,10 @@ public class ClientControllerTest {
         BeanUtils.copyProperties(client, restClientModel);
 
         when(clientRepository.save(client)).thenReturn(client);
-        Client savedClient = clientController.newIndependentClient(restClientModel);
+        String status = employeeController.createClient(restClientModel);
 
         verify(clientRepository).save(client);
-        assertEquals(restClientModel.getUserName(), savedClient.getUserName());
+        assertEquals("Succes", status);
     }
 
     @Test

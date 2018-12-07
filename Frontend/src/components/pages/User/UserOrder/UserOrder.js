@@ -49,15 +49,15 @@ class UserOrder extends React.Component {
 
    makeRow = (response) => {
     var products = [];
-    response.data.forEach((product) => {
-      products.push({
-        productId: product.productId,
-        productName: product.productName,
-        quantity: product.quantity,
-        amount: 0,
-        hexId: product.hexId
-      })
-      })
+    //response.data.forEach((product) => {
+      //products.push({
+       // productId: product.productId,
+       // productName: product.productName,
+       // quantity: product.quantity,
+       // amount: 0,
+       // hexId: product.hexId
+     // })
+     // })
     return products;
   }
 
