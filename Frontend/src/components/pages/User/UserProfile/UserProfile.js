@@ -38,9 +38,6 @@ class UserProfile extends React.Component{
                         <h5 className="text-justify">CVR: {this.state.cvr}</h5>
 
                         <Link to="/User/Profile/Edit" className="btn-lg btn-block btn-warning my-2k btn" role="button">Edit</Link>
-
-                        <Link to="/User/Profile/OrderHistory" className="btn-lg btn-info btn-block my-2 btn" role="button">Order histroy</Link>
-                        
                     </div>
                 </div>
             </div>

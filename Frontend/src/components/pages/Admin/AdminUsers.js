@@ -134,85 +134,147 @@ export default class AdminUsers extends Component {
                            <div className="container col">
                                 <div className="container col">
                                     <div className="row">
-
-                                         <div className="col-xs-6 form-group">
-                                            <label>Nick Name</label>
-                                                 <input 
+                                        
+                                        <div class="input-group mt-3 mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="nickName" 
+                                                className="input-group-text" 
+                                                id="nickNameLabel">
+                                                    Nickname
+                                                </label>
+                                            </div>
+                                                 <input
+                                                 id="nickName" 
                                                  className="form-control" 
                                                  type="text"
                                                  defaultValue={selectedCustomer.nickName}
                                                  name="nickName"                                        
                                                  />
                                         </div>
-
-                                         <div className="col-xs-6 form-group">
-                                            <label>User Name</label>
-                                                 <input 
-                                                 className="form-control" 
-                                                 type="text"
-                                                 defaultValue={selectedCustomer.userName}
-                                                 name="userName"                                        
-                                                 />
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="userNameInput" 
+                                                className="input-group-text" 
+                                                id="userNameLabel">
+                                                    Username
+                                                </label>
+                                            </div>
+                                            <input
+                                            id="userNameInput" 
+                                            className="form-control" 
+                                            type="text"
+                                            defaultValue={selectedCustomer.userName}
+                                            name="userName"                                        
+                                            />
                                         </div>
-
-                                         <div className="col-xs-6 form-group">
-                                            <label>Email</label>
-                                                 <input 
-                                                 className="form-control" 
-                                                 type="text"
-                                                 defaultValue={selectedCustomer.email}
-                                                 name="email"                                        
-                                                 />
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="email" 
+                                                className="input-group-text" 
+                                                id="emailLabel">
+                                                    Email
+                                                </label>
+                                            </div>
+                                            <input
+                                            id="email" 
+                                            className="form-control" 
+                                            type="text"
+                                            defaultValue={selectedCustomer.email}
+                                            name="email"                                        
+                                            />
                                         </div>
-
-                                         <div className="col-xs-6 form-group">
-                                            <label>Phone number</label>
-                                                 <input 
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="phone" 
+                                                className="input-group-text" 
+                                                id="phoneLabel">
+                                                    Phone Number
+                                                </label>
+                                            </div>
+                                            <input
+                                                id="phone" 
                                                  className="form-control" 
-                                                 type="text"
+                                                 type="number"
                                                  defaultValue={selectedCustomer.phoneNumber}
                                                  name="phoneNumber"                                        
                                                  />
                                         </div>
-
-                                         <div className="col-xs-6 form-group">
-                                            <label>Address</label>
-                                                 <input 
-                                                 className="form-control" 
-                                                 type="text"
-                                                 defaultValue={selectedCustomer.address}
-                                                 name="address"                                        
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="address" 
+                                                className="input-group-text" 
+                                                id="addressLabel">
+                                                    Address
+                                                </label>
+                                            </div>
+                                            <input
+                                                id="address" 
+                                                className="form-control" 
+                                                type="text"
+                                                defaultValue={selectedCustomer.address}
+                                                name="address"                                        
                                                  />
                                         </div>
-
-                                         <div className="col-xs-6 form-group">
-                                            <label>Zipcode</label>
-                                                 <input 
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="city" 
+                                                className="input-group-text" 
+                                                id="cityLabel">
+                                                    City
+                                                </label>
+                                            </div>
+                                            <input
+                                                id="city" 
                                                  className="form-control" 
                                                  type="text"
-                                                 defaultValue={selectedCustomer.zipCode}
+                                                 defaultValue={selectedCustomer.city}
+                                                 name="city"                                        
+                                                 />
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="zip" 
+                                                className="input-group-text" 
+                                                id="zipLabel">
+                                                    Zipcode
+                                                </label>
+                                            </div>
+                                            <input
+                                                id="zip" 
+                                                 className="form-control" 
+                                                 type="number"
+                                                 defaultValue={selectedCustomer.city}
                                                  name="zipCode"                                        
                                                  />
                                         </div>
-
-                                        <br></br>
                                         
-                                         <label>Change password:</label><br></br>
-                                           
-
-                                        <div className="col-xs-6 form-group">
-                                            <label>New password</label>
-                                                 <input 
+                                         <h4 className="text-center">Change password:</h4>
+                                        
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="newPassword" 
+                                                className="input-group-text" 
+                                                id="passwordLabel">
+                                                    New Password
+                                                </label>
+                                            </div>
+                                            <input 
+                                                id="newPassword"
                                                  className="form-control" 
                                                  type="password"
-                                                 placeholder="Minimum 6 characters"
                                                  name="newPassword"                                        
                                                  />
                                         </div>
-
-                                        <div className="col-xs-6 form-group">
-                                            <label>Confirm password</label>
-                                                 <input 
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="confirmedPassword" 
+                                                className="input-group-text" 
+                                                id="confirmedLabel">
+                                                    Repeat
+                                                </label>
+                                            </div>
+                                                 <input
+                                                 id="confirmedPassword" 
                                                  className="form-control" 
                                                  type="password"
                                                  placeholder="Retype new password"
@@ -220,10 +282,6 @@ export default class AdminUsers extends Component {
                                                  />
                                         </div>
                                     </div>
-
-                                  
-
-
 
                                 </div>
                                 <div className="container row">

@@ -37,7 +37,7 @@ public class OrderRepositoryTest {
     @Test
     public void deletAllEntries(){
 
-        //orderRepository.deleteAll();
+        orderRepository.deleteAll();
     }
 
     @Test

@@ -41,7 +41,7 @@ public class ClientController {
     ProductRepository productRepository;
 
     @GetMapping("/clients")
-    private Iterable<Client> findAllClients() {
+    Iterable<Client> findAllClients() {
         return clientRepository.findAll();
     }
 
@@ -50,7 +50,7 @@ public class ClientController {
     }
 
     @PostMapping("/clients/post")
-    private Client newIndependentClient( @RequestBody RestClientModel restClientModel) {
+    Client newIndependentClient( @RequestBody RestClientModel restClientModel) {
 
         Client newClient = new Client(new ObjectId());
         BeanUtils.copyProperties(restClientModel, newClient);
