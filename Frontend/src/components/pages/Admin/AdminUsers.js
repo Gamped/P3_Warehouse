@@ -4,8 +4,6 @@ import "../Pages.css";
 import axios from 'axios';
 import ReactTable from 'react-table';
 
-import TextBox from "../../MenuComponents/TextBox/TextBox";
-
 export default class AdminUsers extends Component {
     constructor(props) {
         super(props);
