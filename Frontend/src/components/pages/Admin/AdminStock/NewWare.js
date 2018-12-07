@@ -136,7 +136,7 @@ export default class NewWare extends Component {
                         onChange={this.onChangeQuantity}
                         placeholder="Quantity"/>
                     
-                    <select className="custom-select" size="10">
+                    <select className="custom-select my-2" >
                     <option selected>Choose owner</option>
                     {this.state.owners.map(this.getOwnerListItems)}
                     </select>   
