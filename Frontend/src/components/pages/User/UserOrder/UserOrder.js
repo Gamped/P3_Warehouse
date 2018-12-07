@@ -36,7 +36,10 @@ class UserOrder extends React.Component {
 
 
     componentWillMount() {
-        axios.get('http://localhost:8080/api/products/')
+        const hexId = this.props.userId;
+        const userType = this.props.userType;
+        console.log(hexId + " " + userType);
+        axios.get('http://localhost:8080/api/publishers/products/'+userType+'/' + hexId)
         .then((response) => {
             const data = this.makeRow(response);
             this.setState({products: data})
@@ -164,6 +167,10 @@ class UserOrder extends React.Component {
                                           return {}
                                         }
                                     }}
+                                    defaultPageSize={25}
+                                    style={{
+                                        height: "400px"                                      
+                                     }}
                                     />
                                  </div>
                          </div>  
@@ -194,7 +201,8 @@ class UserOrder extends React.Component {
 
 const mapStateToProps = (state)=>{
     return{
-        userType: state.orderReducer
+        userType: state.loginReducer.userType, 
+        userId: state.loginReducer.userId
     }
 }
 
