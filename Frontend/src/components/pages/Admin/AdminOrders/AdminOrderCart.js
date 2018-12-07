@@ -40,9 +40,6 @@ class AdminOrderCart extends React.Component {
         this.props.history.push("/Admin/Order/Cart/Confirm")
     }
 
-    back = (event)=>{
-        this.props.history.push("/Admin/Orders/")
-    }
 
     render(){
         let lines = this.props.order
@@ -90,11 +87,10 @@ class AdminOrderCart extends React.Component {
                                 <input type="text" className="input-group mb-3" name="city" onChange={this.onChange} placeholder="City" key="city" required/>
                                 <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" key="country" required/>
                                 
-                                <Link toton className=" btn-success btn btn-block my-3" onClick={this.confirmed} type="submit">Send order</Link>
-                                <Link className=" btn-danger btn btn-block" onClick={this.back}>Cancel order</Link>
-            
+                                <button className=" btn-success btn btn-block my-3" onClick={this.confirmed} type="submit">Send order</button>
+                                <Link to="/Admin/Orders/" className=" btn-danger btn btn-block" >Cancel order</Link>        
+                                   
                             </form>
-                    
                         </div>
                     </div>        
                 </div>
