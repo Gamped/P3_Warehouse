@@ -35,6 +35,7 @@ public class EmployeeController {
 
     //CREATE: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
+
     @PostMapping("/employee/employees")
     private Employee newEmployee(@RequestBody Employee employee){
         return EmployeeManager.saveEmployeeToDb(employee);
@@ -83,7 +84,7 @@ public class EmployeeController {
     //FIND ALL: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
     @GetMapping("/employee")
-    private Collection<Employee> getAllEmployees() {
+     Collection<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
@@ -112,8 +113,8 @@ public class EmployeeController {
     //FIND BY ID: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
     @GetMapping("/employee/{hexId}")
-    private Optional<Employee> getOneEmployee(@PathVariable String hexId){
-        return employeeRepository.findById(new ObjectId(hexId));
+    Employee getOneEmployee(@PathVariable String hexId){
+        return employeeRepository.findById(new ObjectId(hexId)).orElse(null);
     }
 
     @GetMapping("/employee/product/{hexId}")
