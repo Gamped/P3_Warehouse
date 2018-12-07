@@ -72,14 +72,13 @@ public class UserRepositoryTest {
         computerProduct.setProductName("Computer");
         computerProduct.setQuantity(244);
 
-
         publisher.addProduct(computerProduct);
-
-
-
+        computerProduct.setOwner(publisher);
 
         client.addProduct(flyerProduct);
         client.addProduct(noteProduct);
+        flyerProduct.setOwner(client);
+        noteProduct.setOwner(client);
 
         User user = new User(client.getId());
         user.copyFrom(client);
