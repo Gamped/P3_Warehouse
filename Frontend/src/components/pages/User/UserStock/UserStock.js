@@ -57,18 +57,7 @@ export default class UserStock extends React.Component {
         ]
         return(
             <div className="PageStyle rounded">
-                <div className="topBox topBoxStyle">
-                    <h2 className="topText text-center text-white"> Stock:</h2>
-                </div>
-
-                <div className="stockDeciderBox bottomBoxStyle">
-                    <input 
-                        type="text" 
-                        className="serachBar" 
-                        onChange={this.handleQuarry}
-                        placeholder="Search for product(s)"/>
-                    <button className="stockExportButton stockButton_f btn">Export current list</button>
-                </div>
+                <navbar className="navbar navbar-secondary bg-secondary"><h2>Your Stock</h2></navbar>
 
                 <div className="listBox contentBoxStyle">
                     <ReactTable
@@ -97,5 +86,11 @@ export default class UserStock extends React.Component {
                 </div>
             </div>
         );
+    }
+}
+
+const mapStateToProps = (state) =>{
+    return{
+        userId: state.loginReducer.userId
     }
 }
