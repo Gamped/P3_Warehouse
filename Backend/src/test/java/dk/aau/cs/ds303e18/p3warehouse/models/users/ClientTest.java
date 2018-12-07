@@ -1,7 +1,5 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.users;
 
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import org.bson.types.ObjectId;
 import org.junit.Assert;
@@ -10,8 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
 

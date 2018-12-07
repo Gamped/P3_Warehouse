@@ -1,0 +1,12 @@
+.CustomerTable{
+    height: 70vh;
+    width: 30vh;
+}
+
+.SecondaryTable{
+    height: 32.5vh;
+}
+
+.SelectedTable{
+    top: 5vh;
+}

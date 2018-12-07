@@ -32,9 +32,9 @@ public class UserRepositoryTest {
     @Test
     public void SaveSuperclassAndExtendedClassSeparatelyTest(){
 
-        productRepository.deleteAll();
-        clientRepository.deleteAll();
-        userRepository.deleteAll();
+      //  productRepository.deleteAll();
+      //  clientRepository.deleteAll();
+      //  userRepository.deleteAll();
 
         ObjectId clientId = new ObjectId();
         Client client = new Client(clientId);
@@ -56,8 +56,6 @@ public class UserRepositoryTest {
         noteProduct.setProductName("Notes");
 
 
-        flyerProduct.setOwner(client);
-        noteProduct.setOwner(client);
         client.addProduct(flyerProduct);
         client.addProduct(noteProduct);
 

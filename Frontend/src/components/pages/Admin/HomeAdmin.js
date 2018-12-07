@@ -23,7 +23,7 @@ class HomeAdmin extends React.Component{
 
 const mapStateToProps = (state) =>{
     return {
-        name: state.nickName
+        name: state.loginReducer.nickName
     }
 }
  

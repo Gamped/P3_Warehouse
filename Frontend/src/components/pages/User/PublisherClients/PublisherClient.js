@@ -1,6 +1,7 @@
 import React from 'react';
 import "../../Pages.css";
-import "./PublisherClient.css"
+import "./PublisherClient.css";
+import {Link} from "react-router-dom";
 
 export default class PublisherClient extends React.Component {
     constructor(props) {
@@ -32,13 +33,17 @@ export default class PublisherClient extends React.Component {
                     </table>
                 </div>
   
-                <div className="bottomBoxStyle bottomBox">
-                    <form action="/User/Clients/Request" className="pubForm">
-                        <button  className="btn-warning pubButton_f btn" >Request client change</button>
-                    </form>
-                    <button className="btn-info pubButton btn">Export their stock</button>
+                
+                <div className="container row">
+                    <div className="col">    
+                        <Link to="/User/Clients/Request" className="btn btn-block btn-warning">Request client change</Link>
+                    </div>
+                    <div className="col">
+                        <button className="btn-info btn btn-block">Export their stock</button>
+                    </div>
                 </div>
             </div>
+            
         );
     }
 }
