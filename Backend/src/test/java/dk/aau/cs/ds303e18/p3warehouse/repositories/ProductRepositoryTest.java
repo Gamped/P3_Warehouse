@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
@@ -41,5 +43,13 @@ public class ProductRepositoryTest {
         Product retrievedProduct = optProduct.get();
         Assert.assertEquals(product.getId(), retrievedProduct.getId());
         repository.delete(product);
+    }
+
+    @Test
+    public void deleteProductTest(){
+        repository.deleteAll();
+
+        List<Product> productList = new ArrayList<>();
+        Assert.assertEquals(productList, repository.findAll());
     }
 }
