@@ -20,17 +20,17 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ObjectId id;
     private Collection<OrderLine> orderLines;
-    @DBRef
+
     private Customer owner;
     private String orderId;
     private String title;
-    private String hexid;
+    private String hexId;
     private Date date;
     private String address;
 
     public Order(ObjectId id){
         this.id = id;
-        this.hexid = id.toString();
+        this.hexId = id.toString();
         this.orderLines = new HashSet<OrderLine>();
         this.date = new Date();
     }
@@ -94,7 +94,7 @@ public class Order {
 
     public Order withNewOrderLine(Product product, int quantity)throws InvalidQuantityException{
         if(product.getQuantity()< quantity) {
-         throw new InvalidQuantityException("Soory to low quantity");
+         throw new InvalidQuantityException("Sorry, maximum quantity reached on amount");
         }
         orderLines.add(new OrderLine(product, quantity));
         return this;
@@ -104,8 +104,8 @@ public class Order {
         return id;
     }
 
-    public String getHexid() {
-        return hexid;
+    public String getHexId() {
+        return hexId;
     }
 
     public String toString(){

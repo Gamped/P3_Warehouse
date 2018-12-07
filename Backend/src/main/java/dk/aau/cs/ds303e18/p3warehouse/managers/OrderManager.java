@@ -6,8 +6,6 @@ import dk.aau.cs.ds303e18.p3warehouse.repositories.OrderRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.security.acl.Owner;
-
 public class OrderManager {
     @Autowired
     private static OrderRepository orderRepository;

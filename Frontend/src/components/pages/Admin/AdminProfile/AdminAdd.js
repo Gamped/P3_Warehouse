@@ -2,6 +2,7 @@ import React from 'react';
 import "../../Pages.css";
 import "./AdminProfile.css";
 import axios from "axios";
+import {Link} from "react-router-dom"
 
 export default class AdminAdd extends React.Component {
     constructor(props) {
@@ -95,9 +96,7 @@ export default class AdminAdd extends React.Component {
                         <form className="newForm stockForm">
                             <button onClick={this.addEmployeeHandler} className="btn-success btn-lg btn-block btn my-2">Add new employee</button>
                         </form>
-                        <form action="/Admin/Profile" className="newForm stockForm">
-                            <button className="btn-info btn-lg btn-block btn my-2">Back</button>
-                        </form>
+                        <Link to="/Admin/Profile" className="btn-info btn-lg btn-block btn my-2">Back</Link>
                     </div>
                 </div>
             </div>

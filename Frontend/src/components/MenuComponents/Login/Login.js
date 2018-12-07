@@ -13,13 +13,21 @@ class SignInBox extends React.Component{
         this.loginHandler = this.loginHandler.bind(this);
         this.state = {
             userName:"",
-            password:""
+            password:"",
+            userType:"client"
         }
     }
 
     onChange = (e) => {
-        const state = this.state.product;
-        state[e.target.name] = e.target.value;
+        this.setState({[e.target.name]: e.target.value});
+    }
+
+    toggleCheckbox= (e) => {
+        if(this.state.userType === "client"){
+            this.setState({userType:"employee"})
+        }else{
+            this.setState({usetType:"client"})
+        }
     }
 
     loginHandler = (event) => {
@@ -28,12 +36,15 @@ class SignInBox extends React.Component{
        axios.get("localhost:8080/users?username=" + this.state.username + "&password="+this.state.password)
             .then(res => {
                 console.log(res)
-                this.props.login({ userType:res.userType, loggedIn:true, name: res.nickName, userid:res.id})
+                this.props.setNickName(res.nickName)
+                this.props.setUserType(res.userType)
+                this.props.setUserId(res.id)
+                this.props.setlogIn("True")
             })
             .then(res => {
-                if(this.props.userType.toLowerCase()==="employee"){
+                if(res.userType==="EMPLOYEE"){
                     this.props.history.push("./Admin")
-                }else if(this.props.userType.toLowerCase() === "client"||this.props.userType.toLowerCase === "publisher"){
+                }else if(res.userType === "CLIENT"||res.userType==="PUBLISHER"){
                     this.props.history.push("./User")
                 }
             })
@@ -56,15 +67,15 @@ class SignInBox extends React.Component{
                                 <div className="input-group-prepend">
                                 <label htmlFor="inputEmail" ><span className="input-group-text" id="inputGroup-sizing-default">Username</span></label>
                                 </div>
-                                <input type="text" className="form-control" id="inputEmail" placeholder="Username" onChange={this.emailTypedHandler} required autoFocus/>
+                                <input type="text" className="form-control" id="inputEmail" name="userName" placeholder="Username" onChange={this.onChange} required autoFocus/>
                             </div>
                             <div className="input-group mb-3">
                                 <div className="input-group-prepend">
                                 <label htmlFor="inputPassword"><span className="input-group-text" id="inputGroup-sizing-default">Password</span></label>
                                 </div>
-                                <input type="Password" className="form-control" id="inputPassword" placeholder="Password" onChange={this.passwordTypedHandler} required/>
+                                <input type="Password" className="form-control" id="inputPassword" name="password" placeholder="Password" onChange={this.onChange} required/>
                             </div>
-                            
+
                             <button onClick={this.loginHandler} className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                     
                         </form>
@@ -79,16 +90,16 @@ class SignInBox extends React.Component{
 
 const mapStateToProps = (state)=>{
     return{
-        loggedIn: state.login.loggedIn
+        userType: state.loginReducer
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        login: (loggedIn,userType,nickName,userId) => {dispatch({type: "LOGIN",login: { loggedIn:loggedIn,
-        userType:userType,
-        nickName:nickName,
-        userId:userId}})}
+        setUserType: (userType) => {dispatch({type: "SET_USERTYPE",payload: {userType}})},
+        setNickName: (userName) => {dispatch({type: "SET_USERNAME",payload: {userName}})},
+        setUserId: (userId) => {dispatch({type: "SET_USERID",payload: {userId}})},
+        setlogIn: (logged) => {dispatch({type: "SET_LOGIN",payload: {logged}})}
     }
 }
 

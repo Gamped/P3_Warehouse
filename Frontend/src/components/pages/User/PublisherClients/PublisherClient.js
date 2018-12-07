@@ -1,45 +1,55 @@
 import React from 'react';
 import "../../Pages.css";
-import "./PublisherClient.css"
+import "./PublisherClient.css";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-export default class PublisherClient extends React.Component {
+class PublisherClient extends React.Component {
     constructor(props) {
         super(props);
         this.state = { };
     }
-  
+
+    //Todo: get a pdf back when sending the userID
+    //TODO: Indsæt et reactTable.
   render() {
         return(
             <div className="PageStyle rounded">
-  
-                <div className="topBoxStyle topBox">
-                    <h2 className="stockTxt text-center text-white">Your clients stock:</h2>
+                <nav className="navbar navbar-secondary bg-secondary"><h3> All clients stock</h3></nav>
+            
+                <div className="container row">
+                    <div className="stockListBox 'contentBoxStyle'">
+                        <table className="table">
+                            <tbody>
+                                <tr>
+                                    <th>Product name</th>
+                                    <th>Product Number</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
   
-                <div className="leftBoxStyle pickBox">
-                    <h1 className="leftTxt customText_b">(List of all clients)</h1>
-                </div>
-  
-                <div className="stockListBox 'contentBoxStyle'">
-                    <table className="table">
-                        <tbody>
-                            <tr>
-                                <th>Product name</th>
-                                <th>Product Number</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-  
-                <div className="bottomBoxStyle bottomBox">
-                    <form action="/User/Clients/Request" className="pubForm">
-                        <button  className="btn-warning pubButton_f btn" >Request client change</button>
-                    </form>
-                    <button className="btn-info pubButton btn">Export their stock</button>
+                
+                <div className="container row">
+                    <div className="col">    
+                        <Link to="/User/Clients/Request" className="btn btn-block btn-warning">Request client change</Link>
+                    </div>
+                    <div className="col">
+                        <button className="btn-info btn btn-block">Export their stock</button>
+                    </div>
                 </div>
             </div>
+            
         );
     }
 }
+
+const mapStateToProps = (state) =>{
+    return{
+        userId: state.loginReducer.userId
+    }
+}
   
+export default connect(mapStateToProps)(PublisherClient)

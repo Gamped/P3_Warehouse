@@ -2,6 +2,7 @@ import React from 'react';
 import "../../Pages.css";
 import "./AdminProfile.css";
 import axios from "axios";
+import {Link} from "react-router-dom"
 
 export default class AdminProfile extends React.Component {
    
@@ -26,15 +27,12 @@ export default class AdminProfile extends React.Component {
                     <h1 className="lead"><strong>Phone number: {phoneNumber}</strong></h1>
                     <h1 className="lead"><strong>Address: {address}</strong></h1>
 
-                    <form action="/Admin/Profile/AddEmployee">
-                        <button className="btn-block btn-success btn my-2" >Add employee</button>
-                    </form>
-                    <form action="/Admin/Profile/Edit">
-                        <button className="btn-block btn-warning btn my-2" >Edit employee</button>
-                    </form>
-                    <form action="/Admin/Profile/RemoveEmployee">
-                        <button className="btn-block btn-danger btn my-2" >Remove employee</button>
-                    </form>
+                    <Link to="/Admin/Profile/AddEmployee" className="btn-block btn-success btn my-2">Add employee</Link>
+                    
+                    <Link to="/Admin/Profile/Edit" className="btn-block btn-warning btn my-2">Edit employee</Link>
+                    
+                    <Link to="/Admin/Profile/RemoveEmployee" className="btn-block btn-danger btn my-2">Remove employee</Link>
+                    
                 </div>
             </div>
         );

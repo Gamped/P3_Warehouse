@@ -13,7 +13,7 @@ import AdminRemove from "./components/pages/Admin/AdminProfile/AdminRemove";
 import AdminProfileEdit from "./components/pages/Admin/AdminProfile/AdminProfileEdit";
 import AdminStock from "./components/pages/Admin/AdminStock/AdminStock";
 import NewWare from "./components/pages/Admin/AdminStock/NewWare";
-import EditWare from "./components/pages/Admin/AdminStock/EditWare";
+import Edit from "./components/pages/Admin/AdminStock/Edit";
 import RemoveWare from "./components/pages/Admin/AdminStock/RemoveWare";
 import AdminUsers from "./components/pages/Admin/AdminUsers";
 import UserHome from "./components/pages/User/UserHome";
@@ -28,6 +28,10 @@ import UserOrderCart from "./components/pages/User/UserOrder/UserOrderCart";
 import UserCartConfirm from "./components/pages/User/UserOrder/UserCartConfirm";
 import {Provider} from "react-redux";
 import redux from "./redux/Redux";
+import NewOrder from './components/pages/Admin/AdminOrders/NewOrder';
+import EditOrder from './components/pages/Admin/AdminOrders/EditOrder';
+import EditOrderAddress from './components/pages/Admin/AdminOrders/EditOrderAddress';
+import EditOrderContent from './components/pages/Admin/AdminOrders/EditOrderContent';
 
 ReactDOM.render(
     <Provider store={redux}>
@@ -39,13 +43,17 @@ ReactDOM.render(
                 <Route exact path="/Admin" component={HomeAdmin}/>
                 <Route exact path="/Admin/*" component={adminMain}/>
                 <Route exact path="/Admin/Orders" component={AdminOrders}/>
+                <Route exact path="/Admin/Orders/New" component={NewOrder}/>
+                <Route exact path="/Admin/Orders/Edit" component={EditOrder}/>
+                <Route exact path="/Admin/Orders/Edit/OrderAddress" component={EditOrderAddress}/>
+                <Route exact path="/Admin/Orders/Edit/OrderContent" component={EditOrderContent}/>
                 <Route exact path="/Admin/Profile" component={AdminProfile}/>
                 <Route exact path="/Admin/Profile/AddEmployee" component={AdminAdd}/>
                 <Route exact path="/Admin/Profile/RemoveEmployee" component={AdminRemove}/>
                 <Route exact path="/Admin/Profile/Edit" component={AdminProfileEdit}/>
                 <Route exact path="/Admin/Stock" component={AdminStock}/>
                 <Route exact path="/Admin/Stock/New" component={NewWare}/>
-                <Route exact path="/Admin/Stock/Edit/:id" component={EditWare}/>
+                <Route exact path="/Admin/Stock/Edit/:id" component={Edit}/>
                 <Route exact path="/Admin/Stock/Remove" component={RemoveWare}/>
                 <Route exact path="/Admin/Users" component={AdminUsers}/>
 
