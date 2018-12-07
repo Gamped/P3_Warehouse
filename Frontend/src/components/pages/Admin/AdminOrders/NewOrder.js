@@ -1,209 +1,213 @@
-import React,{Component} from 'react';
+
+import React from 'react';
+import "../../Pages.css";
+import "./NewOrder.css";
 import axios from 'axios';
 import ReactTable from 'react-table';
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-import "../../Pages.css";
-import "./NewOrder.css"
+//TODO: Render warning in previouslyAddedWarning
+//TODO: Put items in cart notification symbol on cart button
+//TODO: Make downsliding text saying "Added to cart" and "Removed from cart"
+//TODO: Fix textfield in row errors
+//TODO: Properly pass orderLines in state as props to NewOrdere child
 
-export default class NewOrder extends Component{
-    constructor(props){
+class NewOrder extends React.Component {
+    
+    constructor(props) {
         super(props);
+
         this.state = {
-            address: {},
-            owners: [],
+            userID: props.ID,
+            quarry: "",
             products: [],
-            orderLines: [],
-            selectedProduct: null,
-            selectedOrderLine: null,
-            selectedOwner: null,
-            selectedOwnerId: "",
-            selectedProductId: ""        
+            selected: null,
+            selectedId: "",
+            orderLines: []
         };
-   
 
+        this.makeRow = this.makeRow.bind(this);
+        this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
+        this.undoOrderLine = this.undoOrderLine.bind(this);
+        this.makeRow = this.makeRow.bind(this);
+        this.renderEditable = this.renderEditable.bind(this);
+      //  this.setStateAsSelected = this.setStateAsSelected.bind(this);
     }
 
 
-
-    componentDidMount() {
-        this.getProducts();
-        this.getOwners();
-
-    }
-
-    getProducts = () => {
-
-        axios.get('http://localhost:8080/api/employee/products')
-            .then((response) => {
-                const products = this.makeProductRows(response.data);
-                this.setState({ products: products });
-            })
-    }
-
-    getOwners = () => {
-
-        axios.get('http://localhost:8080/api/employee/clients')
+    componentWillMount() {
+        axios.get('http://localhost:8080/api/products/')
         .then((response) => {
-                const clients = this.makeOwnerRows(response.data);
-                this.setState({ clients: clients });
-            })
-       
-         axios.get('http://localhost:8080/api/employee/publishers')
-            .then((response) => {
-                const publishers = this.makeOwnerRows(response.data)
-                this.setState({publishers: publishers});
-            })  
-       
+            const data = this.makeRow(response);
+            this.setState({products: data})
+        })
     }
 
-    makeOwnerRows = (data) => {
-        let ownerCopy = this.state.owners;
-        
-        data.forEach((owner) => {
-            let nickName = "Nickname";
-            
-            ownerCopy.push({
-                nickName: nickName,
-                hexId: owner.hexId
-            })
 
+   makeRow = (response) => {
+    var products = [];
+    response.data.forEach((product) => {
+      products.push({
+        productId: product.productId,
+        productName: product.productName,
+        quantity: product.quantity,
+        amount: 0,
+        hexId: product.hexId
+      })
+      })
+    return products;
+  }
+
+    handleQuarry = (event) => {
+        this.setState({
+            quarry: event.target.value,
         });
-
-        this.setState({owners: ownerCopy});
     }
 
 
-    makeProductRows = (data) => {
-        var products = [];
-        data.forEach((product) => {
-            products.push({
-                productId: product.productId,
-                productName: product.productName,
-                quantity: product.quantity,
-                hexId: product.hexId
-            })
-        });
-        return products;
+    renderEditable = cellInfo => {
+        return (
+          <div
+            style={{ backgroundColor: "#fafafa" }}
+            contentEditable
+            suppressContentEditableWarning
+            onBlur={e => {
+                
+                var typedAmount = e.target.innerHTML;
+                
+                this.state.products
+                .filter(product => 
+                    product.hexId === cellInfo.original.hexId)
+                .map(product => 
+                    product.amount = typedAmount)
+
+                    cellInfo.original.amount = typedAmount;
+
+            }}
+            dangerouslySetInnerHTML={{
+              __html: this.state.products[cellInfo.index][cellInfo.column.id]
+            }}
+          />
+        );
+      };
+
+    addSelectedToOrderLine = () => {
+      this.setState({orderLines: [...this.state.orderLines, this.state.selected]}); 
+      console.log(this.state.orderLines)
+      }
+
+    undoOrderLine = () => {
+        this.setState({orderLines: this.state.orderLines.splice(-1, 1)})
+      }
+
+    checkIfPreviouslyAdded = (orderLine) => {
+          
+        if(this.state.orderLines.filter(line => orderLine.hexId === line.hexId)) {
+            this.previouslyAddedWarning(); 
+        }
+    }
+    
+    previouslyAddedWarning = () => {
+        //TODO: Render popup warning
+        console.log("Item already added!")
     }
 
 
-    onChange = (e) => {
-        const state = this.state.product;
-        state[e.target.name] = e.target.value;
-        this.setState({product:state});
-    }
-
-    onSubmit = () => {
-
-
+    changeToCart = (event) => {
+        this.props.addItemToCart(this.state.orderLines)
+        this.props.history.push("/User/Order/Cart")
     }
 
     render(){
-        const customerColumns = [{Header: "Owner", accessor: "owner"}]
-        const productColumns = [
-            {Header: "Products", accessor:"product"},
-            {Header: "Quantity", accessor:"quantity"}
-        ]
+        const data = this.state.products;
+        const columns = [
+            {Header: "Product Id", accessor: "productId"},
+            {Header: "Product Name", accessor: "productName"},
+            {Header: "Amount", accessor: "amount", Cell: this.renderEditable},
+            {Header: "Quantity", accessor: "quantity"},
+            {Header: "Owner", accessor: "owner"}];
+
         return(
             <div className="PageStyle rounded">
-                <div className="container col">
-                    <h1 className=" text-center">Add new order</h1>
-                    <input 
-                        type=" text"
-                        placeholder={"Order Title"}
-                    />
-
-                    
-                    <div className="container row">
-                        <ReactTable 
-                            data={this.state.owners}
-                            columns={customerColumns}
-                            showPagination={false}
-                            className="CustomerTable -striped -highlight"
-                            getTrProps={(state, rowInfo) => {
-                                if (rowInfo && rowInfo.row) {
-                                  return {
-                                    onClick: (e) => {
-                                        
-                                      this.setState({selectedOwner: rowInfo.index, selectedOwnerId: rowInfo.original.hexId })
-                                      console.log(rowInfo.original)
-                                    },
-                                    style: {
-                                      background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                      color: rowInfo.index === this.state.selected ? 'white' : 'black'
-                                    }
-                                  }
-                                }else{
-                                  return {}
-                                }
-                            }}
-                        />
-                        <div className="container col">
-                            <ReactTable 
-                                data={this.state.products}
-                                columns={productColumns}
-                                showPagination={false}
-                                className="SecondaryTable AvailableTable -striped -highlight"
-                                getTrProps={(state, rowInfo) => {
-                                    if (rowInfo && rowInfo.row) {
-                                      return {
-                                        onClick: (e) => {
-                                            
-                                          this.setState({selectedProduct: rowInfo.index, selectedProductId: rowInfo.original.hexId })
-                                          console.log(rowInfo.original)
-                                        },
-                                        style: {
-                                          background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                          color: rowInfo.index === this.state.selected ? 'white' : 'black'
+            <nav class="navbar navbar-light bg-light"> 
+                <h2 className=" text-center "> Order:</h2>
+            </nav>   
+                <nav class="navbar navbar-light bg-light">                   
+                        <form class = "form-inline">
+                            <input  class="from-control mr-sm-2 " 
+                                    type="search" 
+                                    placeholder="Search for product(s)" aria-label="Search"/>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Search</button>
+                        </form>
+                        <div>
+                            <Link to="/Admin/Order/Cart" className="btn btn-block btn-primary">Go to cart</Link>
+                        </div>      
+                </nav>         
+                
+                <div className="table">
+                    <div className="SideBar col rounded bg-secondary">
+                         <div class="col-my-auto">
+                                 <div className="OrderList">
+                                    <ReactTable  
+                                    data={data} 
+                                    columns={columns} 
+                                    showPagination={false} 
+                                    className="-striped -highlight"
+                                    getTrProps={(state, rowInfo) => {
+                                        if (rowInfo && rowInfo.row) {
+                                          return {
+                                            onClick: () => {
+                                                
+                                                this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                            },
+                                            style: {
+                                              background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                              color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                            }
+                                          }
+                                        }else{
+                                          return {}
                                         }
-                                      }
-                                    }else{
-                                      return {}
-                                    }
-                                }}
-                            />
-                            <ReactTable 
-                                data={this.state.orderLines}
-                                columns={productColumns}
-                                showPagination={false}
-                                className="SecondaryTable SelectedTable -striped -highlight"
-                                getTrProps={(state, rowInfo) => {
-                                    if (rowInfo && rowInfo.row) {
-                                      return {
-                                        onClick: (e) => {
-                                            
-                                          this.setState({selectedOrderLine: rowInfo.index })
-                                          console.log(rowInfo.original)
-                                        },
-                                        style: {
-                                          background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                          color: rowInfo.index === this.state.selected ? 'white' : 'black'
-                                        }
-                                      }
-                                    }else{
-                                      return {}
-                                    }
-                                }}
-                            />
+                                    }}
+                                    // This will force the table body to overflow and scroll, 
+                                    // since there is not enough room
+                                    defaultPageSize={25}
+                                    style={{
+                                        height: "400px"                                      
+                                     }}
+                                    />
+                                 </div>
+                         </div>  
+                    </div>  
+                    <nav class="navbarToButtoms navbar-light bg-light"> 
+                         <div className="container row">
+                             <div className="col my-2">
+                                 <button type="button" className="btn-success btn-lg btn-block btn my-2" onClick={this.addSelectedToOrderLine}>Add to order</button>
+                             </div>
+                             <div className="col my-2">
+                                 <button type="button" className="btn-lg btn-block btn-warning my-2" onClick={this.undoOrderLine}>Undo</button>
+                            </div>
                         </div>
-                        <div className="container col">
-                            <button className="btn btn-succes mx-2">Select Product</button>
-                            <button className="btn btn-warning mx-2">Deselect Product</button>
-                            <button className="btn btn-danger mx-2">Deselect All Products</button>
-                            <button className="btn btn-succes mx-2">Save Order</button>
-                            <button className="btn btn-danger mx-2">Discard Order</button>
-                        </div>
-
-                        <div className="CRUDButtons">
-                            <input type="text" name="company" className="newForm" onChange={this.onChange} placeholder="Company"/> 
-                            <input type="text" name="contactPerson" className="newForm" onChange={this.onChange} placeholder="Contact Person"/>
-                            <input type="text" name="address" className="newForm" onChange={this.onChange} placeholder="Address"/>
-                            <input type="text" name="zipCode" className="newForm" onChange={this.onChange} placeholder="Zipcode"/>
-                            <input type="text" name="city" className="newForm" onChange={this.onChange} placeholder="City"/>
-                        </div>
-                    </div>
+                    </nav>      
                 </div>
-            </div>
-        )
+            </div> 
+         );
     }
 }
+
+const mapStateToProps = (state)=>{
+    return{
+        userType: state.orderReducer
+    }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        addItemToCart: (item) => {dispatch({type: "ADD_ITEMTOORDER",payload: {item}})}
+    }
+}
+
+export default connect(mapStateToProps ,mapDispatchToProps)(NewOrder)
+
+
