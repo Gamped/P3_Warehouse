@@ -54,7 +54,7 @@ public class ClientController {
 
         Client newClient = new Client(new ObjectId());
         BeanUtils.copyProperties(restClientModel, newClient);
-        return clientRepository.save(newClient);
+        return ClientManager.saveClientToDB(newClient);
     }
 
     @PutMapping("/clients/{hexId}")

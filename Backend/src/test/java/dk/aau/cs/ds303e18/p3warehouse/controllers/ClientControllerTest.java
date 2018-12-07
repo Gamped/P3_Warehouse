@@ -3,7 +3,6 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestClientModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.ContactInformation;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import org.bson.types.ObjectId;
 import org.junit.Before;
@@ -22,8 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyObject;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 

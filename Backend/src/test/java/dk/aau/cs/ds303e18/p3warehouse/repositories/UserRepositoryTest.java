@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Optional;
-
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class UserRepositoryTest {
@@ -62,6 +60,9 @@ public class UserRepositoryTest {
         client.addProduct(flyerProduct);
         client.addProduct(noteProduct);
 
+        User user = new User(client.getId());
+        user.copyFrom(client);
+        userRepository.save(user);
         clientRepository.save(client);
         productRepository.save(noteProduct);
         productRepository.save(flyerProduct);
