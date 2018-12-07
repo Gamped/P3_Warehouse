@@ -87,8 +87,8 @@ public class ClientRepositoryTest {
         Stream<Product> productStream = retrievedClient.getProductStream();
         List<Product> productIterable = productStream.collect(Collectors.toList());
 
-        Assert.assertEquals(productList, productIterable);
         Assert.assertEquals(2, productIterable.size());
+        Assert.assertEquals(productList, productIterable);
 
         productRepository.deleteById(id);
         productRepository.deleteById(productId);
@@ -142,10 +142,10 @@ public class ClientRepositoryTest {
         Product product = new Product(objectId);
         Product secondProduct = new Product(productId);
 
-        OrderLine orderLine = new OrderLine(product, 5);
-        OrderLine secondOrderLine = new OrderLine(secondProduct, 10);
         product.setProductName("hio");
         secondProduct.setProductName("asf");
+        OrderLine orderLine = new OrderLine(product, 5);
+        OrderLine secondOrderLine = new OrderLine(secondProduct, 10);
 
         order.setTitle("fesf");
         secondOrder.setTitle("fsef");
@@ -158,6 +158,8 @@ public class ClientRepositoryTest {
         client.addOrder(order);
         client.addOrder(secondOrder);
 
+        productRepository.save(product);
+        productRepository.save(secondProduct);
         orderRepository.save(order);
         orderRepository.save(secondOrder);
         clientRepository.save(client);
@@ -167,12 +169,14 @@ public class ClientRepositoryTest {
         List<Order> orderList = orderStream.collect(Collectors.toList());
 
         Assert.assertNotNull(orderList);
-        //Assert.assertEquals(order.getTitle(), orderList.get(1).getTitle());
-        Assert.assertEquals(orders, orderList);
         Assert.assertEquals(2, orderList.size());
+        Assert.assertEquals(order.getTitle(), orderList.get(0).getTitle());
+        Assert.assertEquals(orders, orderList);
 
         orderRepository.deleteAll(orders);
         clientRepository.deleteById(clientId);
+        productRepository.deleteById(objectId);
+        productRepository.deleteById(productId);
     }
 
     @Test
