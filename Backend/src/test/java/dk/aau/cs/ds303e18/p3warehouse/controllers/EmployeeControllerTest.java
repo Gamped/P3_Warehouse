@@ -88,7 +88,7 @@ public class EmployeeControllerTest {
 
         when(employeeRepository.findAll()).thenReturn(employeeList);
 
-        Collection<Employee> employees = employeeController.getAllEmployees();
+        Collection<Employee> employees = employeeRepository.findAll();
         verify(employeeRepository).findAll();
 
         assertEquals(3, employees.size());
