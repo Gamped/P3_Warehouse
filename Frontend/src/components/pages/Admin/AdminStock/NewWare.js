@@ -3,6 +3,7 @@ import axios from 'axios';
 import "../../Pages.css";
 import "./AdminStock.css";
 import {Clearfix, MenuItem} from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 
 export default class NewWare extends Component {
@@ -149,9 +150,8 @@ export default class NewWare extends Component {
                 <div className="" action="/Admin/Stock">
                     <button className="btn-success btn-lg btn-block btn my-2" onClick={this.onSubmit}>Create product</button>
                 </div>
-                <div action="/Admin/Stock" className="">
-                    <button className="btn-info btn-lg btn-block btn my-2">Back</button>
-                </div>
+                
+                <Link to="/Admin/Stock" className="btn-info btn-lg btn-block btn my-2">Back</Link>
                
             </div>
         )     

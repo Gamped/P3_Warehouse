@@ -1,6 +1,7 @@
 import React from 'react';
 import "../../Pages.css";
 import "./AdminProfile.css";
+import { Link } from "react-router-dom";
 
 export default class AdminRemove extends React.Component {
     constructor(props) {
@@ -44,12 +45,11 @@ export default class AdminRemove extends React.Component {
                         onChange={this.handlePass}
                         placeholder="YOUR password"/>
                 </form>
-                <form action="/Admin/Profile" className="newForm stockForm">
-                    <button className="btn-lg btn-danger btn-block my-2 btn">REMOVE employee</button>
-                </form>
-                <form action="/Admin/Profile" className="newForm stockForm">
-                    <button className="btn-info btn-lg btn-block btn my-2">Back</button>
-                </form>
+                
+                <Link to="/Admin/Profile" className="btn-lg btn-danger btn-block my-2 btn">REMOVE employee</Link>
+                
+                <Link to="/Admin/Profile" className="btn-info btn-lg btn-block btn my-2">Back</Link>
+                
         </div>);
     }
 }

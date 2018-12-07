@@ -1,15 +1,16 @@
 import React from 'react';
 import "../../Pages.css";
+import { Link } from "react-router-dom"
 
 const PublisherRequestClientChange = (props) => {
     return(
         <div className="PageStyle rounded">
-            <h1 className="customText_b">Request change to client:</h1>
-            <h1 className="pubInfoText customText_b">Please send an email to ???@???.dk to request change</h1>
-        
-            <form action="/User/Clients" className="pubBackForm">
-                <button  className="pubButton_f btn" >Back to clients</button>
-            </form>
+            <div className="col-md-6 offset-md-3">
+                <h1 className="customText_b">Request change to client:</h1>
+                <h1 className="pubInfoText customText_b">Please send an email to ???@???.dk to request change</h1>
+
+                <Link to="/User/Clients" className="btn btn-info btn-block btn-lg">Back to clients</Link>
+            </div>
         </div>
     );
 }
