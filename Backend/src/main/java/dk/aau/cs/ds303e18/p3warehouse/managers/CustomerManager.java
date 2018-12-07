@@ -5,6 +5,7 @@ import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class CustomerManager {
     @Autowired
@@ -22,10 +23,6 @@ public class CustomerManager {
         else{
             return null;
         }
-    }
-
-    public static Customer getCustomerFromProduct(Product product){
-        return getCustomerFromUser(product.getOwner());
     }
 
     public static Customer saveCustomerToDatabase(Customer customer){

@@ -61,13 +61,11 @@ public class OrderRepositoryTest {
         client.setUserType(UserType.CLIENT);
 
         Product product = new Product(new ObjectId());
-        product.setOwner(client);
         product.setProductName("Computer");
         product.setQuantity(10);
         product.setProductId("1001");
 
         Product flyerProduct = new Product(new ObjectId());
-        product.setOwner(client);
         product.setProductName("Flyer for Advertisement");
         product.setQuantity(500);
         product.setProductId("1002");

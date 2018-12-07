@@ -1,15 +1,5 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
-import dk.aau.cs.ds303e18.p3warehouse.repositories.OrderRepository;
-import org.bson.types.ObjectId;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 /*
 @RunWith(SpringRunner.class)
 @SpringBootTest

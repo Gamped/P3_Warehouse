@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import org.bson.types.ObjectId;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Reference;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -23,9 +25,6 @@ public class Product {
     private int quantity;
 
     private String hexId;
-
-
-    private Customer owner;
 
 
     public Product(ObjectId id){
@@ -51,11 +50,6 @@ public class Product {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
-
-    public Customer getOwner() {return owner; }
-
-    public void setOwner(Customer owner) {this.owner = owner;}
 
     @Override
     public String toString(){
