@@ -1,84 +1,154 @@
 import React,{Component} from 'react';
+import axios from 'axios';
 import "../../Pages.css";
 import "./AdminStock.css";
-import axios from 'axios';
+import {Clearfix, MenuItem} from 'react-bootstrap';
+import { Link } from "react-router-dom";
 
 
 export default class NewWare extends Component {
+
     constructor(props) {
+        
         super(props);
         this.state = {
-            productName: "",
-            productId: "",
-            quantity: 0
+            product: {},
+            owners: [],
+            selectedOwnerHexId: "DEFAULT",
+            selectedOwnerUserType: "DEFAULT"
         };
 
-        this.onChangeProductName = this.onChangeProductName.bind(this);
-        this.onChangeProductId = this.onChangeProductId.bind(this);
-        this.onChangeQuantity = this.onChangeQuantity.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.getCustomers = this.getCustomers.bind(this);
+        this.makeOwnerData = this.makeOwnerData.bind(this);
     }
+
+    componentDidMount() {
+      
+        this.getCustomers();
+    }
+
+    
+    getCustomers() {
+
+       axios.get('http://localhost:8080/api/employee/publishers')
+        .then(response => { 
+            this.makeOwnerData(response.data);
+        })
+    }
+
+    makeOwnerData(data) {
+        this.setState({rawOwnerData: data});
+        let owners = [];
+
+        data.forEach((publisher) => {
+            owners.push({
+                ownerName: publisher.contactInformation.nickName,
+                hexId: publisher.hexId,
+                userType: publisher.userType
+            })
+
+            if (publisher.numberOfClients != 0) {
+
+                publisher.clientStream.forEach((client) => {
+                    owners.push({
+                       ownerName: client.contactInformation.nickName,
+                       hexId: client.hexId,
+                       userType: client.userType
+                   })
+                  })      
+            }
+        })
+
+        this.setState({owners: owners});
+    }
+
 
     onSubmit = (e) => {
         e.preventDefault();
-        const {productName, productId, quantity} = this.state;
+        const {productName, productId, quantity} = this.state.product;
 
-        console.log({productName, productId, quantity});
+            axios.post('http://localhost:8080/api/employee/products/'
+                + "assignTo=" + this.state.selectedOwnerHexId + "/withUserType=" + 
+                this.state.selectedOwnerUserType,
+                {productName, productId, quantity}).then((result)=> {
 
-        setTimeout(function () {
-            axios.post('http://localhost:8080/api/products/new', {productName, productId, quantity}).then((result)=> {
-                this.props.history.push("/");
+                    return(
+                        <div class="alert alert-success">
+                        <strong>Product added!</strong>
+                        </div>)
             }).catch((err) => {
-            console.log(err.response);
+            
+                console.log(err.response);
             });
-        }, 1000);
     }
 
-    onChangeProductName = (e) => {
-        this.setState({ productName: e.target.value});
+    onChange = (e) => {
+        const state = this.state.product;
+        state[e.target.name] = e.target.value;
+        this.setState({product:state});
     }
+    
+    
+      
 
-    onChangeProductId = (e) => {
-        this.setState({ productId: e.target.value});
+    getOwnerListItems(owner, i) {
+         return (
+         <option 
+         key={i}
+         onSelect={()=> {
+            this.setState({selectedOwnerHexId: owner.hexId})
+         }} value={owner.hexId}>
+         {owner.userType} - {owner.nickName}
+         </option>
+         )        
     }
-
-    onChangeQuantity = (e) => {
-        this.setState({ quantity: e.target.value});
-    }
-
+    
 
     render() {
-      const {productName, productId, quantity} = this.state;
+      
+        const currentProduct = this.state.product;
 
         return (
-            <div className="PageStyle">
-                <h1 className="title customText_b_big">Add new product</h1>
+            <div className="PageStyle rounded">
+                <h1 className=" text-center">Add new product</h1>
                 <form>
                     <input
-                        type="text"
-                        className="newForm"
-                        defaultValue={productName}
+                        type="text "
+                        name="productName"
+                        className="my-2 form-control  "
+                        defaultValue={currentProduct.productName}
                         onChange={this.onChangeProductName}
                         placeholder="Product Name"/>
                     <input
                         type="text"
-                        className="newForm"
-                        defaultValue={productId}
+                        name="productId"
+                        className="my-2 form-control "
+                        defaultValue={currentProduct.productId}
                         onChange={this.onChangeProductId}
                         placeholder="Product Id"/>
                     <input
                         type="text"
-                        className="newForm"
-                        defaultValue={quantity}
+                        name="quantity"
+                        className="my-2 form-control"
+                        defaultValue={currentProduct.quantity}
                         onChange={this.onChangeQuantity}
                         placeholder="Quantity"/>
+                    
+                    <select className="custom-select my-2" >
+                    <option selected>Choose owner</option>
+                    {this.state.owners.map(this.getOwnerListItems)}
+                    </select>   
                 </form>
-                <form action="/Admin/Stock" className="newForm stockForm">
-                    <button className="newButton stockButton_f btn">Back</button>
-                </form>
-                <form className="newForm stockForm">
-                    <button className="newButton stockButton_f btn" onClick={this.onSubmit}>Create product</button>
-                </form>
+
+
+                <div className="" action="/Admin/Stock">
+                    <button className="btn-success btn-lg btn-block btn my-2" onClick={this.onSubmit}>Create product</button>
+                </div>
+                
+                <Link to="/Admin/Stock" className="btn-info btn-lg btn-block btn my-2">Back</Link>
+               
             </div>
         )     
     }

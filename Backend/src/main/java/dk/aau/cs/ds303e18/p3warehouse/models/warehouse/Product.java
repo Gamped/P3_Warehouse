@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.warehouse;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import org.bson.types.ObjectId;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.GeneratedValue;
+import java.util.Objects;
 
 @Document(collection = "products")
 public class Product {
@@ -22,7 +24,7 @@ public class Product {
 
     private String hexId;
 
-    @DBRef
+
     private Customer owner;
 
 
@@ -66,4 +68,16 @@ public class Product {
 
     public String getHexId() {return id.toString(); }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Product product = (Product) o;
+        return Objects.equals(id, product.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

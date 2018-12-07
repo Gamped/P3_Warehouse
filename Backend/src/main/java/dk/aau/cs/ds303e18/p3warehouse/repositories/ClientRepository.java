@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface ClientRepository extends MongoRepository<Client, ObjectId> {
@@ -15,6 +17,7 @@ public interface ClientRepository extends MongoRepository<Client, ObjectId> {
 
     public Publisher findByPublisherId(@PathVariable ObjectId publisherId);
 
-    Optional<Client> findById(@PathVariable String hexId);
+    Client findById(@PathVariable String hexId);
+
 
 }

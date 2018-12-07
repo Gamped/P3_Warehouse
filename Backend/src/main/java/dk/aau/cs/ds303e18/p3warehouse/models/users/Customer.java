@@ -11,11 +11,11 @@ import java.util.stream.Stream;
 
 public class Customer extends User {
     private ContactInformation contactInformation;
+
     @DBRef
     private Collection<Product> customerProducts;
     @DBRef
     private Collection<Order> customerOrders;
-
     private String hexId;
 
     Customer(ObjectId id){

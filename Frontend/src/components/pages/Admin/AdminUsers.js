@@ -1,114 +1,298 @@
-import React from 'react';
-import "../Pages.css";
-import ButtonList from "../../MenuComponents/ButtonList/ButtonList";
+import React,{Component} from 'react';
 import "./AdminUsers.css";
-import TextBox from "../../MenuComponents/TextBox/TextBox";
+import "../Pages.css";
 import axios from 'axios';
 import ReactTable from 'react-table';
 
-export default class AdminUsers extends React.Component{
+import TextBox from "../../MenuComponents/TextBox/TextBox";
+
+export default class AdminUsers extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            publisher: [
-                {name:"Black Betty INC",id: "1"},
-                {name:"Toys r us" , id:"2"},
-                {name:"Fightclub" , id:"3"},
-                {name:"I.C.U.P." , id:"4"},
-                {name:"Aalborg Zoo" , id:"5"},
-                {name:"Ådal og Søn" , id:"6"},
-            ],
-            pClient:[
-                {name:"We do books", id:"7"},
-                {name:"Aprature science", id:"8"},
-                {name:"Alef zero",id:"9"},
-                {name:"The Ironhands",id:"10"},
-                {name:"Dark Angels",id:"11"},
-                {name:"Emperor's Children",id:"12"},
-                {name:"Iron Warriors",id:"13"},
-                {name:"White Scars",id:"14"},
-                {name:"Space Wolves",id:"15"},
-                {name:"Imperial Fists",id:"16"},
-                {name:"Night Lords",id:"17"},
-                {name:"Blood Angels",id:"18"},
-                {name:"Iron Hands",id:"19"},
-            ],
-            iClient:[
-                {name:"Duke Helbrecht",id:"20"},
-                {name:"Triumph",id:"21"},
-                {name:"His Will",id:"22"},
-                {name:"Godefroy Magnificat",id:"23"},
-                {name:"Divine Right",id:"24"},
-                {name:"Dominus Astra",id:"25"},
-                {name:"Indomitable Wrath",id:"26"},
-                {name:"Legatus Stygies",id:"27"},
-                {name:"Lord of Light",id:"28"},
-                {name:"	Corax",id:"29"},
-            ],
-            tabs: [
-                {name:"Publishers",id:0},
-                {name:"Publisher's clients",id:1},
-                {name:"Independent clients",id:2}
-            ],
-            listShown: 0,
-            userShown: 0,
+            customers: [],
+            selectedCustomer: [],
+            selected: null,
+            selectedId: ""
         };
     }
-    changeList=(input)=>{
-        this.setState({listShown: input});
+
+    componentDidMount() {
+
+       this.getClients();
+       this.getPublishers();      
     }
 
-    changeUser=(input)=>{
-        this.setState({userShown: input});
-        console.log(input)
+    getClients() {
+        axios.get('http://localhost:8080/api/employee/clients')
+        .then((response) => {
+
+            const clients = this.makeCustomerData(response.data);
+            this.concatinateWithNewData(clients);
+        })
     }
 
-    buttonListShown=()=>{
-        const x=this.state.listShown;
-        switch(x){
-            case 0:
-                return(<ButtonList buttons={this.state.publisher} color="dark" link={false} action={this.changeUser} />)
-            case 1:
-                return(<ButtonList buttons={this.state.pClient} color="dark" link={false} action={this.changeUser} />)
-            case 2:
-                return(<ButtonList buttons={this.state.iClient} color="dark" link={false} action={this.changeUser} />)
-            default:
-                return(<h2 className="color-red">ERROR</h2>)
-        }
+    getPublishers() {
+        axios.get('http://localhost:8080/api/employee/publishers')
+        .then((response) => {
+
+            const publishers = this.makeCustomerData(response.data);
+            this.concatinateWithNewData(publishers);
+    });
     }
 
-    displayUser=(id)=>{
-        const x = this.state.userShown;
-        return null
-        // todo. Burde nok gette informationen fra backenden, da vi ellers kan nøjes med name og id.
+    makeCustomerData(data){
+        var customers = [];
+        data.forEach((customer) => {
+
+            customers.push({
+                userName: customer.userName,
+                password: customer.password,
+                hexId: customer.hexId,
+                nickName: customer.contactInformation.nickName,
+                email: customer.contactInformation.email,
+                phoneNumber: customer.contactInformation.phoneNumber,
+                address: customer.contactInformation.address,
+                zipCode: customer.contactInformation.zipCode              
+            })
+        });
+        return customers;
+    }
+
+ 
+    concatinateWithNewData(newData) {
+    
+        const customersCopy = this.state.customers;
+        let concatinatedData = customersCopy.concat(newData);
+        this.setState({ customers: concatinatedData });
+    }
+    
+    getColumns = () => {
+    return [{
+        Header: "Customer",
+        accessor: "nickName"
+        }]    
+    }
+
+    onChange = (e) => {
+        const state = this.state.selectedCustomer;
+        state[e.target.name] = e.target.value;
+        this.setState({selectedCustomer:state});
+    }
+
+    onSubmit = () => {
+    
+
+    }
+ 
+    onDelete = () => {
+
     }
 
     render(){
+
+        let selectedCustomer = this.state.selectedCustomer;
+        let columns = this.getColumns();
         return(
-            <div className="PageStyle">
-                <div className="userPageStyle">
+            <div className="PageStyle rounded">
+                <div className="userPageStyle rounded">
                     <div className="container row">
-                        <div className="col sidebar fullbar border border-dark rounded bg-secondary">
+
+                        <div className="SelectionBar col sidebar border border-dark rounded bg-secondary userNavbar">
                             <div className="border border-light rounded bg-info">
-                                <ButtonList buttons={this.state.tabs} color="secondary" link={false} action={this.changeList}/>
-                            </div>
-                            <div className="border border-light rounded bg-success">
-                                <div className="my-2">
-                                    <ButtonList buttons={[{name:"Create User",id:0}]} color="secondary" link={false} action={this.changeList}/>
-                                </div>
-                            </div>
-                            {this.buttonListShown()}
+                            <ReactTable 
+                            data={this.state.customers}
+                            columns={columns} 
+                            showPagination={false} 
+                            className="-striped -highlight"getTrProps={(state, rowInfo) => {
+                                if (rowInfo && rowInfo.row) {
+                                  return {
+                                    onClick: (e) => {
+                                        this.setState({selected: rowInfo.index, 
+                                            selectedId: rowInfo.original.hexId,
+                                            selectedCustomer: this.state.customers[rowInfo.index] });
+                                        
+                                    },
+                                    style: {
+                                      background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                      color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                    }
+                                  }
+                                }else{
+                                  return {}
+                                }
+                               }
+                            }
+                             />
+                             </div>
+                            
+                           
                         </div>
-                        <div className="col-sm text-center">
-                            <TextBox type="user" id={this.state.userShown}/>
-                            <div className="container row">
-                                <div className="col my-2">
-                                    <button type="button" className="btn btn-danger">Delete this user</button>
+                        
+                        <div className="ContentBar  col-sm text-center">
+                           <div className="container col">
+                                <div className="container col">
+                                    <div className="row">
+                                        
+                                        <div class="input-group mt-3 mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="nickName" 
+                                                className="input-group-text" 
+                                                id="nickNameLabel">
+                                                    Nickname
+                                                </label>
+                                            </div>
+                                                 <input
+                                                 id="nickName" 
+                                                 className="form-control" 
+                                                 type="text"
+                                                 defaultValue={selectedCustomer.nickName}
+                                                 name="nickName"                                        
+                                                 />
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="userNameInput" 
+                                                className="input-group-text" 
+                                                id="userNameLabel">
+                                                    Username
+                                                </label>
+                                            </div>
+                                            <input
+                                            id="userNameInput" 
+                                            className="form-control" 
+                                            type="text"
+                                            defaultValue={selectedCustomer.userName}
+                                            name="userName"                                        
+                                            />
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="email" 
+                                                className="input-group-text" 
+                                                id="emailLabel">
+                                                    Email
+                                                </label>
+                                            </div>
+                                            <input
+                                            id="email" 
+                                            className="form-control" 
+                                            type="text"
+                                            defaultValue={selectedCustomer.email}
+                                            name="email"                                        
+                                            />
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="phone" 
+                                                className="input-group-text" 
+                                                id="phoneLabel">
+                                                    Phone Number
+                                                </label>
+                                            </div>
+                                            <input
+                                                id="phone" 
+                                                 className="form-control" 
+                                                 type="number"
+                                                 defaultValue={selectedCustomer.phoneNumber}
+                                                 name="phoneNumber"                                        
+                                                 />
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="address" 
+                                                className="input-group-text" 
+                                                id="addressLabel">
+                                                    Address
+                                                </label>
+                                            </div>
+                                            <input
+                                                id="address" 
+                                                className="form-control" 
+                                                type="text"
+                                                defaultValue={selectedCustomer.address}
+                                                name="address"                                        
+                                                 />
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="city" 
+                                                className="input-group-text" 
+                                                id="cityLabel">
+                                                    City
+                                                </label>
+                                            </div>
+                                            <input
+                                                id="city" 
+                                                 className="form-control" 
+                                                 type="text"
+                                                 defaultValue={selectedCustomer.city}
+                                                 name="city"                                        
+                                                 />
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="zip" 
+                                                className="input-group-text" 
+                                                id="zipLabel">
+                                                    Zipcode
+                                                </label>
+                                            </div>
+                                            <input
+                                                id="zip" 
+                                                 className="form-control" 
+                                                 type="number"
+                                                 defaultValue={selectedCustomer.city}
+                                                 name="zipCode"                                        
+                                                 />
+                                        </div>
+                                        
+                                         <h4 className="text-center">Change password:</h4>
+                                        
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="newPassword" 
+                                                className="input-group-text" 
+                                                id="passwordLabel">
+                                                    New Password
+                                                </label>
+                                            </div>
+                                            <input 
+                                                id="newPassword"
+                                                 className="form-control" 
+                                                 type="password"
+                                                 name="newPassword"                                        
+                                                 />
+                                        </div>
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <label htmlFor="confirmedPassword" 
+                                                className="input-group-text" 
+                                                id="confirmedLabel">
+                                                    Repeat
+                                                </label>
+                                            </div>
+                                                 <input
+                                                 id="confirmedPassword" 
+                                                 className="form-control" 
+                                                 type="password"
+                                                 placeholder="Retype new password"
+                                                 name="confirmedNewPassword"                                        
+                                                 />
+                                        </div>
+                                    </div>
+
                                 </div>
-                                <div className="col my-2">
-                                    <button type="button" className="btn btn-warning">Edit this user</button>
-                                </div>
-                            </div>
+                                <div className="container row">
+                                    <div className="col my-2">
+                                        <button type="button" onClick={this.onDelete} className="btn btn-danger">Delete this user</button>
+                                    </div>
+                                    <div className="col my-2">
+                                        <button type="button" onClick={this.onSubmit} className="btn btn-warning">Confirm edit</button>
+                                    </div>
+                                </div>  
+                           </div>
                         </div>
                     </div>
                 </div>

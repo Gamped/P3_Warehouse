@@ -3,18 +3,21 @@ package dk.aau.cs.ds303e18.p3warehouse.models.users;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.stream.Stream;
 
 @Document(collection = "publishers")
+
 public class Publisher extends Customer {
 
     @Id
     private ObjectId id = new ObjectId();
+    @DBRef
     private Collection<Client> clients;
-    private String publisherName;
 
     public Publisher(ObjectId id){
         super(id);
@@ -26,18 +29,22 @@ public class Publisher extends Customer {
         return id.toString();
     }
 
+    public int getNumberOfClients(){
+        int size;
+        size = clients.size();
+        return size;
+    }
+
     public  void addClient(Client newClient){
         clients.add(newClient);
     }
 
-    //public void setHexId(String hexId) { this.hexId = hexId; } No reason to set hexid if our getter generates it for us.
-
-    public String getPublisherName() {
-        return publisherName;
+    public void removeClient(Client clientToRemove){
+        clients.remove(clientToRemove);
     }
 
-    public void setPublisherName(String publisherName) {
-        this.publisherName = publisherName;
+    public Stream<Client> getClientStream(){
+        return clients.stream();
     }
 }
 

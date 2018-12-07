@@ -2,128 +2,127 @@ import React from 'react';
 import "../../Pages.css";
 import "./UserOrder.css";
 import "./UserCart.css";
+import { connect } from "react-redux";
 
-export default class UserOrder extends React.Component {
-    constructor(props) {
-        super(props);
+class UserOrderCart extends React.Component {
+    constructor() {
+        super();
+        
+    
         this.state = {
-            userID: props.ID,
-            quarry: "",
-            products: props.productList,
-            dropdownValue: "",
-            dropdownOptions: [],
+           address:"",
+           company:"",
+           cvr:"",
+           contact:"",
+           phone:null,
+           zip:null,
+           city:"",
+           country:""
+
         };
     }
-
-
-    /*
-    * SOME FUNCTION TO RETRIEVE & SEND INFO FROM DB
-    */
-
-    handleDropdown = (event) => {
-        this.setState({
-            dropdownValue: event.target.value,
-        });
+ 
+    onChange = (e) => {
+        this.setState({[e.target.name]:e.target.value})
     }
 
-    handleQuarry = (event) => {
-        this.setState({
-            quarry: event.target.value,
-        });
+    confirmed = (event) =>{
+        event.preventDefault();
+        console.log(this.state)
+        this.props.setAdress(this.state.address)
+        this.props.setCompany(this.state.company)
+        this.props.setContactPerson(this.state.contact)
+        this.props.setPhoneNumber(this.state.phone)
+        this.props.setZip(this.state.zip)
+        this.props.setCity(this.state.city)
+        this.props.setCVR(this.state.cvr)
+        this.props.setCountry(this.state.country)
+
+        this.props.history.push("/User/Order/Cart/Confirm")
+    }
+
+    back = (event)=>{
+        this.props.history.push("/User/Order/")
     }
 
     render(){
+        let lines = this.props.order
+        lines = lines.map((line)=>{return(
+                <tr key={line.productId}>
+                    <th scope="row">{line.productId}</th>
+                    <td>{line.productName}</td>
+                    <td>{line.amount}</td>
+                </tr>
+            )})
+        
+        
         return(
-            <div className="PageStyle">
-                <div className="topBox topBoxStyle">
-                    <h1 className="topText customText_w"> Cart:</h1>
-                </div>
-
-                <div className="cartBox contentBoxStyle">
-                    <select 
-                        className="cartDropdown" 
-                        value={this.state.dropdownValue}
-                        onChange={this.handleDropdown}>
-
-                        <option value="">[Use previous addresses]</option>
-                        {this.state.dropdownOptions.map(address =>
-                            <option value={address}>{address}</option>
-                        )}
-                    </select> 
-
-                    <div className="productListBox bottomBoxStyle">
-                       
-                        <table className="cartTable">
-                            <tbody>
-                                <tr>
-                                    <th>Product name</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div className="infoBox">
-                        <div className="cartButtonBox">
-                            <form action="/User/Order/" className="cartButtonForm cartButton">
-                                <button className=" stockButton_f btn">Cancel</button>
-                            </form>
-                            <form action="/User/Order/Cart/Confirm" className="cartButtonForm cartButton">
-                                <button className=" stockButton_f btn">Send order</button>
-                            </form>
-                            <h1 className="cartTxt customText_b">Where to send:</h1>
+            <div className="PageStyle rounded">
+                    <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
+                <div className="container">
+                    <div className="row">
+                        <div className="col">
+                            <div className="container my-3">
+                                <table className="table table-dark">
+                                    <thead>
+                                        <tr key="header">
+                                            <th scope="col">Product ID</th>
+                                            <th scope="col">Product name</th>
+                                            <th scope="col">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {lines}                                       
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
-                        <form className="cartFormPlacer">
-                            <input 
-                                type="text" 
-                                className="cartForm" 
-                                onChange={this.handleUName}
-                                    placeholder="User name"/>
-                            <input 
-                                type="text" 
-                                className="cartForm" 
-                                onChange={this.handleName}
-                                placeholder="Name"/>
-                            <input 
-                                type="email" 
-                                className="cartForm" 
-                                onChange={this.handleEmail}
-                                placeholder="Email"/>
-                            <input 
-                                type="tel" 
-                                className="cartForm" 
-                                onChange={this.handlePhoneNumber}
-                                placeholder="Phone Number"/>
-                            <input 
-                                type="text" 
-                                className="cartForm" 
-                                onChange={this.handleAddress}
-                                placeholder="Address"/>
-                            <input 
-                                type="text" 
-                                className="cartForm" 
-                                onChange={this.handleAddress}
-                                placeholder="Zip and City"/>
-                            <input 
-                                type="text" 
-                                className="cartForm" 
-                                onChange={this.handleCVR}
-                                placeholder="CVR"/>
-                            <input 
-                                type="password" 
-                                className="cartForm" 
-                                onChange={this.handleCurPass}
-                                placeholder="Current password"/>
-                            <input 
-                                type="password" 
-                                className="cartForm" 
-                                onChange={this.handleNewPass}
-                                placeholder="New password"/>
-                        </form>
-                    </div>
+                        <div className="col container">
+                            <h4 className="text-center my-2">Where to send the order:</h4>
+
+                            <form className="">
+                                <input type="text" className="input-group mb-3" name="company" onChange={this.onChange} placeholder="Company" key="company"/>
+                                <input type="text" className="input-group mb-3" name="cvr" onChange={this.onChange} placeholder="CVR" key="cvr"/>
+                                <input type="text" className="input-group mb-3" name="contact" onChange={this.onChange} placeholder="Contact Person" key="contact" required/>
+                                <input type="number" className="input-group mb-3" name="phone" onChange={this.onChange} placeholder="PhoneNumber" key="phone" required/>
+                                <input type="text" className="input-group mb-3" name="address" onChange={this.onChange} placeholder="Address" key="address" required/>
+                                <input type="number" className="input-group mb-3" name="zip" onChange={this.onChange} placeholder="Zip" key="zip" required/>
+                                <input type="text" className="input-group mb-3" name="city" onChange={this.onChange} placeholder="City" key="city" required/>
+                                <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" key="country" required/>
+                                
+                                <button className=" btn-success btn btn-block my-3" onClick={this.confirmed} type="submit">Send order</button>
+                                <button className=" btn-danger btn btn-block" onClick={this.back}>Cancel order</button>
+            
+                            </form>
+                    
+                        </div>
+                    </div>        
                 </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = (state)=>{
+    return{
+        order: state.orderReducer.order
+    }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        
+        setCompany: (company) => {dispatch({type: "SET_COMPANY",payload: {company}})},
+        setContactPerson: (contactPerson) => {dispatch({type: "SET_CONTACTPERSON",payload: {contactPerson}})},
+        setPhoneNumber: (phoneNumber) => {dispatch({type: "SET_PHONENUMBER",payload: {phoneNumber}})},
+        setAdress: (address) => {dispatch({type: "SET_ADDRESS",payload: {address}})},
+        setZip: (zip) => {dispatch({type: "SET_ZIP",payload: {zip}})},
+        setCity: (city) => {dispatch({type: "SET_CITY",payload: {city}})},
+        setCVR: (cvr) => {dispatch({type:"SET_CVR", payload:{cvr}})},
+        setCountry: (country) => {dispatch({type:"SET_COUNTRY", payload:{country}})}
+
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserOrderCart);

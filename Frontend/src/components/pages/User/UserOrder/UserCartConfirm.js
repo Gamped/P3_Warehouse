@@ -2,8 +2,10 @@ import React from 'react';
 import "../../Pages.css";
 import "./UserOrder.css";
 import "./UserCart.css";
+import { connect } from "react-redux"
+import {Link} from "react-router-dom";
 
-export default class UserCartConfirm extends React.Component {
+ class UserCartConfirm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,58 +15,91 @@ export default class UserCartConfirm extends React.Component {
         };
     }
 
-
-    /*
-    * SOME FUNCTION TO RETRIEVE & SEND INFO FROM DB
-    */
-
-    handleQuarry = (event) => {
-        this.setState({
-            quarry: event.target.value,
-        });
+    confirmed = (event) => {
+        alert("Your order has been confirmed.")
+        //TODO: Sent this.props.adress to server. 
     }
+ 
 
     render(){
+        const company = this.props.adress
+        console.log(company)
+        let lines = this.props.order
+        lines = lines.map((line)=>{return(
+                <tr key={line.productId}>
+                    <th scope="row">{line.productId}</th>
+                    <td>{line.productName}</td>
+                    <td>{line.amount}</td>
+                </tr>
+            )})
         return(
-            <div className="PageStyle">
-                <div className="topBox topBoxStyle">
-                    <h1 className="topText customText_w"> Cart: CONFIRM</h1>
-                </div>
-
-                <div className="cartBox contentBoxStyle">
-                    <div className="productListBox bottomBoxStyle">
-                        <table className="cartTable">
-                            <tbody>
-                                <tr>
-                                    <th>Product name</th>
-                                    <th>Amount</th>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div className="infoBox">
-                        <div className="cartButtonBox">
-                            <form action="/User/Order/Cart" className="cartButtonForm cartButton">
-                                <button className=" stockButton_f btn">Back</button>
-                            </form>
-                            <form action="/User" className="cartButtonForm cartButton">
-                                <button className=" stockButton_f btn">CONFIRM order</button>
-                            </form>
-                            <h1 className="cartTxt customText_b">Please verify:</h1>
-                            <br/>
-                            <br/>
-                            <h1 className="confirmText customText_b">Company name: </h1>
-                            <h1 className="confirmText customText_b">Recipient:</h1>
-                            <h1 className="confirmText customText_b">Phone: </h1>
-                            <h1 className="confirmText customText_b">CVR: </h1>
-                            <h1 className="confirmText customText_b">Adress: </h1>
-                            <h1 className="confirmText customText_b">Zip and city: </h1>
-                            <h1 className="confirmText customText_b">Country: </h1>
+        <div className="PageStyle rounded">
+            <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
+            <div className="container">
+                <div className="row">
+                    <div className="col">
+                        <div className="container my-3">
+                            <table className="table table-dark">
+                                <thead>
+                                    <tr key="header">
+                                        <th scope="col">Product ID</th>
+                                        <th scope="col">Product name</th>
+                                        <th scope="col">Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {lines}                                 
+                                </tbody>
+                            </table>
                         </div>
                     </div>
+
+                    <div className="col">
+                        <h4 className="display-4">Please verify:</h4>
+                        <br/>
+                        <br/>
+                        <label className="font-weight-bold">Company name: </label>
+                        <label className="font-weight-normal">{this.props.adress.company.company}</label>
+                        <br/>
+                        <label className="font-weight-bold">Recipient: </label>
+                        <label className="font-weight-normal">{this.props.adress.contactPerson.contactPerson}</label>
+                        <br/>
+                        <label className="font-weight-bold">Phone: </label>
+                        <label className="font-weight-normal">{this.props.adress.phoneNumber.phoneNumber}</label>
+                        <br/>
+                        <label className="font-weight-bold">CVR: </label>
+                        <label className="font-weight-normal">{this.props.adress.cvr.cvr}</label>
+                        <br/>
+                        <label className="font-weight-bold">Address: </label>
+                        <label className="font-weight-normal">{this.props.adress.address.address}</label>
+                        <br/>
+                        <label className="font-weight-bold">Zip: </label>
+                        <label className="font-weight-normal">{this.props.adress.zip.zip}</label>
+                        <br/>
+                        <label className="font-weight-bold">City</label>
+                        <label className="font-wight-normal">{this.props.adress.city.city}</label>
+                        <br/>
+                        <label className="font-weight-bold">Country: </label>
+                        <label className="font-weight-normal">{this.props.adress.country.country}</label>
+                        
+                        <Link to="/User/Order" className="btn-success btn-block my-3 btn" role="button">Confirm order</Link>
+                       
+                        <Link to="/User/Order/Cart" className="btn-info btn btn-block my-3" role="button">Back</Link>
+                        
+                    </div>
+                    
                 </div>
-            </div>
+            </div>        
+        </div>
         );
     }
 }
+
+const mapStateToProps = (state)=>{
+    return{
+        order: state.orderReducer.order,
+        adress: state.adressReducer
+    }
+}
+
+export default connect(mapStateToProps)(UserCartConfirm);

@@ -1,6 +1,7 @@
 import React from 'react';
 import "../../Pages.css";
 import "./AdminProfile.css";
+import { Link } from "react-router-dom";
 
 export default class AdminRemove extends React.Component {
     constructor(props) {
@@ -30,26 +31,25 @@ export default class AdminRemove extends React.Component {
 
     render(){
         return(
-        <div className="PageStyle">
-            <h1 className="title customText_b_big">Remove employee:</h1>
+        <div className="PageStyle rounded">
+            <h1 className="text-center">Remove employee:</h1>
                 <form>
                     <input 
                         type="text" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handleUName}
                         placeholder="Username of Employee"/>
                     <input 
                         type="password" 
-                        className="newForm" 
+                        className="my-2 form-control" 
                         onChange={this.handlePass}
                         placeholder="YOUR password"/>
                 </form>
-                <form action="/Admin/Profile" className="newForm stockForm">
-                    <button className="newButton_g stockButton_f btn">Back</button>
-                </form>
-                <form action="/Admin/Profile" className="newForm stockForm">
-                    <button className="newButton_r stockButton_f btn">REMOVE employee</button>
-                </form>
+                
+                <Link to="/Admin/Profile" className="btn-lg btn-danger btn-block my-2 btn">REMOVE employee</Link>
+                
+                <Link to="/Admin/Profile" className="btn-info btn-lg btn-block btn my-2">Back</Link>
+                
         </div>);
     }
 }

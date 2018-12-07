@@ -6,14 +6,14 @@ import loginMain from "./mainPages/loginMain";
 import adminMain from "./mainPages/adminMain";
 import userMain from "./mainPages/userMain";
 import HomeAdmin from "./components/pages/Admin/HomeAdmin"
-import AdminOrders from "./components/pages/Admin/AdminOrders";
+import AdminOrders from "./components/pages/Admin/AdminOrders/AdminOrders";
 import AdminProfile from "./components/pages/Admin/AdminProfile/AdminProfile";
 import AdminAdd from "./components/pages/Admin/AdminProfile/AdminAdd";
 import AdminRemove from "./components/pages/Admin/AdminProfile/AdminRemove";
 import AdminProfileEdit from "./components/pages/Admin/AdminProfile/AdminProfileEdit";
 import AdminStock from "./components/pages/Admin/AdminStock/AdminStock";
 import NewWare from "./components/pages/Admin/AdminStock/NewWare";
-import EditWare from "./components/pages/Admin/AdminStock/EditWare";
+import Edit from "./components/pages/Admin/AdminStock/Edit";
 import RemoveWare from "./components/pages/Admin/AdminStock/RemoveWare";
 import AdminUsers from "./components/pages/Admin/AdminUsers";
 import UserHome from "./components/pages/User/UserHome";
@@ -26,21 +26,18 @@ import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHisto
 import UserOrder from "./components/pages/User/UserOrder/UserOrder";
 import UserOrderCart from "./components/pages/User/UserOrder/UserOrderCart";
 import UserCartConfirm from "./components/pages/User/UserOrder/UserCartConfirm";
-import {createStore} from "redux";
 import {Provider} from "react-redux";
-import rootReducer from "./reducers/rootReducer"
-
-const initialValue = {
-    user:{loggedIn:"true",
-        userType:"admin",
-        name: "Kevin the machine",
-        userId:"ABC123"}
-};
-
-const store = createStore(rootReducer,initialValue);
+import redux from "./redux/Redux";
+import NewOrder from './components/pages/Admin/AdminOrders/NewOrder';
+import EditOrder from './components/pages/Admin/AdminOrders/EditOrder';
+import AdminOrder from './components/pages/Admin/AdminOrders/EditOrder';
+import AdminOrderCart from './components/pages/Admin/AdminOrders/AdminOrderCart';
+import AdminCartConfirm from './components/pages/Admin/AdminOrders/AdminCartConfirm';
+import EditOrderAddress from './components/pages/Admin/AdminOrders/EditOrderAddress';
+import EditOrderContent from './components/pages/Admin/AdminOrders/EditOrderContent';
 
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={redux}>
         <BrowserRouter>
             <div>
                 <Route exact path="/" component={loginMain}/>
@@ -49,15 +46,22 @@ ReactDOM.render(
                 <Route exact path="/Admin" component={HomeAdmin}/>
                 <Route exact path="/Admin/*" component={adminMain}/>
                 <Route exact path="/Admin/Orders" component={AdminOrders}/>
+                <Route exact path="/Admin/Orders/New" component={NewOrder}/>
+                <Route exact path="/Admin/Orders/Edit" component={EditOrder}/>
+                <Route exact path="/Admin/Orders/Edit/OrderAddress" component={EditOrderAddress}/>
+                <Route exact path="/Admin/Orders/Edit/OrderContent" component={EditOrderContent}/>
                 <Route exact path="/Admin/Profile" component={AdminProfile}/>
                 <Route exact path="/Admin/Profile/AddEmployee" component={AdminAdd}/>
                 <Route exact path="/Admin/Profile/RemoveEmployee" component={AdminRemove}/>
                 <Route exact path="/Admin/Profile/Edit" component={AdminProfileEdit}/>
                 <Route exact path="/Admin/Stock" component={AdminStock}/>
                 <Route exact path="/Admin/Stock/New" component={NewWare}/>
-                <Route exact path="/Admin/Stock/Edit/:id" component={EditWare}/>
+                <Route exact path="/Admin/Stock/Edit/:id" component={Edit}/>
                 <Route exact path="/Admin/Stock/Remove" component={RemoveWare}/>
                 <Route exact path="/Admin/Users" component={AdminUsers}/>
+                <Route exact path="/Admin/Order" component={AdminOrder}/>
+                <Route exact path="/Admin/Order/Cart" component={AdminOrderCart}/>
+                <Route exact path="/Admin/Order/Cart/Confirm" component={AdminCartConfirm}/>
 
                 <Route exact path="/User" component={userMain}/>
                 <Route exact path="/User/" component={UserHome}/>

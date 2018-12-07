@@ -1,7 +1,9 @@
 import React from 'react';
 import "../../Pages.css";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-export default class UserProfileEdit extends React.Component {
+class UserProfileEdit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,117 +13,124 @@ export default class UserProfileEdit extends React.Component {
             email: "",
             phoneNumber: "",
             address: "",
-            passwordCurrent: "",
+            passwordNewRepeat: "",
             passwordNew: "",
             cvr: "",
+            city:"",
+            zip:"",
+            country:"",
         };
     }
 
-    /*
-    * SOME FUNCTION TO RETRIEVE & SEND INFO FROM DB
-    */
-
-    handleUName = (event) => {
+    onChangeHandler = (event) => {
         this.setState({
-            userName: event.target.value,
+            [event.target.name]: event.target.value,
         });
     }
 
-    handleName = (event) => {
-        this.setState({
-            name: event.target.value,
-        });
-    }
-
-    handleEmail = (event) => {
-        this.setState({
-            email: event.target.value,
-        });
-    }
-
-    handlePhoneNumber = (event) => {
-        this.setState({
-            phoneNumber: event.target.value,
-        });
-    }
-
-    handleAddress = (event) => {
-        this.setState({
-            address: event.target.value,
-        });
-    }
-
-    handleCurPass = (event) => {
-        this.setState({
-            passwordCurrent: event.target.value,
-        });
-    }
-
-    handleNewPass = (event) => {
-        this.setState({
-            passwordNew: event.target.value,
-        });
-    }
-
-    handleCVR = (event) => {
-        this.setState({
-            cvr: event.target.value,
-        });
+    confirmed = (event) =>{
+        event.preventDefault();
+        if (this.state.passwordNew==this.passwordNewRepeat
+            || (this.state.passwordNew.length===0 && this.state.passwordNewRepeat.length===0)){
+            //Todo: Insert axios der skriver nyt information til serveren. Bruger id er this.props.userID
+            this.props.history.push("/User/Profile")
+        }else{
+            alert("Password has not been repeated correctly.")
+        }
     }
 
     render(){
         return(
-            <div className="PageStyle">
-                <h1 className="title customText_b_big">Edit profile:</h1>
-                <form>
-                    <input 
-                        type="text" 
-                        className="newForm" 
-                        onChange={this.handleUName}
-                        placeholder="User name"/>
-                    <input 
-                        type="text" 
-                        className="newForm" 
-                        onChange={this.handleName}
-                        placeholder="Name"/>
-                    <input 
-                        type="email" 
-                        className="newForm" 
-                        onChange={this.handleEmail}
-                        placeholder="Email"/>
-                    <input 
-                        type="tel" 
-                        className="newForm" 
-                        onChange={this.handlePhoneNumber}
-                        placeholder="Phone Number"/>
-                    <input 
-                        type="text" 
-                        className="newForm" 
-                        onChange={this.handleAddress}
-                        placeholder="Address"/>
-                    <input 
-                        type="text" 
-                        className="newForm" 
-                        onChange={this.handleCVR}
-                        placeholder="CVR"/>
-                    <input 
-                        type="password" 
-                        className="newForm" 
-                        onChange={this.handleCurPass}
-                        placeholder="Current password"/>
-                    <input 
-                        type="password" 
-                        className="newForm" 
-                        onChange={this.handleNewPass}
-                        placeholder="New password"/>
-                </form>
-                <form action="/User/Profile" className="newForm stockForm">
-                    <button className="newButton stockButton_f btn">Back</button>
-                </form>
-                <form action="/User/Profile" className="newForm stockForm">
-                    <button className="newButton stockButton_f btn">Edit profile</button>
-                </form>
+            <div className="PageStyle rounded">
+                <h1 className="text-center">Edit profile:</h1>
+                <div className="row">
+                    <div className ="col-md-4 offset-md-4">
+                        <form>
+                            <input
+                                name="userName" 
+                                type="text" 
+                                className="my-2 form-control" 
+                                onChange={this.handleUName}
+                                placeholder="User name"/>
+                            <input 
+                                name="name"
+                                type="text" 
+                                className="my-2 form-control" 
+                                onChange={this.handleName}
+                                placeholder="Name"/>
+                            <input
+                                name="email" 
+                                type="email" 
+                                className="my-2 form-control" 
+                                onChange={this.handleEmail}
+                                placeholder="Email"/>
+                            <input
+                                name="phoneNumber" 
+                                type="number" 
+                                className="my-2 form-control" 
+                                onChange={this.handlePhoneNumber}
+                                placeholder="Phone Number"/>
+                            <input
+                                name="address" 
+                                type="text" 
+                                className="my-2 form-control" 
+                                onChange={this.handleAddress}
+                                placeholder="Address"/>
+                            <input
+                                name="city" 
+                                type="text" 
+                                className="my-2 form-control" 
+                                onChange={this.handleAddress}
+                                placeholder="City"/>
+                            <input
+                                name="zip" 
+                                type="number" 
+                                className="my-2 form-control" 
+                                onChange={this.handleAddress}
+                                placeholder="Zip"/>
+                            <input
+                                name="country" 
+                                type="text" 
+                                className="my-2 form-control" 
+                                onChange={this.handleAddress}
+                                placeholder="Country"/>
+                            <input 
+                                name="cvr"
+                                type="text" 
+                                className="my-2 form-control" 
+                                onChange={this.handleCVR}
+                                placeholder="CVR"/>
+                            <input
+                                name="passwordNew"
+                                type="test" 
+                                className="my-2 form-control" 
+                                onChange={this.handleCurPass}
+                                placeholder="New password"/>
+                            <input
+                                name="passwordNewRepeat" 
+                                type="password" 
+                                className="my-2 form-control" 
+                                onChange={this.handleNewPass}
+                                placeholder="New password repeat"/>
+                        </form>
+                        
+                        <form className="newForm stockForm">
+                            <button className="btn btn-block btn-warning my-2" onClick={this.confirmed}>Edit profile</button>
+                        </form>
+                        
+                        <Link to="/User/Profile" className="btn-info btn btn-block btn my-2">Back</Link>
+                        
+                    </div>
+                </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        userID: state.loginReducer.userId
+    }
+}
+
+export default connect(mapStateToProps)(UserProfileEdit)

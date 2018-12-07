@@ -8,15 +8,11 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends MongoRepository<Product, ObjectId> {
-
-    List<Product> findAll();
-
-    Optional<Product> findById(ObjectId id);
-    //Delete-funktionen crashede mit spring, lav heller denne funktionalitet i en handler, der parser hexstreng om til ObjectId
-    Iterable<Product> findByOwner(Customer owner);
+    Collection<Product> findAllByOwner(Customer owner);
 
 }

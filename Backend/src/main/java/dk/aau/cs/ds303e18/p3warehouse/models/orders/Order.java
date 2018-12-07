@@ -1,5 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.orders;
 
+import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
@@ -19,16 +20,17 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private ObjectId id;
     private Collection<OrderLine> orderLines;
-    @DBRef
+
     private Customer owner;
     private String orderId;
     private String title;
-    private String hexid;
+    private String hexId;
     private Date date;
+    private String address;
 
     public Order(ObjectId id){
         this.id = id;
-        this.hexid = id.toString();
+        this.hexId = id.toString();
         this.orderLines = new HashSet<OrderLine>();
         this.date = new Date();
     }
@@ -73,6 +75,14 @@ public class Order {
         this.title = title;
     }
 
+    public String getAddress(){
+        return address;
+    }
+
+    public void setAddress(String address){
+        this. address = address;
+    }
+
 
     public Order copyParametersFrom(Order order){
         this.setOrderLines(order.getOrderLines());
@@ -82,8 +92,10 @@ public class Order {
         return this;
     }
 
-    public Order withNewOrderLine(Product product, int quantity){
-        //TODO: lav exception-checking på at quantity ikke er over produkt.quantity
+    public Order withNewOrderLine(Product product, int quantity)throws InvalidQuantityException{
+        if(product.getQuantity()< quantity) {
+         throw new InvalidQuantityException("Sorry, maximum quantity reached on amount");
+        }
         orderLines.add(new OrderLine(product, quantity));
         return this;
     }
@@ -92,7 +104,15 @@ public class Order {
         return id;
     }
 
-    public String getHexid() {
-        return hexid;
+    public String getHexId() {
+        return hexId;
+    }
+
+    public String toString(){
+        String output = new String();
+        for (OrderLine l : orderLines){
+            output = output + l + " ";
+        }
+        return output;
     }
 }

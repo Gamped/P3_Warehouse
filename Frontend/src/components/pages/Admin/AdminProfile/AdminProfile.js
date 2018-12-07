@@ -1,41 +1,40 @@
 import React from 'react';
 import "../../Pages.css";
-import "./AdminProfile.css"
+import "./AdminProfile.css";
+import axios from "axios";
+import {Link} from "react-router-dom"
 
-const AdminProfile = (props) => {
-    var userID = props.ID;
-    var userName = "No username set";
-    var name = "No name set";
-    var email = "No@email.set";
-    var phoneNumber = "No phone number set";
-    var address = "No adress set";
+export default class AdminProfile extends React.Component {
+   
+    componentDidMount(){
+        //Todo: Sørg for at den henter det rigtige sted fra
+        axios.get("http://localhost:8080/employee")
+    }
 
-    /*
-    * FUNCTIONALITY TO RETRIEVE INFO FROM DB
-    */
+    render(){
+        let userName = "No username set";
+        let name = "No name set";
+        let email = "No@email.set";
+        let phoneNumber = "No phone number set";
+        let address = "No adress set";
+        return(
+            <div className="PageStyle rounded">
+                <h1 className="title customText_b_big">Profile information</h1>
+                <div className="informationBox">
+                    <h1 className="lead"><strong>User name: {userName}</strong></h1>
+                    <h1 className="lead"><strong>Name: {name}</strong></h1>
+                    <h1 className="lead"><strong>Email: {email}</strong></h1>
+                    <h1 className="lead"><strong>Phone number: {phoneNumber}</strong></h1>
+                    <h1 className="lead"><strong>Address: {address}</strong></h1>
 
-    return(
-        <div className="PageStyle">
-            <h1 className="title customText_b_big">Profile information</h1>
-            <div className="informationBox">
-                <h1 className="infoText customText_b">User name: {userName}</h1>
-                <h1 className="infoText customText_b">Name: {name}</h1>
-                <h1 className="infoText customText_b">Email: {email}</h1>
-                <h1 className="infoText customText_b">Phone number: {phoneNumber}</h1>
-                <h1 className="infoText customText_b">Address: {address}</h1>
-
-                <form action="/Admin/Profile/Edit">
-                    <button className="infoButton" >Edit</button>
-                </form>
-                <form action="/Admin/Profile/AddEmployee">
-                    <button className="infoButton" >Add employee</button>
-                </form>
-                <form action="/Admin/Profile/RemoveEmployee">
-                    <button className="infoButton" >Remove employee</button>
-                </form>
+                    <Link to="/Admin/Profile/AddEmployee" className="btn-block btn-success btn my-2">Add employee</Link>
+                    
+                    <Link to="/Admin/Profile/Edit" className="btn-block btn-warning btn my-2">Edit employee</Link>
+                    
+                    <Link to="/Admin/Profile/RemoveEmployee" className="btn-block btn-danger btn my-2">Remove employee</Link>
+                    
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
- 
-export default AdminProfile;

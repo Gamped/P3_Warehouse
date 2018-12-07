@@ -35,5 +35,9 @@ public class OrderLine {
         this.quantity = quantity;
     }
 
+    public String toString(){
+        return product + " " + quantity;
+    }
+
 }
 
