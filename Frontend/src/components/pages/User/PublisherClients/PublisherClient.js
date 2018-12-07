@@ -1,25 +1,22 @@
 import React from 'react';
 import "../../Pages.css";
 import "./PublisherClient.css";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-export default class PublisherClient extends React.Component {
+class PublisherClient extends React.Component {
     constructor(props) {
         super(props);
         this.state = { };
     }
-  
+
+    //Todo: get a pdf back when sending the userID
+    //TODO: Indsæt et reactTable.
   render() {
         return(
             <div className="PageStyle rounded">
-  
-                <div className="topBoxStyle topBox">
-                    <h2 className="stockTxt text-center text-white">Your clients stock:</h2>
-                </div>
-  
-                <div className="leftBoxStyle pickBox">
-                    <h1 className="leftTxt customText_b">(List of all clients)</h1>
-                </div>
+                <nav className="navbar navbar-secondary bg-secondary"><h3>Clients stock</h3></nav>
+            
   
                 <div className="stockListBox 'contentBoxStyle'">
                     <table className="table">
@@ -47,4 +44,11 @@ export default class PublisherClient extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state) =>{
+    return{
+        userId: state.loginReducer.userId
+    }
+}
   
+export default connect(mapStateToProps)(PublisherClient)
