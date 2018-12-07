@@ -3,6 +3,7 @@ import "../../Pages.css";
 import "./UserOrder.css";
 import "./UserCart.css";
 import { connect } from "react-redux"
+import {Link} from "react-router-dom";
 
  class UserCartConfirm extends React.Component {
     constructor(props) {
@@ -81,12 +82,10 @@ import { connect } from "react-redux"
                         <label className="font-weight-bold">Country: </label>
                         <label className="font-weight-normal">{this.props.adress.country.country}</label>
                         
-                        <form action="/User/Order" className="container">
-                            <button className=" btn-success btn-block my-3 btn" onClick={this.confirmed}>CONFIRM order</button>
-                        </form>
-                        <form action="/User/Order/Cart" className="container my-3">
-                            <button className=" btn-info btn btn-block my-3">Back</button>
-                        </form>
+                        <Link to="/User/Order" className="btn-success btn-block my-3 btn" role="button">Confirm order</Link>
+                       
+                        <Link to="/User/Order/Cart" className="btn-info btn btn-block my-3" role="button">Back</Link>
+                        
                     </div>
                     
                 </div>

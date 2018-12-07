@@ -3,6 +3,7 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
  import dk.aau.cs.ds303e18.p3warehouse.exceptions.ProductNotFoundException;
  import dk.aau.cs.ds303e18.p3warehouse.managers.EmployeeManager;
  import dk.aau.cs.ds303e18.p3warehouse.managers.ProductManager;
+ import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
  import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.*;
  import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
  import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
@@ -39,11 +40,19 @@ public class EmployeeController {
         return EmployeeManager.saveEmployeeToDb(employee);
     }
 
-    @PostMapping("/employee/products")
-    String createProduct(@RequestBody RestProductModel restProduct) {
+    @PostMapping("/employee/products/assignTo={customerId}/withUserType={userType}")
+    String createProduct(@PathVariable("customerId") String customerId, @PathVariable("userType") String userType,
+                         @RequestBody RestProductModel restProduct) {
+
+        if (userType == "DEFAULT" || customerId == "DEFAULT") {
+            return "Could not create, customerId or userType is not set!";
+        }
+
         Product product = new Product(new ObjectId());
+
         BeanUtils.copyProperties(restProduct, product);
         productRepository.save(product);
+
         return "Created!";
     }
 
@@ -54,7 +63,9 @@ public class EmployeeController {
         publisher.setUserType(UserType.PUBLISHER);
         BeanUtils.copyProperties(restCustomerModel, publisher);
         publisherRepository.save(publisher);
-        userRepository.save(publisher);
+        User user = new User(publisher.getId());
+        user.copyFrom(publisher);
+        userRepository.save(user);
         return "Created!";
     }
 
@@ -68,7 +79,6 @@ public class EmployeeController {
         clientRepository.save(client);
         return "Created!";
     }
-
 
     //FIND ALL: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
@@ -102,8 +112,8 @@ public class EmployeeController {
     //FIND BY ID: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
     @GetMapping("/employee/{hexId}")
-    private Employee getOneEmployee(@PathVariable String hexId){
-        return employeeRepository.findById(new ObjectId(hexId)).orElse(null);
+    private Optional<Employee> getOneEmployee(@PathVariable String hexId){
+        return employeeRepository.findById(new ObjectId(hexId));
     }
 
     @GetMapping("/employee/product/{hexId}")
@@ -210,4 +220,34 @@ public class EmployeeController {
         userRepository.deleteById(new ObjectId(hexId));
     }
 
+
+    //CLIENT PUBLISHER ROUTES
+
+    @PostMapping("/employee/publishers/addClient={clientHexId}/toPublisher={publisherHexId}")
+    private String addClientToPublisher(@PathVariable("clientHexId") String clientHexId,
+                                        @PathVariable("publisherHexId") String publisherHexId) {
+
+        Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(publisherHexId));
+        Optional<Client> optionalClient = clientRepository.findById(new ObjectId(clientHexId));
+        Publisher publisher = optionalPublisher.get();
+        Client client = optionalClient.get();
+        publisher.addClient(client);
+        publisherRepository.save(publisher);
+        return "Client " + client.getUserName() + " Added to publisher " + publisher.getUserName();
+    }
+
+    @PostMapping("/employee/publishers/removeClient={clientHexId}/fromPublisher={publisherHexId}")
+    private String removeClientToPublisher(@PathVariable("clientHexId") String clientHexId,
+                                        @PathVariable("publisherHexId") String publisherHexId) {
+
+        Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(publisherHexId));
+        Optional<Client> optionalClient = clientRepository.findById(new ObjectId(clientHexId));
+        Publisher publisher = optionalPublisher.get();
+        Client client = optionalClient.get();
+        publisher.removeClient(client);
+        publisherRepository.save(publisher);
+        return "Client " + client.getUserName() + " Added to publisher " + publisher.getUserName();
+    }
+
 }
+
