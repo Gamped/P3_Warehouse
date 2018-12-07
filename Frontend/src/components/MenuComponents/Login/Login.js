@@ -14,7 +14,6 @@ class SignInBox extends React.Component {
         this.state = {
             userName:"",
             password:"",
-            userType:"client"
         }
     }
 
@@ -22,13 +21,6 @@ class SignInBox extends React.Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
-    toggleCheckbox= (e) => {
-        if(this.state.userType === "client"){
-            this.setState({userType:"employee"})
-        }else{
-            this.setState({usetType:"client"})
-        }
-    }
 
     loginHandler = (event) => {
         event.preventDefault()

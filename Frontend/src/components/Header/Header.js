@@ -17,7 +17,7 @@ class Header extends React.Component {
         const user = this.props.userType;
         if(user==="EMPLOYEE"){
             buttons= [
-                {name: "Home",location: "/Admin", id:"1"},
+                {name: "Home",location: "/Home", id:"1"},
                 {name: "Orders",location:"/Admin/Orders", id:"2"},
                 {name: "Users",location:"/Admin/Users",id:"3"},
                 {name: "Stock",location:"/Admin/Stock",id:"4"},
@@ -25,14 +25,14 @@ class Header extends React.Component {
             ]
         }else if(user==="CLIENT"){
             buttons=[
-                {name: "Home",location: "/User", id:"1"},
+                {name: "Home",location: "/Home", id:"1"},
                 {name: "Order",location:"/User/Order", id:"2"},
                 {name: "Stock",location:"/User/Stock",id:"3"},
                 {name: "Profile",location:"/User/Profile",id:"4"},
             ]
         }else if(user==="PUBLISHER"){
             buttons=[
-                {name: "Home",location: "/User", id:"1"},
+                {name: "Home",location: "/Home", id:"1"},
                 {name: "Order",location:"/User/Order", id:"2"},
                 {name: "Stock",location:"/User/Stock",id:"3"},
                 {name: "Profile",location:"/User/Profile",id:"4"},
