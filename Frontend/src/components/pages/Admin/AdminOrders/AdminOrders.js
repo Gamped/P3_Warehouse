@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactTable from "react-table";
 import axios from "axios";
-import "../Pages.css";
+import "../../Pages.css";
 import "./AdminOrders.css";
 
 
