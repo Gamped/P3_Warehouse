@@ -1,6 +1,5 @@
 package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
-import dk.aau.cs.ds303e18.p3warehouse.controllers.PublisherController;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.ContactInformation;
@@ -15,7 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 

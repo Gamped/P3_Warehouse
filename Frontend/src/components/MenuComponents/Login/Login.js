@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import axios from "axios"
 
 // The box for sign-in to the system
-class SignInBox extends React.Component{
+class SignInBox extends React.Component {
 
     constructor(props) {
         super(props);
@@ -34,17 +34,17 @@ class SignInBox extends React.Component{
         event.preventDefault()
 
        axios.get("localhost:8080/users?username=" + this.state.username + "&password="+this.state.password)
-            .then(res => {
-                console.log(res)
-                this.props.setNickName(res.nickName)
-                this.props.setUserType(res.userType)
-                this.props.setUserId(res.id)
+            .then(result => {
+                console.log(result);
+                this.props.setNickName(result.data.nickName);
+                this.props.setUserType(result.data.userType);
+                this.props.setUserId(result.data.hexId)
                 this.props.setlogIn("True")
             })
-            .then(res => {
-                if(res.userType==="EMPLOYEE"){
+            .then(result => {
+                if(result.userType==="EMPLOYEE"){
                     this.props.history.push("./Admin")
-                }else if(res.userType === "CLIENT"||res.userType==="PUBLISHER"){
+                }else if(result.userType === "CLIENT"||result.userType==="PUBLISHER"){
                     this.props.history.push("./User")
                 }
             })
@@ -89,7 +89,7 @@ class SignInBox extends React.Component{
 
 
 const mapStateToProps = (state)=>{
-    return{
+    return {
         userType: state.loginReducer
     }
 }
