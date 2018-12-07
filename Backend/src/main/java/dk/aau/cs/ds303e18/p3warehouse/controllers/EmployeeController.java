@@ -37,8 +37,12 @@ public class EmployeeController {
 
 
     @PostMapping("/employee/employees")
-    private Employee createEmployee(@RequestBody Employee employee){
-        return EmployeeManager.saveEmployeeToDb(employee);
+    private String createEmployee(@RequestBody RestEmployeeModel restEmployeeModel){
+        ObjectId id = new ObjectId();
+        Employee employee = new Employee(id);
+        BeanUtils.copyProperties(restEmployeeModel, employee);
+        employeeRepository.save(employee);
+        return "created!";
     }
 
     @PostMapping("/employee/products/assignTo={customerId}/withUserType={userType}")

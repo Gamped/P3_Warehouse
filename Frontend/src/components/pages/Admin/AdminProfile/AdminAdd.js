@@ -21,13 +21,13 @@ export default class AdminAdd extends React.Component {
         const {userName, name, email,phoneNumber,password} = this.state;
 
         setTimeout(function () {
-            axios.post('http://localhost:8080/employee', {userName, name, email, phoneNumber, password}).then((result)=> {
+            axios.post('http://localhost:8080/employee/employees', {userName, name, email, phoneNumber, password}).then((result)=> {
                 this.props.history.goBack();
             }).catch((err) => {
             console.log(err.response);
             });
         }, 1000);
-        this.props.history.goBack();
+        //this.props.history.goBack();
     }
 
     handleUName = (event) => {
