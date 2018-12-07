@@ -33,6 +33,7 @@ public class ClientControllerTest {
     @InjectMocks
     private ClientController clientController;
 
+    private EmployeeController employeeController;
     @Mock
     private ClientRepository clientRepository;
 
@@ -95,9 +96,10 @@ public class ClientControllerTest {
 
         when(clientRepository.save(client)).thenReturn(client);
 
+        String status = employeeController.createClient(restClientModel);
 
         verify(clientRepository).save(client);
-        assertEquals(restClientModel.getUserName(), savedClient.getUserName());
+        assertEquals("Succes", status);
     }
     */
 
