@@ -95,13 +95,13 @@ export default class NewWare extends Component {
 
     getOwnerListItems(owner, i) {
          return (
-         <MenuItem 
+         <option 
          key={i}
          onSelect={()=> {
             this.setState({selectedOwnerHexId: owner.hexId})
-         }}>
+         }} value={owner.hexId}>
          {owner.userType} - {owner.nickName}
-         </MenuItem>
+         </option>
          )        
     }
     
@@ -136,16 +136,12 @@ export default class NewWare extends Component {
                         onChange={this.onChangeQuantity}
                         placeholder="Quantity"/>
                     
-                   
+                    <select className="custom-select my-2" >
+                    <option selected>Choose owner</option>
+                    {this.state.owners.map(this.getOwnerListItems)}
+                    </select>   
                 </form>
 
-                 <Clearfix>
-                        <ul className="dropdown-menu open">
-                        <MenuItem header>Customers</MenuItem>
-                        {this.state.owners.map(this.getOwnerListItems)}
-                        
-                        </ul>
-                    </Clearfix>
 
                 <div className="" action="/Admin/Stock">
                     <button className="btn-success btn-lg btn-block btn my-2" onClick={this.onSubmit}>Create product</button>

@@ -116,7 +116,7 @@ class NewOrder extends React.Component {
 
     changeToCart = (event) => {
         this.props.addItemToCart(this.state.orderLines)
-        this.props.history.push("/User/Order/Cart")
+        this.props.history.push("/Admin/Order/Cart")
     }
 
     render(){
