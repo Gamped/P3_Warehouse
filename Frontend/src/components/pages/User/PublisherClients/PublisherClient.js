@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ReactTable from 'react-table';
+import axios from 'axios';
 
 import "../../Pages.css";
 import "./PublisherClient.css";
@@ -9,15 +10,44 @@ import "./PublisherClient.css";
 class PublisherClient extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { };
+        this.state = {
+            userId: props.ID,
+            clients: [],
+
+            selected: null,
+            selectedId: ""
+        };
     }
+
+    componentDidMount(){
+        axios.get("localhost:8080/api/publishers/" + this.state.userId + "/clients/products")
+            .then((response) => {
+                const products = this.makeRow(response);
+                this.setState({ products: products });
+            })
+    }
+
+    makeRow(response){
+        var products = [];
+        response.data.forEach((product) => {
+            products.push({
+                ownerName: product.owner.name,
+                productId: product.productId,
+                productName: product.productName,
+                quantity: product.quantity,
+                hexId: product.hexId
+            })
+        });
+        return products;
+    }
+
 
     //Todo: get a pdf back when sending the userID
     //TODO: Indsæt et reactTable.
   render() {
       const columns=[
+          {Header: "Owner", accessor: "ownerName"},
           {Header: "Product Name", accessor: "productName"},
-          {Header: "Product ID", accessor: "productId"},
           {Header: "Quantity", accessor: "productQuantity"}
       ]
         return(
