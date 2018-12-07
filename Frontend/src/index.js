@@ -5,7 +5,7 @@ import './style.css';
 import loginMain from "./mainPages/loginMain";
 import adminMain from "./mainPages/adminMain";
 import userMain from "./mainPages/userMain";
-import AdminOrders from "./components/pages/Admin/AdminOrders";
+import AdminOrders from "./components/pages/Admin/AdminOrders/AdminOrders";
 import AdminProfile from "./components/pages/Admin/AdminProfile/AdminProfile";
 import AdminAdd from "./components/pages/Admin/AdminProfile/AdminAdd";
 import AdminRemove from "./components/pages/Admin/AdminProfile/AdminRemove";
