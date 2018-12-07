@@ -167,6 +167,10 @@ class UserOrder extends React.Component {
                                           return {}
                                         }
                                     }}
+                                    defaultPageSize={25}
+                                    style={{
+                                        height: "400px"                                      
+                                     }}
                                     />
                                  </div>
                          </div>  
