@@ -2,56 +2,60 @@ import React from 'react';
 import "../../Pages.css";
 import "./UserOrder.css";
 import "./UserCart.css";
-import {shrinkToHtmlNames} from './../../../../global.js';
 import { connect } from "react-redux";
 
 class UserOrderCart extends React.Component {
     constructor() {
         super();
         
-        let addressForm = ["Company", "Contact Person", "Phone Number", "Address", "Zip and City"];
-        let htmlNames = shrinkToHtmlNames(addressForm);
-
+    
         this.state = {
-            orderDetails: {},
-            addressForm: addressForm,
-            htmlNames: htmlNames,
-            quarry: "",
-            previousAddresses: [],
-            orderLines:[]
+           address:"",
+           company:"",
+           cvr:"",
+           contact:"",
+           phone:null,
+           zip:null,
+           city:"",
+           country:""
+
         };
     }
  
     onChange = (e) => {
-        const state = this.state.orderDetails;
-        state[e.target.name] = e.target.value;
-        this.setState({orderDetails:state});
+        this.setState({[e.target.name]:e.target.value})
     }
 
-    handlePreviousAddressSelect = (event) => {
-        this.setState({
-            previousAddresses: event.target.value,
-        });
+    confirmed = (event) =>{
+        event.preventDefault();
+        console.log(this.state)
+        this.props.setAdress(this.state.address)
+        this.props.setCompany(this.state.company)
+        this.props.setContactPerson(this.state.contact)
+        this.props.setPhoneNumber(this.state.phone)
+        this.props.setZip(this.state.zip)
+        this.props.setCity(this.state.city)
+        this.props.setCVR(this.state.cvr)
+        this.props.setCountry(this.state.country)
+
+        this.props.history.push("/User/Order/Cart/Confirm")
     }
 
-    handleQuarry = (event) => {
-        this.setState({
-            quarry: event.target.value,
-        });
-    }
-
-    createCells = () =>{
-        let lines = this.props.order
-        return lines.map((line)=>{return(
-            <tr>
-                <th scope="row">{line.id}</th>
-                <td>{line.name}</td>
-                <td>{line.amount}</td>
-            </tr>
-        )})
+    back = (event)=>{
+        this.props.history.push("/User/Order/")
     }
 
     render(){
+        let lines = this.props.order
+        lines = lines.map((line)=>{return(
+                <tr key={line.productId}>
+                    <th scope="row">{line.productId}</th>
+                    <td>{line.productName}</td>
+                    <td>{line.amount}</td>
+                </tr>
+            )})
+        
+        
         return(
             <div className="PageStyle rounded">
                     <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
@@ -61,38 +65,34 @@ class UserOrderCart extends React.Component {
                             <div className="container my-3">
                                 <table className="table table-dark">
                                     <thead>
-                                        <th scope="col">Product ID</th>
-                                        <th scope="col">Product name</th>
-                                        <th scope="col">Amount</th>
+                                        <tr key="header">
+                                            <th scope="col">Product ID</th>
+                                            <th scope="col">Product name</th>
+                                            <th scope="col">Amount</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                        {this.createCells}                                        
+                                        {lines}                                       
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
                         <div className="col container">
-                            <form action="/User/Order/Cart/Confirm" className="container">
-                                <button className=" btn-success btn btn-block my-3">Send order</button>
-                            </form>
-                            <form action="/User/Order/" className="container my-3">
-                                <button className=" btn-danger btn btn-block">Cancel order</button>
-                            </form>
-                                <h4 className="text-center my-2">Where to send the order:</h4>
+                            <h4 className="text-center my-2">Where to send the order:</h4>
 
                             <form className="">
-                                {this.state.addressForm.map((placeholder, i) => {
-                                    return(
-                                <input 
-                                type="text" 
-                                className="input-group mb-3" 
-                                name= {this.state.htmlNames[i]}
-                                onChange={this.onChange}
-                                    placeholder={placeholder}
-                                    key={placeholder}/> 
-                                    )
-                                })}
+                                <input type="text" className="input-group mb-3" name="company" onChange={this.onChange} placeholder="Company" key="company"/>
+                                <input type="text" className="input-group mb-3" name="cvr" onChange={this.onChange} placeholder="CVR" key="cvr"/>
+                                <input type="text" className="input-group mb-3" name="contact" onChange={this.onChange} placeholder="Contact Person" key="contact" required/>
+                                <input type="number" className="input-group mb-3" name="phone" onChange={this.onChange} placeholder="PhoneNumber" key="phone" required/>
+                                <input type="text" className="input-group mb-3" name="address" onChange={this.onChange} placeholder="Address" key="address" required/>
+                                <input type="number" className="input-group mb-3" name="zip" onChange={this.onChange} placeholder="Zip" key="zip" required/>
+                                <input type="text" className="input-group mb-3" name="city" onChange={this.onChange} placeholder="City" key="city" required/>
+                                <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" key="country" required/>
+                                
+                                <button className=" btn-success btn btn-block my-3" onClick={this.confirmed} type="submit">Send order</button>
+                                <button className=" btn-danger btn btn-block" onClick={this.back}>Cancel order</button>
             
                             </form>
                     
@@ -106,8 +106,23 @@ class UserOrderCart extends React.Component {
 
 const mapStateToProps = (state)=>{
     return{
-        userType: state.orderReducer.order
+        order: state.orderReducer.order
     }
 }
 
-export default connect(mapStateToProps)(UserOrderCart);
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        
+        setCompany: (company) => {dispatch({type: "SET_COMPANY",payload: {company}})},
+        setContactPerson: (contactPerson) => {dispatch({type: "SET_CONTACTPERSON",payload: {contactPerson}})},
+        setPhoneNumber: (phoneNumber) => {dispatch({type: "SET_PHONENUMBER",payload: {phoneNumber}})},
+        setAdress: (address) => {dispatch({type: "SET_ADDRESS",payload: {address}})},
+        setZip: (zip) => {dispatch({type: "SET_ZIP",payload: {zip}})},
+        setCity: (city) => {dispatch({type: "SET_CITY",payload: {city}})},
+        setCVR: (cvr) => {dispatch({type:"SET_CVR", payload:{cvr}})},
+        setCountry: (country) => {dispatch({type:"SET_COUNTRY", payload:{country}})}
+
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserOrderCart);

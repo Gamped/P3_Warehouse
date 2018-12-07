@@ -1,6 +1,7 @@
 import React from 'react';
 import "../../Pages.css";
 import "./AdminStock.css";
+import { Link } from "react-router-dom";
 
 const RemoveWare =(props)=> {
 
@@ -30,9 +31,9 @@ const RemoveWare =(props)=> {
                     onChange={handlePName}
                     placeholder="Please enter product name to confirm"/>
             </form>
-            <form action="/Admin/Stock" className="newForm stockForm">
-                <button className="btn-success btn-block my-2 btn">Keep product</button>
-            </form>
+            
+            <Link to="/Admin/Stock" className="btn-success btn-block my-2 btn">Keep product</Link>
+            
             <form action="/Admin/Stock" className="newForm stockForm">
                 <button 
                     className="btn-danger btn-block my-2 btn"

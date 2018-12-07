@@ -1,6 +1,5 @@
 const blankOrder = {order:[]}
 
-const testOrder = {order:[{productId: "1234",productName:"Waffles",amount:5,}]}
 
 const orderReducer = (state = blankOrder ,action)=>{
     switch(action.type){

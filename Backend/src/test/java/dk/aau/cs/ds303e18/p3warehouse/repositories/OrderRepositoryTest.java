@@ -47,6 +47,9 @@ public class OrderRepositoryTest {
         Publisher publisher = new Publisher(pubId);
         publisher.setUserName("Peter 4N");
         publisher.setUserType(UserType.PUBLISHER);
+        ContactInformation pubContact = new ContactInformation();
+        publisher.setContactInformation(pubContact);
+        pubContact.setNickName("Publisher John");
 
 
         Client client = new Client(new ObjectId());

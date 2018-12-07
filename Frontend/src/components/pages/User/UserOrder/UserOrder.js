@@ -134,16 +134,9 @@ class UserOrder extends React.Component {
             </nav>   
                 <nav class="navbar navbar-light bg-light">                   
                         <form class = "form-inline">
-                            <input  class="from-control mr-sm-2 " 
-                                    type="search" 
-                                    placeholder="Search for product(s)" aria-label="Search"/>
-                                    <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Search</button>
+                                    <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
                         </form>
-                        <div>
-                            <form action="/User/Order/Cart" className="orderForm">
-                                 <button className="exportButton stockButton_f btn">Go to cart</button>
-                            </form>
-                        </div>      
+                              
                 </nav>         
                 
                 <div className="table">

@@ -18,14 +18,6 @@
     height: 60px;
 }
 
-.serachBar{
-    position: relative;
-    top: 10px;
-    left: 30px;;
-    margin: 0;
-    width: 50%;
-}
-
 .stockExportButton{
     position: absolute;
     width: 25%;

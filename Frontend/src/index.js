@@ -32,6 +32,8 @@ import NewOrder from './components/pages/Admin/AdminOrders/NewOrder';
 import EditOrder from './components/pages/Admin/AdminOrders/EditOrder';
 import AdminOrderCart from './components/pages/Admin/AdminOrders/AdminOrderCart';
 import AdminCartConfirm from './components/pages/Admin/AdminOrders/AdminCartConfirm';
+import EditOrderAddress from './components/pages/Admin/AdminOrders/EditOrderAddress';
+import EditOrderContent from './components/pages/Admin/AdminOrders/EditOrderContent';
 
 ReactDOM.render(
     <Provider store={redux}>
@@ -45,6 +47,8 @@ ReactDOM.render(
                 <Route exact path="/Admin/Orders" component={AdminOrders}/>
                 <Route exact path="/Admin/Orders/New" component={NewOrder}/>
                 <Route exact path="/Admin/Orders/Edit" component={EditOrder}/>
+                <Route exact path="/Admin/Orders/Edit/OrderAddress" component={EditOrderAddress}/>
+                <Route exact path="/Admin/Orders/Edit/OrderContent" component={EditOrderContent}/>
                 <Route exact path="/Admin/Profile" component={AdminProfile}/>
                 <Route exact path="/Admin/Profile/AddEmployee" component={AdminAdd}/>
                 <Route exact path="/Admin/Profile/RemoveEmployee" component={AdminRemove}/>
