@@ -4,7 +4,7 @@ nickName:"",
 userId:"",};
 
 const devState ={loggedIn:"True",
-userType:"EMPLOYEE",
+userType:"PUBLISHER",
 nickName:"Kev The Machine",
 userId:"ABC123",};
 

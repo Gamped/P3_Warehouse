@@ -1,6 +1,7 @@
 import React from 'react';
 import "../../Pages.css";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 class UserProfileEdit extends React.Component {
     constructor(props) {
@@ -116,9 +117,9 @@ class UserProfileEdit extends React.Component {
                         <form className="newForm stockForm">
                             <button className="btn btn-block btn-warning my-2" onClick={this.confirmed}>Edit profile</button>
                         </form>
-                        <form action="/User/Profile" className="newForm stockForm">
-                            <button className="btn-info btn btn-block btn my-2">Back</button>
-                        </form>
+                        
+                        <Link to="/User/Profile" className="btn-info btn btn-block btn my-2">Back</Link>
+                        
                     </div>
                 </div>
             </div>
