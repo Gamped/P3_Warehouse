@@ -195,15 +195,15 @@ export default class AdminOrders extends Component {
                         <div className=" md-2">
                                 <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>
                                 <button type= "button" className="btn btn-warning mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit")}>Edit order</button>                            
-                                <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.sendToPage("/Admin/Orders/Delete")}>Del order</button>
+                                <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.sendToPage("/Admin/Orders/Delete")}>Delete order</button>
                         </div>
                     </div>
                         <div className="Table">
                                 <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns}showPagination={false} 
                                 className="-striped -highlight"/>
                                  <div className="  px-1">
-                                    <button type= "button" className="btn btn-info mx-0">Export order To </button>  
-                                    <button type= "button" className="btn btn-dark mx-5">Fineshed order </button> 
+                                    <button type= "button" className="btn btn-info mx-3">Export order To PDF</button>  
+                                    <button type= "button" className="btn btn-dark mx-3">Finish order </button> 
                                 </div>
                        </div>  
                  </div>    
