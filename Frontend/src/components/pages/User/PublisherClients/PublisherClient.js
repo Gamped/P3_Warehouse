@@ -43,7 +43,6 @@ class PublisherClient extends React.Component {
 
 
     //Todo: get a pdf back when sending the userID
-    //TODO: Indsæt et reactTable.
   render() {
       const columns=[
           {Header: "Owner", accessor: "ownerName"},
