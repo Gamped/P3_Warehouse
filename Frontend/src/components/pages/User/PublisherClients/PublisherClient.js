@@ -15,19 +15,20 @@ class PublisherClient extends React.Component {
   render() {
         return(
             <div className="PageStyle rounded">
-                <nav className="navbar navbar-secondary bg-secondary"><h3>Clients stock</h3></nav>
+                <nav className="navbar navbar-secondary bg-secondary"><h3> All clients stock</h3></nav>
             
-  
-                <div className="stockListBox 'contentBoxStyle'">
-                    <table className="table">
-                        <tbody>
-                            <tr>
-                                <th>Product name</th>
-                                <th>Product Number</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div className="container row">
+                    <div className="stockListBox 'contentBoxStyle'">
+                        <table className="table">
+                            <tbody>
+                                <tr>
+                                    <th>Product name</th>
+                                    <th>Product Number</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
   
                 
