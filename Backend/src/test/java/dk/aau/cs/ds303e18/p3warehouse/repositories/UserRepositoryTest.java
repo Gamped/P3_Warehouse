@@ -2,17 +2,15 @@ package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.ContactInformation;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -24,9 +22,11 @@ public class UserRepositoryTest {
     @Autowired
     ProductRepository productRepository;
 
-    @Test
+    @Before
     public void deleteAll() {
-
+        productRepository.deleteAll();
+        clientRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test

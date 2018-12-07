@@ -14,7 +14,6 @@ class SignInBox extends React.Component{
         this.state = {
             userName:"",
             password:"",
-            userType:"client"
         }
     }
 
@@ -22,32 +21,19 @@ class SignInBox extends React.Component{
         this.setState({[e.target.name]: e.target.value});
     }
 
-    toggleCheckbox= (e) => {
-        if(this.state.userType === "client"){
-            this.setState({userType:"employee"})
-        }else{
-            this.setState({usetType:"client"})
-        }
-    }
 
     loginHandler = (event) => {
         event.preventDefault()
 
        axios.get("localhost:8080/users?username=" + this.state.username + "&password="+this.state.password)
-            .then(res => {
-                console.log(res)
-                this.props.setNickName(res.nickName)
-                this.props.setUserType(res.userType)
-                this.props.setUserId(res.id)
+            .then(result => {
+                console.log(result)
+                this.props.setNickName(result.nickName)
+                this.props.setUserType(result.userType)
+                this.props.setUserId(result.hexId)
                 this.props.setlogIn("True")
             })
-            .then(res => {
-                if(res.userType==="EMPLOYEE"){
-                    this.props.history.push("./Admin")
-                }else if(res.userType === "CLIENT"||res.userType==="PUBLISHER"){
-                    this.props.history.push("./User")
-                }
-            })
+            .then(this.props.history.push("./Home"))
     }
 
     render(){
