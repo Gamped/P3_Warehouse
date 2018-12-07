@@ -1,9 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.ContactInformation;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
 import org.junit.Test;
@@ -23,6 +20,8 @@ public class UserRepositoryTest {
     ClientRepository clientRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    PublisherRepository publisherRepository;
 
     @Test
     public void deleteAll() {
@@ -32,11 +31,13 @@ public class UserRepositoryTest {
     @Test
     public void SaveSuperclassAndExtendedClassSeparatelyTest(){
 
-      //  productRepository.deleteAll();
-      //  clientRepository.deleteAll();
-      //  userRepository.deleteAll();
+        productRepository.deleteAll();
+        clientRepository.deleteAll();
+        userRepository.deleteAll();
+            publisherRepository.deleteAll();
 
         ObjectId clientId = new ObjectId();
+        ObjectId publisherId = new ObjectId();
         Client client = new Client(clientId);
         client.setUserType(UserType.CLIENT);
         client.setUserName("Test");
@@ -45,23 +46,45 @@ public class UserRepositoryTest {
         contactInformation.setEmail("123");
         client.setContactInformation(contactInformation);
 
+        Publisher publisher = new Publisher(publisherId);
+        publisher.setUserType(UserType.PUBLISHER);
+        ContactInformation contactInformationPub = new ContactInformation();
+        contactInformation.setNickName("Publisher");
+        publisher.setContactInformation(contactInformationPub);
+        publisher.setUserName("Publisher");
+        publisher.setPassword("123");
 
+        publisher.addClient(client);
 
         ObjectId flyerProductId = new ObjectId();
         ObjectId noteProductId = new ObjectId();
+        ObjectId computerProductId = new ObjectId();
+        Product computerProduct = new Product(computerProductId);
         Product flyerProduct = new Product(flyerProductId);
         Product noteProduct = new Product(noteProductId);
 
+
         flyerProduct.setProductName("Flyers");
         noteProduct.setProductName("Notes");
+        flyerProduct.setQuantity(123);
+        noteProduct.setQuantity(755);
+        computerProduct.setProductName("Computer");
+        computerProduct.setQuantity(244);
+
+
+        publisher.addProduct(computerProduct);
+
+
 
 
         client.addProduct(flyerProduct);
         client.addProduct(noteProduct);
 
+
         clientRepository.save(client);
         productRepository.save(noteProduct);
         productRepository.save(flyerProduct);
+        publisherRepository.save(publisher);
 
 /*
         User user = new User(client.getId());

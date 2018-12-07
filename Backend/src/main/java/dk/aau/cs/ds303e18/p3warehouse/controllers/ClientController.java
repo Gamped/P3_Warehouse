@@ -47,13 +47,6 @@ public class ClientController {
     Client findClientById(@PathVariable ObjectId id) { return clientRepository.findById(id).orElse(null);
     }
 
-    @PostMapping("/clients/post")
-    Client newIndependentClient( @RequestBody RestClientModel restClientModel) {
-
-        Client newClient = new Client(new ObjectId());
-        BeanUtils.copyProperties(restClientModel, newClient);
-        return clientRepository.save(newClient);
-    }
 
     @PutMapping("/clients/{hexId}")
     String updateClient(@PathVariable("hexId") String hexId, @RequestBody RestClientModel restClientModel) {
