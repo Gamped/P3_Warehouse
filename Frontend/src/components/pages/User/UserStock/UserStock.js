@@ -2,8 +2,6 @@ import React from 'react';
 import ReactTable from 'react-table';
 import axios from 'axios';
 
-import GenericTable from '../../../MenuComponents/GenericTable/GenericTable';
-
 import "../../Pages.css";
 import "./UserStock.css"
 
@@ -14,7 +12,10 @@ export default class UserStock extends React.Component {
             userID: props.ID,
             quarry: "",
 
-            products: []
+            products: [],
+
+            selected: null,
+            selectedId: ""
         };
     }
 
@@ -73,7 +74,25 @@ export default class UserStock extends React.Component {
                     <ReactTable
                         columns={columns}
                         data={this.state.products}
-                        
+                        showPagination={false} 
+                        className="-striped -highlight"
+                        getTrProps={(state, rowInfo) => {
+                            if (rowInfo && rowInfo.row) {
+                                return {
+                                onClick: (e) => {
+                                    
+                                    this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                    console.log(rowInfo.original)
+                                },
+                                style: {
+                                    background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                    color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                }
+                                }
+                            }else{
+                                return {}
+                            }
+                        }}
                     />
                 </div>
             </div>
