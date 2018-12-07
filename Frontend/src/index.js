@@ -14,7 +14,7 @@ import AdminStock from "./components/pages/Admin/AdminStock/AdminStock";
 import NewWare from "./components/pages/Admin/AdminStock/NewWare";
 import Edit from "./components/pages/Admin/AdminStock/Edit";
 import RemoveWare from "./components/pages/Admin/AdminStock/RemoveWare";
-import AdminUsers from "./components/pages/Admin/AdminUsers";
+import AdminUsers from "./components/pages/Admin/AdminUsers/AdminUsers";
 import PublisherClient from "./components/pages/User/PublisherClients/PublisherClient";
 import PublisherRequestClientChange from "./components/pages/User/PublisherClients/PublisherRequestClientChange";
 import UserStock from "./components/pages/User/UserStock/UserStock";
