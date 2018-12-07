@@ -13,10 +13,6 @@ public class CustomerManager {
     @Autowired
     private static PublisherRepository publisherRepository;
 
-    public static DBRef convertOwnerToDBRef(Customer owner){
-        
-    }
-
     public static Customer getCustomerFromUser(User user){
         if(user.getUserType().equals(UserType.CLIENT)){
              return clientRepository.findById(user.getId()).orElse(null);
@@ -27,10 +23,6 @@ public class CustomerManager {
         else{
             return null;
         }
-    }
-
-    public static Customer getCustomerFromProduct(Product product){
-        return getCustomerFromUser(product.getOwner());
     }
 
     public static Customer saveCustomerToDatabase(Customer customer){

@@ -24,8 +24,10 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RequestMapping("/api")
@@ -79,13 +81,13 @@ public class ClientController {
         Product product = new Product(new ObjectId());
         
         BeanUtils.copyProperties(restProduct, product);
-        return ProductManager.saveProductToDb(product);
+        return ProductManager.saveProductToDb(product, owner);
     }
 
     @GetMapping("/clients/{hexId}/products")
     private Collection<Product> findAllProductsByClient(@PathVariable String hexId) {
         Client client = clientRepository.findById(hexId);
-        return productRepository.findAllByOwner(client);
+        return client.getProductStream().collect(Collectors.toCollection(HashSet::new));
     }
 
     @GetMapping("/clients/products/{id}")

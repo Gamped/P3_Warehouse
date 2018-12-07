@@ -25,7 +25,6 @@ public class Product {
     private int quantity;
 
     private String hexId;
-    private DBRef owner;
 
 
     public Product(ObjectId id){
@@ -50,13 +49,6 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
-    }
-
-
-    public DBRef getOwner() {return owner; }
-
-    public void setOwner(Customer owner) {
-        this.owner = owner;
     }
 
     @Override
