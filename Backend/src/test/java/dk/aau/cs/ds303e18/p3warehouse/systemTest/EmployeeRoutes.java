@@ -14,7 +14,6 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
@@ -46,41 +45,34 @@ public class EmployeeRoutes {
         employeeRepository.deleteAll();
     }
 
+    //One publisher with one client
     @Test
     public void checkDatabase() {
-        ObjectId publisherId = new ObjectId();
-        ObjectId clientId = new ObjectId();
-        ObjectId productId = new ObjectId();
-        ObjectId publisherProductId = new ObjectId();
-        ObjectId clientProductId = new ObjectId();
-        ObjectId publisherOrderId = new ObjectId();
-        ObjectId clientOrderId = new ObjectId();
-
-        Publisher publisher = new Publisher(publisherId);
-        Client client = new Client(clientId);
-        Product product = new Product(productId);
-        Product clientProduct = new Product(clientProductId);
-        Product publisherProduct = new Product(publisherProductId);
+        Publisher publisher = new Publisher(newObjectId());
+        Client client = new Client(newObjectId());
+        Product product = new Product(newObjectId());
+        Product clientProduct = new Product(newObjectId());
+        Product publisherProduct = new Product(newObjectId());
 
         product.setProductName("Cycling news");
         product.setQuantity(10);
         product.setProductId("62995962");
 
         clientProduct.setProductName("Running news");
-        clientProduct.setProductId("sefe5684646");
         clientProduct.setQuantity(20);
+        clientProduct.setProductId("sefe5684646");
 
         publisherProduct.setProductName("Car magazine");
         publisherProduct.setQuantity(35);
         publisherProduct.setProductId("561313");
 
-        Order clientOrder = new Order(clientOrderId);
+        Order clientOrder = new Order(newObjectId());
         clientOrder.setTitle("clientorder");
         clientOrder.setOrderId("322434");
         clientOrder.setAddress("mouveh 23");
         clientOrder.setDate(new Date());
 
-        Order publisherOrder = new Order(publisherOrderId);
+        Order publisherOrder = new Order(newObjectId());
         publisherOrder.setTitle("publisherorder");
         publisherOrder.setOrderId("32423525");
         publisherOrder.setAddress("musvej 34");
@@ -416,6 +408,7 @@ public class EmployeeRoutes {
 
         OrderLine orderLine = new OrderLine(product, 5);
         OrderLine secondOrderLine = new OrderLine(secondProduct, 10);
+
         ArrayList<OrderLine> orderLines = new ArrayList<>();
         orderLines.add(orderLine);
         orderLines.add(secondOrderLine);
@@ -454,6 +447,7 @@ public class EmployeeRoutes {
         publisherRepository.save(publisher);
     }
 
+    @Test
     public void morePublishers() {
         Publisher publisher = new Publisher(newObjectId());
         Publisher secondPublisher = new Publisher(newObjectId());
@@ -468,10 +462,31 @@ public class EmployeeRoutes {
         Product thirdProduct = new Product(newObjectId());
         Product fourthProduct = new Product(newObjectId());
         Product fifthProduct = new Product(newObjectId());
+        Product sixthProduct = new Product(newObjectId());
+        Product seventhProduct = new Product(newObjectId());
+        Product eightProduct = new Product(newObjectId());
 
         Order order = new Order(newObjectId());
         Order secondOrder = new Order(newObjectId());
         Order thirdOrder = new Order(newObjectId());
+        Order fourthOrder = new Order(newObjectId());
+        Order fifthOrder = new Order(newObjectId());
+        Order sixthOrder = new Order(newObjectId());
+
+        ContactInformation secondPublisherContactInformation = new ContactInformation();
+        ContactInformation thirdPublisherContactInformation = new ContactInformation();
+
+        thirdPublisherContactInformation.setNickName("music store");
+        thirdPublisherContactInformation.setEmail("thirdPublisher@ff.cc");
+        thirdPublisherContactInformation.setPhoneNumber("87525632");
+        thirdPublisherContactInformation.setAddress("gyldenvej 4");
+        thirdPublisherContactInformation.setZipCode("2796");
+
+        secondPublisherContactInformation.setNickName("lej og byg");
+        secondPublisherContactInformation.setEmail("secondPublisher@ff.cc");
+        secondPublisherContactInformation.setPhoneNumber("26546235");
+        secondPublisherContactInformation.setAddress("hale 34");
+        secondPublisherContactInformation.setZipCode("2695");
 
         product.setProductName("move");
         product.setQuantity(20);
@@ -493,15 +508,30 @@ public class EmployeeRoutes {
         fifthProduct.setQuantity(30);
         fifthProduct.setProductId("43256456457");
 
+        sixthProduct.setProductName("ship");
+        sixthProduct.setQuantity(65);
+        sixthProduct.setProductId("3243354654");
+
+        seventhProduct.setProductName("bus");
+        seventhProduct.setQuantity(66);
+        seventhProduct.setProductId("3r23543645765");
+
+        eightProduct.setProductName("music");
+        eightProduct.setQuantity(26);
+        eightProduct.setProductId("35264564765765");
+
         OrderLine orderLine = new OrderLine(product, 5);
-        OrderLine secondOrderline = new OrderLine(secondProduct, 6);
+        OrderLine secondOrderLine = new OrderLine(secondProduct, 6);
         OrderLine thirdOrderLine = new OrderLine(thirdProduct, 10);
         OrderLine fourthOrderLine = new OrderLine(fourthProduct, 46);
         OrderLine fifthOrderLine = new OrderLine(fifthProduct, 1);
+        OrderLine sixthOrderLine = new OrderLine(sixthProduct, 6);
+        OrderLine seventhOrderLine = new OrderLine(seventhProduct, 20);
+        OrderLine eightOrderLine = new OrderLine(eightProduct, 10);
 
         ArrayList<OrderLine> orderLines = new ArrayList<>();
         orderLines.add(orderLine);
-        orderLines.add(secondOrderline);
+        orderLines.add(secondOrderLine);
         orderLines.add(thirdOrderLine);
 
         order.setOrderLines(orderLines);
@@ -516,7 +546,100 @@ public class EmployeeRoutes {
         secondOrder.setAddress("foul 23");
         secondOrder.setOrderId("242543643678");
 
-        thirdOrder.setOrderLines(Collections.singleton(fifthOrderLine));
+        thirdOrder.setOrderLines(Collections.singleton(fourthOrderLine));
+        thirdOrder.setTitle("thirdorder");
+        thirdOrder.setDate(new Date());
+        thirdOrder.setAddress("doo 4");
+        thirdOrder.setOrderId("325346436");
+
+        fourthOrder.setOrderLines(Collections.singleton(sixthOrderLine));
+        fourthOrder.setTitle("fourthorder");
+        fourthOrder.setDate(new Date());
+        fourthOrder.setAddress("yellow 2");
+        fourthOrder.setOrderId("3254368888");
+
+        fifthOrder.setOrderLines(Collections.singleton(seventhOrderLine));
+        fifthOrder.setTitle("fifthorder");
+        fifthOrder.setDate(new Date());
+        fifthOrder.setAddress("moon 90");
+        fifthOrder.setOrderId("325378897430");
+
+        sixthOrder.setOrderLines(Collections.singleton(eightOrderLine));
+        sixthOrder.setTitle("sixthorder");
+        sixthOrder.setDate(new Date());
+        sixthOrder.setAddress("sun 33");
+        sixthOrder.setOrderId("3536347568");
+
+        client.setContactInformation(clientContactInformation());
+        client.setUserType(UserType.CLIENT);
+        client.setUserName("client");
+        client.setPassword("24fsefsefrg");
+        client.addOrder(secondOrder);
+        client.addProduct(fifthProduct);
+
+        secondClient.setContactInformation(otherContactInformation());
+        secondClient.setUserType(UserType.CLIENT);
+        secondClient.setUserName("secondclient");
+        secondClient.setPassword("esfesgrs");
+        secondClient.addOrder(order);
+        secondClient.addProduct(product);
+        secondClient.addProduct(secondProduct);
+        secondClient.addProduct(thirdProduct);
+
+        thirdClient.setContactInformation(extraContactInformation());
+        thirdClient.setUserType(UserType.CLIENT);
+        thirdClient.setUserName("thirdclient");
+        thirdClient.setPassword("fesgr4546");
+        thirdClient.addOrder(fourthOrder);
+        thirdClient.addProduct(sixthProduct);
+
+        publisher.setContactInformation(publisherContactInformation());
+        publisher.setUserType(UserType.PUBLISHER);
+        publisher.setUserName("publisher");
+        publisher.setPassword("esfesfreg3");
+        publisher.addClient(client);
+        publisher.addClient(secondClient);
+        publisher.addOrder(thirdOrder);
+        publisher.addProduct(fourthProduct);
+
+        secondPublisher.setContactInformation(secondPublisherContactInformation);
+        secondPublisher.setUserType(UserType.PUBLISHER);
+        secondPublisher.setUserName("secondpublisher");
+        secondPublisher.setPassword("erw3ret544");
+        secondPublisher.addClient(thirdClient);
+        secondPublisher.addOrder(fifthOrder);
+        secondPublisher.addProduct(seventhProduct);
+
+        thirdPublisher.setContactInformation(thirdPublisherContactInformation);
+        thirdPublisher.setUserType(UserType.PUBLISHER);
+        thirdPublisher.setUserName("thirdpublisher");
+        thirdPublisher.setPassword("r43tdhytf");
+        thirdPublisher.addOrder(sixthOrder);
+        thirdPublisher.addProduct(eightProduct);
+
+        productRepository.save(product);
+        productRepository.save(secondProduct);
+        productRepository.save(thirdProduct);
+        productRepository.save(fourthProduct);
+        productRepository.save(fifthProduct);
+        productRepository.save(sixthProduct);
+        productRepository.save(seventhProduct);
+        productRepository.save(eightProduct);
+
+        orderRepository.save(order);
+        orderRepository.save(secondOrder);
+        orderRepository.save(thirdOrder);
+        orderRepository.save(fourthOrder);
+        orderRepository.save(fifthOrder);
+        orderRepository.save(sixthOrder);
+
+        clientRepository.save(client);
+        clientRepository.save(secondClient);
+        clientRepository.save(thirdClient);
+
+        publisherRepository.save(publisher);
+        publisherRepository.save(secondPublisher);
+        publisherRepository.save(thirdPublisher);
     }
 
     private ObjectId newObjectId() {

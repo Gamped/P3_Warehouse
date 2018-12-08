@@ -49,7 +49,7 @@ public class ClientController {
     Client findClientById(@PathVariable ObjectId id) { return clientRepository.findById(id).orElse(null);
     }
 
-        return ClientManager.saveClientToDB(newClient);
+        //return ClientManager.saveClientToDB(newClient);
 
     @PutMapping("/clients/{hexId}")
     String updateClient(@PathVariable("hexId") String hexId, @RequestBody RestClientModel restClientModel) {
