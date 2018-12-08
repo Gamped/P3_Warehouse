@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
 import "./AdminUsers.css";
-import "../Pages.css";
 import axios from 'axios';
 import ReactTable from 'react-table';
 

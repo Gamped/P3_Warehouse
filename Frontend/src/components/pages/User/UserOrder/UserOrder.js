@@ -111,8 +111,7 @@ class UserOrder extends React.Component {
     }
     
     previouslyAddedWarning = () => {
-        //TODO: Render popup warning
-        console.log("Item already added!")
+        alert("Item already added!")
     }
 
 

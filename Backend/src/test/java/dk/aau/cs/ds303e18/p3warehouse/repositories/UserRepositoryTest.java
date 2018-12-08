@@ -21,12 +21,15 @@ public class UserRepositoryTest {
     ProductRepository productRepository;
     @Autowired
     PublisherRepository publisherRepository;
+    @Autowired
+    OrderRepository orderRepository;
 
     @Before
     public void deleteAll() {
         productRepository.deleteAll();
         clientRepository.deleteAll();
         userRepository.deleteAll();
+        orderRepository.deleteAll();
     }
 
     @Test

@@ -27,7 +27,10 @@ const loginReducer = (state = devState, action) => {
             console.log(state)
             break;
         case "LOGOUT":
-            state ={...state, initialState} 
+            state ={...state, userType: ""}
+            state ={...state, nickName: ""}
+            state ={...state, userId: ""}
+            state ={...state, loggedIn: "False"} 
             break;
         default:
     }  

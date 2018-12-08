@@ -25,7 +25,7 @@ class SignInBox extends React.Component {
     loginHandler = (event) => {
         event.preventDefault()
 
-       axios.get("localhost:8080/users?username=" + this.state.username + "&password="+this.state.password)
+       axios.get("localhost:8080/api/users/login/" + this.state.userName + "/" +this.state.password)
             .then(result => {
                 console.log(result);
                 this.props.setNickName(result.data.nickName);
@@ -33,13 +33,7 @@ class SignInBox extends React.Component {
                 this.props.setUserId(result.data.hexId)
                 this.props.setlogIn("True")
             })
-            .then(result => {
-                if(result.userType==="EMPLOYEE"){
-                    this.props.history.push("./Admin")
-                }else if(result.userType === "CLIENT"||result.userType==="PUBLISHER"){
-                    this.props.history.push("./User")
-                }
-            })
+            /*.then(this.props.history.push("./Home"))*/
     }
 
     render(){

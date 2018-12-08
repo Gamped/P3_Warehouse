@@ -3,10 +3,12 @@ import "./ButtonList.css";
 import {Link} from "react-router-dom";
 
 
-// The header component
+// A stateless component. 
 const Buttonlist = (props) => {
+
     const {buttons, current, link, color}=props;
 
+    //To the array of buttons we map a div dependt on various variables
     const mappedButtonList = buttons.map(button =>{
         return (
             (link)?
@@ -27,6 +29,7 @@ const Buttonlist = (props) => {
         )
     })
 
+    //returns the mapped buttonlist wrapped in a div.
     return(
         <div>
            {mappedButtonList}
