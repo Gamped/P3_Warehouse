@@ -37,7 +37,7 @@ public class EmployeeController {
 
 
     @PostMapping("/employee/employees")
-    private Employee newEmployee(@RequestBody Employee employee){
+    private Employee createEmployee(@RequestBody Employee employee){
         return EmployeeManager.saveEmployeeToDb(employee);
     }
 
@@ -49,9 +49,25 @@ public class EmployeeController {
             return "Could not create, customerId or userType is not set!";
         }
 
-        Product product = new Product(new ObjectId());
 
+        Product product = new Product(new ObjectId());
         BeanUtils.copyProperties(restProduct, product);
+
+        Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(customerId));
+        Publisher publisher = optionalPublisher.get();
+        publisher.addProduct(product);
+        publisherRepository.save(publisher);
+        product.setOwner(publisher);
+
+
+        if (userType == "CLIENT") {
+            Optional<Client> optionalClient = clientRepository.findById(new ObjectId(customerId));
+            Client client = optionalClient.get();
+            client.addProduct(product);
+            clientRepository.save(client);
+            product.setOwner(client);
+
+        }
         productRepository.save(product);
 
         return "Created!";
@@ -83,8 +99,8 @@ public class EmployeeController {
 
     //FIND ALL: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
-    @GetMapping("/employee")
-     Collection<Employee> getAllEmployees() {
+    @GetMapping("/employee/employees")
+    private Collection<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
@@ -122,6 +138,17 @@ public class EmployeeController {
         return productRepository.findById(new ObjectId(hexId));
     }
 
+    @GetMapping("/employee/publisher/{hexId}")
+    private Optional<Publisher> findPublisherById(@PathVariable String hexId) {
+        return publisherRepository.findById(new ObjectId(hexId));
+
+    }
+
+    @GetMapping("/employee/client/{hexId}")
+    private Optional<Client> findClientById(@PathVariable String hexId) {
+        return clientRepository.findById(new ObjectId(hexId));
+
+    }
 
     //UPDATE: EMPLOYEE, PRODUCTS, CONTACT INFORMATION (CLIENT, PUBLISHER), USERS
 
@@ -153,7 +180,7 @@ public class EmployeeController {
 
     }
 
-    @PutMapping("/employee/publisher/contactInformation/edit/{hexId}")
+    @PutMapping("/employee/client/contactInformation/edit/{hexId}")
     String updateContactInformationOnClient(@PathVariable String hexId, @RequestBody ContactInformation contactInformation) {
 
         ObjectId id = new ObjectId(hexId);
@@ -166,7 +193,7 @@ public class EmployeeController {
         return "Updated Contact Information on Client: " + client.getUserName();
     }
 
-    @PutMapping("/employee/publisher/contactInformation/edit/hexId}")
+    @PutMapping("/employee/publisher/contactInformation/edit/{hexId}")
     String updateContactInformationOnPublisher(@PathVariable String hexId, @RequestBody ContactInformation contactInformation) {
 
         ObjectId id = new ObjectId(hexId);

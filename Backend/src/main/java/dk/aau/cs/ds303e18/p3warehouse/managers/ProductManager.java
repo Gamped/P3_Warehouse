@@ -14,24 +14,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ProductManager {
     @Autowired
     private static ProductRepository productRepository;
-    public static Product saveProductToDb(Product product){
-        Customer owner = CustomerManager.getCustomerFromProduct(product);
+    public static Product saveProductToDb(Product product, Customer owner){
         owner.addProduct(product);
         CustomerManager.saveCustomerToDatabase(owner);
         return productRepository.save(product);
     }
 
-    private static Product saveNewProduct(RestProductModel newProduct){
+    private static Product saveNewProduct(RestProductModel newProduct, Customer owner){
         Product product = new Product(new ObjectId());
         BeanUtils.copyProperties(newProduct, product);
-        Customer owner = CustomerManager.getCustomerFromProduct(product);
         owner.addProduct(product);
         CustomerManager.saveCustomerToDatabase(owner);
         return productRepository.save(product);
     }
 
-    public static void removeProductFromDb(Product product){
-        Customer owner = CustomerManager.getCustomerFromProduct(product);
+    public static void removeProductFromDb(Product product, Customer owner){
         owner.removeProduct(product);
         CustomerManager.saveCustomerToDatabase(owner);
         productRepository.delete(product);

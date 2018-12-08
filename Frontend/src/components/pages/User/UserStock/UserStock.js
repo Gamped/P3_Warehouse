@@ -11,9 +11,7 @@ export default class UserStock extends React.Component {
         this.state = {
             userID: props.ID,
             quarry: "",
-
             products: [],
-
             selected: null,
             selectedId: ""
         };

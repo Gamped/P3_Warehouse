@@ -24,8 +24,10 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @RequestMapping("/api")
@@ -47,13 +49,7 @@ public class ClientController {
     Client findClientById(@PathVariable ObjectId id) { return clientRepository.findById(id).orElse(null);
     }
 
-    @PostMapping("/clients/post")
-    Client newIndependentClient( @RequestBody RestClientModel restClientModel) {
-
-        Client newClient = new Client(new ObjectId());
-        BeanUtils.copyProperties(restClientModel, newClient);
-        return clientRepository.save(newClient);
-    }
+        return ClientManager.saveClientToDB(newClient);
 
     @PutMapping("/clients/{hexId}")
     String updateClient(@PathVariable("hexId") String hexId, @RequestBody RestClientModel restClientModel) {
@@ -79,13 +75,13 @@ public class ClientController {
         Product product = new Product(new ObjectId());
         
         BeanUtils.copyProperties(restProduct, product);
-        return ProductManager.saveProductToDb(product);
+        return ProductManager.saveProductToDb(product, owner);
     }
 
     @GetMapping("/clients/{hexId}/products")
     private Collection<Product> findAllProductsByClient(@PathVariable String hexId) {
         Client client = clientRepository.findById(hexId);
-        return productRepository.findAllByOwner(client);
+        return client.getProductStream().collect(Collectors.toCollection(HashSet::new));
     }
 
     @GetMapping("/clients/products/{id}")
