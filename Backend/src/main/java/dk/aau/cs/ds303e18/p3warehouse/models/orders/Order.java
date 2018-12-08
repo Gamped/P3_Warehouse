@@ -1,7 +1,9 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.orders;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.UserRef;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -21,7 +23,7 @@ public class Order {
     private ObjectId id;
     private Collection<OrderLine> orderLines;
 
-    private Customer owner;
+    @DBRef private Customer owner;
     private String orderId;
     private String title;
     private String hexId;
@@ -57,6 +59,11 @@ public class Order {
 
     public void setOwner(Customer owner) {
         this.owner = owner;
+    }
+
+    @JsonProperty("owner")
+    public UserRef getOwnerRef(){
+        return new UserRef(owner);
     }
 
     public String getOrderId() {
