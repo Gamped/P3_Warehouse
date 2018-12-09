@@ -162,9 +162,10 @@ public class EmployeeController {
         Optional<Employee> optionalEmployee = employeeRepository.findById(new ObjectId(hexId));
         Employee employee = optionalEmployee.get();
         employee.setNickname(restEmployeeModel.getNickname());
+        employee.setPassword(restEmployeeModel.getPassword());
         employeeRepository.save(employee);
 
-        return "Updated Employee with nickName " + employee.getNickname();
+        return "Updated Employee with nickName " + employee.getNickname() + " and password " + employee.getPassword();
     }
 
 
@@ -238,11 +239,9 @@ public class EmployeeController {
         if(!employeeRepository.existsById(id)){ //Prevents the deleter from deleting if the deleter is not in the database.
             return "Unauthorized action";
         }
-        if(password.equals(employeeRepository.findById(hexId).getPassword())){
-            employeeRepository.deleteById(employeeRepository.findByNickname(employeeName).getId());
-            return "Deletion Success";
-        }
-        return "Deletion failed";
+        //returns a nullpointerexception and I don't know why
+        EmployeeManager.removeEmployeeFromDb(employeeRepository.findByNickname(employeeName));
+        return "Deletion Success";
     }
 
 

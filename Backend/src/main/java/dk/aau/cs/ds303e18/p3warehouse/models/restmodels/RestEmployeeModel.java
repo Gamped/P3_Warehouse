@@ -10,7 +10,7 @@ public class RestEmployeeModel extends RestUserModel{
     }
 
     public void setUsername(String username) {
-        //Check to make sure input is not empty.
+        isContentPresent(username);
         this.username = username;
     }
 
