@@ -15,8 +15,7 @@ export default class EditOrder extends Component{
             contactPersonInfo: props,
             addressInfo: props,
             zipCodeInfo: props,
-            cityInfo: props,
-            
+            cityInfo: props, 
             orderLineData: [],
             productData: [],
         }
@@ -34,33 +33,46 @@ export default class EditOrder extends Component{
         
         return(
             <div className="PageStyle rounded">
-                <div className="Contents">
-                    <ReactTable 
-                        columns={orderLineColumns}
-                        showPagination={false}
-                        className="OrderLines -striped -highlight"
-                        getTrProps={(state, rowInfo) => {
-                            if (rowInfo && rowInfo.row) {
-                                return {
-                                onClick: (e) => {
-                                    
-                                    this.setState({selectedProduct: rowInfo.index, selectedProductId: rowInfo.original.hexId })
-                                    console.log(rowInfo.original)
-                                },
-                                style: {
-                                    background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                    color: rowInfo.index === this.state.selected ? 'white' : 'black'
-                                }
-                                }
-                            }else{
-                                return {}
-                            }
-                        }}
-                    />
-                    <div className="Buttons container row">
-                        <button className="col btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress")}>Edit Address</button>
-                        <button className="col btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderContent")}>Edit Contents</button>
-                        <Link to="/Admin/Orders" className="col btn btn-info mx-2 " role=" button" >Back</Link>
+                <div className="row">
+                    <div className="col">
+                        <div className=" my-1">
+                            <ReactTable 
+                                columns={orderLineColumns}
+                                showPagination={false}
+                                className="OrderLines -striped -highlight"
+                                getTrProps={(state, rowInfo) => {
+                                    if (rowInfo && rowInfo.row) {
+                                        return {
+                                        onClick: (e) => {
+                                            
+                                            this.setState({selectedProduct: rowInfo.index, selectedProductId: rowInfo.original.hexId })
+                                            console.log(rowInfo.original)
+                                        },
+                                        style: {
+                                            background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                            color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                        }
+                                        }
+                                    }else{
+                                        return {}
+                                    }
+                                }}
+                                defaultPageSize={25}
+                                style={{
+                                    height: "400px"                                      
+                                 }}
+                            />
+                        </div>
+                    </div>   
+                    <div class="w-100"></div>
+                    <div className="row mx-5"> 
+                            <ul class="nav ">
+                                <div className="justify-content-center btn-group-h my-1"> 
+                                    <button className=" btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress")}>Edit Address</button>
+                                    <button className=" btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderContent")}>Edit Contents</button>
+                                    <Link to="/Admin/Orders" className=" btn btn-info btn-lg mx-2 " role=" button" >Back</Link>
+                                </div>
+                            </ul>
                     </div>
                 </div>
             </div>

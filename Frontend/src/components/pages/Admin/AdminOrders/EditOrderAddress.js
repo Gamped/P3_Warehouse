@@ -29,7 +29,7 @@ export default class EditOrderAddress extends Component{
                     <div className="btn-group my-2">
                         <button className="col btn btn-succes mx-2">Save Changes</button>
                         <button className="col btn btn-warning mx-2">Discard Changes</button>
-                        <Link to="/Admin/Order" className="col btn btn-info mx-2 " role=" button" >Back</Link>
+                        <Link to="/Admin/Orders/Edit" className="col btn btn-info mx-2 " role=" button" >Back</Link>
                     </div>
                     </div>
                 </div>

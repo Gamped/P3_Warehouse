@@ -59,7 +59,7 @@ ReactDOM.render(
                 <Route exact path="/Admin/Stock/Edit/:id" component={Edit}/>
                 <Route exact path="/Admin/Stock/Remove" component={RemoveWare}/>
                 <Route exact path="/Admin/Users" component={AdminUsers}/>
-                <Route exact path="/Admin/Order" component={AdminOrder}/>
+
                 <Route exact path="/Admin/Order/Cart" component={AdminOrderCart}/>
                 <Route exact path="/Admin/Order/Cart/Confirm" component={AdminCartConfirm}/>
 

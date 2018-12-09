@@ -46,7 +46,7 @@ export default class EditOrderContent extends Component{
                     <div className="mainContent container row">
                     <div className=" col col-md-auto ">
                         <nav class="navbar navbar-light bg-light"> 
-                            <a className="navnbar" >Custumare order</a>
+                            <a className="navnbar" >Customer order</a>
                         </nav>   
                         <ReactTable 
                             data={this.state.orderLineData}
@@ -76,8 +76,8 @@ export default class EditOrderContent extends Component{
                              <div class="h-25"></div>   
                              <div class="btn-group-vertical">
                                 <div className="row my-5">
-                                    <button className=" addButton btn btn-success  mx-1"> Add Product </button>
-                                    <button className=" removeButton btn btn-danger mx-1">Remove Product</button>
+                                    <button className=" addButton btn btn-success  mx-1 "> Add Product </button>
+                                    <button className=" removeButton btn btn-danger mx-1 my-5">Remove Product</button>
                                 </div>  
                              </div>
                         </div>
@@ -114,7 +114,7 @@ export default class EditOrderContent extends Component{
                     <div className="finishingButtons container row my-3">
                         <button className="col  btn btn-success mx-2">Save Content</button>
                         <button className="col  btn btn-danger mx-2">Discard Content</button>
-                        <button className="col btn btn-info mx-2" onClick={()=>this.sendToPage("/Admin/Order")}>Back</button>                       
+                        <button className="col btn btn-info mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit")}>Back</button>                       
                     </div>
                 </div>
             </div>
