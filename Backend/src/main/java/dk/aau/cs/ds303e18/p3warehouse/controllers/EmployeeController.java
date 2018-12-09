@@ -37,8 +37,12 @@ public class EmployeeController {
 
 
     @PostMapping("/employee/employees")
-    private Employee createEmployee(@RequestBody Employee employee){
-        return EmployeeManager.saveEmployeeToDb(employee);
+    private String createEmployee(@RequestBody RestEmployeeModel restEmployeeModel){
+        ObjectId id = new ObjectId();
+        Employee employee = new Employee(id);
+        BeanUtils.copyProperties(restEmployeeModel, employee);
+        employeeRepository.save(employee);
+        return "created!";
     }
 
     @PostMapping("/employee/products/assignTo={customerId}/withUserType={userType}")
@@ -228,8 +232,14 @@ public class EmployeeController {
 
 
     @DeleteMapping("/employee/delete/{hexId}")
-    public void deleteEmployeeById(@PathVariable String hexId) {
-        employeeRepository.deleteById(new ObjectId(hexId));
+    public void deleteEmployeeById(@PathVariable String hexId, @RequestBody String employeeName, @RequestBody String password) {
+        ObjectId id = new ObjectId(hexId);
+        if(!employeeRepository.existsById(id)){ //Prevents the deleter from deleting if the deleter is not in the database.
+            return;
+        }
+        if(password.equals(employeeRepository.findById(id).get().getPassword())){
+            employeeRepository.deleteById(employeeRepository.findByNickname(employeeName).getId());
+        }
     }
 
 
