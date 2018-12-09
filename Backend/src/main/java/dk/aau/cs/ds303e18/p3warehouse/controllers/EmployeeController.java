@@ -41,6 +41,7 @@ public class EmployeeController {
         ObjectId id = new ObjectId();
         Employee employee = new Employee(id);
         BeanUtils.copyProperties(restEmployeeModel, employee);
+        employee.setUserType(UserType.EMPLOYEE);
         employeeRepository.save(employee);
         return "created!";
     }
@@ -237,7 +238,7 @@ public class EmployeeController {
         if(!employeeRepository.existsById(id)){ //Prevents the deleter from deleting if the deleter is not in the database.
             return "Unauthorized action";
         }
-        if(password.equals(employeeRepository.findById(id).get().getPassword())){
+        if(password.equals(employeeRepository.findById(hexId).getPassword())){
             employeeRepository.deleteById(employeeRepository.findByNickname(employeeName).getId());
             return "Deletion Success";
         }

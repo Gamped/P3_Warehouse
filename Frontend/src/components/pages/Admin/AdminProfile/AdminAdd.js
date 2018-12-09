@@ -9,25 +9,23 @@ export default class AdminAdd extends React.Component {
         super(props);
         this.state = {
             userName: "",
-            nickName: "",
-            email: "",
-            phoneNumber: "",
+            nickname: "",
             password: "",
         };
     }
 
     addEmployeeHandler = (event) =>{
         event.preventDefault();
-        const {userName, name, email,phoneNumber,password} = this.state;
+        const {userName, nickname, password} = this.state;
 
         setTimeout(function () {
-            axios.post('http://localhost:8080/employee/employees', {userName, name, email, phoneNumber, password}).then((result)=> {
+            axios.post('http://localhost:8080/api/employee/employees', {nickname, userName, password}).then((result)=> {
                 this.props.history.goBack();
             }).catch((err) => {
             console.log(err.response);
             });
         }, 1000);
-        //this.props.history.goBack();
+        this.props.history.goBack();
     }
 
     handleUName = (event) => {
@@ -38,19 +36,7 @@ export default class AdminAdd extends React.Component {
 
     handleName = (event) => {
         this.setState({
-            nickName: event.target.value,
-        });
-    }
-
-    handleEmail = (event) => {
-        this.setState({
-            email: event.target.value,
-        });
-    }
-
-    handlePhoneNumber = (event) => {
-        this.setState({
-            phoneNumber: event.target.value,
+            nickname: event.target.value,
         });
     }
 
@@ -76,17 +62,7 @@ export default class AdminAdd extends React.Component {
                                 type="text" 
                                 className="form-control mb-2" 
                                 onChange={this.handleName}
-                                placeholder="form-control"/>
-                            <input 
-                                type="email" 
-                                className="form-control mb-2" 
-                                onChange={this.handleEmail}
-                                placeholder="Email"/>
-                            <input 
-                                type="tel" 
-                                className="form-control mb-2" 
-                                onChange={this.handlePhoneNumber}
-                                placeholder="Phone Number"/>
+                                placeholder="nickname"/>
                             <input 
                                 type="password" 
                                 className="form-control mb-2" 
