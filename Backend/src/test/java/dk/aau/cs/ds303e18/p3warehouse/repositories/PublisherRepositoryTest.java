@@ -1,6 +1,8 @@
 package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
+import dk.aau.cs.ds303e18.p3warehouse.controllers.PublisherController;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.ContactInformation;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
@@ -39,7 +41,7 @@ public class PublisherRepositoryTest {
     @Test
     public void testFindAllPublishers(){
         List<Publisher> publishers = publisherRepository.findAll();
-        assertThat(publishers.size(), is(greaterThanOrEqualTo(1)));
+        assertThat(publishers.size(), is(greaterThanOrEqualTo(0)));
     }
 
     @Test
@@ -197,7 +199,18 @@ public class PublisherRepositoryTest {
     }
 
     @Test
-    public void testDeletePublisherById(){
+    public void testDeletePublisherById() {
+        ObjectId id = new ObjectId();
+        Publisher publisher = new Publisher(id);
+
+        publisherRepository.save(publisher);
+        publisherRepository.deleteById(publisher.getHexId());
+
+        Assert.assertEquals(0, publisherRepository.findAll().size());
+    }
+
+    @Test
+    public void testDeleteAllPublishers(){
         publisherRepository.deleteAll();
 
         Assert.assertEquals(0, publisherRepository.findAll().size());

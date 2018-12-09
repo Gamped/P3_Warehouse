@@ -642,6 +642,35 @@ public class EmployeeRoutes {
         publisherRepository.save(thirdPublisher);
     }
 
+    @Test
+    public void independentClient() {
+        Client client = new Client(newObjectId());
+        Order order = new Order(newObjectId());
+        Product product = new Product(newObjectId());
+
+        product.setQuantity(500);
+        product.setProductName("books");
+        product.setProductId("134253464756812212");
+
+        OrderLine orderLine = new OrderLine(product, 250);
+        order.setOrderId("21323");
+        order.setTitle("history books");
+        order.setAddress("høvej 39");
+        order.setDate(new Date());
+        order.setOrderLines(Collections.singleton(orderLine));
+
+        client.setContactInformation(clientContactInformation());
+        client.setUserType(UserType.CLIENT);
+        client.setPassword("fes352fse");
+        client.setUserName("client");
+        client.addProduct(product);
+        client.addOrder(order);
+
+        productRepository.save(product);
+        orderRepository.save(order);
+        clientRepository.save(client);
+    }
+
     private ObjectId newObjectId() {
         ObjectId id = new ObjectId();
 

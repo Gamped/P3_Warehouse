@@ -14,7 +14,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -80,10 +79,10 @@ public class ClientControllerTest {
     public void testFindClientById() {
         ObjectId id = new ObjectId();
         Client client = new Client(id);
-        when(clientRepository.findById(id)).thenReturn(Optional.of(client));
+        when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
 
         Client retrievedClient = clientController.findClientById(id);
-        verify(clientRepository).findById(id);
+        verify(clientRepository).findById(client.getId());
         assertEquals(client.getId(), retrievedClient.getId());
     }
 

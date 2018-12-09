@@ -1,9 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
-import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestClientModel;
-import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
-import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.*;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
@@ -124,7 +121,6 @@ public class EmployeeControllerTest {
         restPublisherModel.setUserName("bo");
 
         String createdPublisher = employeeController.createPublisher(restPublisherModel);
-
         System.out.println(createdPublisher);
         assertNotNull(createdPublisher);
     }
@@ -248,16 +244,19 @@ public class EmployeeControllerTest {
     public void testUpdateEmployee() {
         ObjectId id = new ObjectId();
         Employee employee = new Employee(id);
+        RestEmployeeModel restEmployeeModel = new RestEmployeeModel();
+        restEmployeeModel.setNickname("børge");
 
         when(employeeRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
 
         String updatedEmployee = employeeController.updateEmployee(String.valueOf(employee.getId()),
-                "børge");
+                restEmployeeModel.getNickname());
 
         verify(employeeRepository).findById(employee.getId());
 
         assertNotNull(employee.getNickname());
         assertTrue(updatedEmployee.contains(employee.getNickname()));
+        assertEquals("børge", employee.getNickname());
     }
 
     @Test
@@ -281,20 +280,111 @@ public class EmployeeControllerTest {
     }
 
     @Test
+    public void testEmployeeUpdateClientContactInformation() {
+        ObjectId id = new ObjectId();
+        Client client = new Client(id);
+        ContactInformation contactInformation = new ContactInformation();
+        ContactInformation clientContactInformation = new ContactInformation();
+
+        contactInformation.setNickName("newNickName");
+        contactInformation.setEmail("newEmail@ff.cc");
+        contactInformation.setPhoneNumber("26752369");
+        contactInformation.setAddress("newAddress 2");
+        contactInformation.setZipCode("6490");
+
+        clientContactInformation.setNickName("Haller");
+        clientContactInformation.setEmail("client@dev.ka");
+        clientContactInformation.setPhoneNumber("64979856");
+        clientContactInformation.setAddress("novema 2");
+        clientContactInformation.setZipCode("9009");
+        client.setContactInformation(clientContactInformation);
+
+        when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
+
+        String updatedClient = employeeController.updateContactInformationOnClient(client.getHexId(),
+                contactInformation);
+
+        verify(clientRepository).findById(client.getId());
+
+        assertNotNull(updatedClient);
+        assertEquals("Updated Contact Information on Client: " + client.getUserName(), updatedClient);
+    }
+
+    @Test
+    public void testEmployeeUpdatePublisherContactInformation() {
+        ObjectId id = new ObjectId();
+        Publisher publisher = new Publisher(id);
+        ContactInformation contactInformation = new ContactInformation();
+        ContactInformation publisherContactInformation = new ContactInformation();
+
+        contactInformation.setNickName("karin");
+        contactInformation.setEmail("newPublisherEmail@dav.ka");
+        contactInformation.setAddress("howl 2");
+        contactInformation.setPhoneNumber("22399755");
+        contactInformation.setZipCode("9755");
+
+        publisherContactInformation.setNickName("gyldeen");
+        publisherContactInformation.setEmail("publisher@ff.cc");
+        publisherContactInformation.setAddress("cola 5");
+        publisherContactInformation.setPhoneNumber("64998956");
+        publisherContactInformation.setZipCode("6269");
+        publisher.setContactInformation(publisherContactInformation);
+
+        when(publisherRepository.findById(publisher.getId())).thenReturn((Optional.of(publisher)));
+
+        String updatedPublisher = employeeController.updateContactInformationOnPublisher(publisher.getHexId(),
+                contactInformation);
+
+        verify(publisherRepository).findById(publisher.getId());
+
+        assertNotNull(updatedPublisher);
+        assertEquals("Updated Contact Information on Publisher: " + publisher.getUserName(), updatedPublisher);
+
+    }
+
+    @Test
+    public void testUpdateUserCredentials() {
+        ObjectId id = new ObjectId();
+        User user = new User(id);
+        user.setUserName("Haller123");
+        RestUserModel restUserModel = new RestUserModel();
+        restUserModel.setUserName("Miller658");
+
+        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
+
+        String updatedUser = employeeController.updateUserCredentials(String.valueOf(user.getId()), restUserModel);
+
+        verify(userRepository).findById(user.getId());
+
+        assertNotNull(updatedUser);
+        assertEquals("Updated user: " + user.getUserName(), updatedUser);
+    }
+
+
+    @Test
     public void testDeleteEmployeeById() {
         ObjectId id = new ObjectId();
         Employee employee = new Employee(id);
         employee.setUserName("fred");
-        List<Employee> employeeList = new LinkedList<>();
-        employeeList.add(employee);
 
-        when(employeeRepository.findAll()).thenReturn(employeeList);
+        when(employeeRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
 
-        //employeeController.deleteById(id);
-        verify(employeeRepository).deleteById(id);
+        employeeController.deleteEmployeeById(String.valueOf(employee.getId()));
 
-        assertEquals(0, employeeRepository.findAll().size());
+        verify(employeeRepository).deleteById(employee.getId());
     }
 
+    @Test
+    public void testEmployeeDeleteProductById() {
+        ObjectId id = new ObjectId();
+        Product product = new Product(id);
 
+        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+
+        employeeController.deleteProductById(product.getHexId());
+
+        verify(productRepository).deleteById(product.getId());
+
+        assertEquals(0, productRepository.findAll().size());
+    }
 }
