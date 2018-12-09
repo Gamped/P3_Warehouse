@@ -7,9 +7,9 @@ import "./AdminOrders.css";
 
 export default class AdminOrders extends Component {
 
-
-    constructor() {
-        super();
+    //A constructor that contains our state.
+    constructor(props) {
+        super(props);
         this.state = { 
             orders: [], 
             orderLines: [], 
@@ -19,15 +19,16 @@ export default class AdminOrders extends Component {
             packed: {},
             allPacked: 0
         }
-
+        //binds different functions to our constructor
         this.getData = this.getData.bind(this);
         this.setStateAsSelected = this.setStateAsSelected.bind(this);
         this.showOrderLines = this.showOrderLines.bind(this);
         this.toggleRow = this.toggleRow.bind(this);
     }
 
+    //This happens when the component has mounded.
     componentDidMount() {
-
+        //Makes a get request for orders, then binds those orders to the state.
         axios.get("http://localhost:8080/api/orders")
         .then((response) => {
             const ordersData = this.getData(response.data);
@@ -39,6 +40,7 @@ export default class AdminOrders extends Component {
         });
     }
 
+    //Gets data for each order. Then gives that order an owner and id.
     getData(data) {
         var orders = [];
         data.forEach((order) => {
@@ -52,12 +54,13 @@ export default class AdminOrders extends Component {
         return orders;
     }
 
-
+    //This sets a state as the selected state
     setStateAsSelected = (rowInfo) => {
 
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId });
     }
 
+    //Shows all the oderlines
     showOrderLines = (rowInfo) => {
         const selectedOrder = this.state.data[rowInfo.index].orderLines;
         let orderLines = [];
@@ -74,7 +77,7 @@ export default class AdminOrders extends Component {
         this.setState({orderLines: orderLines});
     }
 
-
+    //Marks a row as selected.
     toggleRow(productName) {
 
 		const packedItem = Object.assign({}, this.state.packed);
@@ -85,6 +88,7 @@ export default class AdminOrders extends Component {
 		});
 	}
 
+    //Mark all rows as selected
 	toggleSelectAll() {
 		let packedItem = {};
 
@@ -104,6 +108,7 @@ export default class AdminOrders extends Component {
         }
 	}
 
+    //Get
     getCheckBoxColumn() {
        const checkBoxColumn = {
         id: "checkbox",
