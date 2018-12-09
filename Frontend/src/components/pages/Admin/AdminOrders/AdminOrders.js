@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import ReactTable from "react-table";
 import axios from "axios";
 import "../../Pages.css";
@@ -16,11 +17,12 @@ export default class AdminOrders extends Component {
             selectedOrder: [],
             selected: null, 
             selectedIndex: -1,
+            selectedOrderHexId: "",
             packed: {},
             allPacked: 0
         }
-        //binds different functions to our constructor
-        this.getData = this.getData.bind(this);
+
+        this.makePublisherAndClientOrderData = this.makePublisherAndClientOrderData.bind(this);
         this.setStateAsSelected = this.setStateAsSelected.bind(this);
         this.showOrderLines = this.showOrderLines.bind(this);
         this.toggleRow = this.toggleRow.bind(this);
@@ -28,11 +30,11 @@ export default class AdminOrders extends Component {
 
     //This happens when the component has mounded.
     componentDidMount() {
-        //Makes a get request for orders, then binds those orders to the state.
-        axios.get("http://localhost:8080/api/orders")
+
+        axios.get("http://localhost:8080/api/publishers")
         .then((response) => {
-            const ordersData = this.getData(response.data);
-        
+            const ordersData = this.makePublisherAndClientOrderData(response.data);
+            
             this.setState({ 
                 data: response.data,
                 orders: ordersData
@@ -40,41 +42,77 @@ export default class AdminOrders extends Component {
         });
     }
 
-    //Gets data for each order. Then gives that order an owner and id.
-    getData(data) {
+    makePublisherAndClientOrderData(data) {
         var orders = [];
-        data.forEach((order) => {
+        let orderObject = {};
+        let owner = "";
 
-            orders.push({
-                owner: order.owner.userName,
-                orderId: order.orderId
-            });
+        data.forEach((publisher) => {
+            if (this.ordersExist(publisher)) {
+         
+                owner = publisher.contactInformation.nickName;
+
+                publisher.orderStream.forEach((order) => {
+                    orders.push(this.addOrder(order, owner));
+                });
+                
+                orders.push(orderObject);   
+            }
+
+            if (this.clientsExist(publisher)) {
+                publisher.clientStream.forEach((client) => {
+                    
+                    if (this.ordersExist(client)) {
+                        owner = client.contactInformation.nickName;
+
+                        client.orderStream.forEach((order) => {
+                            orders.push(this.addOrder(order, owner));
+                            
+                        });
+                    }
+                });
+            }
         });
-        
+
         return orders;
     }
 
-    //This sets a state as the selected state
-    setStateAsSelected = (rowInfo) => {
+    ordersExist = (customer) => {
+        return customer.orderStream != null && customer.orderStream != undefined;
+    }
 
+    clientsExist = (publisher) => {
+        return publisher.numberOfClient != 0;
+    }
+
+    addOrder(order, owner) {
+        let orderObject = {};
+        orderObject.owner = owner;
+        orderObject.orderId = order.orderId
+        orderObject.data = order.date
+        orderObject.orderLines = order.orderLines.map((orderLine) => {
+            return {
+                productName: orderLine.product.productName,
+                amount: orderLine.quantity,
+                productId: orderLine.product.productId
+                }
+        })
+        return orderObject;
+    }
+
+
+
+    setStateAsSelected = (rowInfo) => {
+        
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId });
+        console.log(this.state.selectedId)
     }
 
     //Shows all the oderlines
     showOrderLines = (rowInfo) => {
-        const selectedOrder = this.state.data[rowInfo.index].orderLines;
-        let orderLines = [];
-        
-        selectedOrder.map(orderLine => {
-            return {...orderLine,
-                productName: orderLine.product.productName,
-                date: orderLine.product.date,
-                amount: orderLine.quantity
-            }
-        });
 
-        
-        this.setState({orderLines: orderLines});
+        const selectedOrder = this.state.orders[rowInfo.index].orderLines;
+        this.setState({orderLines: selectedOrder});
     }
 
     //Marks a row as selected.
@@ -285,12 +323,12 @@ export default class AdminOrders extends Component {
   
         const orderColumns = [
             {Header: "Owner", accessor: "owner"},
+            {Header: "Date", accessor: "date"},
             {Header: "ID", accessor: "orderId"}
         ];
 
         const orderLineColumns = [
             {Header: "Product Name", accessor: "productName"},
-            {Header: "Date", accessor: "date"},
             {Header: "Amount", accessor: "amount"},
             this.getCheckBoxColumn()];
 
@@ -323,13 +361,13 @@ export default class AdminOrders extends Component {
                              />
                         </div>
                         <div className=" md-2">
-                                <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>
-                                <button type= "button" className="btn btn-warning mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit")}>Edit order</button>                            
+                                <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>                           
+                                <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order</Link>
                                 <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.sendToPage("/Admin/Orders/Delete")}>Delete order</button>
                         </div>
                     </div>
                         <div className="Table">
-                                <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns}showPagination={false} 
+                                <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns} showPagination={false} 
                                 className="-striped -highlight"/>
                                  <div className="  px-1">
                                     <button type= "button" className="btn btn-info mx-3" onClick={this.export}>Export order To PDF</button>  

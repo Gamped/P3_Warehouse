@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collections;
+import java.util.Date;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -55,6 +56,19 @@ public class EmployeeRoutes {
 
         Publisher publisher = new Publisher(publisherId);
         Client client = new Client(clientId);
+        ContactInformation publisherContact = new ContactInformation();
+        ContactInformation clientContact = new ContactInformation();
+        publisherContact.setNickName("Gyldendal");
+        publisherContact.setEmail("123@123.com");
+        clientContact.setEmail("123@123 .com");
+        publisherContact.setPhoneNumber("12345678");
+        clientContact.setPhoneNumber("12345678");
+        clientContact.setNickName("Aalborg Zoo");
+
+        publisher.setContactInformation(publisherContact);
+        client.setContactInformation(clientContact);
+
+
         Product product = new Product(productId);
         Product clientProduct = new Product(clientProductId);
         Product publisherProduct = new Product(publisherProductId);
@@ -79,13 +93,16 @@ public class EmployeeRoutes {
         OrderLine publisherOrderLine = new OrderLine(publisherProduct, 5);
 
         clientOrder.setTitle("clientorder");
+        publisherOrder.setTitle("publisherorder");
+        clientOrder.setOrderId("100");
+        publisherOrder.setOrderId("123");
+        clientOrder.setDate(new Date());
+        publisherOrder.setDate(new Date());
+
         clientOrder.setOrderLines(Collections.singleton(clientOrderLine));
         clientOrder.setOrderLines(Collections.singleton(orderLine));
-        publisherOrder.setTitle("publisherorder");
+
         publisherOrder.setOrderLines(Collections.singleton(publisherOrderLine));
-
-
-
         publisher.setUserName("Publisher");
         publisher.setPassword("esfegr8433");
         publisher.setUserType(UserType.PUBLISHER);
