@@ -53,6 +53,28 @@ export default class AdminStock extends Component {
         
     }
 
+    export = () => {
+        const pdfConverter = require('jspdf');
+        const doc = new pdfConverter("p","pt","c6");
+        const elements= {...this.state.products}
+        
+        doc.setFontSize(22);
+        doc.text(20,50,"Entire stock:")
+        doc.setFontSize(10)
+        let pdfXPlace = 25
+        let pdfYPlace = 65
+        for (const key in elements){
+            
+            doc.text(elements[key].productName,pdfXPlace,pdfYPlace)
+            doc.text(elements[key].quantity.toString(),pdfXPlace+250,pdfYPlace)
+            doc.line(20,pdfYPlace+5,300,pdfYPlace+5)
+            pdfYPlace += 17
+        }
+
+        doc.save("EntireStock.pdf")
+
+    }
+
     render() {
       let selectedId = this.state.selectedId
 
@@ -110,7 +132,7 @@ export default class AdminStock extends Component {
                                 >Remove</button>
                             </div>
                             <div>
-                                <button className="btn-lg btn-block btn-block my-2">Export</button>
+                                <button onClick={this.export} className="btn-lg btn-block btn-block my-2">Export</button>
                             </div>
                         </div>
                     </div>
