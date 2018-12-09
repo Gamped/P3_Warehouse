@@ -26,6 +26,8 @@ public class OrderRepositoryTest {
     ClientRepository clientRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    PublisherRepository publisherRepository;
 
     @Test
     public void findByIdTest(){
@@ -92,6 +94,7 @@ public class OrderRepositoryTest {
 
         }
 
+        publisherRepository.save(publisher);
         clientRepository.save(client);
         productRepository.save(product);
         productRepository.save(flyerProduct);
