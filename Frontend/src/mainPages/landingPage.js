@@ -39,7 +39,7 @@ class Home extends React.Component{
 
 const mapStateToProps = (state) =>{
     return {
-        name: state.loginReducer.nickName,
+        name: state.loginReducer.userName,
         userType: state.loginReducer.userType
     }
 }

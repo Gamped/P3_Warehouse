@@ -2,7 +2,6 @@ import React,{Component} from 'react';
 import axios from 'axios';
 import "../../Pages.css";
 import "./AdminStock.css";
-import {Clearfix, MenuItem} from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
 
@@ -49,7 +48,7 @@ export default class NewWare extends Component {
                 userType: publisher.userType
             })
 
-            if (publisher.numberOfClients != 0) {
+            if (publisher.numberOfClients !== 0) {
 
                 publisher.clientStream.forEach((client) => {
                     owners.push({
