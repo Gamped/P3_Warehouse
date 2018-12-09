@@ -52,8 +52,11 @@ class PublisherClient extends React.Component {
       ]
         return(
             <div className="PageStyle rounded">
-                <nav className="navbar navbar-secondary bg-secondary"><h3> All clients' stock</h3></nav>
-                    <div className="mainContent container col">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">All clients' stock</a>
+                </nav>
+                <div className="container row">
+                    <div className="col">
                         <ReactTable
                             columns={columns}
                             data={this.state.products}
@@ -77,16 +80,15 @@ class PublisherClient extends React.Component {
                                 }
                             }}
                         />
-
-                        <div className="buttons container row">
-                            <div className="col">    
-                                <Link to="/User/Clients/Request" className="btn btn-block btn-warning">Request client change</Link>
-                            </div>
-                            <div className="col">
-                                <button className="btn-info btn btn-block">Export their stock</button>
-                            </div>
+                    </div>
+                    <div class="w-100"></div>
+                    <div className="col md-auto">    
+                        <div className="button-group">
+                            <button type="button" className="btn btn-info mx-2">Export their stock</button>
+                             <Link to="/User/Clients/Request" type="button" className="btn btn-warning mx-2">Request client change</Link>
                         </div>
                     </div>
+                </div>
   
                 
             </div>

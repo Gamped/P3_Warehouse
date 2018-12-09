@@ -55,34 +55,43 @@ export default class UserStock extends React.Component {
         ]
         return(
             <div className="PageStyle rounded">
-                <navbar className="navbar navbar-secondary bg-secondary"><h2>Your Stock</h2></navbar>
-
-                <div className="listBox contentBoxStyle">
-                    <ReactTable
-                        columns={columns}
-                        data={this.state.products}
-                        showPagination={false} 
-                        className="-striped -highlight"
-                        getTrProps={(state, rowInfo) => {
-                            if (rowInfo && rowInfo.row) {
-                                return {
-                                onClick: (e) => {
-                                    
-                                    this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-                                    console.log(rowInfo.original)
-                                },
-                                style: {
-                                    background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                    color: rowInfo.index === this.state.selected ? 'white' : 'black'
-                                }
-                                }
-                            }else{
-                                return {}
-                            }
-                        }}
-                    />
+             <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">Your Stock</a>
+             </nav>
+                    <div className="row">
+                        <div className="col">
+                        <div className="">
+                            <ReactTable
+                                columns={columns}
+                                data={this.state.products}
+                                showPagination={false} 
+                                className="-striped -highlight"
+                                getTrProps={(state, rowInfo) => {
+                                    if (rowInfo && rowInfo.row) {
+                                        return {
+                                        onClick: (e) => {
+                                            
+                                            this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                            console.log(rowInfo.original)
+                                        },
+                                        style: {
+                                            background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                            color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                        }
+                                        }
+                                    }else{
+                                        return {}
+                                    }
+                                }}
+                                defaultPageSize={25}
+                                style={{
+                                    height: "400px"                                      
+                                 }}
+                            />
+                        </div>
+                    </div>
                 </div>
-            </div>
+        </div>
         );
     }
 }
