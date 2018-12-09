@@ -55,20 +55,25 @@ export default class AdminStock extends Component {
 
     export = () => {
         const pdfConverter = require('jspdf');
-        const doc = new pdfConverter("p","pt","c6");
+        const doc = new pdfConverter();
         const elements= {...this.state.products}
         
         doc.setFontSize(22);
-        doc.text(20,50,"Entire stock:")
-        doc.setFontSize(10)
-        let pdfXPlace = 25
-        let pdfYPlace = 65
+        doc.text(20,50,"Entire stock:");
+        doc.setFontSize(10);
+        let pdfXPlace = 25;
+        let pdfYPlace = 65;
+        let counter = 0;
         for (const key in elements){
             
-            doc.text(elements[key].productName,pdfXPlace,pdfYPlace)
-            doc.text(elements[key].quantity.toString(),pdfXPlace+250,pdfYPlace)
-            doc.line(20,pdfYPlace+5,300,pdfYPlace+5)
-            pdfYPlace += 17
+            doc.text("Name: "+elements[key].productName,pdfXPlace,pdfYPlace);
+            doc.text("Quantity: " + elements[key].quantity,pdfXPlace+120,pdfYPlace);
+            doc.line(20,pdfYPlace+5,175,pdfYPlace+5);
+            pdfYPlace += 17;
+            counter += 1;
+            if(counter%25===0){
+                doc.addPage()
+            }
         }
 
         doc.save("EntireStock.pdf")

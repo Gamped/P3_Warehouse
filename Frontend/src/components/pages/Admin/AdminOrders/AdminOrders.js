@@ -147,6 +147,40 @@ export default class AdminOrders extends Component {
         this.props.history.push(address);
     }
 
+    export = () =>{
+        const pdfConverter = require('jspdf');
+        const doc = new pdfConverter();
+        alert("HIV HVAD DER STÅR I ORDER UD. SNAK VENLIGST MED TOBIAS")
+        
+        /* TODO: Find ud af hvad der skal skrives ind i pdfen.
+
+        doc.setFontSize(22);
+        doc.text(20,50,"Entire stock:");
+        doc.setFontSize(10);
+        let pdfXPlace = 25;
+        let pdfYPlace = 65;
+        let counter = 0;
+        for (const key in elements){
+            
+            doc.text("Name: "+elements[key].productName,pdfXPlace,pdfYPlace);
+            doc.text("Quantity: " + elements[key].quantity,pdfXPlace+120,pdfYPlace);
+            doc.line(20,pdfYPlace+5,175,pdfYPlace+5);
+            pdfYPlace += 17;
+            counter += 1;
+            if(counter%25===0){
+                doc.addPage()
+            }
+        }
+
+        doc.save("EntireStock.pdf")
+*/
+    }
+
+    finishOrder = () =>{
+        //TODO: See above.
+        alert("Missing func. Her skal den printe en følge seddel og slette ordren.")
+    }
+
     render() {
       
         const orders = this.state.orders;
@@ -207,8 +241,8 @@ export default class AdminOrders extends Component {
                                 <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns}showPagination={false} 
                                 className="-striped -highlight"/>
                                  <div className="  px-1">
-                                    <button type= "button" className="btn btn-info mx-3">Export order To PDF</button>  
-                                    <button type= "button" className="btn btn-dark mx-3">Finish order </button> 
+                                    <button type= "button" className="btn btn-info mx-3" onClick={this.export}>Export order To PDF</button>  
+                                    <button type= "button" className="btn btn-dark mx-3" onClick={this.finishOrder}>Finish order </button> 
                                 </div>
                        </div>  
                  </div>    
