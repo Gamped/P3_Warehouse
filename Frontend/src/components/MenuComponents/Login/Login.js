@@ -33,14 +33,13 @@ class SignInBox extends React.Component {
                 this.props.setUserId(result.data.hexId)
                 this.props.setlogIn("True")
             })
-            /*.then(setTimeout(this.props.history.push("./Home"),100))*/
     }
 
     render(){
         if(this.props.user.loggedIn==="True"){
             this.props.history.push("./Home")
         }
-        
+
         return(
             //This is what we return and what the user sees.
             <div>
