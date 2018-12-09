@@ -18,7 +18,7 @@ class AdminProfile extends React.Component {
    
     componentDidMount(){
         //Todo: Sørg for at den henter det rigtige sted fra
-        Axios.get("http://localhost:8080/employee/" + this.state.userId)
+        Axios.get("http://localhost:8080/api/employee/" + this.state.userId)
             .then((response) => {
                 this.userName = response.userName;
                 this.name = response.nickname;

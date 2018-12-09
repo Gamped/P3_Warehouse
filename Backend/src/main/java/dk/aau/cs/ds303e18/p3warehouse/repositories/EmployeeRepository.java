@@ -12,6 +12,9 @@ import java.util.Collection;
 
 public interface EmployeeRepository extends MongoRepository<Employee, ObjectId> {
     Employee findByNickname(@PathVariable String nickname);
+
+    Employee findById(String hexId);
+
     public void deleteById(@PathVariable ObjectId id);
 
 }

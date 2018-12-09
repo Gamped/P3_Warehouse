@@ -4,15 +4,13 @@ public class RestEmployeeModel extends RestUserModel{
     private String username;
     private String password;
     private String nickname;
-    private String email;
-    private String phonenumber;
 
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
-        //Check to make sure input is not empty.
+        isContentPresent(username);
         this.username = username;
     }
 
@@ -32,22 +30,6 @@ public class RestEmployeeModel extends RestUserModel{
 
     public void setNickname(String nickname) {
         if(isContentPresent(nickname)) this.nickname = nickname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        if(isContentPresent(email)) this.email = email;
-    }
-
-    public String getPhonenumber() {
-        return phonenumber;
-    }
-
-    public void setPhonenumber(String phonenumber) {
-        if(isContentPresent(phonenumber)) this.phonenumber = phonenumber;
     }
 
     private boolean isContentPresent(String string){

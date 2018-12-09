@@ -17,8 +17,9 @@ class AdminRemove extends React.Component {
     }
 
     initiateRemoval(){
-        axios.delete("http://localhost:8080/employee/delete/" + this.state.userId, 
-        {data: {employeeName: this.state.userName, password: this.state.password}})
+        const {employeeName, password} = this.state;
+        axios.delete("http://localhost:8080/api/employee/delete/" + this.state.userId, 
+        {data: {employeeName: employeeName, password: password}})
     }
 
     /*
