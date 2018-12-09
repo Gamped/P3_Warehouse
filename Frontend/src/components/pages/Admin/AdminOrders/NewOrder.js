@@ -8,10 +8,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
 //TODO: Render warning in previouslyAddedWarning
-//TODO: Put items in cart notification symbol on cart button
-//TODO: Make downsliding text saying "Added to cart" and "Removed from cart"
 //TODO: Fix textfield in row errors
-//TODO: Properly pass orderLines in state as props to NewOrdere child
 
 class NewOrder extends React.Component {
     

@@ -1,34 +1,25 @@
-const initialState ={loggedIn:"False",
+/*const initialState ={loggedIn:"False",
 userType:"",
-nickName:"",
-userId:"",};
+userName:"",
+userId:"",};*/
 
 const devState ={loggedIn:"True",
 userType:"EMPLOYEE",
-nickName:"Kev The Machine",
-userId:"123ABC",};
+userName:"Kev The Machine",
+userId:"5c093761373c4261b96b4e25",};
 
 const loginReducer = (state = devState, action) => {
     switch(action.type){
         case "SET_USERTYPE":
-            state = {...state, userType: action.payload}
-            console.log(state)
-            break;
         case "SET_USERNAME":
-            state = {...state, nickName: action.payload}
-            console.log(state)
-            break;
         case "SET_USERID":
-            state = {...state, userId: action.payload}
-            console.log(state)
-            break;
         case "SET_LOGIN":
-            state = {...state, loggedIn: action.payload}
+            state = {...state, ...action.payload}
             console.log(state)
             break;
         case "LOGOUT":
             state ={...state, userType: ""}
-            state ={...state, nickName: ""}
+            state ={...state, userName: ""}
             state ={...state, userId: ""}
             state ={...state, loggedIn: "False"} 
             break;

@@ -44,9 +44,8 @@ export default class EditOrderContent extends Component{
                         <ReactTable 
                             data={this.state.orderLineData}
                             columns={orderLineColumns}
-                            className="OrderLines"
                             showPagination={false} 
-                            className="orderLineTable -striped -highlight"
+                            className="OrderLines orderLineTable -striped -highlight"
                             getTrProps={(state, rowInfo) => {
                                 if (rowInfo && rowInfo.row) {
                                     return {
@@ -71,9 +70,8 @@ export default class EditOrderContent extends Component{
                         <ReactTable 
                             data={this.state.productData}
                             columns={productColumns}
-                            className="Products"
                             showPagination={false} 
-                            className="productTable -striped -highlight"
+                            className="Products productTable -striped -highlight"
                             getTrProps={(state, rowInfo) => {
                                 if (rowInfo && rowInfo.row) {
                                     return {

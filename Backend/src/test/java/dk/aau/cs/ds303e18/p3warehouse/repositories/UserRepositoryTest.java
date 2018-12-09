@@ -78,6 +78,8 @@ public class UserRepositoryTest {
         publisher.addProduct(computerProduct);
         computerProduct.setOwner(publisher);
 
+        flyerProduct.setOwner(client);
+        noteProduct.setOwner(client);
         client.addProduct(flyerProduct);
         client.addProduct(noteProduct);
         flyerProduct.setOwner(client);
