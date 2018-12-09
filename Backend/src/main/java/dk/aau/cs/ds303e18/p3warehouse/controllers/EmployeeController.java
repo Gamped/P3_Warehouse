@@ -156,11 +156,11 @@ public class EmployeeController {
 
     //UPDATE: EMPLOYEE, PRODUCTS, CONTACT INFORMATION (CLIENT, PUBLISHER), USERS
 
-    @PutMapping("/employee/edit/{hexId}/setNickName={nickName}")
-    String updateEmployee(@PathVariable("hexId") String hexId, @PathVariable("nickName") String nickName) {
+    @PutMapping("/employee/edit/{hexId}")
+    String updateEmployee(@PathVariable("hexId") String hexId, @RequestBody RestEmployeeModel restEmployeeModel) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(new ObjectId(hexId));
         Employee employee = optionalEmployee.get();
-        employee.setNickname(nickName);
+        employee.setNickname(restEmployeeModel.getNickname());
         employeeRepository.save(employee);
 
         return "Updated Employee with nickName " + employee.getNickname();
@@ -232,14 +232,16 @@ public class EmployeeController {
 
 
     @DeleteMapping("/employee/delete/{hexId}")
-    public void deleteEmployeeById(@PathVariable String hexId, @RequestBody String employeeName, @RequestBody String password) {
+    public String deleteEmployeeById(@PathVariable String hexId, String employeeName, String password) {
         ObjectId id = new ObjectId(hexId);
         if(!employeeRepository.existsById(id)){ //Prevents the deleter from deleting if the deleter is not in the database.
-            return;
+            return "Unauthorized action";
         }
         if(password.equals(employeeRepository.findById(id).get().getPassword())){
             employeeRepository.deleteById(employeeRepository.findByNickname(employeeName).getId());
+            return "Deletion Success";
         }
+        return "Deletion failed";
     }
 
 

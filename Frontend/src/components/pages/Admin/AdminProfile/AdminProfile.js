@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from "axios";
+import Axios from "axios";
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
 
@@ -18,7 +18,7 @@ class AdminProfile extends React.Component {
    
     componentDidMount(){
         //Todo: Sørg for at den henter det rigtige sted fra
-        axios.get("http://localhost:8080/employee/" + this.state.userId)
+        Axios.get("http://localhost:8080/employee/" + this.state.userId)
             .then((response) => {
                 this.userName = response.userName;
                 this.name = response.nickname;
