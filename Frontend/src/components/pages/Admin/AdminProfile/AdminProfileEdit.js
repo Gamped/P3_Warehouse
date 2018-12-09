@@ -3,13 +3,14 @@ import "../../Pages.css";
 import "./AdminProfile.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import Axios from 'axios';
 
 class AdminProfileEdit extends React.Component {
    
 constructor(props) {
     super(props);
     this.state = {
-        userID: props.ID,
+        userId: props.userId,
         userName: "",
         name: "",
         email: "",
@@ -30,6 +31,7 @@ confirmed = (event) =>{
     if (this.state.passwordNew===this.passwordNewRepeat
         || (this.state.passwordNew.length===0 && this.state.passwordNewRepeat.length===0)){
         //Todo: Insert axios der skriver nyt information til serveren. Bruger id er this.props.userID
+        Axios.put("http://localhost:8080/api/employee/edit/" + this.state.userId + "/setNickName=" + this.state.name)
         this.props.history.push("/Admin/Profile")
     }else{
         alert("Password has not been repeated correctly.")
@@ -93,9 +95,9 @@ render(){
 }
 
 const mapStateToProps = (state) => {
-return {
-    userID: state.loginReducer.userId
-}
+    return {
+        userId: state.loginReducer.userId
+    }
 }
 
 export default connect(mapStateToProps)(AdminProfileEdit)
