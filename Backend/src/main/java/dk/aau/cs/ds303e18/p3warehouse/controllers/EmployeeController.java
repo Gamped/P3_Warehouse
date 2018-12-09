@@ -232,8 +232,14 @@ public class EmployeeController {
 
 
     @DeleteMapping("/employee/delete/{hexId}")
-    public void deleteEmployeeById(@PathVariable String hexId) {
-        employeeRepository.deleteById(new ObjectId(hexId));
+    public void deleteEmployeeById(@PathVariable String hexId, @RequestBody String employeeName, @RequestBody String password) {
+        ObjectId id = new ObjectId(hexId);
+        if(!employeeRepository.existsById(id)){ //Prevents the deleter from deleting if the deleter is not in the database.
+            return;
+        }
+        if(password.equals(employeeRepository.findById(id).get().getPassword())){
+            employeeRepository.deleteById(employeeRepository.findByNickname(employeeName).getId());
+        }
     }
 
 
