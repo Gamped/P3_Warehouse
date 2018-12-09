@@ -150,13 +150,13 @@ class NewOrder extends React.Component {
                          <div class="col-my-auto">
                                  <div className="OrderList">
                                     <ReactTable  
-                                    data={data} 
-                                    columns={columns} 
-                                    showPagination={false} 
-                                    className="-striped -highlight"
-                                    getTrProps={(state, rowInfo) => {
-                                        if (rowInfo && rowInfo.row) {
-                                          return {
+                                        data={data} 
+                                        columns={columns} 
+                                        showPagination={false} 
+                                        className="-striped -highlight"
+                                        getTrProps={(state, rowInfo) => {
+                                            if (rowInfo && rowInfo.row) {
+                                            return {
                                             onClick: () => {
                                                 
                                                 this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
@@ -187,6 +187,9 @@ class NewOrder extends React.Component {
                              </div>
                              <div className="col my-2">
                                  <button type="button" className="btn-lg btn-block btn-warning my-2" onClick={this.undoOrderLine}>Undo</button>
+                            </div>
+                            <div className="col my-2">
+                                 <Link to="/Admin/Orders" className="btn-lg btn-block btn-info my-2 "role="button" >Back</Link>
                             </div>
                         </div>
                     </nav>      

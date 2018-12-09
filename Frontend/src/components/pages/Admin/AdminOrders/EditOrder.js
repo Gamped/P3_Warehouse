@@ -1,7 +1,7 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import ReactTable from 'react-table';
-
+import { Link } from "react-router-dom";
 import "../../Pages.css";
 import "./EditOrder.css"
 
@@ -58,8 +58,9 @@ export default class EditOrder extends Component{
                         }}
                     />
                     <div className="Buttons container row">
-                        <button className="btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress")}>Edit Address</button>
-                        <button className="btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderContent")}>Edit Contents</button>
+                        <button className="col btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress")}>Edit Address</button>
+                        <button className="col btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderContent")}>Edit Contents</button>
+                        <Link to="/Admin/Orders" className="col btn btn-info mx-2 " role=" button" >Back</Link>
                     </div>
                 </div>
             </div>
