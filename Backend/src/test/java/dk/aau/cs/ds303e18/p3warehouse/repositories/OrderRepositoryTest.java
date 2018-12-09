@@ -8,6 +8,7 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,12 @@ public class OrderRepositoryTest {
         orderRepository.save(order);
     }
 
-    @Test
-    public void deletAllEntries(){
+    @Before
+    public void deleteAllEntries(){
 
         orderRepository.deleteAll();
+        productRepository.deleteAll();
+        clientRepository.deleteAll();
     }
 
     @Test
@@ -64,18 +67,22 @@ public class OrderRepositoryTest {
         product.setProductName("Computer");
         product.setQuantity(10);
         product.setProductId("1001");
+        product.setOwner(client);
 
         Product flyerProduct = new Product(new ObjectId());
         product.setProductName("Flyer for Advertisement");
         product.setQuantity(500);
         product.setProductId("1002");
+        flyerProduct.setOwner(client);
 
         ObjectId orderId = new ObjectId();
         Order order = new Order(orderId);
         order.setOwner(client);
         order.setDate(new Date());
 
-
+        client.addProduct(product);
+        client.addProduct(flyerProduct);
+        client.addOrder(order);
 
         try {
             order.withNewOrderLine(product, 5);
@@ -84,8 +91,10 @@ public class OrderRepositoryTest {
         }catch(InvalidQuantityException e ){
 
         }
+
         clientRepository.save(client);
         productRepository.save(product);
+        productRepository.save(flyerProduct);
         orderRepository.save(order);
 
 
