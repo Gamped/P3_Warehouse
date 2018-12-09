@@ -17,29 +17,32 @@ class SignInBox extends React.Component {
         }
     }
 
+    //Mapping the value of the textbox to the state
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
     }
 
-
+    //This handles our login. Takes an event and calls axios.
+    //Then we map the results to redux through dispatches before pushing the user to main.
     loginHandler = (event) => {
         event.preventDefault()
-
-       axios.get("localhost:8080/api/users/login/" + this.state.userName + "/" +this.state.password)
+       axios.get("http://localhost:8080/api/users/login/" + this.state.userName + "/" +this.state.password)
             .then(result => {
-                console.log(result);
-                this.props.setNickName(result.data.nickName);
+                this.props.setUserName(result.data.contactInformation.nickName);
                 this.props.setUserType(result.data.userType);
                 this.props.setUserId(result.data.hexId)
                 this.props.setlogIn("True")
             })
-            /*.then(this.props.history.push("./Home"))*/
+            /*.then(setTimeout(this.props.history.push("./Home"),100))*/
     }
 
     render(){
-
+        if(this.props.user.loggedIn==="True"){
+            this.props.history.push("./Home")
+        }
+        
         return(
-            //Functionality for responding to user input
+            //This is what we return and what the user sees.
             <div>
                 
                 <div className="col-sm makeRelative mx-auto mt-5">
@@ -76,16 +79,16 @@ class SignInBox extends React.Component {
 
 const mapStateToProps = (state)=>{
     return {
-        userType: state.loginReducer
+        user: state.loginReducer
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return {
         setUserType: (userType) => {dispatch({type: "SET_USERTYPE",payload: {userType}})},
-        setNickName: (userName) => {dispatch({type: "SET_USERNAME",payload: {userName}})},
+        setUserName: (userName) => {dispatch({type: "SET_USERNAME",payload: {userName}})},
         setUserId: (userId) => {dispatch({type: "SET_USERID",payload: {userId}})},
-        setlogIn: (logged) => {dispatch({type: "SET_LOGIN",payload: {logged}})}
+        setlogIn: (loggedIn) => {dispatch({type: "SET_LOGIN",payload: {loggedIn}})}
     }
 }
 

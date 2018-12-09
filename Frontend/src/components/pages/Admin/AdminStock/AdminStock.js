@@ -4,7 +4,7 @@ import "../../Pages.css";
 import "./AdminStock.css"
 import axios from 'axios';
 import ReactTable from 'react-table';
-import Edit from './Edit';
+//import Edit from './Edit';
 
 
 
@@ -54,7 +54,6 @@ export default class AdminStock extends Component {
     }
 
     render() {
-      let selected = this.state.selected;
       let selectedId = this.state.selectedId
 
       const columns = [
