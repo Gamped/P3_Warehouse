@@ -1,20 +1,19 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
- import dk.aau.cs.ds303e18.p3warehouse.exceptions.ProductNotFoundException;
- import dk.aau.cs.ds303e18.p3warehouse.managers.EmployeeManager;
- import dk.aau.cs.ds303e18.p3warehouse.managers.ProductManager;
- import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
- import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.*;
- import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
- import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
- import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
- import org.bson.types.ObjectId;
- import org.springframework.beans.BeanUtils;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.web.bind.annotation.*;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestCustomerModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestEmployeeModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestUserModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
+import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
+import org.bson.types.ObjectId;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
- import java.util.Collection;
- import java.util.Optional;
+import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -84,9 +83,13 @@ public class EmployeeController {
     String createClient(@RequestBody RestCustomerModel restCustomerModel) {
 
         Client client = new Client(new ObjectId());
+
+        User user = new User(client.getId());
+        BeanUtils.copyProperties(restCustomerModel, user);
         BeanUtils.copyProperties(restCustomerModel, client);
         client.setUserType(UserType.CLIENT);
-        userRepository.save(client);
+        user.setUserType(UserType.CLIENT);
+        userRepository.save(user);
         clientRepository.save(client);
         return "Created!";
     }
@@ -223,14 +226,8 @@ public class EmployeeController {
 
 
     @DeleteMapping("/employee/delete/{hexId}")
-    public String deleteEmployeeById(@PathVariable String hexId, String employeeName, String password) {
-        ObjectId id = new ObjectId(hexId);
-        if(!employeeRepository.existsById(id)){ //Prevents the deleter from deleting if the deleter is not in the database.
-            return "Unauthorized action";
-        }
-        //returns a nullpointerexception and I don't know why
-        EmployeeManager.removeEmployeeFromDb(employeeRepository.findByNickname(employeeName));
-        return "Deletion Success";
+    public void deleteEmployeeById(@PathVariable String hexId) {
+        employeeRepository.deleteById(new ObjectId(hexId));
     }
 
 

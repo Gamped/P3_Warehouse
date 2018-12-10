@@ -2,9 +2,9 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ReactTable from 'react-table';
-import axios from 'axios';
 import {makeProductsRowsWithOwner} from './../../../../handlers/dataHandlers.js';
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
+import {get} from './../../../../handlers/requestHandlers';
 
 import "../../Pages.css";
 
@@ -28,14 +28,13 @@ class PublisherClient extends React.Component {
 
     getPublisherProducts() {
 
-        axios.get("localhost:8080/api/publishers/" + this.state.userId + "/clients/products")
-        .then((response) => {
-            const products = makeProductsRowsWithOwner(response.data);
+        get("publisher/" + this.state.userId + "/clients/products", (data) => {
+        
+            const products = makeProductsRowsWithOwner(data);
             this.setState({ products: products });
         })
+           
     }
-
-
    
 
   render() {

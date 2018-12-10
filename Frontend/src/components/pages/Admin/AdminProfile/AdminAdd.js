@@ -3,6 +3,7 @@ import "../../Pages.css";
 import "./AdminProfile.css";
 import axios from "axios";
 import {Link} from "react-router-dom"
+import {post} from './../../../../handlers/requestHandlers.js';
 
 export default class AdminAdd extends React.Component {
     constructor(props) {
@@ -18,32 +19,13 @@ export default class AdminAdd extends React.Component {
         event.preventDefault();
         const {userName, nickname, password} = this.state;
 
-        setTimeout(function () {
-            axios.post('http://localhost:8080/api/employee/employees', {nickname, userName, password}).then((result)=> {
+        post('employee/employees', {nickname, userName, password}, () => {
                 this.props.history.goBack();
-            }).catch((err) => {
-            console.log(err.response);
             });
-        }, 1000);
-        this.props.history.goBack();
     }
 
-    handleUName = (event) => {
-        this.setState({
-            userName: event.target.value,
-        });
-    }
-
-    handleName = (event) => {
-        this.setState({
-            nickname: event.target.value,
-        });
-    }
-
-    handleNewPass = (event) => {
-        this.setState({
-            password: event.target.value,
-        });
+    onChange = (e) => {
+        this.setState({[e.target.name]: e.target.value});
     }
 
     render(){
@@ -56,17 +38,20 @@ export default class AdminAdd extends React.Component {
                             <input 
                                 type="text" 
                                 className="form-control mb-2" 
-                                onChange={this.handleUName}
+                                onChange={this.onChange}
+                                name="userName"
                                 placeholder="Username"/>
                             <input 
                                 type="text" 
                                 className="form-control mb-2" 
-                                onChange={this.handleName}
+                                onChange={this.onChange}
+                                name="nickName"
                                 placeholder="nickname"/>
                             <input 
                                 type="password" 
                                 className="form-control mb-2" 
-                                onChange={this.handleNewPass}
+                                onChange={this.onChange}
+                                name="password"
                                 placeholder="New password"/>
                         </form>
                         <form className="newForm stockForm">

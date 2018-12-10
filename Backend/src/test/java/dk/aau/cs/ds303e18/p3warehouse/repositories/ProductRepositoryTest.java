@@ -13,12 +13,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.is;
+
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class ProductRepositoryTest {
     @Autowired
     ProductRepository repository;
 
+    @Test
+    public void testFindAllProducts() {
+        List<Product> products = repository.findAll();
+        assertThat(products.size(), is(greaterThanOrEqualTo(0)));
+    }
     @Test
     public void findByIdTest(){
         ObjectId objectId = new ObjectId();
