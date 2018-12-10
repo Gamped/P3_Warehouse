@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 public class Publisher extends Customer {
 
     @Id
-    private ObjectId id;
+    private ObjectId id = new ObjectId();
     @DBRef
     private Collection<Client> clients;
 

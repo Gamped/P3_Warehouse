@@ -5,14 +5,8 @@ public class UserRef {
     private UserType userType;
 
     public UserRef(User user){
-        if(user == null) {
-            this.userHexId = null;
-            this.userType = null;
-        }
-        else {
-            this.userHexId = user.getId().toHexString();
-            this.userType = user.getUserType();
-        }
+        this.userHexId = user.getId().toHexString();
+        this.userType = user.getUserType();
     }
 
     public String getUserHexId() {
