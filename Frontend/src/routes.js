@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import NewOrder from './components/pages/Admin/AdminOrders/NewOrder';
 import EditOrder from './components/pages/Admin/AdminOrders/EditOrder';
 import AdminOrder from './components/pages/Admin/AdminOrders/EditOrder';
@@ -22,14 +22,15 @@ import AdminUsers from "./components/pages/Admin/AdminUsers/AdminUsers";
 import PublisherClient from "./components/pages/User/PublisherClients/PublisherClient";
 import PublisherRequestClientChange from "./components/pages/User/PublisherClients/PublisherRequestClientChange";
 import UserStock from "./components/pages/User/UserStock/UserStock";
-import UserProfile from "./components/pages/User/UserProfile/UserProfile"
-import UserProfileEdit from "./components/pages/User/UserProfile/UserProfileEdit"
-import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHistory"
+import UserProfile from "./components/pages/User/UserProfile/UserProfile";
+import UserProfileEdit from "./components/pages/User/UserProfile/UserProfileEdit";
+import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHistory";
 import UserOrder from "./components/pages/User/UserOrder/UserOrder";
 import UserOrderCart from "./components/pages/User/UserOrder/UserOrderCart";
 import UserCartConfirm from "./components/pages/User/UserOrder/UserCartConfirm";
-import Header from "./components/Header/Header";
+import Menues from "./components/Menues/Menues";
 import Home from "./mainPages/landingPage";
+import CreateUser from "./components/pages/Admin/AdminUsers/CreateUser";
 import {Route} from "react-router-dom";
 
 const routes = () =>{
@@ -37,9 +38,10 @@ const routes = () =>{
     return(
             <div>
                 <Route exact path="/" component={loginMain}/>
-                <Route path="/Home" component={Header}/>
+                <Route path="/Home" component={Menues}/>
                 <Route exact path="/Home" component={Home}/>
-    
+                
+                <Route path="/Admin" component={Menues}/>
                 <Route exact path="/Admin/*" component={adminMain}/>
                 <Route exact path="/Admin/Orders" component={AdminOrders}/>
                 <Route exact path="/Admin/Orders/New" component={NewOrder}/>
@@ -55,10 +57,12 @@ const routes = () =>{
                 <Route exact path="/Admin/Stock/Edit/:id" component={Edit}/>
                 <Route exact path="/Admin/Stock/Remove" component={RemoveWare}/>
                 <Route exact path="/Admin/Users" component={AdminUsers}/>
+                <Route exact path="/Admin/Users/Create" component={CreateUser}/>
                 <Route exact path="/Admin/Order" component={AdminOrder}/>
                 <Route exact path="/Admin/Order/Cart" component={AdminOrderCart}/>
                 <Route exact path="/Admin/Order/Cart/Confirm" component={AdminCartConfirm}/>
 
+                <Route path="/User" component={Menues}/>
                 <Route exact path="/User/*" component={userMain}/>
                 <Route exact path="/User/Order" component={UserOrder}/>
                 <Route exact path="/User/Order/Cart" component={UserOrderCart}/>
