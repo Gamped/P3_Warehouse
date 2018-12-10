@@ -47,7 +47,7 @@ public class EmployeeRoutes {
 
     //One publisher with one client
     @Test
-    public void checkDatabase() {
+    public void onePublisherAndOneClient() {
         Publisher publisher = new Publisher(newObjectId());
         Client client = new Client(newObjectId());
         Product product = new Product(newObjectId());
@@ -86,8 +86,16 @@ public class EmployeeRoutes {
         orderLines.add(orderLine);
 
         clientOrder.setTitle("clientorder");
+        clientOrder.setOrderId("24157458769");
+        clientOrder.setAddress("november 34");
+        clientOrder.setDate(new Date());
+        clientOrder.setOrderLines(orderLines);
 
         publisherOrder.setTitle("publisherorder");
+        publisherOrder.setOrderId("253178961312");
+        publisherOrder.setAddress("syvvej 10");
+        publisherOrder.setDate(new Date());
+        publisherOrder.setOrderLines(Collections.singleton(publisherOrderLine));
 
         publisher.setUserName("Publisher");
         publisher.setPassword("esfegr8433");
@@ -335,6 +343,8 @@ public class EmployeeRoutes {
         client.setUserName("client");
         client.setPassword("fegrdaaa");
         client.setUserType(UserType.CLIENT);
+        client.addProduct(secondProduct);
+        client.addProduct(thirdProduct);
         client.addOrder(secondOrder);
         client.addOrder(thirdOrder);
 
@@ -349,14 +359,13 @@ public class EmployeeRoutes {
         thirdClient.setUserName("thirdclient");
         thirdClient.setPassword("fesfew898");
         thirdClient.setUserType(UserType.CLIENT);
+        thirdClient.addProduct(fourthProduct);
         thirdClient.addOrder(fourthOrder);
 
         fourthClient.setContactInformation(fourthClientContactInformation);
         fourthClient.setUserName("fourthclient");
         fourthClient.setPassword("fesf86rg4r6d");
         fourthClient.setUserType(UserType.CLIENT);
-        fourthClient.addProduct(thirdProduct);
-        fourthClient.addProduct(fourthProduct);
 
         publisher.setContactInformation(publisherContactInformation);
         publisher.setUserName("publisher");
@@ -366,9 +375,9 @@ public class EmployeeRoutes {
         publisher.addClient(secondClient);
         publisher.addClient(thirdClient);
         publisher.addClient(fourthClient);
-        publisher.addOrder(order);
         publisher.addProduct(product);
-        publisher.addProduct(secondProduct);
+        publisher.addOrder(order);
+
 
         productRepository.save(product);
         productRepository.save(secondProduct);

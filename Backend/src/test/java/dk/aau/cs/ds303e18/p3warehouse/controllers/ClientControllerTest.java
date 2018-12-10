@@ -87,7 +87,7 @@ public class ClientControllerTest {
         verify(clientRepository).findById(client.getId());
         assertEquals(client.getId(), retrievedClient.getId());
     }
-    /*
+
     @Test
     public void testUpdateClient() {
         ObjectId id = new ObjectId();
