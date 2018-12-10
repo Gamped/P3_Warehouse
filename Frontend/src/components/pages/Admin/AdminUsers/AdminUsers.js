@@ -133,8 +133,8 @@ export default class AdminUsers extends Component {
                                 <div className="container col">
                                     <div className="row">
                                         
-                                        <div class="input-group mt-3 mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mt-3 mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="nickName" 
                                                 className="input-group-text" 
                                                 id="nickNameLabel">
@@ -149,8 +149,8 @@ export default class AdminUsers extends Component {
                                                  name="nickName"                                        
                                                  />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="userNameInput" 
                                                 className="input-group-text" 
                                                 id="userNameLabel">
@@ -165,8 +165,8 @@ export default class AdminUsers extends Component {
                                             name="userName"                                        
                                             />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="email" 
                                                 className="input-group-text" 
                                                 id="emailLabel">
@@ -181,8 +181,8 @@ export default class AdminUsers extends Component {
                                             name="email"                                        
                                             />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="phone" 
                                                 className="input-group-text" 
                                                 id="phoneLabel">
@@ -197,8 +197,8 @@ export default class AdminUsers extends Component {
                                                  name="phoneNumber"                                        
                                                  />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="address" 
                                                 className="input-group-text" 
                                                 id="addressLabel">
@@ -213,8 +213,8 @@ export default class AdminUsers extends Component {
                                                 name="address"                                        
                                                  />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="city" 
                                                 className="input-group-text" 
                                                 id="cityLabel">
@@ -229,8 +229,8 @@ export default class AdminUsers extends Component {
                                                  name="city"                                        
                                                  />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="zip" 
                                                 className="input-group-text" 
                                                 id="zipLabel">
@@ -248,8 +248,8 @@ export default class AdminUsers extends Component {
                                         
                                          <h4 className="text-center">Change password:</h4>
                                         
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="newPassword" 
                                                 className="input-group-text" 
                                                 id="passwordLabel">
@@ -263,8 +263,8 @@ export default class AdminUsers extends Component {
                                                  name="newPassword"                                        
                                                  />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="confirmedPassword" 
                                                 className="input-group-text" 
                                                 id="confirmedLabel">
