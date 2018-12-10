@@ -366,12 +366,16 @@ public class EmployeeControllerTest {
         ObjectId id = new ObjectId();
         Employee employee = new Employee(id);
         employee.setUserName("fred");
+        employee.setNickname("haller");
 
-        //when(employeeRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
+        when(employeeRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
 
-        //employeeController.deleteEmployeeById(String.valueOf(employee.getId()));
+        String deletedEmployee = employeeController.deleteEmployeeById(String.valueOf(employee.getId()),
+                employee.getNickname(), employee.getPassword());
 
-        //verify(employeeRepository).deleteById(employee.getId());
+        verify(employeeRepository).existsById(employee.getId());
+
+        assertEquals("Deletion Success", deletedEmployee);
     }
 
     @Test

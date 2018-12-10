@@ -124,7 +124,6 @@ public class EmployeeRoutes {
         publisherRepository.save(publisher);
     }
 
-    @Test
     public void addEmployeeToDb() {
         ObjectId employeeId = new ObjectId();
         ObjectId secondEmployeeId = new ObjectId();
@@ -456,7 +455,7 @@ public class EmployeeRoutes {
     }
 
     @Test
-    public void morePublishers() {
+    public void makeData() {
         Publisher publisher = new Publisher(newObjectId());
         Publisher secondPublisher = new Publisher(newObjectId());
         Publisher thirdPublisher = new Publisher(newObjectId());
@@ -464,6 +463,8 @@ public class EmployeeRoutes {
         Client client = new Client(newObjectId());
         Client secondClient = new Client(newObjectId());
         Client thirdClient = new Client(newObjectId());
+        independentClient();
+        addEmployeeToDb();
 
         Product product = new Product(newObjectId());
         Product secondProduct = new Product(newObjectId());
@@ -650,7 +651,7 @@ public class EmployeeRoutes {
         publisherRepository.save(thirdPublisher);
     }
 
-    @Test
+
     public void independentClient() {
         Client client = new Client(newObjectId());
         Order order = new Order(newObjectId());
