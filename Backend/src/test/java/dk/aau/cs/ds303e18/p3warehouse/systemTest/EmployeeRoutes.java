@@ -48,7 +48,7 @@ public class EmployeeRoutes {
     //One publisher with one client
     @Test
     public void onePublisherAndOneClient() {
-        )Publisher publisher = new Publisher(newObjectId());
+        Publisher publisher = new Publisher(newObjectId());
         Client client = new Client(newObjectId());
         Product product = new Product(newObjectId());
         Product clientProduct = new Product(newObjectId());
@@ -64,7 +64,7 @@ public class EmployeeRoutes {
 
         publisherProduct.setProductName("Car magazine");
         publisherProduct.setQuantity(35);
-        publisherProduct.setProductId("561313";
+        publisherProduct.setProductId("561313");
 
 
         Order clientOrder = new Order(newObjectId());

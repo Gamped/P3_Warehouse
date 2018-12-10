@@ -7,6 +7,14 @@ class CreateUser extends React.Component{
         super(props);
         this.state={
             userType:"CLIENT",
+            userName:"",
+            password:"",
+            repeatPass:"",
+            contactInformation:{
+                email: "",
+                phoneNumber: "",
+                nickName: ""
+            }
         }
     }
 
@@ -21,19 +29,27 @@ class CreateUser extends React.Component{
 
     onChange = (e) => {
         this.setState({[e.target.name]:e.target.value});
-        console.log(this.state)
     }
 
     submit=(e)=>{
         e.preventDefault();
-        const body = {...this.state};
+        const body = {
+                    userName:this.state.userName,
+                    password:this.state.password,
+                    userType:this.state.userType,
+                    contactInformation:{
+                        nickName:this.state.nickName,
+                        email:this.state.email,
+                        phoneNumber:this.state.email
+                        }
+                    }
         if(this.state.password===this.state.repeatPass){
             if(this.state.userType==="CLIENT"){
-                post("employee/clients/", {body}, (response)=>{
+                post("employee/clients", body, (response)=>{
                     this.props.history.push("/Admin/Users/")
                     });
             }else{
-                post("employee/publishers/", {body}, (response)=>{
+                post("employee/publishers", body, (response)=>{
                     this.props.history.push("/Admin/Users/")
                     });
             }
@@ -71,9 +87,9 @@ class CreateUser extends React.Component{
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="name">Name:</label>
+                                <label className="input-group-text" htmlFor="nickName">Name:</label>
                             </div>
-                            <input type="text" className="form-control" id="name" name="nickName" onChange={this.onChange} required/>
+                            <input type="text" className="form-control" id="nickName" name="nickName" onChange={this.onChange} required/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
