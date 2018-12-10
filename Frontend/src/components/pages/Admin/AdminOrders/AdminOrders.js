@@ -4,7 +4,8 @@ import ReactTable from "react-table";
 import axios from "axios";
 import "../../Pages.css";
 import "./AdminOrders.css";
-
+import {allProductsNotPackedWarning} from "./../../../../handlers/exceptions.js";
+import {makePublisherAndClientOrdersData} from "./../../../../handlers/dataHandlers.js"
 
 export default class AdminOrders extends Component {
 
@@ -17,23 +18,26 @@ export default class AdminOrders extends Component {
             selectedOrder: [],
             selected: null, 
             selectedIndex: -1,
-            selectedOrderHexId: "",
+            selectedId: "",
             packed: {},
             allPacked: 0
         }
 
-        this.makePublisherAndClientOrderData = this.makePublisherAndClientOrderData.bind(this);
         this.setStateAsSelected = this.setStateAsSelected.bind(this);
         this.showOrderLines = this.showOrderLines.bind(this);
         this.toggleRow = this.toggleRow.bind(this);
+        this.finishOrder = this.finishOrder.bind(this);
     }
 
-    //This happens when the component has mounded.
     componentDidMount() {
 
+       this.getPublishers();
+    }
+
+    getPublishers() {
         axios.get("http://localhost:8080/api/publishers")
         .then((response) => {
-            const ordersData = this.makePublisherAndClientOrderData(response.data);
+            const ordersData = makePublisherAndClientOrdersData(response.data);
             
             this.setState({ 
                 data: response.data,
@@ -42,80 +46,17 @@ export default class AdminOrders extends Component {
         });
     }
 
-    makePublisherAndClientOrderData(data) {
-        var orders = [];
-        let orderObject = {};
-        let owner = "";
-
-        data.forEach((publisher) => {
-            if (this.ordersExist(publisher)) {
-         
-                owner = publisher.contactInformation.nickName;
-
-                publisher.orderStream.forEach((order) => {
-                    orders.push(this.addOrder(order, owner));
-                });
-                
-                orders.push(orderObject);   
-            }
-
-            if (this.clientsExist(publisher)) {
-                publisher.clientStream.forEach((client) => {
-                    
-                    if (this.ordersExist(client)) {
-                        owner = client.contactInformation.nickName;
-
-                        client.orderStream.forEach((order) => {
-                            orders.push(this.addOrder(order, owner));
-                            
-                        });
-                    }
-                });
-            }
-        });
-
-        return orders;
-    }
-
-    ordersExist = (customer) => {
-        return customer.orderStream != null && customer.orderStream != undefined;
-    }
-
-    clientsExist = (publisher) => {
-        return publisher.numberOfClient != 0;
-    }
-
-    addOrder(order, owner) {
-        let orderObject = {};
-        orderObject.owner = owner;
-        orderObject.orderId = order.orderId
-        orderObject.data = order.date
-        orderObject.orderLines = order.orderLines.map((orderLine) => {
-            return {
-                productName: orderLine.product.productName,
-                amount: orderLine.quantity,
-                productId: orderLine.product.productId
-                }
-        })
-        return orderObject;
-    }
-
-
-
     setStateAsSelected = (rowInfo) => {
         
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId });
-        console.log(this.state.selectedId)
     }
 
-    //Shows all the oderlines
     showOrderLines = (rowInfo) => {
 
         const selectedOrder = this.state.orders[rowInfo.index].orderLines;
         this.setState({orderLines: selectedOrder});
     }
 
-    //Marks a row as selected.
     toggleRow(productName) {
 
 		const packedItem = Object.assign({}, this.state.packed);
@@ -126,7 +67,6 @@ export default class AdminOrders extends Component {
 		});
 	}
 
-    //Mark all rows as selected
 	toggleSelectAll() {
 		let packedItem = {};
 
@@ -140,13 +80,10 @@ export default class AdminOrders extends Component {
 			packed: packedItem,
 			allPacked: this.state.allPacked === 0 ? 1 : 0
         });
-        
-        if (this.state.allPacked === 1) {
-            //TODO: ACTIVATE FINISH ORDER BUTTON
-        }
-	}
+        console.log(JSON.stringify(this.state.packed) + " " + this.state.allPacked)
+    }
 
-    //Get
+
     getCheckBoxColumn() {
        const checkBoxColumn = {
         id: "checkbox",
@@ -310,6 +247,15 @@ export default class AdminOrders extends Component {
         doc.save("Følgeseddel.pdf")
     }
 
+    finishOrder() {
+        let allPacked = this.state.allPacked;
+        if (allPacked == 1) {
+            axios.delete("http://localhost:8080/api/employee/orders/delete/" + this.state.selectedId);
+        } else {
+            allProductsNotPackedWarning();
+        }
+           }
+
     render() {
       
         const orders = this.state.orders;
@@ -370,8 +316,7 @@ export default class AdminOrders extends Component {
                                 <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns} showPagination={false} 
                                 className="-striped -highlight"/>
                                  <div className="  px-1">
-                                    <button type= "button" className="btn btn-info mx-3" onClick={this.export}>Export order To PDF</button>  
-                                    <button type= "button" className="btn btn-dark mx-3" onClick={this.finishOrder}>Finish order </button> 
+
                                 </div>
                        </div>  
                  </div>    

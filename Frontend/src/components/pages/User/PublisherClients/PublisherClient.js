@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ReactTable from 'react-table';
 import axios from 'axios';
+import {makeProductsRowsWithOwner} from './../../../../handlers/dataHandlers.js';
+import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 
 import "../../Pages.css";
 import "./PublisherClient.css";
@@ -20,35 +22,27 @@ class PublisherClient extends React.Component {
     }
 
     componentDidMount(){
+
+       this.getPublisherProducts();
+    }
+
+    getPublisherProducts() {
+
         axios.get("localhost:8080/api/publishers/" + this.state.userId + "/clients/products")
-            .then((response) => {
-                const products = this.makeRow(response);
-                this.setState({ products: products });
-            })
-    }
-
-    makeRow(response){
-        var products = [];
-        response.data.forEach((product) => {
-            products.push({
-                ownerName: product.owner.name,
-                productId: product.productId,
-                productName: product.productName,
-                quantity: product.quantity,
-                hexId: product.hexId
-            })
-        });
-        return products;
+        .then((response) => {
+            const products = makeProductsRowsWithOwner(response.data);
+            this.setState({ products: products });
+        })
     }
 
 
-    //Todo: get a pdf back when sending the userID
+   
+
   render() {
-      const columns=[
-          {Header: "Owner", accessor: "ownerName"},
-          {Header: "Product Name", accessor: "productName"},
-          {Header: "Quantity", accessor: "productQuantity"}
-      ]
+    //TODO: get a pdf back when sending the userID
+    
+        const columns = getColumnsFromArray(["Owner Name", "Product Name", "Quantity"]);  
+   
         return(
             <div className="PageStyle rounded">
                 <nav className="navbar navbar-secondary bg-secondary"><h3> All clients' stock</h3></nav>

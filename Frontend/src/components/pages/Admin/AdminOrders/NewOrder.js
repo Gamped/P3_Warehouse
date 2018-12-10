@@ -6,6 +6,10 @@ import axios from 'axios';
 import ReactTable from 'react-table';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import {itemPreviouslyAddedWarning, 
+        amountExceedingQuantityWarning, 
+        amountIsZeroWarning} from "./../../../../handlers/exceptions.js";
+import {makeProductsRowsFromResponseData} from "./../../../../handlers/dataHandlers.js";
 
 //TODO: Render warning in previouslyAddedWarning
 //TODO: Fix textfield in row errors
@@ -27,7 +31,6 @@ class NewOrder extends React.Component {
         this.makeRow = this.makeRow.bind(this);
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
         this.undoOrderLine = this.undoOrderLine.bind(this);
-        this.makeRow = this.makeRow.bind(this);
         this.renderEditable = this.renderEditable.bind(this);
     }
 
@@ -35,25 +38,13 @@ class NewOrder extends React.Component {
     componentWillMount() {
         axios.get('http://localhost:8080/api/employee/products')
         .then((response) => {
-            const data = this.makeRow(response);
+            const data = makeProductsRowsFromResponseData(response.data);
             this.setState({products: data})
         })
     }
 
 
-   makeRow = (response) => {
-    var products = [];
-    response.data.forEach((product) => {
-      products.push({
-        productId: product.productId,
-        productName: product.productName,
-        quantity: product.quantity,
-        amount: 0,
-        hexId: product.hexId
-      })
-      })
-    return products;
-  }
+   
 
     handleQuarry = (event) => {
         this.setState({
@@ -108,17 +99,14 @@ class NewOrder extends React.Component {
             }
         }
         if (exists) {
-            this.orderLinePreviouslyAddedWarning();
+            itemPreviouslyAddedWarning();
             } else {
                 this.amountNotExceedingQuantity();
             }
 
         }
     
-    orderLinePreviouslyAddedWarning = () => {
-        window.alert("Product already added! Please undo the selection and change amount if you wish");
-        console.log("Item already added!")
-        }
+    
     
    
 
@@ -126,29 +114,25 @@ class NewOrder extends React.Component {
         console.log("amountNotExceeding")
         let selectedProduct = this.state.products[this.state.selected];
         if (selectedProduct.amount > selectedProduct.quantity) {
-            this.amountExceedingQuantityWarning();
+            amountExceedingQuantityWarning();
         } else {
             this.amountIsNotZero();
         }
     }
 
-    amountExceedingQuantityWarning() {
-        window.alert("Amount exceeds the quantity currently in stock. Try setting a lower amount");
-    }
+    
 
     amountIsNotZero() {
         console.log("isNotZero")
         let selectedProduct = this.state.products[this.state.selected];
         if (selectedProduct.amount === 0 || selectedProduct.amount === "0") {
-            this.amountIsZeroWarning();
+            amountIsZeroWarning();
         } else {
             this.addSelectedToOrderLine();
                 }
         }
 
-    amountIsZeroWarning() {
-        window.alert("Amount is set to zero. Please choose an amount of products to be added to this order line");
-    }
+   
 
     addSelectedToOrderLine = () => {
         this.state.orderLines.push(this.state.products[this.state.selected])
