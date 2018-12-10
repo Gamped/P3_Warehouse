@@ -4,36 +4,28 @@ import "../../Pages.css";
 import "./AdminStock.css"
 import axios from 'axios';
 import ReactTable from 'react-table';
-//import Edit from './Edit';
-
-
+import {makeProductsRowsFromResponseData} from './../../../../handlers/dataHandlers.js'
+import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
+import {get, del} from './../../../../handlers/requestHandlers.js';
 
 export default class AdminStock extends Component {
+
     constructor(props) {
         super(props);
         this.state = { products: [], selected: null, selectedId: "" };
-        this.makeRow = this.makeRow.bind(this);
+       
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/api/employee/products')
-            .then((response) => {
-                const products = this.makeRow(response);
-                this.setState({ products: products });
-            })
+       
+        this.getProducts();
     }
 
-    makeRow(response){
-        var products = [];
-        response.data.forEach((product) => {
-            products.push({
-                productId: product.productId,
-                productName: product.productName,
-                quantity: product.quantity,
-                hexId: product.hexId
-            })
-        });
-        return products;
+    getProducts() {
+        get('employee/products', (data) => {
+            const products = makeProductsRowsFromResponseData(data);
+            this.setState({ products: products });
+        });  
     }
 
     sendToPage = (address) => {
@@ -46,23 +38,46 @@ export default class AdminStock extends Component {
             
             if(window.confirm("You are deleting an item")){
                
-                axios.delete('http://localhost:8080/api/employee/products/'+this.state.selectedId)
+               del('employee/products/'+this.state.selectedId, (res) => {
                 window.location.reload()
+               })
+               
             }    
         }
         
     }
 
+    export = () => {
+        const pdfConverter = require('jspdf');
+        const doc = new pdfConverter();
+        const elements= {...this.state.products}
+        
+        doc.setFontSize(22);
+        doc.text(20,50,"Entire stock:");
+        doc.setFontSize(10);
+        let pdfXPlace = 25;
+        let pdfYPlace = 65;
+        let counter = 0;
+        for (const key in elements){
+            
+            doc.text("Name: "+elements[key].productName,pdfXPlace,pdfYPlace);
+            doc.text("Quantity: " + elements[key].quantity,pdfXPlace+120,pdfYPlace);
+            doc.line(20,pdfYPlace+5,175,pdfYPlace+5);
+            pdfYPlace += 17;
+            counter += 1;
+            if(counter%25===0){
+                doc.addPage()
+            }
+        }
+
+        doc.save("EntireStock.pdf")
+
+    }
+
     render() {
-      let selectedId = this.state.selectedId
-
-      const columns = [
-          {Header: "Product ID", accessor: "productId"},
-          {Header: "Product Name", accessor: "productName"},
-          {Header: "Quantity", accessor: "quantity"}
-      ]
-
-
+        
+        let selectedId = this.state.selectedId
+        const columns = getColumnsFromArray(["Product Id", "Product Name", "Quantity"]);
 
         return(
             <div className="PageStyle rounded">
@@ -110,7 +125,7 @@ export default class AdminStock extends Component {
                                 >Remove</button>
                             </div>
                             <div>
-                                <button className="btn-lg btn-block btn-block my-2">Export</button>
+                                <button onClick={this.export} className="btn-lg btn-block btn-block my-2">Export</button>
                             </div>
                         </div>
                     </div>

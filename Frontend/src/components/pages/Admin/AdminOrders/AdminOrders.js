@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom';
 import ReactTable from "react-table";
 import axios from "axios";
 import "../../Pages.css";
 import "./AdminOrders.css";
-
+import {allProductsNotPackedWarning} from "./../../../../handlers/exceptions.js";
+import {makePublisherAndClientOrdersData} from "./../../../../handlers/dataHandlers.js"
 
 export default class AdminOrders extends Component {
 
@@ -16,23 +18,27 @@ export default class AdminOrders extends Component {
             selectedOrder: [],
             selected: null, 
             selectedIndex: -1,
+            selectedId: "",
             packed: {},
             allPacked: 0
         }
-        //binds different functions to our constructor
-        this.getData = this.getData.bind(this);
+
         this.setStateAsSelected = this.setStateAsSelected.bind(this);
         this.showOrderLines = this.showOrderLines.bind(this);
         this.toggleRow = this.toggleRow.bind(this);
+        this.finishOrder = this.finishOrder.bind(this);
     }
 
-    //This happens when the component has mounded.
     componentDidMount() {
-        //Makes a get request for orders, then binds those orders to the state.
-        axios.get("http://localhost:8080/api/orders")
+
+       this.getPublishers();
+    }
+
+    getPublishers() {
+        axios.get("http://localhost:8080/api/publishers")
         .then((response) => {
-            const ordersData = this.getData(response.data);
-        
+            const ordersData = makePublisherAndClientOrdersData(response.data);
+            
             this.setState({ 
                 data: response.data,
                 orders: ordersData
@@ -40,44 +46,17 @@ export default class AdminOrders extends Component {
         });
     }
 
-    //Gets data for each order. Then gives that order an owner and id.
-    getData(data) {
-        var orders = [];
-        data.forEach((order) => {
-
-            orders.push({
-                owner: order.owner.userName,
-                orderId: order.orderId
-            });
-        });
-        
-        return orders;
-    }
-
-    //This sets a state as the selected state
     setStateAsSelected = (rowInfo) => {
-
+        
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId });
     }
 
-    //Shows all the oderlines
     showOrderLines = (rowInfo) => {
-        const selectedOrder = this.state.data[rowInfo.index].orderLines;
-        let orderLines = [];
-        
-        selectedOrder.map(orderLine => {
-            return {...orderLine,
-                productName: orderLine.product.productName,
-                date: orderLine.product.date,
-                amount: orderLine.quantity
-            }
-        });
 
-        
-        this.setState({orderLines: orderLines});
+        const selectedOrder = this.state.orders[rowInfo.index].orderLines;
+        this.setState({orderLines: selectedOrder});
     }
 
-    //Marks a row as selected.
     toggleRow(productName) {
 
 		const packedItem = Object.assign({}, this.state.packed);
@@ -88,7 +67,6 @@ export default class AdminOrders extends Component {
 		});
 	}
 
-    //Mark all rows as selected
 	toggleSelectAll() {
 		let packedItem = {};
 
@@ -102,13 +80,10 @@ export default class AdminOrders extends Component {
 			packed: packedItem,
 			allPacked: this.state.allPacked === 0 ? 1 : 0
         });
-        
-        if (this.state.allPacked === 1) {
-            //TODO: ACTIVATE FINISH ORDER BUTTON
-        }
-	}
+        console.log(JSON.stringify(this.state.packed) + " " + this.state.allPacked)
+    }
 
-    //Get
+
     getCheckBoxColumn() {
        const checkBoxColumn = {
         id: "checkbox",
@@ -147,6 +122,140 @@ export default class AdminOrders extends Component {
         this.props.history.push(address);
     }
 
+    export = () =>{
+        const pdfConverter = require('jspdf');
+        const doc = new pdfConverter();
+
+        /* TODO: Find ud af hvad der skal skrives ind i pdfen.*/
+        let pdfXPlace = 20;
+        let pdfYPlace = 50;
+        
+
+        doc.setFontSize(22);
+        doc.text(pdfXPlace,pdfYPlace,"Packlist:");
+        pdfYPlace +=5;
+        doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
+        doc.setFontSize(15);
+        pdfYPlace +=8;
+        doc.text(pdfXPlace,pdfYPlace, "Order nummer: "+ "[Insert order number here]" )
+        pdfYPlace +=8;
+        doc.text(pdfXPlace,pdfYPlace, "Customer: "+ "[Insert Customer here]" )
+        pdfYPlace +=8;
+        doc.text(pdfXPlace,pdfYPlace,"Order date: "+"[Insert Date here]")
+        doc.setFontSize(10);
+        pdfYPlace +=10
+
+        doc.setFontStyle("bold")
+        doc.text(pdfXPlace,pdfYPlace,"Item ID")
+        doc.text(pdfXPlace+50,pdfYPlace,"Item Name")
+        doc.text(pdfXPlace+100,pdfYPlace,"Quantity")
+        doc.text(pdfXPlace+140,pdfYPlace,"Packed?")
+        pdfYPlace +=2
+        doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
+
+        /*let counter = 0;
+        for (const key in elements){
+            
+            doc.text("Name: "+elements[key].productName,pdfXPlace,pdfYPlace);
+            doc.text("Quantity: " + elements[key].quantity,pdfXPlace+120,pdfYPlace);
+            doc.line(20,pdfYPlace+5,175,pdfYPlace+5);
+            pdfYPlace += 17;
+            counter += 1;
+            if(counter%25===0){
+                doc.addPage()
+            }
+        }*/
+
+        doc.save("PackList.pdf")
+
+    }
+
+    finishOrder = () =>{
+
+        //TODO: DELETE ORDER TOO
+        const pdfConverter = require('jspdf');
+        const doc = new pdfConverter();
+
+        /* TODO: Find ud af hvad der skal skrives ind i pdfen.*/
+        let pdfXPlace = 20;
+        let pdfYPlace = 50;
+        
+        doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
+
+        pdfYPlace += 7
+        doc.setFontSize(12)
+        doc.text(pdfXPlace,pdfYPlace,"Leveres til:")
+        doc.setFontSize(16)
+        doc.text(pdfXPlace+90, pdfYPlace,"Følgeseddel: "+"[INSERT NUMBER]")
+        
+        pdfYPlace += 5
+        doc.setFontSize(12)
+        doc.text(pdfXPlace,pdfYPlace,"[Company name]")
+        doc.text(pdfXPlace+90, pdfYPlace,"Ordernr.: "+"[INSERT NUMBER]")
+
+        pdfYPlace += 5
+        doc.text(pdfXPlace,pdfYPlace,"[Person]")
+        doc.text(pdfXPlace+90, pdfYPlace,"Dato.: "+"[INSERT Date]")
+
+        pdfYPlace += 5
+        doc.text(pdfXPlace,pdfYPlace,"[Address]")
+        doc.text(pdfXPlace+90, pdfYPlace,"Kundenr.: "+"[INSERT NUMBER]")
+
+        pdfYPlace += 5
+        doc.text(pdfXPlace,pdfYPlace,"[zip and city name]")
+        doc.text(pdfXPlace+90, pdfYPlace,"Sag: "+"[INSERT CASE]")
+
+        pdfYPlace += 5
+        doc.text(pdfXPlace,pdfYPlace,"[Country]")
+        doc.text(pdfXPlace+90, pdfYPlace,"Reference: "+"[INSERT SPECIFIC PERSON]")
+
+        pdfYPlace += 10
+
+        doc.text(pdfXPlace,pdfYPlace,"Hermed følger:")
+        pdfYPlace +=5
+
+        doc.text(pdfXPlace,pdfYPlace,"Titel: " + "[INSERT TITEL]")
+        doc.setFontSize(18)
+        doc.text(pdfXPlace+90,pdfYPlace,"SLUTLEVERING")
+        doc.setFontSize(12)
+        pdfYPlace +=5
+
+        doc.text(pdfXPlace,pdfYPlace,"Rekv.nr.: " +"[Insert number]")
+        pdfYPlace +=7
+
+        doc.setFontStyle("bold")
+        doc.text(pdfXPlace,pdfYPlace,"Item ID")
+        doc.text(pdfXPlace+50,pdfYPlace,"Item Name")
+        doc.text(pdfXPlace+140,pdfYPlace,"Quantity")
+        pdfYPlace +=2
+
+        doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
+
+        /*let counter = 0;
+        for (const key in elements){
+            
+            doc.text("Name: "+elements[key].productName,pdfXPlace,pdfYPlace);
+            doc.text("Quantity: " + elements[key].quantity,pdfXPlace+120,pdfYPlace);
+            doc.line(20,pdfYPlace+5,175,pdfYPlace+5);
+            pdfYPlace += 17;
+            counter += 1;
+            if(counter%25===0){
+                doc.addPage()
+            }
+        }*/
+
+        doc.save("Følgeseddel.pdf")
+    }
+
+    finishOrder() {
+        let allPacked = this.state.allPacked;
+        if (allPacked == 1) {
+            axios.delete("http://localhost:8080/api/employee/orders/delete/" + this.state.selectedId);
+        } else {
+            allProductsNotPackedWarning();
+        }
+           }
+
     render() {
       
         const orders = this.state.orders;
@@ -160,12 +269,12 @@ export default class AdminOrders extends Component {
   
         const orderColumns = [
             {Header: "Owner", accessor: "owner"},
+            {Header: "Date", accessor: "date"},
             {Header: "ID", accessor: "orderId"}
         ];
 
         const orderLineColumns = [
             {Header: "Product Name", accessor: "productName"},
-            {Header: "Date", accessor: "date"},
             {Header: "Amount", accessor: "amount"},
             this.getCheckBoxColumn()];
 
@@ -198,17 +307,16 @@ export default class AdminOrders extends Component {
                              />
                         </div>
                         <div className=" md-2">
-                                <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>
-                                <button type= "button" className="btn btn-warning mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit")}>Edit order</button>                            
+                                <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>                           
+                                <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order</Link>
                                 <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.sendToPage("/Admin/Orders/Delete")}>Delete order</button>
                         </div>
                     </div>
                         <div className="Table">
-                                <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns}showPagination={false} 
+                                <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns} showPagination={false} 
                                 className="-striped -highlight"/>
                                  <div className="  px-1">
-                                    <button type= "button" className="btn btn-info mx-3">Export order To PDF</button>  
-                                    <button type= "button" className="btn btn-dark mx-3">Finish order </button> 
+
                                 </div>
                        </div>  
                  </div>    

@@ -15,6 +15,11 @@ import {Link} from "react-router-dom";
     }
 
     //On confirm the adress is sent to the server.
+    componentDidMount() {
+
+        console.log(this.props.order)
+    }
+
     confirmed = (event) => {
         alert("Your order has been confirmed.")
         //TODO: Sent this.props.adress to server. 
@@ -26,6 +31,7 @@ import {Link} from "react-router-dom";
         //Store Redux state adress and the redux order in a varibale. 
         //Next we go through through the orders and assign them some code our html can understand
         let lines = this.props.order
+        console.log(lines)
         lines = lines.map((line)=>{return(
                 <tr key={line.productId}>
                     <th scope="row">{line.productId}</th>
