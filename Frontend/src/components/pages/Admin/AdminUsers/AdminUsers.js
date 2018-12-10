@@ -1,10 +1,7 @@
 import React,{Component} from 'react';
 import "./AdminUsers.css";
-import "../Pages.css";
 import axios from 'axios';
 import ReactTable from 'react-table';
-
-import TextBox from "../../MenuComponents/TextBox/TextBox";
 
 export default class AdminUsers extends Component {
     constructor(props) {
@@ -45,7 +42,7 @@ export default class AdminUsers extends Component {
     makeCustomerData(data){
         var customers = [];
         data.forEach((customer) => {
-
+            
             customers.push({
                 userName: customer.userName,
                 password: customer.password,

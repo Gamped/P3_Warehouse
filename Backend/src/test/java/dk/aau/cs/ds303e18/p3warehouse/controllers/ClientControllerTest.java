@@ -1,5 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
+import dk.aau.cs.ds303e18.p3warehouse.managers.ClientManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestClientModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
@@ -36,6 +37,7 @@ public class ClientControllerTest {
     @InjectMocks
     private ClientController clientController;
 
+    private EmployeeController employeeController;
     @Mock
     private ClientRepository clientRepository;
 
@@ -85,7 +87,7 @@ public class ClientControllerTest {
         verify(clientRepository).findById(client.getId());
         assertEquals(client.getId(), retrievedClient.getId());
     }
-
+    /*
     @Test
     public void testUpdateClient() {
         ObjectId id = new ObjectId();

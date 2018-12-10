@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import {Link} from "react-router-dom";
 
  class AdminCartConfirm extends React.Component {
+     //This is the constructur for our class, this is where we predifine this.state
     constructor(props) {
         super(props);
         this.state = {
@@ -13,6 +14,12 @@ import {Link} from "react-router-dom";
         };
     }
 
+    //On confirm the adress is sent to the server.
+    componentDidMount() {
+
+        console.log(this.props.order)
+    }
+
     confirmed = (event) => {
         alert("Your order has been confirmed.")
         //TODO: Sent this.props.adress to server. 
@@ -20,9 +27,11 @@ import {Link} from "react-router-dom";
  
 
     render(){
-        const company = this.props.adress
-        console.log(company)
+        //Some imidiate logic before rendering. 
+        //Store Redux state adress and the redux order in a varibale. 
+        //Next we go through through the orders and assign them some code our html can understand
         let lines = this.props.order
+        console.log(lines)
         lines = lines.map((line)=>{return(
                 <tr key={line.productId}>
                     <th scope="row">{line.productId}</th>
@@ -30,6 +39,7 @@ import {Link} from "react-router-dom";
                     <td>{line.amount}</td>
                 </tr>
             )})
+        //This is what is actually rendered for the user
         return(
         <div className="PageStyle rounded">
             <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
@@ -92,6 +102,7 @@ import {Link} from "react-router-dom";
     }
 }
 
+//Here we map the redux state to this.props
 const mapStateToProps = (state)=>{
     return{
         order: state.orderReducer.order,
@@ -99,4 +110,5 @@ const mapStateToProps = (state)=>{
     }
 }
 
+//Export the class as a higher order component.
 export default connect(mapStateToProps)(AdminCartConfirm);

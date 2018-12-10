@@ -2,6 +2,7 @@ package dk.aau.cs.ds303e18.p3warehouse.models.warehouse;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import org.bson.types.ObjectId;
@@ -23,6 +24,8 @@ public class Product {
     private String productName;
     private String productId;
     private int quantity;
+    @DBRef
+    private Customer owner;
 
     private String hexId;
 
@@ -61,6 +64,19 @@ public class Product {
     }
 
     public String getHexId() {return id.toString(); }
+
+    public void setOwner(Customer owner) {
+        this.owner = owner;
+    }
+
+    public Customer getOwner() {
+        return owner;
+    }
+
+    @JsonProperty("owner")
+    public ObjectId getOwnerId(){
+        return owner.getId();
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -2,9 +2,10 @@ import React,{Component} from 'react';
 import axios from 'axios';
 import "../../Pages.css";
 import "./AdminStock.css";
-import {Clearfix, MenuItem} from 'react-bootstrap';
 import { Link } from "react-router-dom";
-
+import {makeOwnersData} from './../../../../handlers/dataHandlers.js';
+import {get, post} from './../../../../handlers/requestHandlers.js'
+//import {successAlert} from '../../../../handlers/alerts.js'
 
 export default class NewWare extends Component {
 
@@ -21,67 +22,20 @@ export default class NewWare extends Component {
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.getCustomers = this.getCustomers.bind(this);
-        this.makeOwnerData = this.makeOwnerData.bind(this);
     }
 
     componentDidMount() {
-      
+          
         this.getCustomers();
     }
 
     
     getCustomers() {
 
-       axios.get('http://localhost:8080/api/employee/publishers')
-        .then(response => { 
-            this.makeOwnerData(response.data);
-        })
-    }
-
-    makeOwnerData(data) {
-        this.setState({rawOwnerData: data});
-        let owners = [];
-
-        data.forEach((publisher) => {
-            owners.push({
-                ownerName: publisher.contactInformation.nickName,
-                hexId: publisher.hexId,
-                userType: publisher.userType
-            })
-
-            if (publisher.numberOfClients != 0) {
-
-                publisher.clientStream.forEach((client) => {
-                    owners.push({
-                       ownerName: client.contactInformation.nickName,
-                       hexId: client.hexId,
-                       userType: client.userType
-                   })
-                  })      
-            }
-        })
-
-        this.setState({owners: owners});
-    }
-
-
-    onSubmit = (e) => {
-        e.preventDefault();
-        const {productName, productId, quantity} = this.state.product;
-
-            axios.post('http://localhost:8080/api/employee/products/'
-                + "assignTo=" + this.state.selectedOwnerHexId + "/withUserType=" + 
-                this.state.selectedOwnerUserType,
-                {productName, productId, quantity}).then((result)=> {
-
-                    return(
-                        <div class="alert alert-success">
-                        <strong>Product added!</strong>
-                        </div>)
-            }).catch((err) => {
-            
-                console.log(err.response);
-            });
+       get('employee/publishers', (data) => {
+        let owners = makeOwnersData(data);
+        this.setState({owners: owners})
+       }) 
     }
 
     onChange = (e) => {
@@ -89,10 +43,21 @@ export default class NewWare extends Component {
         state[e.target.name] = e.target.value;
         this.setState({product:state});
     }
-    
-    
-      
 
+    onSubmit = (e) => {
+        e.preventDefault();
+        const {productName, productId, quantity} = this.state.product;
+
+           post('employee/products/'
+                + "assignTo=" + this.state.selectedOwnerHexId + "/withUserType=" + 
+                this.state.selectedOwnerUserType,
+                {productName, productId, quantity}, () => {
+                   // let alert = successAlert("Product Added!");
+                //    return alert;
+                }
+            )
+    }
+    
     getOwnerListItems(owner, i) {
          return (
          <option 
@@ -104,10 +69,9 @@ export default class NewWare extends Component {
          </option>
          )        
     }
-    
 
     render() {
-      
+     
         const currentProduct = this.state.product;
 
         return (

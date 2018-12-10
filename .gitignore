@@ -31,3 +31,4 @@ package-lock.json
 
 #merge-files
 *.orig
+Frontend/src/redux/reducers/loginReducer.js

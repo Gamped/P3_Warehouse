@@ -50,7 +50,6 @@ public class ClientController {
     }
 
 
-
     @PutMapping("/clients/{hexId}")
     String updateClient(@PathVariable("hexId") String hexId, @RequestBody RestClientModel restClientModel) {
 

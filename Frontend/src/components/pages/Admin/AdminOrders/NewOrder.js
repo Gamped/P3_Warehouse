@@ -6,12 +6,13 @@ import axios from 'axios';
 import ReactTable from 'react-table';
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import {itemPreviouslyAddedWarning, 
+        amountExceedingQuantityWarning, 
+        amountIsZeroWarning} from "./../../../../handlers/exceptions.js";
+import {makeProductsRowsFromResponseData} from "./../../../../handlers/dataHandlers.js";
 
 //TODO: Render warning in previouslyAddedWarning
-//TODO: Put items in cart notification symbol on cart button
-//TODO: Make downsliding text saying "Added to cart" and "Removed from cart"
 //TODO: Fix textfield in row errors
-//TODO: Properly pass orderLines in state as props to NewOrdere child
 
 class NewOrder extends React.Component {
     
@@ -30,34 +31,20 @@ class NewOrder extends React.Component {
         this.makeRow = this.makeRow.bind(this);
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
         this.undoOrderLine = this.undoOrderLine.bind(this);
-        this.makeRow = this.makeRow.bind(this);
         this.renderEditable = this.renderEditable.bind(this);
-      //  this.setStateAsSelected = this.setStateAsSelected.bind(this);
     }
 
 
     componentWillMount() {
-        axios.get('http://localhost:8080/api/products/')
+        axios.get('http://localhost:8080/api/employee/products')
         .then((response) => {
-            const data = this.makeRow(response);
+            const data = makeProductsRowsFromResponseData(response.data);
             this.setState({products: data})
         })
     }
 
 
-   makeRow = (response) => {
-    var products = [];
-    response.data.forEach((product) => {
-      products.push({
-        productId: product.productId,
-        productName: product.productName,
-        quantity: product.quantity,
-        amount: 0,
-        hexId: product.hexId
-      })
-      })
-    return products;
-  }
+   
 
     handleQuarry = (event) => {
         this.setState({
@@ -80,7 +67,7 @@ class NewOrder extends React.Component {
                 .filter(product => 
                     product.hexId === cellInfo.original.hexId)
                 .map(product => 
-                    product.amount = typedAmount)
+                    product.amount === typedAmount)
 
                     cellInfo.original.amount = typedAmount;
 
@@ -92,27 +79,65 @@ class NewOrder extends React.Component {
         );
       };
 
-    addSelectedToOrderLine = () => {
-      this.setState({orderLines: [...this.state.orderLines, this.state.selected]}); 
-      console.log(this.state.orderLines)
-      }
 
     undoOrderLine = () => {
-        this.setState({orderLines: this.state.orderLines.splice(-1, 1)})
+        let orderLinesCopy = this.state.orderLines;
+        orderLinesCopy.splice(-1,1);
+        this.setState({orderLines: orderLinesCopy});
+        
       }
 
-    checkIfPreviouslyAdded = (orderLine) => {
-          
-        if(this.state.orderLines.filter(line => orderLine.hexId === line.hexId)) {
-            this.previouslyAddedWarning(); 
+    orderLineNotPreviouslyAdded = () => {
+        
+        let exists = false;
+        let orderLines = this.state.orderLines;
+        if (orderLines.length !== 0) {
+            for (let i = 0; i < orderLines.length; i++) {
+                if (orderLines[i].hexId === this.state.products[this.state.selected].hexId) {
+                    exists = true;
+                }
+            }
+        }
+        if (exists) {
+            itemPreviouslyAddedWarning();
+            } else {
+                this.amountNotExceedingQuantity();
+            }
+
+        }
+    
+    
+    
+   
+
+    amountNotExceedingQuantity() {
+        console.log("amountNotExceeding")
+        let selectedProduct = this.state.products[this.state.selected];
+        if (selectedProduct.amount > selectedProduct.quantity) {
+            amountExceedingQuantityWarning();
+        } else {
+            this.amountIsNotZero();
         }
     }
-    
-    previouslyAddedWarning = () => {
-        //TODO: Render popup warning
-        console.log("Item already added!")
-    }
 
+    
+
+    amountIsNotZero() {
+        console.log("isNotZero")
+        let selectedProduct = this.state.products[this.state.selected];
+        if (selectedProduct.amount === 0 || selectedProduct.amount === "0") {
+            amountIsZeroWarning();
+        } else {
+            this.addSelectedToOrderLine();
+                }
+        }
+
+   
+
+    addSelectedToOrderLine = () => {
+        this.state.orderLines.push(this.state.products[this.state.selected])
+        console.log(this.state.orderLines)
+        }
 
     changeToCart = (event) => {
         this.props.addItemToCart(this.state.orderLines)
@@ -130,15 +155,15 @@ class NewOrder extends React.Component {
 
         return(
             <div className="PageStyle rounded">
-            <nav class="navbar navbar-light bg-light"> 
+            <nav className="navbar navbar-light bg-light"> 
                 <h2 className=" text-center "> Order:</h2>
             </nav>   
-                <nav class="navbar navbar-light bg-light">                   
-                        <form class = "form-inline">
-                            <input  class="from-control mr-sm-2 " 
+                <nav className="navbar navbar-light bg-light">                   
+                        <form className = "form-inline">
+                            <input  className="from-control mr-sm-2 " 
                                     type="search" 
                                     placeholder="Search for product(s)" aria-label="Search"/>
-                                    <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Search</button>
+                                    <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Search</button>
                         </form>
                         <div>
                             <Link to="/Admin/Order/Cart" className="btn btn-block btn-primary">Go to cart</Link>
@@ -180,10 +205,10 @@ class NewOrder extends React.Component {
                                  </div>
                          </div>  
                     </div>  
-                    <nav class="navbarToButtoms navbar-light bg-light"> 
+                    <nav className="navbarToButtoms navbar-light bg-light"> 
                          <div className="container row">
                              <div className="col my-2">
-                                 <button type="button" className="btn-success btn-lg btn-block btn my-2" onClick={this.addSelectedToOrderLine}>Add to order</button>
+                                 <button type="button" className="btn-success btn-lg btn-block btn my-2" onClick={this.orderLineNotPreviouslyAdded}>Add to order</button>
                              </div>
                              <div className="col my-2">
                                  <button type="button" className="btn-lg btn-block btn-warning my-2" onClick={this.undoOrderLine}>Undo</button>

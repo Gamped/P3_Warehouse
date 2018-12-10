@@ -21,12 +21,15 @@ public class UserRepositoryTest {
     ProductRepository productRepository;
     @Autowired
     PublisherRepository publisherRepository;
+    @Autowired
+    OrderRepository orderRepository;
 
     @Before
     public void deleteAll() {
         productRepository.deleteAll();
         clientRepository.deleteAll();
         userRepository.deleteAll();
+        orderRepository.deleteAll();
     }
 
     @Test
@@ -72,14 +75,15 @@ public class UserRepositoryTest {
         computerProduct.setProductName("Computer");
         computerProduct.setQuantity(244);
 
-
         publisher.addProduct(computerProduct);
+        computerProduct.setOwner(publisher);
 
-
-
-
+        flyerProduct.setOwner(client);
+        noteProduct.setOwner(client);
         client.addProduct(flyerProduct);
         client.addProduct(noteProduct);
+        flyerProduct.setOwner(client);
+        noteProduct.setOwner(client);
 
         User user = new User(client.getId());
         user.copyFrom(client);

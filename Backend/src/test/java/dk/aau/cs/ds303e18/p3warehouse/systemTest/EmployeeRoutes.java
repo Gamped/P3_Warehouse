@@ -86,9 +86,8 @@ public class EmployeeRoutes {
         orderLines.add(orderLine);
 
         clientOrder.setTitle("clientorder");
-        clientOrder.setOrderLines(orderLines);
+
         publisherOrder.setTitle("publisherorder");
-        publisherOrder.setOrderLines(Collections.singleton(publisherOrderLine));
 
         publisher.setUserName("Publisher");
         publisher.setPassword("esfegr8433");

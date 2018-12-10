@@ -30,7 +30,7 @@ class UserProfileEdit extends React.Component {
 
     confirmed = (event) =>{
         event.preventDefault();
-        if (this.state.passwordNew==this.passwordNewRepeat
+        if (this.state.passwordNew===this.passwordNewRepeat
             || (this.state.passwordNew.length===0 && this.state.passwordNewRepeat.length===0)){
             //Todo: Insert axios der skriver nyt information til serveren. Bruger id er this.props.userID
             this.props.history.push("/User/Profile")
