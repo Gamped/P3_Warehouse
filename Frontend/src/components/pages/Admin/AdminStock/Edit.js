@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-
 import "../../Pages.css";
 import "./AdminStock.css";
+import {setProductProps} from './../../../../handlers/dataHandlers.js'
+import {get, put} from './../../../../handlers/requestHandlers.js';
 
 export default class Edit extends Component {
     constructor(props) {
@@ -10,32 +11,23 @@ export default class Edit extends Component {
         this.state = { product: {}, hexId: this.props.match.params.id };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.getProduct = this.getProduct.bind(this);
-        this.setProduct = this.setProduct.bind(this);
+        
     }
 
     componentDidMount() {
+        
         this.getProduct();
-        console.log(this.props.match.params.id)
     }
 
     getProduct = () => {
-        axios.get('http://localhost:8080/api/employee/product/'+this.props.match.params.id)
-        .then(response => {
-           
-            this.setProduct(response.data)
-        })        
+      
+        get('employee/product/'+this.props.match.params.id, (data) => {
+            const product = setProductProps(data)
+            this.setState({product: product})
+       })      
     }
 
-    setProduct = (data) => {
-        let product = {
-        productName: data.productName,
-        productId: data.productId,
-        quantity: data.quantity
-        }
-
-        this.setState({product: product})
-    }
+    
 
     onChange = (e) => {
         const state = this.state.product;
@@ -47,11 +39,9 @@ export default class Edit extends Component {
         e.preventDefault();
         const { productName, productId, quantity } = this.state.product;
     
-        axios.put('http://localhost:8080/api/employee/product/'+this.state.hexId, {productName, productId, quantity})
-            .then((result) => {
-
-                 this.props.history.push("/Admin/Stock/");
-            });
+        put('employee/product/edit/'+this.state.hexId, {productName, productId, quantity}, () => {
+            this.props.history.push("/Admin/Stock/");
+        })
     }
 
     render(){
