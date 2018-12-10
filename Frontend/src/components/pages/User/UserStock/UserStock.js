@@ -82,11 +82,15 @@ export default class UserStock extends React.Component {
                                     }else{
                                         return {}
                                     }
+                                    
                                 }}
-                                defaultPageSize={25}
-                                style={{
-                                    height: "400px"                                      
-                                 }}
+                                     // This will force the table body to overflow and scroll, 
+                                    // since there is not enough room
+                                    defaultPageSize={25}
+                                    style={{
+                                        height: "400px"                                      
+                                     }}
+                            
                             />
                         </div>
                     </div>

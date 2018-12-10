@@ -26,11 +26,11 @@ export default class EditOrderAddress extends Component{
                         <input type="text" name="city" defaultValue={this.city} className="newForm" onChange={this.onChange} placeholder="City"/>
                         <input type="text" name="country" defaultValue={this.country} className="newForm" onChange={this.onChange} placeholder="Country"/>
 
-                    <div className="btn-group my-2">
-                        <button className="col btn btn-succes mx-2">Save Changes</button>
-                        <button className="col btn btn-warning mx-2">Discard Changes</button>
-                        <Link to="/Admin/Orders/Edit" className="col btn btn-info mx-2 " role=" button" >Back</Link>
-                    </div>
+                        <div className="btn-group my-2">
+                            <button className="col btn btn-succes mx-2">Save Changes</button>
+                            <button className="col btn btn-warning mx-2">Discard Changes</button>
+                            <Link to="/Admin/Orders/Edit" className="col btn btn-info mx-2 " role=" button" >Back</Link>
+                         </div>
                     </div>
                 </div>
         )
