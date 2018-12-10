@@ -9,10 +9,12 @@ import "./AdminProfile.css";
 class AdminProfile extends React.Component {
     constructor(props){
         super(props);
-        const {userName, name} = "";
         this.state = {
             userType: props.userType,
-            userId: props.userId
+            userId: props.userId,
+
+            userName: "",
+            nickname: ""
         };
     }
    
@@ -20,8 +22,10 @@ class AdminProfile extends React.Component {
         //Todo: Sørg for at den henter det rigtige sted fra
         Axios.get("http://localhost:8080/api/employee/" + this.state.userId)
             .then((response) => {
-                this.userName = response.userName;
-                this.name = response.nickname;
+                this.setState({
+                    userName: response.data.userName,
+                    nickname: response.data.nickname
+                })
             })
     }
 
@@ -30,8 +34,8 @@ class AdminProfile extends React.Component {
             <div className="PageStyle rounded">
                 <h1 className="title customText_b_big">Profile information</h1>
                 <div className="informationBox">
-                    <h1 className="lead"><strong>User name: {this.userName}</strong></h1>
-                    <h1 className="lead"><strong>Name: {this.name}</strong></h1>
+                    <h1 className="lead"><strong>User name: {this.state.userName}</strong></h1>
+                    <h1 className="lead"><strong>Name: {this.state.nickname}</strong></h1>
 
                     <Link to="/Admin/Profile/AddEmployee" className="btn-block btn-success btn my-2">Add employee</Link>
                     

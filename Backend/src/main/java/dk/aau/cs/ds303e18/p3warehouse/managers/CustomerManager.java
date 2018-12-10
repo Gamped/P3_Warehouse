@@ -1,11 +1,10 @@
 package dk.aau.cs.ds303e18.p3warehouse.managers;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
-import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 public class CustomerManager {
     @Autowired
@@ -14,11 +13,15 @@ public class CustomerManager {
     private static PublisherRepository publisherRepository;
 
     public static Customer getCustomerFromUser(User user){
-        if(user.getUserType().equals(UserType.CLIENT)){
-             return clientRepository.findById(user.getId()).orElse(null);
+        return getCustomerFromIdAndType(user.getId(), user.getUserType());
+    }
+
+    public static Customer getCustomerFromIdAndType(ObjectId id, UserType type){
+        if(type.equals(UserType.CLIENT)){
+            return clientRepository.findById(id).orElse(null);
         }
-        else if(user.getUserType().equals(UserType.PUBLISHER)){
-            return publisherRepository.findById(user.getId()).orElse(null);
+        else if(type.equals(UserType.PUBLISHER)){
+            return publisherRepository.findById(id).orElse(null);
         }
         else{
             return null;

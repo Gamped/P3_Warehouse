@@ -1,32 +1,20 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.managers.ClientManager;
 import dk.aau.cs.ds303e18.p3warehouse.managers.ProductManager;
-import dk.aau.cs.ds303e18.p3warehouse.managers.UserManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestClientModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
-import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
-import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.web.bind.annotation.*;
-import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
-
-import javax.validation.constraints.Null;
-
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
-
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 

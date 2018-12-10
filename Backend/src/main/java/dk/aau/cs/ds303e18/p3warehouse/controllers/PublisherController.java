@@ -2,6 +2,8 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.OrderRepository;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
