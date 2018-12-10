@@ -1,6 +1,5 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.managers.EmployeeManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestCustomerModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestEmployeeModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
@@ -84,10 +83,12 @@ public class EmployeeController {
     String createClient(@RequestBody RestCustomerModel restCustomerModel) {
 
         Client client = new Client(new ObjectId());
+
+        User user = new User(client.getId());
+        BeanUtils.copyProperties(restCustomerModel, user);
         BeanUtils.copyProperties(restCustomerModel, client);
         client.setUserType(UserType.CLIENT);
-        User user = new User(client.getId());
-        user.copyFrom(client);
+        user.setUserType(UserType.CLIENT);
         userRepository.save(user);
         clientRepository.save(client);
         return "Created!";

@@ -360,7 +360,7 @@ public class EmployeeControllerTest {
         assertEquals("Updated user: " + user.getUserName(), updatedUser);
     }
 
-
+/*
     @Test
     public void testDeleteEmployeeById() {
         ObjectId id = new ObjectId();
@@ -376,7 +376,7 @@ public class EmployeeControllerTest {
         verify(employeeRepository).existsById(employee.getId());
 
         assertEquals("Deletion Success", deletedEmployee);
-    }
+    }*/
 
     @Test
     public void testEmployeeDeleteProductById() {
