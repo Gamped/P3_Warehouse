@@ -2,6 +2,7 @@ import React,{Component} from 'react';
 import "./AdminUsers.css";
 import axios from 'axios';
 import ReactTable from 'react-table';
+import {Link} from "react-router-dom";
 
 export default class AdminUsers extends Component {
     constructor(props) {
@@ -287,6 +288,9 @@ export default class AdminUsers extends Component {
                                     </div>
                                     <div className="col my-2">
                                         <button type="button" onClick={this.onSubmit} className="btn btn-warning">Confirm edit</button>
+                                    </div>
+                                    <div className="col my-2">
+                                        <Link to="/Admin/Users/Create" className="btn btn-success">Create user</Link>
                                     </div>
                                 </div>  
                            </div>
