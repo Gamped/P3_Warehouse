@@ -1,20 +1,20 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
- import dk.aau.cs.ds303e18.p3warehouse.exceptions.ProductNotFoundException;
- import dk.aau.cs.ds303e18.p3warehouse.managers.EmployeeManager;
- import dk.aau.cs.ds303e18.p3warehouse.managers.ProductManager;
- import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
- import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.*;
- import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
- import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
- import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
- import org.bson.types.ObjectId;
- import org.springframework.beans.BeanUtils;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.web.bind.annotation.*;
+import dk.aau.cs.ds303e18.p3warehouse.managers.EmployeeManager;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestCustomerModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestEmployeeModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestUserModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
+import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
+import org.bson.types.ObjectId;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
- import java.util.Collection;
- import java.util.Optional;
+import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin

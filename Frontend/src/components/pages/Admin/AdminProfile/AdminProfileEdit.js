@@ -16,13 +16,14 @@ class AdminProfileEdit extends React.Component {
             userId: this.props.userId,
             nickname: "",
             passwordRepeat: "",
-            password: "",
+            password: ""
         };
     }
 
 
     confirmed = (event) =>{
         event.preventDefault();
+
         const {nickName, password} = this.state;
         
         if (this.state.password === this.state.passwordRepeat){
@@ -32,6 +33,7 @@ class AdminProfileEdit extends React.Component {
             });
     } else {
         repeatedPasswordWarning();
+
     }
 }
 
@@ -52,18 +54,21 @@ class AdminProfileEdit extends React.Component {
                                 className="my-2 form-control" 
                                 onChange={this.onChange}
                                 placeholder="Name"/>
+                                {console.log(this.state.nickname)}
                             <input
                                 type="text" 
                                 name="password"
                                 className="my-2 form-control" 
                                 onChange={this.onChange}
                                 placeholder="New password"/>
+                                {console.log(this.state.password)}
                             <input
                                 type="password" 
                                 name="passwordRepeat"
                                 className="my-2 form-control" 
                                 onChange={this.onChange}
                                 placeholder="New password repeat"/>
+                                {console.log(this.state.passwordRepeat)}
                         </form>
 
                         <form className="newForm stockForm">

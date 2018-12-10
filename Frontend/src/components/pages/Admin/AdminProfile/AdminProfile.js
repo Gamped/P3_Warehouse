@@ -12,12 +12,15 @@ class AdminProfile extends React.Component {
             userName: "",
             nickName: "",
             userType: props.userType,
-            userId: props.userId
+            userId: props.userId,
+
+            userName: "",
+            nickname: ""
         };
     }
    
     componentDidMount(){
-        
+      
        get("employee/" + this.state.userId, (data) => {
 
             this.state.userName = data.userName;
@@ -31,7 +34,8 @@ class AdminProfile extends React.Component {
                 <h1 className="title customText_b_big">Profile information</h1>
                 <div className="informationBox">
                     <h1 className="lead"><strong>User name: {this.state.userName}</strong></h1>
-                    <h1 className="lead"><strong>Name: {this.state.name}</strong></h1>
+                    <h1 className="lead"><strong>Name: {this.state.nickName}</strong></h1>
+
 
                     <Link to="/Admin/Profile/AddEmployee" className="btn-block btn-success btn my-2">Add employee</Link>
                     
