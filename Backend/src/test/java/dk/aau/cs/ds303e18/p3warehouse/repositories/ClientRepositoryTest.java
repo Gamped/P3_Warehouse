@@ -21,6 +21,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.greaterThanOrEqualTo;
+import static org.hamcrest.Matchers.is;
+
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class ClientRepositoryTest {
@@ -33,6 +38,12 @@ public class ClientRepositoryTest {
     OrderRepository orderRepository;
     @Autowired
     PublisherRepository publisherRepository;
+
+    @Test
+    public void testFindAllClients() {
+        List<Client> clients = clientRepository.findAll();
+        assertThat(clients.size(), is(greaterThanOrEqualTo(0)));
+    }
 
     @Test
     public void testFindClientInformation(){
