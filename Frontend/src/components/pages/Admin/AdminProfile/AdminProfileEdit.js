@@ -33,19 +33,19 @@ class AdminProfileEdit extends React.Component {
 
     handleName = (event) => {
         this.setState({
-            nickname: event.target.value,
+            nickname: event.target.value
         });
     }
     
     handlePass = (event) => {
         this.setState({
-            password: event.target.value,
+            password: event.target.value
         });
     }
     
     handlePassRepeat = (event) => {
         this.setState({
-            passwordRepeat: event.target.value,
+            passwordRepeat: event.target.value
         });
     }
     
