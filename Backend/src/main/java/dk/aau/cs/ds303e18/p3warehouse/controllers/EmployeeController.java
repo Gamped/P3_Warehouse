@@ -86,7 +86,9 @@ public class EmployeeController {
         Client client = new Client(new ObjectId());
         BeanUtils.copyProperties(restCustomerModel, client);
         client.setUserType(UserType.CLIENT);
-        userRepository.save(client);
+        User user = new User(client.getId());
+        user.copyFrom(client);
+        userRepository.save(user);
         clientRepository.save(client);
         return "Created!";
     }
