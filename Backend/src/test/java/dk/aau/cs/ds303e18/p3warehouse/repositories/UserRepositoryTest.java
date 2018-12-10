@@ -93,7 +93,6 @@ public class UserRepositoryTest {
         productRepository.save(flyerProduct);
 
         Client queriedClient = clientRepository.findById(client.getId()).orElse(null);
-        System.out.println(queriedClient.getProductStream());
 
 /*
         User user = new User(client.getId());
