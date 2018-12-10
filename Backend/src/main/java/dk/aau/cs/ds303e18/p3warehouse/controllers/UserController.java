@@ -1,15 +1,12 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.EmployeeRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
-import org.bson.types.ObjectId;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import dk.aau.cs.ds303e18.p3warehouse.repositories.UserRepository;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
-import java.util.Optional;
 @RequestMapping("/api")
 @CrossOrigin
 @RestController

@@ -85,6 +85,8 @@ public class EmployeeRoutes {
         publisherProduct.setQuantity(35);
         publisherProduct.setProductId("561313");
 
+        clientProduct.setOwner(client);
+        publisherProduct.setOwner(publisher);
         Order clientOrder = new Order(clientOrderId);
         Order publisherOrder = new Order(publisherOrderId);
 

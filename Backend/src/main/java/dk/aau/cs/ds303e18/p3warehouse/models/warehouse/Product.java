@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.UserRef;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
@@ -70,12 +71,12 @@ public class Product {
     }
 
     public Customer getOwner() {
-        return owner;
+        return owner;   
     }
 
     @JsonProperty("owner")
-    public ObjectId getOwnerId(){
-        return owner.getId();
+    public UserRef getOwnerId(){
+        return new UserRef(owner);
     }
 
     @Override
