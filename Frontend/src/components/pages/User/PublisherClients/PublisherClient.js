@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import ReactTable from 'react-table';
 import {makeProductsRowsWithOwner} from './../../../../handlers/dataHandlers.js';
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
+import {get} from './../../../../handlers/requestHandlers';
 
 import "../../Pages.css";
 import "./PublisherClient.css";
@@ -27,7 +28,7 @@ class PublisherClient extends React.Component {
 
     getPublisherProducts() {
 
-        get("publisher/" + this.state.userId + "/clients/products", () => {
+        get("publisher/" + this.state.userId + "/clients/products", (data) => {
         
             const products = makeProductsRowsWithOwner(data);
             this.setState({ products: products });

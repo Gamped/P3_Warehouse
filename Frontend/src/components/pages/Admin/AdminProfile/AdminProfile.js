@@ -1,28 +1,28 @@
 import React from 'react';
-import Axios from "axios";
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
-
+import {get} from './../../../../handlers/requestHandlers.js'
 import "../../Pages.css";
 import "./AdminProfile.css";
 
 class AdminProfile extends React.Component {
     constructor(props){
         super(props);
-        const {userName, name} = "";
         this.state = {
+            userName: "",
+            nickName: "",
             userType: props.userType,
             userId: props.userId
         };
     }
    
     componentDidMount(){
-        //Todo: Sørg for at den henter det rigtige sted fra
-        Axios.get("http://localhost:8080/api/employee/" + this.state.userId)
-            .then((response) => {
-                this.userName = response.userName;
-                this.name = response.nickname;
-            })
+        
+       get("employee/" + this.state.userId, (data) => {
+
+            this.state.userName = data.userName;
+            this.state.nickName = data.nickName;
+       })       
     }
 
     render(){
@@ -30,8 +30,8 @@ class AdminProfile extends React.Component {
             <div className="PageStyle rounded">
                 <h1 className="title customText_b_big">Profile information</h1>
                 <div className="informationBox">
-                    <h1 className="lead"><strong>User name: {this.userName}</strong></h1>
-                    <h1 className="lead"><strong>Name: {this.name}</strong></h1>
+                    <h1 className="lead"><strong>User name: {this.state.userName}</strong></h1>
+                    <h1 className="lead"><strong>Name: {this.state.name}</strong></h1>
 
                     <Link to="/Admin/Profile/AddEmployee" className="btn-block btn-success btn my-2">Add employee</Link>
                     

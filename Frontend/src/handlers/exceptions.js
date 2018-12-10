@@ -15,5 +15,9 @@ export function amountIsZeroWarning() {
     window.alert("Amount is set to zero. Please choose an amount of products to be added to this order line");
 }
 
+export function repeatedPasswordWarning() {
+    window.alert("Passwords do not match");
+}
+
 
 
