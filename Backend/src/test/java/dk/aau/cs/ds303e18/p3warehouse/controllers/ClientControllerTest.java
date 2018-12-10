@@ -95,7 +95,6 @@ public class ClientControllerTest {
         BeanUtils.copyProperties(client, restClientModel);
 
         when(clientRepository.save(client)).thenReturn(client);
-
         String status = employeeController.createClient(restClientModel);
 
         verify(clientRepository).save(client);
