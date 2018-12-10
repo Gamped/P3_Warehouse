@@ -28,7 +28,6 @@ class NewOrder extends React.Component {
             orderLines: []
         };
 
-        this.makeRow = this.makeRow.bind(this);
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
         this.undoOrderLine = this.undoOrderLine.bind(this);
         this.renderEditable = this.renderEditable.bind(this);

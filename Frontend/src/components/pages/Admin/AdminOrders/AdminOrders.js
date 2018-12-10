@@ -6,7 +6,6 @@ import "../../Pages.css";
 import "./AdminOrders.css";
 import {allProductsNotPackedWarning} from "./../../../../handlers/exceptions.js";
 import {makePublisherAndClientOrdersData} from "./../../../../handlers/dataHandlers.js"
-
 export default class AdminOrders extends Component {
 
     //A constructor that contains our state.
@@ -316,7 +315,7 @@ export default class AdminOrders extends Component {
                                 <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns} showPagination={false} 
                                 className="-striped -highlight"/>
                                  <div className="  px-1">
-
+                                 
                                 </div>
                        </div>  
                  </div>    
