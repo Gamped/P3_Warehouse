@@ -3,14 +3,17 @@ import "../../Pages.css";
 import "./AdminProfile.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import Axios from 'axios';
+import {put} from './../../../../handlers/requestHandlers.js'
+import {repeatedPasswordWarning} from './../../../../handlers/exceptions.js'
+
+//TODO: Passwords has to match
 
 class AdminProfileEdit extends React.Component {
    
     constructor(props) {
         super(props);
         this.state = {
-            userId: props.userId,
+            userId: this.props.userId,
             nickname: "",
             passwordRepeat: "",
             password: ""
@@ -20,37 +23,22 @@ class AdminProfileEdit extends React.Component {
 
     confirmed = (event) =>{
         event.preventDefault();
-        const {nickname, password, passwordRepeat} = this.state;
-        console.log(password);
-        console.log(passwordRepeat);
-        console.log(this.state.password);
-        console.log(this.state.passwordRepeat);
-        
-        if (password===passwordRepeat){
-            Axios.put("http://localhost:8080/api/employee/edit/" + this.state.userId, 
-            {nickname: this.state.nickname, password: this.state.password});
-            this.props.history.push("/Admin/Profile")
-        }else{
-            alert("Password has not been repeated correctly.")
-        }
-    }
 
-    handleName = (event) => {
-        this.setState({
-            nickname: event.target.value
-        });
+        const {nickName, password} = this.state;
+        
+        if (this.state.password === this.state.passwordRepeat){
+            put("employee/edit/" + this.state.userId, 
+            {nickName, password}, ()=>{
+                this.props.history.push("/Admin/Profile")
+            });
+    } else {
+        repeatedPasswordWarning();
+
     }
-    
-    handlePass = (event) => {
-        this.setState({
-            password: event.target.value
-        });
-    }
-    
-    handlePassRepeat = (event) => {
-        this.setState({
-            passwordRepeat: event.target.value
-        });
+}
+
+    onChange = (e) => {
+        this.setState({[e.target.name]: e.target.value});
     }
     
     render(){
@@ -62,20 +50,23 @@ class AdminProfileEdit extends React.Component {
                         <form>
                             <input 
                                 type="text" 
+                                name="nickName"
                                 className="my-2 form-control" 
-                                onChange={this.handleName}
+                                onChange={this.onChange}
                                 placeholder="Name"/>
                                 {console.log(this.state.nickname)}
                             <input
                                 type="text" 
+                                name="password"
                                 className="my-2 form-control" 
-                                onChange={this.handlePass}
+                                onChange={this.onChange}
                                 placeholder="New password"/>
                                 {console.log(this.state.password)}
                             <input
                                 type="password" 
+                                name="passwordRepeat"
                                 className="my-2 form-control" 
-                                onChange={this.handlePassRepeat}
+                                onChange={this.onChange}
                                 placeholder="New password repeat"/>
                                 {console.log(this.state.passwordRepeat)}
                         </form>
