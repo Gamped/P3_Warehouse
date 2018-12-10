@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import ReactTable from "react-table";
 import axios from "axios";
+
 import "../../Pages.css";
 import "./AdminOrders.css";
 import {allProductsNotPackedWarning} from "./../../../../handlers/exceptions.js";
@@ -287,7 +288,8 @@ export default class AdminOrders extends Component {
                             data={orders}
                             columns={orderColumns} 
                             showPagination={false} 
-                            className="-striped -highlight"getTrProps={(state, rowInfo) => {
+                            className="-striped -highlight"
+                            getTrProps={(state, rowInfo) => {
                                 if (rowInfo && rowInfo.row) {
                                   return {
                                     onClick: (e) => {
