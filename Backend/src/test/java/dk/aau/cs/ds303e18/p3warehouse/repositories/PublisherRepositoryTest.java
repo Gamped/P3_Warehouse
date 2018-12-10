@@ -187,9 +187,11 @@ public class PublisherRepositoryTest {
 
         publisherRepository.save(publisher);
 
-        Optional<Publisher> optPublisher = publisherRepository.findById(publisher.getHexId());
-        Publisher retrievedPublisher = optPublisher.get();
+        Publisher retrievedPublisher = publisherRepository.findById(publisher.getHexId()).orElse(null);
 
+        if(retrievedPublisher == null){
+            assert(false);
+        }
         Assert.assertEquals(publisher.getUserName(), retrievedPublisher.getUserName());
         Assert.assertEquals(publisher.getPassword(), retrievedPublisher.getPassword());
         Assert.assertEquals(publisher.getContactInformation(), retrievedPublisher.getContactInformation());

@@ -76,7 +76,7 @@ public class ClientControllerTest {
         Client client = new Client(id);
         when(clientRepository.findById(id)).thenReturn(Optional.of(client));
 
-        Client retrievedClient = clientController.findClientById(id);
+        Client retrievedClient = clientController.findClientById(id.toHexString());
         verify(clientRepository).findById(id);
         assertEquals(client.getId(), retrievedClient.getId());
     }
