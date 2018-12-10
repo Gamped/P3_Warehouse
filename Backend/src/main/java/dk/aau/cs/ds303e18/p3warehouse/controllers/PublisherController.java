@@ -19,10 +19,6 @@ public class PublisherController {
 
     @Autowired
     PublisherRepository publisherRepository;
-    @Autowired
-    ProductRepository productRepository;
-    @Autowired
-    OrderRepository orderRepository;
 
     @GetMapping("/publishers")
     Iterable<Publisher> findAll() {
@@ -70,33 +66,6 @@ public class PublisherController {
         publisherRepository.deleteById(id);
     }
 
-    /*@GetMapping("/publishers/clients/products")
-    Iterable<Product> findAllClientsProducts(@RequestBody Publisher publisher) {
-        Stream<Client> clientStream = publisher.getClientStream();
-
-        //return productRepository.findByOwner(clientStream.iterator().next());
-    }
-
-    @GetMapping("/publishers/client/{hexId}/products")
-    Iterable<Product> findProductsByClientId(@PathVariable("hexId") String hexId) {
-        ObjectId id = new ObjectId(hexId);
-        Client client = new Client(id);
-
-        return productRepository.findByOwner(client);
-    }
-
-    @GetMapping("/publishers/clients/orders")
-    Iterable<Order> findAllClientOrders(@RequestBody Publisher publisher) {
-        Stream<Client> clients = publisher.getClientStream();
-
-        return orderRepository.findByOwner(clients.iterator().next());
-    }
-
-    @GetMapping("/publishers/client/{clientId}/order")
-    Iterable<Order> findOneClientOrders(@RequestBody Client client) {
-
-        return orderRepository.findByOwner(client);
-    }*/
     @GetMapping("/publishers/products/{userType}/{hexId}")
     Optional<Publisher> findAllProductsOnPublisher(@PathVariable("userType") String userType,
                                                    @PathVariable("hexId") String hexId) {
