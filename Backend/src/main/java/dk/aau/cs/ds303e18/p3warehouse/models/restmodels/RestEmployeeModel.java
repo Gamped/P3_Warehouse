@@ -10,7 +10,6 @@ public class RestEmployeeModel extends RestUserModel{
     }
 
     public void setUsername(String username) {
-        isContentPresent(username);
         this.username = username;
     }
 
@@ -29,10 +28,6 @@ public class RestEmployeeModel extends RestUserModel{
     }
 
     public void setNickname(String nickname) {
-        if(isContentPresent(nickname)) this.nickname = nickname;
-    }
-
-    private boolean isContentPresent(String string){
-        return string.length() > 0;
+        this.nickname = nickname;
     }
 }

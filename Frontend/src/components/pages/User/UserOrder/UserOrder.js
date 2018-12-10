@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import {makeProductsRowsFromResponseData} from './../../../../handlers/dataHandlers.js';
 import {itemPreviouslyAddedWarning} from './../../../../handlers/exceptions.js';
 import { getColumnsFromArray } from './../../../../handlers/columnsHandlers.js';
+import { get } from './../../../../handlers/requestHandlers.js';
 
 //TODO: Render warning in previouslyAddedWarning
 //TODO: Put items in cart notification symbol on cart button
@@ -45,13 +46,12 @@ class UserOrder extends React.Component {
 
         const hexId = this.props.userId;
         const userType = this.props.userType;
-        console.log(hexId + " " + userType);
-        axios.get('http://localhost:8080/api/publishers/products/'+userType+'/' + hexId)
-        .then((response) => {
-
-            const products = makeProductsRowsFromResponseData(response.data);
+        
+        get('publishers/products/'+userType+'/' + hexId, (data) => {
+            const products = makeProductsRowsFromResponseData(data);
             this.setState({products: products});
         })
+    
     }
 
     handleQuarry = (event) => {
