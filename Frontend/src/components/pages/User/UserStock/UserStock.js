@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import axios from 'axios';
+import {connect} from "react-redux"
 
 import "../../Pages.css";
 import "./UserStock.css"
 
-export default class UserStock extends React.Component {
+class UserStock extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -105,3 +106,5 @@ const mapStateToProps = (state) =>{
         userId: state.loginReducer.userId
     }
 }
+
+export default connect(mapStateToProps)(UserStock)

@@ -5,7 +5,6 @@ import './style.css';
 import loginMain from "./mainPages/loginMain";
 import adminMain from "./mainPages/adminMain";
 import userMain from "./mainPages/userMain";
-import HomeAdmin from "./components/pages/Admin/HomeAdmin"
 import AdminOrders from "./components/pages/Admin/AdminOrders/AdminOrders";
 import AdminProfile from "./components/pages/Admin/AdminProfile/AdminProfile";
 import AdminAdd from "./components/pages/Admin/AdminProfile/AdminAdd";
@@ -15,8 +14,7 @@ import AdminStock from "./components/pages/Admin/AdminStock/AdminStock";
 import NewWare from "./components/pages/Admin/AdminStock/NewWare";
 import Edit from "./components/pages/Admin/AdminStock/Edit";
 import RemoveWare from "./components/pages/Admin/AdminStock/RemoveWare";
-import AdminUsers from "./components/pages/Admin/AdminUsers";
-import UserHome from "./components/pages/User/UserHome";
+import AdminUsers from "./components/pages/Admin/AdminUsers/AdminUsers";
 import PublisherClient from "./components/pages/User/PublisherClients/PublisherClient";
 import PublisherRequestClientChange from "./components/pages/User/PublisherClients/PublisherRequestClientChange";
 import UserStock from "./components/pages/User/UserStock/UserStock";
@@ -26,6 +24,8 @@ import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHisto
 import UserOrder from "./components/pages/User/UserOrder/UserOrder";
 import UserOrderCart from "./components/pages/User/UserOrder/UserOrderCart";
 import UserCartConfirm from "./components/pages/User/UserOrder/UserCartConfirm";
+import Header from "./components/Header/Header";
+import Home from "./mainPages/landingPage"
 import {Provider} from "react-redux";
 import redux from "./redux/Redux";
 import NewOrder from './components/pages/Admin/AdminOrders/NewOrder';
@@ -41,13 +41,13 @@ ReactDOM.render(
         <BrowserRouter>
             <div>
                 <Route exact path="/" component={loginMain}/>
-
-                <Route exact path="/Admin" component={adminMain}/>
-                <Route exact path="/Admin" component={HomeAdmin}/>
+                <Route path="/Home" component={Header}/>
+                <Route exact path="/Home" component={Home}/>
+    
                 <Route exact path="/Admin/*" component={adminMain}/>
                 <Route exact path="/Admin/Orders" component={AdminOrders}/>
                 <Route exact path="/Admin/Orders/New" component={NewOrder}/>
-                <Route exact path="/Admin/Orders/Edit" component={EditOrder}/>
+                <Route exact path="/Admin/Orders/Edit/:id" component={EditOrder}/>
                 <Route exact path="/Admin/Orders/Edit/OrderAddress" component={EditOrderAddress}/>
                 <Route exact path="/Admin/Orders/Edit/OrderContent" component={EditOrderContent}/>
                 <Route exact path="/Admin/Profile" component={AdminProfile}/>
@@ -63,8 +63,6 @@ ReactDOM.render(
                 <Route exact path="/Admin/Order/Cart" component={AdminOrderCart}/>
                 <Route exact path="/Admin/Order/Cart/Confirm" component={AdminCartConfirm}/>
 
-                <Route exact path="/User" component={userMain}/>
-                <Route exact path="/User/" component={UserHome}/>
                 <Route exact path="/User/*" component={userMain}/>
                 <Route exact path="/User/Order" component={UserOrder}/>
                 <Route exact path="/User/Order/Cart" component={UserOrderCart}/>

@@ -37,8 +37,13 @@ public class EmployeeController {
 
 
     @PostMapping("/employee/employees")
-    private Employee newEmployee(@RequestBody Employee employee){
-        return EmployeeManager.saveEmployeeToDb(employee);
+    private String createEmployee(@RequestBody RestEmployeeModel restEmployeeModel){
+        ObjectId id = new ObjectId();
+        Employee employee = new Employee(id);
+        BeanUtils.copyProperties(restEmployeeModel, employee);
+        employee.setUserType(UserType.EMPLOYEE);
+        employeeRepository.save(employee);
+        return "created!";
     }
 
     @PostMapping("/employee/products/assignTo={customerId}/withUserType={userType}")
@@ -49,9 +54,14 @@ public class EmployeeController {
             return "Could not create, customerId or userType is not set!";
         }
 
-        Product product = new Product(new ObjectId());
 
+        Product product = new Product(new ObjectId());
         BeanUtils.copyProperties(restProduct, product);
+
+        Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(customerId));
+        Publisher publisher = optionalPublisher.get();
+        publisher.addProduct(product);
+        publisherRepository.save(publisher);
         productRepository.save(product);
 
         return "Created!";
@@ -83,8 +93,8 @@ public class EmployeeController {
 
     //FIND ALL: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
-    @GetMapping("/employee")
-     Collection<Employee> getAllEmployees() {
+    @GetMapping("/employee/employees")
+    private Collection<Employee> getAllEmployees() {
         return employeeRepository.findAll();
     }
 
@@ -122,17 +132,29 @@ public class EmployeeController {
         return productRepository.findById(new ObjectId(hexId));
     }
 
+    @GetMapping("/employee/publisher/{hexId}")
+    private Optional<Publisher> findPublisherById(@PathVariable String hexId) {
+        return publisherRepository.findById(new ObjectId(hexId));
+
+    }
+
+    @GetMapping("/employee/client/{hexId}")
+    private Optional<Client> findClientById(@PathVariable String hexId) {
+        return clientRepository.findById(new ObjectId(hexId));
+
+    }
 
     //UPDATE: EMPLOYEE, PRODUCTS, CONTACT INFORMATION (CLIENT, PUBLISHER), USERS
 
-    @PutMapping("/employee/edit/{hexId}/setNickName={nickName}")
-    String updateEmployee(@PathVariable("hexId") String hexId, @PathVariable("nickName") String nickName) {
+    @PutMapping("/employee/edit/{hexId}")
+    String updateEmployee(@PathVariable("hexId") String hexId, @RequestBody RestEmployeeModel restEmployeeModel) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(new ObjectId(hexId));
         Employee employee = optionalEmployee.get();
-        employee.setNickname(nickName);
+        employee.setNickname(restEmployeeModel.getNickname());
+        employee.setPassword(restEmployeeModel.getPassword());
         employeeRepository.save(employee);
 
-        return "Updated Employee with nickName " + employee.getNickname();
+        return "Updated Employee with nickName " + employee.getNickname() + " and password " + employee.getPassword();
     }
 
 
@@ -153,7 +175,7 @@ public class EmployeeController {
 
     }
 
-    @PutMapping("/employee/publisher/contactInformation/edit/{hexId}")
+    @PutMapping("/employee/client/contactInformation/edit/{hexId}")
     String updateContactInformationOnClient(@PathVariable String hexId, @RequestBody ContactInformation contactInformation) {
 
         ObjectId id = new ObjectId(hexId);
@@ -166,7 +188,7 @@ public class EmployeeController {
         return "Updated Contact Information on Client: " + client.getUserName();
     }
 
-    @PutMapping("/employee/publisher/contactInformation/edit/hexId}")
+    @PutMapping("/employee/publisher/contactInformation/edit/{hexId}")
     String updateContactInformationOnPublisher(@PathVariable String hexId, @RequestBody ContactInformation contactInformation) {
 
         ObjectId id = new ObjectId(hexId);
@@ -201,8 +223,14 @@ public class EmployeeController {
 
 
     @DeleteMapping("/employee/delete/{hexId}")
-    public void deleteEmployeeById(@PathVariable String hexId) {
-        employeeRepository.deleteById(new ObjectId(hexId));
+    public String deleteEmployeeById(@PathVariable String hexId, String employeeName, String password) {
+        ObjectId id = new ObjectId(hexId);
+        if(!employeeRepository.existsById(id)){ //Prevents the deleter from deleting if the deleter is not in the database.
+            return "Unauthorized action";
+        }
+        //returns a nullpointerexception and I don't know why
+        EmployeeManager.removeEmployeeFromDb(employeeRepository.findByNickname(employeeName));
+        return "Deletion Success";
     }
 
 

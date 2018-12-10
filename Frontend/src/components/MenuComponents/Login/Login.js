@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import axios from "axios"
 
 // The box for sign-in to the system
-class SignInBox extends React.Component{
+class SignInBox extends React.Component {
 
     constructor(props) {
         super(props);
@@ -14,46 +14,34 @@ class SignInBox extends React.Component{
         this.state = {
             userName:"",
             password:"",
-            userType:"client"
         }
     }
 
+    //Mapping the value of the textbox to the state
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
     }
 
-    toggleCheckbox= (e) => {
-        if(this.state.userType === "client"){
-            this.setState({userType:"employee"})
-        }else{
-            this.setState({usetType:"client"})
-        }
-    }
-
+    //This handles our login. Takes an event and calls axios.
+    //Then we map the results to redux through dispatches before pushing the user to main.
     loginHandler = (event) => {
         event.preventDefault()
-
-       axios.get("localhost:8080/users?username=" + this.state.username + "&password="+this.state.password)
-            .then(res => {
-                console.log(res)
-                this.props.setNickName(res.nickName)
-                this.props.setUserType(res.userType)
-                this.props.setUserId(res.id)
+       axios.get("http://localhost:8080/api/users/login/" + this.state.userName + "/" +this.state.password)
+            .then(result => {
+                this.props.setUserName(result.data.contactInformation.nickName);
+                this.props.setUserType(result.data.userType);
+                this.props.setUserId(result.data.hexId)
                 this.props.setlogIn("True")
-            })
-            .then(res => {
-                if(res.userType==="EMPLOYEE"){
-                    this.props.history.push("./Admin")
-                }else if(res.userType === "CLIENT"||res.userType==="PUBLISHER"){
-                    this.props.history.push("./User")
-                }
             })
     }
 
     render(){
+        if(this.props.user.loggedIn==="True"){
+            this.props.history.push("./Home")
+        }
 
         return(
-            //Functionality for responding to user input
+            //This is what we return and what the user sees.
             <div>
                 
                 <div className="col-sm makeRelative mx-auto mt-5">
@@ -89,17 +77,17 @@ class SignInBox extends React.Component{
 
 
 const mapStateToProps = (state)=>{
-    return{
-        userType: state.loginReducer
+    return {
+        user: state.loginReducer
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
     return {
         setUserType: (userType) => {dispatch({type: "SET_USERTYPE",payload: {userType}})},
-        setNickName: (userName) => {dispatch({type: "SET_USERNAME",payload: {userName}})},
+        setUserName: (userName) => {dispatch({type: "SET_USERNAME",payload: {userName}})},
         setUserId: (userId) => {dispatch({type: "SET_USERID",payload: {userId}})},
-        setlogIn: (logged) => {dispatch({type: "SET_LOGIN",payload: {logged}})}
+        setlogIn: (loggedIn) => {dispatch({type: "SET_LOGIN",payload: {loggedIn}})}
     }
 }
 

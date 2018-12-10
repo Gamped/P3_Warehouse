@@ -6,18 +6,23 @@ import ButtonList from "../MenuComponents/ButtonList/ButtonList"
 // The header component
 class Header extends React.Component {
 
+    //This happens when we exit
     exitHandler = (event) =>{
         event.preventDefault();
         this.props.logout()
         this.props.history.replace("/")
     }
 
+    //This is what we render
     render(){
+        
+        // Here we determine what buttons to send to the header. 
+        // If the usertype does not match anything then we send the user back to the loginPage
         let buttons=[]
         const user = this.props.userType;
         if(user==="EMPLOYEE"){
             buttons= [
-                {name: "Home",location: "/Admin", id:"1"},
+                {name: "Home",location: "/Home", id:"1"},
                 {name: "Orders",location:"/Admin/Orders", id:"2"},
                 {name: "Users",location:"/Admin/Users",id:"3"},
                 {name: "Stock",location:"/Admin/Stock",id:"4"},
@@ -25,14 +30,14 @@ class Header extends React.Component {
             ]
         }else if(user==="CLIENT"){
             buttons=[
-                {name: "Home",location: "/User", id:"1"},
+                {name: "Home",location: "/Home", id:"1"},
                 {name: "Order",location:"/User/Order", id:"2"},
                 {name: "Stock",location:"/User/Stock",id:"3"},
                 {name: "Profile",location:"/User/Profile",id:"4"},
             ]
         }else if(user==="PUBLISHER"){
             buttons=[
-                {name: "Home",location: "/User", id:"1"},
+                {name: "Home",location: "/Home", id:"1"},
                 {name: "Order",location:"/User/Order", id:"2"},
                 {name: "Stock",location:"/User/Stock",id:"3"},
                 {name: "Profile",location:"/User/Profile",id:"4"},
@@ -42,7 +47,11 @@ class Header extends React.Component {
             this.props.history.push("/")
         }
 
-        const title= "4N: " + this.props.title
+        //This the title is put in the header. 
+        const name = this.props.userType.toString().toLowerCase()
+        const title= "4N: " + name + " menu" 
+
+        //This is what we actually render.
         return(
             <div>
 
@@ -69,16 +78,20 @@ class Header extends React.Component {
     }
 }
 
+//REDUX This takes the redux state and maps it to the props.
 const mapStateToProps = (state)=>{
     return{
         userType: state.loginReducer.userType
     }
 }
 
+//REDUX Gets a dispatch function and maps it to the props.
 const mapDispatchToProps = (dispatch) =>{
     return {
         logout: () => {dispatch({type: "LOGOUT"})}
     }
 }
 
+//The Header class is the default class that is exported. 
+//Here the redux functions are also connected to the class
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

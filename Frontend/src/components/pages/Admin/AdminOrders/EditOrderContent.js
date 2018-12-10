@@ -51,9 +51,8 @@ export default class EditOrderContent extends Component{
                         <ReactTable 
                             data={this.state.orderLineData}
                             columns={orderLineColumns}
-                            className="OrderLines"
                             showPagination={false} 
-                            className="orderLineTable -striped -highlight"
+                            className="OrderLines orderLineTable -striped -highlight"
                             getTrProps={(state, rowInfo) => {
                                 if (rowInfo && rowInfo.row) {
                                     return {

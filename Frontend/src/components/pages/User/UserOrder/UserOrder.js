@@ -5,6 +5,9 @@ import "./UserOrder.css";
 import axios from 'axios';
 import ReactTable from 'react-table';
 import { connect } from "react-redux";
+import {makeProductsRowsFromResponseData} from './../../../../handlers/dataHandlers.js';
+import {itemPreviouslyAddedWarning} from './../../../../handlers/exceptions.js';
+import { getColumnsFromArray } from './../../../../handlers/columnsHandlers.js';
 
 //TODO: Render warning in previouslyAddedWarning
 //TODO: Put items in cart notification symbol on cart button
@@ -26,37 +29,30 @@ class UserOrder extends React.Component {
             orderLines: []
         };
 
-        this.makeRow = this.makeRow.bind(this);
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
         this.undoOrderLine = this.undoOrderLine.bind(this);
-        this.makeRow = this.makeRow.bind(this);
         this.renderEditable = this.renderEditable.bind(this);
-      //  this.setStateAsSelected = this.setStateAsSelected.bind(this);
+        this.getPublisherProducts = this.getPublisherProducts.bind(this);
     }
 
 
     componentWillMount() {
-        axios.get('http://localhost:8080/api/products/')
-        .then((response) => {
-            const data = this.makeRow(response);
-            this.setState({products: data})
-        })
+      
+        this.getPublisherProducts();
     }
 
+    getPublisherProducts(){
 
-   makeRow = (response) => {
-    var products = [];
-    response.data.forEach((product) => {
-      products.push({
-        productId: product.productId,
-        productName: product.productName,
-        quantity: product.quantity,
-        amount: 0,
-        hexId: product.hexId
-      })
-      })
-    return products;
-  }
+        const hexId = this.props.userId;
+        const userType = this.props.userType;
+        console.log(hexId + " " + userType);
+        axios.get('http://localhost:8080/api/publishers/products/'+userType+'/' + hexId)
+        .then((response) => {
+
+            const products = makeProductsRowsFromResponseData(response.data);
+            this.setState({products: products});
+        })
+    }
 
     handleQuarry = (event) => {
         this.setState({
@@ -64,6 +60,26 @@ class UserOrder extends React.Component {
         });
     }
 
+    addSelectedToOrderLine = () => {
+      this.setState({orderLines: [...this.state.orderLines, this.state.selected]}); 
+      console.log(this.state.orderLines)
+      }
+
+    undoOrderLine = () => {
+        this.setState({orderLines: this.state.orderLines.splice(-1, 1)})
+      }
+
+    checkIfPreviouslyAdded = (orderLine) => {
+          
+        if(this.state.orderLines.filter(line => orderLine.hexId === line.hexId)) {
+            itemPreviouslyAddedWarning(); 
+        }
+    }
+
+    changeToCart = (event) => {
+        this.props.addItemToCart(this.state.orderLines)
+        this.props.history.push("/User/Order/Cart")
+    }
 
     renderEditable = cellInfo => {
         return (
@@ -80,9 +96,9 @@ class UserOrder extends React.Component {
                     product.hexId === cellInfo.original.hexId)
                 .map(product => 
                     product.amount = typedAmount)
-
+    
                     cellInfo.original.amount = typedAmount;
-
+    
             }}
             dangerouslySetInnerHTML={{
               __html: this.state.products[cellInfo.index][cellInfo.column.id]
@@ -91,41 +107,15 @@ class UserOrder extends React.Component {
         );
       };
 
-    addSelectedToOrderLine = () => {
-      this.setState({orderLines: [...this.state.orderLines, this.state.selected]}); 
-      console.log(this.state.orderLines)
-      }
-
-    undoOrderLine = () => {
-        this.setState({orderLines: this.state.orderLines.splice(-1, 1)})
-      }
-
-    checkIfPreviouslyAdded = (orderLine) => {
-          
-        if(this.state.orderLines.filter(line => orderLine.hexId === line.hexId)) {
-            this.previouslyAddedWarning(); 
-        }
-    }
-    
-    previouslyAddedWarning = () => {
-        //TODO: Render popup warning
-        console.log("Item already added!")
-    }
-
-
-    changeToCart = (event) => {
-        this.props.addItemToCart(this.state.orderLines)
-        this.props.history.push("/User/Order/Cart")
-    }
-
     render(){
         const data = this.state.products;
-        const columns = [
-            {Header: "Product Id", accessor: "productId"},
-            {Header: "Product Name", accessor: "productName"},
-            {Header: "Amount", accessor: "amount", Cell: this.renderEditable},
-            {Header: "Quantity", accessor: "quantity"},
-            {Header: "Owner", accessor: "owner"}];
+        const columns = getColumnsFromArray([
+            "Product Id", 
+            "Product Name", 
+            "Amount", 
+            "Quantity", 
+            "Owner"]);
+        columns[2].Cell = this.renderEditable;
 
         return(
             <div className="PageStyle rounded">
@@ -198,7 +188,8 @@ class UserOrder extends React.Component {
 
 const mapStateToProps = (state)=>{
     return{
-        userType: state.orderReducer
+        userType: state.loginReducer.userType, 
+        userId: state.loginReducer.userId
     }
 }
 

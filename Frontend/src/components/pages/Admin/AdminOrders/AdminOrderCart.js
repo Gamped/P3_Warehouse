@@ -4,10 +4,9 @@ import { connect } from "react-redux";
 import {Link} from "react-router-dom";
 
 class AdminOrderCart extends React.Component {
-    constructor() {
-        super();
-        
-    
+    //A constructor that also sets state.
+    constructor(props) {
+        super(props);
         this.state = {
            address:"",
            company:"",
@@ -20,11 +19,13 @@ class AdminOrderCart extends React.Component {
 
         };
     }
- 
+    
+    //On change we assign a state with a the input's name to the input's value  
     onChange = (e) => {
         this.setState({[e.target.name]:e.target.value})
     }
 
+    //When the user confirms the adress this adress is then saved in redux.
     confirmed = (event) =>{
         event.preventDefault();
         console.log(this.state)
@@ -42,6 +43,9 @@ class AdminOrderCart extends React.Component {
 
 
     render(){
+        //Some logic before rendering.
+        //takes the order saved in redux and assigns it to a local variable.
+        //Then changes that local variable to contain some code our html can understand
         let lines = this.props.order
         lines = lines.map((line)=>{return(
                 <tr key={line.productId}>
@@ -51,7 +55,7 @@ class AdminOrderCart extends React.Component {
                 </tr>
             )})
         
-        
+        //This is what is actually rendered.
         return(
             <div className="PageStyle rounded">
                     <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
@@ -98,12 +102,14 @@ class AdminOrderCart extends React.Component {
     }
 }
 
+//Maps the redux state to props
 const mapStateToProps = (state)=>{
     return{
         order: state.orderReducer.order
     }
 }
 
+//Maps redux dispatch functions to props.
 const mapDispatchToProps = (dispatch) =>{
     return{
         
@@ -119,4 +125,5 @@ const mapDispatchToProps = (dispatch) =>{
     }
 }
 
+//Connects to redux through a higher order component.
 export default connect(mapStateToProps, mapDispatchToProps)(AdminOrderCart);

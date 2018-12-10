@@ -1,16 +1,25 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+import axios from 'axios';
+import {connect} from 'react-redux';
+
 import "../../Pages.css";
 import "./AdminProfile.css";
-import { Link } from "react-router-dom";
 
-export default class AdminRemove extends React.Component {
+class AdminRemove extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: props.ID,
+            userId: props.userId,
             userName: "",
             password: "",
         };
+    }
+
+    initiateRemoval(){
+        const {employeeName, password} = this.state;
+        axios.delete("http://localhost:8080/api/employee/delete/" + this.state.userId, 
+        {data: {employeeName: employeeName, password: password}})
     }
 
     /*
@@ -46,10 +55,19 @@ export default class AdminRemove extends React.Component {
                         placeholder="YOUR password"/>
                 </form>
                 
-                <Link to="/Admin/Profile" className="btn-lg btn-danger btn-block my-2 btn">REMOVE employee</Link>
+                <Link to="/Admin/Profile" className="btn-lg btn-danger btn-block my-2 btn" onClick={this.initiateRemoval()}>REMOVE employee</Link>
                 
                 <Link to="/Admin/Profile" className="btn-info btn-lg btn-block btn my-2">Back</Link>
                 
         </div>);
     }
 }
+
+const mapStateToProps = (state)=>{
+    return{
+        userType: state.loginReducer.userType,
+        userId: state.loginReducer.userId
+    }
+}
+
+export default connect(mapStateToProps)(AdminRemove);

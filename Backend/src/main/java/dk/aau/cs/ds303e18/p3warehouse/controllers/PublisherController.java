@@ -104,4 +104,12 @@ public class PublisherController {
 
         return orderRepository.findByOwner(client);
     }*/
+    @GetMapping("/publishers/products/{userType}/{hexId}")
+    Optional<Publisher> findAllProductsOnPublisher(@PathVariable("userType") String userType,
+                                                   @PathVariable("hexId") String hexId) {
+
+        ObjectId objectId = new ObjectId(hexId);
+        return publisherRepository.findById(objectId);
+    }
+
 }
