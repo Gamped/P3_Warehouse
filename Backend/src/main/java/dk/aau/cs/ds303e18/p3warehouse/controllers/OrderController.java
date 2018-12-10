@@ -1,5 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
+import dk.aau.cs.ds303e18.p3warehouse.MailService.OrderInfoMail;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestOrderLineModel;
@@ -58,6 +59,11 @@ public class OrderController {
         return orderRepository.findAll();
     }
 
+    @DeleteMapping("/orders/delete/{hexId}")
+    void finishOrder(@PathVariable String hexId) {
+        OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
 
-
+        confimationSender.sendOrderMsg(hexId.toString(), "mathiasgam@gmail.com");
+        orderRepository.deleteById(new ObjectId(hexId));
+    }
 }
