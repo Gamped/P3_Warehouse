@@ -4,36 +4,28 @@ import "../../Pages.css";
 import "./AdminStock.css"
 import axios from 'axios';
 import ReactTable from 'react-table';
-//import Edit from './Edit';
-
-
+import {makeProductsRowsFromResponseData} from './../../../../handlers/dataHandlers.js'
+import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
+import {get, del} from './../../../../handlers/requestHandlers.js';
 
 export default class AdminStock extends Component {
+
     constructor(props) {
         super(props);
         this.state = { products: [], selected: null, selectedId: "" };
-        this.makeRow = this.makeRow.bind(this);
+       
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8080/api/employee/products')
-            .then((response) => {
-                const products = this.makeRow(response);
-                this.setState({ products: products });
-            })
+       
+        this.getProducts();
     }
 
-    makeRow(response){
-        var products = [];
-        response.data.forEach((product) => {
-            products.push({
-                productId: product.productId,
-                productName: product.productName,
-                quantity: product.quantity,
-                hexId: product.hexId
-            })
-        });
-        return products;
+    getProducts() {
+        get('employee/products', (data) => {
+            const products = makeProductsRowsFromResponseData(data);
+            this.setState({ products: products });
+        });  
     }
 
     sendToPage = (address) => {
@@ -46,8 +38,10 @@ export default class AdminStock extends Component {
             
             if(window.confirm("You are deleting an item")){
                
-                axios.delete('http://localhost:8080/api/employee/products/'+this.state.selectedId)
+               del('employee/products/'+this.state.selectedId, (res) => {
                 window.location.reload()
+               })
+               
             }    
         }
         
@@ -81,15 +75,9 @@ export default class AdminStock extends Component {
     }
 
     render() {
-      let selectedId = this.state.selectedId
-
-      const columns = [
-          {Header: "Product ID", accessor: "productId"},
-          {Header: "Product Name", accessor: "productName"},
-          {Header: "Quantity", accessor: "quantity"}
-      ]
-
-
+        
+        let selectedId = this.state.selectedId
+        const columns = getColumnsFromArray(["Product Id", "Product Name", "Quantity"]);
 
         return(
             <div className="PageStyle rounded">

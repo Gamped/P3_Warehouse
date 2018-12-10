@@ -62,17 +62,6 @@ public class EmployeeController {
         Publisher publisher = optionalPublisher.get();
         publisher.addProduct(product);
         publisherRepository.save(publisher);
-        product.setOwner(publisher);
-
-
-        if (userType == "CLIENT") {
-            Optional<Client> optionalClient = clientRepository.findById(new ObjectId(customerId));
-            Client client = optionalClient.get();
-            client.addProduct(product);
-            clientRepository.save(client);
-            product.setOwner(client);
-
-        }
         productRepository.save(product);
 
         return "Created!";

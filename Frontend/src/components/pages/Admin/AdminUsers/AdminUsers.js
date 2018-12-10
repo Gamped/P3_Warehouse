@@ -42,7 +42,7 @@ export default class AdminUsers extends Component {
     makeCustomerData(data){
         var customers = [];
         data.forEach((customer) => {
-
+            
             customers.push({
                 userName: customer.userName,
                 password: customer.password,

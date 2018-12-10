@@ -46,7 +46,9 @@ public class ClientController {
     }
 
     @GetMapping("/clients/{id}")
-    Client findClientById(@PathVariable ObjectId id) { return clientRepository.findById(id).orElse(null); };
+    Client findClientById(@PathVariable ObjectId id) { return clientRepository.findById(id).orElse(null);
+    }
+
 
     @PutMapping("/clients/{hexId}")
     String updateClient(@PathVariable("hexId") String hexId, @RequestBody RestClientModel restClientModel) {
