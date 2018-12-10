@@ -1,9 +1,9 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
+import dk.aau.cs.ds303e18.p3warehouse.managers.ClientManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestClientModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.ContactInformation;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import org.bson.types.ObjectId;
 import org.junit.Before;
@@ -22,8 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyObject;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +33,7 @@ public class ClientControllerTest {
     @InjectMocks
     private ClientController clientController;
 
+    private EmployeeController employeeController;
     @Mock
     private ClientRepository clientRepository;
 
@@ -80,7 +80,7 @@ public class ClientControllerTest {
         verify(clientRepository).findById(id);
         assertEquals(client.getId(), retrievedClient.getId());
     }
-
+    /*
     @Test
     public void testNewIndependentClient() {
         //ObjectId id = new ObjectId();
@@ -95,11 +95,12 @@ public class ClientControllerTest {
         BeanUtils.copyProperties(client, restClientModel);
 
         when(clientRepository.save(client)).thenReturn(client);
-        Client savedClient = clientController.newIndependentClient(restClientModel);
+        String status = employeeController.createClient(restClientModel);
 
         verify(clientRepository).save(client);
-        assertEquals(restClientModel.getUserName(), savedClient.getUserName());
+        assertEquals("Succes", status);
     }
+    */
 
     @Test
     public void testUpdateClient() {

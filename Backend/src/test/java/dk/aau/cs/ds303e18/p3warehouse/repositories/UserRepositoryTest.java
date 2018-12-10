@@ -3,13 +3,12 @@ package dk.aau.cs.ds303e18.p3warehouse.repositories;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -22,10 +21,15 @@ public class UserRepositoryTest {
     ProductRepository productRepository;
     @Autowired
     PublisherRepository publisherRepository;
+    @Autowired
+    OrderRepository orderRepository;
 
-    @Test
+    @Before
     public void deleteAll() {
-
+        productRepository.deleteAll();
+        clientRepository.deleteAll();
+        userRepository.deleteAll();
+        orderRepository.deleteAll();
     }
 
     @Test
@@ -71,20 +75,25 @@ public class UserRepositoryTest {
         computerProduct.setProductName("Computer");
         computerProduct.setQuantity(244);
 
-
         publisher.addProduct(computerProduct);
+        computerProduct.setOwner(publisher);
 
-
-
-
+        flyerProduct.setOwner(client);
+        noteProduct.setOwner(client);
         client.addProduct(flyerProduct);
         client.addProduct(noteProduct);
+        flyerProduct.setOwner(client);
+        noteProduct.setOwner(client);
 
-
+        User user = new User(client.getId());
+        user.copyFrom(client);
+        userRepository.save(user);
         clientRepository.save(client);
         productRepository.save(noteProduct);
         productRepository.save(flyerProduct);
-        publisherRepository.save(publisher);
+
+        Client queriedClient = clientRepository.findById(client.getId()).orElse(null);
+        System.out.println(queriedClient.getProductStream());
 
 /*
         User user = new User(client.getId());

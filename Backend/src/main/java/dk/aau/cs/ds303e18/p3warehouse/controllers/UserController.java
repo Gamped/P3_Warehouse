@@ -28,7 +28,6 @@ public class UserController {
     @GetMapping("/users/login/{userName}/{password}")
     private User authenticateUser(@PathVariable("userName") String userName, @PathVariable("password") String password){
         User user = userRepository.findByUserName(userName).orElse(null);
-        System.out.println(user.toString());
 
         if(user != null && user.getPassword().equals(password)){
 
