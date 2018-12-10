@@ -36,10 +36,15 @@ class NewOrder extends React.Component {
 
 
     componentWillMount() {
-        axios.get('http://localhost:8080/api/employee/products')
-        .then((response) => {
-            const data = makeProductsRowsFromResponseData(response.data);
-            this.setState({products: data})
+       
+        this.getProducts();
+    }
+
+    getProducts() {
+
+        get('employee/products', (data) => {
+            const products = makeProductsRowsFromResponseData(data);
+            this.setState({products: products})
         })
     }
 

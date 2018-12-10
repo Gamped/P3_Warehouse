@@ -30,9 +30,8 @@
     "redux": "^4.0.1",
     "redux-react-session": "^2.5.0",
     "redux-thunk": "^2.3.0",
-    "save": "^2.3.2",
-    "jspdf": "git://github.com/MrRio/jsPDF/#76edb3387cda3d5292e212765134b06150030364"
-  },
+    "save": "^2.3.2"
+    },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build && rm -rf ../Backend/src/main/resources/static && mv build ../Backend/src/main/resources/static",
