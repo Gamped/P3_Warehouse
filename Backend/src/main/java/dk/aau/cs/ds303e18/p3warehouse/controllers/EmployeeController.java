@@ -86,7 +86,9 @@ public class EmployeeController {
         Client client = new Client(new ObjectId());
         BeanUtils.copyProperties(restCustomerModel, client);
         client.setUserType(UserType.CLIENT);
-        userRepository.save(client);
+        User user = new User(client.getId());
+        user.copyFrom(client);
+        userRepository.save(user);
         clientRepository.save(client);
         return "Created!";
     }
@@ -223,14 +225,8 @@ public class EmployeeController {
 
 
     @DeleteMapping("/employee/delete/{hexId}")
-    public String deleteEmployeeById(@PathVariable String hexId, String employeeName, String password) {
-        ObjectId id = new ObjectId(hexId);
-        if(!employeeRepository.existsById(id)){ //Prevents the deleter from deleting if the deleter is not in the database.
-            return "Unauthorized action";
-        }
-        //returns a nullpointerexception and I don't know why
-        EmployeeManager.removeEmployeeFromDb(employeeRepository.findByNickname(employeeName));
-        return "Deletion Success";
+    public void deleteEmployeeById(@PathVariable String hexId) {
+        employeeRepository.deleteById(new ObjectId(hexId));
     }
 
 

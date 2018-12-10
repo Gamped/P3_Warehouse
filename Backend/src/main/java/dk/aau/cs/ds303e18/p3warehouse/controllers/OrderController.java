@@ -49,7 +49,9 @@ public class OrderController {
     void finishOrder(@PathVariable String hexId) {
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
 
+
         confimationSender.sendOrderMsg(hexId.toString(), "mathiasgam@gmail.com");
         orderRepository.deleteById(new ObjectId(hexId));
     }
+
 }
