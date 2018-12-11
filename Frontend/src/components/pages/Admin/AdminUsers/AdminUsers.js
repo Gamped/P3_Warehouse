@@ -292,6 +292,7 @@ export default class AdminUsers extends Component {
                                     <div className="col my-2">
                                         <Link to="/Admin/Users/Create" className="btn btn-success">Create user</Link>
                                     </div>
+                                    </div>
                                 </div>  
                            </div>
                         </div>

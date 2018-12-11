@@ -1,29 +1,27 @@
 .mainContent{
-    justify-content: space-evenly;
+
 }
 
 .orderLineTable{
-    flex-grow: 5;
+
 }
 
 .editButtons{
-    flex-direction: column;
-    justify-content: space-evenly;
+
 
 }
 
 .addButton{
-    flex-grow: 1;
+
 }
 
 .removeButton{
-    flex-grow: 1;
+
 }
 
 .productTable{
-    flex-grow: 5;
+
 }
 
 .finishingButtons{
-    justify-content: space-evenly;
 }

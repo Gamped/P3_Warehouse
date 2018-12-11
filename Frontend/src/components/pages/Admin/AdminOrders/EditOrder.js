@@ -1,42 +1,75 @@
 import React,{Component} from 'react';
 import axios from 'axios';
 import ReactTable from 'react-table';
-
+import { Link } from "react-router-dom";
 import "../../Pages.css";
 import "./EditOrder.css"
+import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
+import {get} from './../../../../handlers/requestHandlers.js';
+import {makeOrderLinesData} from './../../../../handlers/dataHandlers.js';
 
 export default class EditOrder extends Component{
     constructor(props){
         super(props);
         this.state = {
-            //There's prolly a more beautiful way of setting these using arrays.
-            //Please refactor them if you know about it.
-            companyInfo: props,
-            contactPersonInfo: props,
-            addressInfo: props,
-            zipCodeInfo: props,
-            cityInfo: props,
-            
-            orderLineData: [],
-            productData: [],
+            orderLines: []
         }
+    }
+
+    componentDidMount() {
+        
+        this.getOrderLines();
+    }
+
+    getOrderLines() {
+        get("employee/order/"+this.props.match.params.id, (data)=> {
+            const orderLines = makeOrderLinesData(data);
+            console.log(orderLines);
+            this.setState({orderLines: orderLines})
+        });
     }
 
     sendToPage = (address) => {
         this.props.history.push(address);
     }
 
+    renderEditable = cellInfo => {
+        return (
+          <div
+            style={{ backgroundColor: "#fafafa" }}
+            contentEditable
+            suppressContentEditableWarning
+            onBlur={e => {
+                var typedValue = e.target.innerHTML;
+                
+                this.state.orderLines
+                .filter(orderLine => orderLine.hexId === cellInfo.original.hexId)
+                .map(orderLine => 
+                    orderLine.amount = typedValue);
+                    
+                    cellInfo.original[e.target.name] = typedValue;
+    
+            }}
+            dangerouslySetInnerHTML={{
+              __html: this.state.orderLines[cellInfo.index][cellInfo.column.id]
+            }}
+          />
+        );
+      };
+
     render(){
-        const orderLineColumns=[ /*You might wanna do something fancy where you can edit the quantity directly in the table*/
-            {Header: "Products", accessor:"product"},
-            {Header: "Quantity", accessor:"quantity"}
-        ];
+        
+        let columns = getColumnsFromArray(["Product Name", "Amount", "Quantity"]);
+        columns[1].Cell = this.renderEditable;
+        let orderLines = this.state.orderLines;
+        console.log(orderLines)
         
         return(
             <div className="PageStyle rounded">
                 <div className="Contents">
                     <ReactTable 
-                        columns={orderLineColumns}
+                        data={orderLines}
+                        columns={columns}
                         showPagination={false}
                         className="OrderLines -striped -highlight"
                         getTrProps={(state, rowInfo) => {
@@ -44,7 +77,7 @@ export default class EditOrder extends Component{
                                 return {
                                 onClick: (e) => {
                                     
-                                    this.setState({selectedProduct: rowInfo.index, selectedProductId: rowInfo.original.hexId })
+                                    this.setState({selectedOrderLine: rowInfo.index})
                                     console.log(rowInfo.original)
                                 },
                                 style: {

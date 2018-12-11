@@ -1,6 +1,5 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.managers.ClientManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestClientModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
@@ -24,9 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -83,7 +80,8 @@ public class ClientControllerTest {
         Client client = new Client(id);
         when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
 
-        Client retrievedClient = clientController.findClientById(id);
+        Client retrievedClient = clientController.findClientById(id.toString());
+
         verify(clientRepository).findById(client.getId());
         assertEquals(client.getId(), retrievedClient.getId());
     }
