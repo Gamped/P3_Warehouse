@@ -6,7 +6,7 @@ userId:"",};*/
 const devState ={loggedIn:"True",
 userType:"EMPLOYEE",
 nickName:"Kev The Machine",
-userId:"5c093761373c4261b96b4e25",};
+userId:"5c0e6b328423440d8dd34b31",};
 
 const loginReducer = (state = devState, action) => {
     switch(action.type){
@@ -25,7 +25,7 @@ const loginReducer = (state = devState, action) => {
             break;
         default:
     }  
-    return state
+    return state;
 }
 
 export default loginReducer;

@@ -39,6 +39,18 @@ export function makeProductsRowsFromResponseData(data) {
     return product;
 }
 
+    export function makeEmployeeData(data) {
+        let employees = [];
+        data.forEach((employee) => {
+        employees.push({
+            userName: employee.userName,
+            nickname: employee.nickname,
+            hexId: employee.hexId
+            })
+        })
+
+        return employees;
+}
 
   export function makePublisherAndClientOrdersData(data) {
     var orders = [];
@@ -75,6 +87,7 @@ export function makeProductsRowsFromResponseData(data) {
     return orders;
 }
 
+
 export function ordersExist(customer) {
     return customer.orderStream != null && customer.orderStream != undefined;
 }
@@ -94,7 +107,7 @@ export function addOrder(order, owner) {
             productName: orderLine.product.productName,
             amount: orderLine.quantity,
             productId: orderLine.product.productId
-            }
+        }
     })
     return orderObject;
 }
@@ -102,25 +115,39 @@ export function addOrder(order, owner) {
 export function makeOwnersData(data) {
     this.setState({rawOwnerData: data});
     let owners = [];
-
+    
     data.forEach((publisher) => {
         owners.push({
             ownerName: publisher.contactInformation.nickName,
             hexId: publisher.hexId,
             userType: publisher.userType
         })
-
+        
         if (publisher.numberOfClients !== 0) {
-
+            
             publisher.clientStream.forEach((client) => {
                 owners.push({
-                   ownerName: client.contactInformation.nickName,
-                   hexId: client.hexId,
-                   userType: client.userType
-               })
-              })      
+                    ownerName: client.contactInformation.nickName,
+                    hexId: client.hexId,
+                    userType: client.userType
+                })
+            })      
         }
     })
-
+    
     return owners;
+}
+
+export function makeEmployeeData(data){
+    var employees = [];
+
+    data.forEach((employee) => {
+        employees.push({
+            username: employee.userName,
+            name: employee.nickname,
+            id: employee.hexId
+        })
+    })
+
+    return employees;
 }
