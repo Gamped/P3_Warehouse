@@ -5,7 +5,7 @@ import "./UserOrder.css";
 import axios from 'axios';
 import ReactTable from 'react-table';
 import { connect } from "react-redux";
-import {makeProductsRowsFromResponseData} from './../../../../handlers/dataHandlers.js';
+import {makeProductsData} from './../../../../handlers/dataHandlers.js';
 import {itemPreviouslyAddedWarning} from './../../../../handlers/exceptions.js';
 import { getColumnsFromArray } from './../../../../handlers/columnsHandlers.js';
 import { get } from './../../../../handlers/requestHandlers.js';
@@ -45,10 +45,10 @@ class UserOrder extends React.Component {
     getPublisherProducts(){
 
         const hexId = this.props.userId;
-        const userType = this.props.userType;
+        const userType = this.props.userType.toLowerCase();
         
-        get('publishers/products/'+userType+'/' + hexId, (data) => {
-            const products = makeProductsRowsFromResponseData(data);
+        get('publishers/' + userType + '/' + hexId, (data) => {
+            const products = makeProductsData(data.productStream);
             this.setState({products: products});
         })
     

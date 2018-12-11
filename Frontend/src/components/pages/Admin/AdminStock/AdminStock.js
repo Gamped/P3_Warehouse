@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import "../../Pages.css";
 import "./AdminStock.css";
 import ReactTable from 'react-table';
-import {makeProductsRowsFromResponseData} from './../../../../handlers/dataHandlers.js'
+import {makeProductsData} from './../../../../handlers/dataHandlers.js'
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 import {get, del} from './../../../../handlers/requestHandlers.js';
 import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
@@ -23,7 +23,7 @@ import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
 
     getProducts() {
         get('employee/products', (data) => {
-            const products = makeProductsRowsFromResponseData(data);
+            const products = makeProductsData(data);
             this.setState({ products: products });
         });  
     }

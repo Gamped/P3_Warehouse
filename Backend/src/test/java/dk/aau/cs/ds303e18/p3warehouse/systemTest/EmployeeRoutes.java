@@ -162,6 +162,7 @@ public class EmployeeRoutes {
         publisher.addProduct(fourthProduct);
         fourthProduct.setOwner(publisher);
 
+
         Publisher secondPublisher = makeSecondPublisher();
         secondPublisher.addClient(thirdClient);
         thirdClient.setPublisher(secondPublisher);
@@ -169,6 +170,7 @@ public class EmployeeRoutes {
         fifthOrder.setOwner(secondPublisher);
         secondPublisher.addProduct(seventhProduct);
         seventhProduct.setOwner(secondPublisher);
+
 
         Publisher thirdPublisher = makeThirdPublisher();
         thirdPublisher.addOrder(sixthOrder);
@@ -211,6 +213,7 @@ public class EmployeeRoutes {
         Order clientOrder = makeOrder();
         Order publisherOrder = makeFifthOrder();
 
+
         OrderLine clientOrderLine = new OrderLine(product, 4);
         OrderLine orderLine = new OrderLine(clientProduct, 10);
         OrderLine publisherOrderLine = new OrderLine(publisherProduct, 5);
@@ -245,6 +248,8 @@ public class EmployeeRoutes {
         orderRepository.save(publisherOrder);
         clientRepository.save(client);
         publisherRepository.save(publisher);
+        userRepository.save(publisher);
+        userRepository.save(client);
     }
 
     public void addEmployeeToDb() {
@@ -426,6 +431,7 @@ public class EmployeeRoutes {
         OrderLine orderLine = new OrderLine(product, 25);
         order.setOrderLines(Collections.singleton(orderLine));
 
+
         Client client = makeExtraClient();
         client.addProduct(product);
         product.setOwner(client);
@@ -440,6 +446,7 @@ public class EmployeeRoutes {
     private ObjectId newObjectId() {
         ObjectId id = new ObjectId();
 
+
         return id;
     }
 
@@ -449,8 +456,10 @@ public class EmployeeRoutes {
         product.setQuantity(20);
         product.setProductId("343253beb");
 
+
         return product;
     }
+
 
     private Product makeSecondProduct() {
         Product product = new Product(newObjectId());
@@ -528,6 +537,7 @@ public class EmployeeRoutes {
         client.setUserName("client");
         client.setPassword("24fsefsefrg");
 
+
         return client;
     }
 
@@ -540,16 +550,19 @@ public class EmployeeRoutes {
         contactInformation.setPhoneNumber("29575236");
         contactInformation.setZipCode("1694");
 
+
         publisher.setContactInformation(contactInformation);
         publisher.setUserType(UserType.PUBLISHER);
         publisher.setUserName("publisher");
         publisher.setPassword("esfesfreg3");
+
 
         return publisher;
     }
 
     private Client makeSecondClient() {
         Client client = new Client(newObjectId());
+
 
         ContactInformation contactInformation = new ContactInformation();
         contactInformation.setNickName("Karen");
@@ -621,6 +634,7 @@ public class EmployeeRoutes {
         order.setAddress("mour 4");
         order.setOrderId("35223645654ddd");
 
+
         return order;
     }
 
@@ -633,6 +647,7 @@ public class EmployeeRoutes {
 
         return order;
     }
+
 
     private Order makeThirdOrder() {
         Order order = new Order(newObjectId());
