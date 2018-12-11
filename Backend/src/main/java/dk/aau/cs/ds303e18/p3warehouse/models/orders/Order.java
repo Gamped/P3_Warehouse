@@ -6,6 +6,7 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserRef;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -158,6 +159,25 @@ public class Order {
          throw new InvalidQuantityException("Sorry, maximum quantity reached on amount");
         }
         orderLines.add(new OrderLine(product, quantity));
+        return this;
+    }
+    public Order addProductsBackToStock(){
+        for (OrderLine l : this.getOrderLines()){
+            Product p = l.getProduct();
+            p.setQuantity(p.getQuantity() + l.getQuantity());
+        }
+        return this;
+    }
+    public Order subtractProductsFromStock() throws InvalidQuantityException{
+        for (OrderLine l : this.getOrderLines()){
+            Product p = l.getProduct();
+            if(l.getQuantity() > p.getQuantity()){
+                throw new InvalidQuantityException("Not enough quantity of object: " + p);
+            }
+            else{
+                p.subtract(l.getQuantity());
+            }
+        }
         return this;
     }
 

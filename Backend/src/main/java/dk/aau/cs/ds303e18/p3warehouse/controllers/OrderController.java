@@ -2,6 +2,7 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.MailService.OrderInfoMail;
+import dk.aau.cs.ds303e18.p3warehouse.managers.OrderManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestOrderLineModel;
@@ -13,6 +14,7 @@ import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
 import org.bson.types.ObjectId;
 
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -74,8 +76,23 @@ public class OrderController {
     }
 
     @PutMapping("/employee/orders/{hexId}")
-    private Order updateOrder(){
-        return null;
+    private Order updateOrder(@PathVariable String hexId, @RequestBody Order responseBody){
+        Order order;
+        try {
+            order = orderRepository.findById(new ObjectId(hexId)).orElseThrow(() -> new Exception());
+        }
+        catch(Exception e){
+            return null;
+        }
+        try{
+            order.addProductsBackToStock();
+            BeanUtils.copyProperties(responseBody, order);
+            order.subtractProductsFromStock();
+        }
+        catch (InvalidQuantityException e){
+            return null;
+        }
+        return OrderManager.saveOrderToDB(order);
     }
 
     @GetMapping("/employee/orders")
