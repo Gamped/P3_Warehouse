@@ -82,6 +82,6 @@ public class OrderController {
     void finishOrder(@PathVariable String hexId) {
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
 
-
     }
 }
+
