@@ -8,7 +8,6 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +16,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -39,6 +40,65 @@ public class ClientRepositoryTest {
     @Autowired
     PublisherRepository publisherRepository;
 
+    public Client makeClient() {
+        ObjectId id = new ObjectId();
+        Client client = new Client(id);
+        ContactInformation contactInformation = new ContactInformation();
+
+        contactInformation.setNickName("Hans");
+        contactInformation.setEmail("fes@gr.gdr");
+        contactInformation.setPhoneNumber("15334888");
+        contactInformation.setAddress("møllevej 4");
+        contactInformation.setZipCode("5497");
+
+        client.setUserName("Client");
+        client.setPassword("3wdgr4");
+        client.setUserType(UserType.CLIENT);
+        client.setContactInformation(contactInformation);
+
+        return client;
+    }
+
+    public Product makeProduct() {
+        ObjectId productId = new ObjectId();
+
+        Product product = new Product(productId);
+        product.setQuantity(400);
+        product.setProductName("cycling news");
+        product.setProductId("342525");
+
+        return product;
+    }
+
+    public Order makeOrder() {
+        ObjectId orderId = new ObjectId();
+        Order order = new Order(orderId);
+        order.setTitle("flyers");
+        order.setOrderId("3255");
+        order.setAddress("musvej 3");
+        order.setDate(new Date());
+
+        return order;
+    }
+
+    public Publisher makePublisher() {
+        ObjectId publisherId = new ObjectId();
+        Publisher publisher = new Publisher(publisherId);
+        ContactInformation contactInformation = new ContactInformation();
+
+        contactInformation.setNickName("karen");
+        contactInformation.setEmail("cyc@fff.dd");
+        contactInformation.setPhoneNumber("2564866235");
+        contactInformation.setAddress("mosevej 54");
+        contactInformation.setZipCode("5495");
+        publisher.setUserName("Publisher");
+        publisher.setPassword("fee2224");
+        publisher.setUserType(UserType.PUBLISHER);
+        publisher.setContactInformation(contactInformation);
+
+        return publisher;
+    }
+
     @Test
     public void testFindAllClients() {
         List<Client> clients = clientRepository.findAll();
@@ -46,47 +106,34 @@ public class ClientRepositoryTest {
     }
 
     @Test
+    public void testFindClientById() {
+        Client client = makeClient();
+
+        clientRepository.save(client);
+
+        Client retrievedClient = clientRepository.findById(client.getId()).orElse(null);
+        assertEquals(client.getId(), retrievedClient.getId());
+    }
+
+    @Test
     public void testFindClientInformation(){
-        ObjectId id = new ObjectId();
-        Client client = new Client(id);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setEmail("fes@gr.gdr");
-        contactInformation.setPhoneNumber("153348889");
-        contactInformation.setAddress("møllevej 4");
-        contactInformation.setZipCode("5497");
-
-        client.setUserName("help");
-        client.setPassword("3wdgr4");
-        client.setUserType(UserType.CLIENT);
-        client.setContactInformation(contactInformation);
+        Client client = makeClient();
 
         clientRepository.save(client);
 
         Client retrievedClient = clientRepository.findById(client.getHexId());
 
-        Assert.assertEquals(client.getUserName(), retrievedClient.getUserName());
-        Assert.assertEquals(client.getUserType(), retrievedClient.getUserType());
-        Assert.assertEquals(client.getPassword(), retrievedClient.getPassword());
-        Assert.assertEquals(client.getContactInformation(), retrievedClient.getContactInformation());
-
-        clientRepository.deleteById(id);
+        assertEquals(client.getUserName(), retrievedClient.getUserName());
+        assertEquals(client.getUserType(), retrievedClient.getUserType());
+        assertEquals(client.getPassword(), retrievedClient.getPassword());
+        assertEquals(client.getContactInformation(), retrievedClient.getContactInformation());
     }
 
     @Test
     public void testClientProduct(){
-        ObjectId id = new ObjectId();
-        ObjectId productId = new ObjectId();
-        ObjectId clientId = new ObjectId();
-
-        Product product = new Product(productId);
-        Product secondProduct = new Product(id);
-        product.setQuantity(4);
-        product.setProductName("cycling news");
-        List<Product> productList = new ArrayList<>();
-        productList.add(secondProduct);
-        productList.add(product);
-        Client client = new Client(clientId);
+        Product product = makeProduct();
+        Product secondProduct = makeProduct();
+        Client client = makeClient();
         client.addProduct(product);
         client.addProduct(secondProduct);
 
@@ -96,31 +143,16 @@ public class ClientRepositoryTest {
 
         Client retrievedClient = clientRepository.findById(client.getHexId());
         Stream<Product> productStream = retrievedClient.getProductStream();
-        List<Product> productIterable = productStream.collect(Collectors.toList());
+        List<Product> productList = productStream.collect(Collectors.toList());
 
-        Assert.assertEquals(2, productIterable.size());
-        Assert.assertEquals(productList, productIterable);
-
-        productRepository.deleteById(id);
-        productRepository.deleteById(productId);
-        clientRepository.deleteById(clientId);
+        assertNotNull(productList);
+        assertEquals(2, productList.size());
     }
 
     @Test
     public void testClientPublisher() {
-        ObjectId clientId = new ObjectId();
-        ObjectId publisherId = new ObjectId();
-        Client client = new Client(clientId);
-        Publisher publisher = new Publisher(publisherId);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setEmail("cyc@fff.dd");
-        contactInformation.setPhoneNumber("2564866235");
-        contactInformation.setAddress("hostel");
-        contactInformation.setZipCode("5495");
-        publisher.setUserName("Cycpub");
-        publisher.setPassword("fee2224");
-        publisher.setContactInformation(contactInformation);
+        Client client = makeClient();
+        Publisher publisher = makePublisher();
         client.setPublisher(publisher);
 
         clientRepository.save(client);
@@ -128,44 +160,27 @@ public class ClientRepositoryTest {
 
         Client retrievedClient = clientRepository.findById(client.getHexId());
 
-        Assert.assertNotNull(retrievedClient.getPublisher());
-        Assert.assertEquals(publisher.getHexId(), retrievedClient.getPublisher().getHexId());
-        Assert.assertEquals(publisher, retrievedClient.getPublisher());
-        Assert.assertEquals(publisher.getUserName(), retrievedClient.getPublisher().getUserName());
-        Assert.assertEquals(publisher.getPassword(), retrievedClient.getPublisher().getPassword());
-        Assert.assertEquals(publisher.getContactInformation(), retrievedClient.getPublisher().getContactInformation());
-
-        publisherRepository.deleteById(publisherId);
-        clientRepository.deleteById(clientId);
+        assertNotNull(retrievedClient.getPublisher());
+        assertEquals(publisher.getHexId(), retrievedClient.getPublisher().getHexId());
+        assertEquals(publisher, retrievedClient.getPublisher());
+        assertEquals(publisher.getUserName(), retrievedClient.getPublisher().getUserName());
+        assertEquals(publisher.getPassword(), retrievedClient.getPublisher().getPassword());
+        assertEquals(publisher.getContactInformation(), retrievedClient.getPublisher().getContactInformation());
     }
 
     @Test
     public void testClientOrder() {
-        ObjectId id = new ObjectId();
-        ObjectId orderId = new ObjectId();
-        ObjectId clientId = new ObjectId();
-        ObjectId objectId = new ObjectId();
-        ObjectId productId = new ObjectId();
+        Product product = makeProduct();
+        Product secondProduct = makeProduct();
+        Order order = makeOrder();
+        Order secondOrder = makeOrder();
+        Client client = makeClient();
 
-        Order order = new Order(id);
-        Order secondOrder = new Order(orderId);
-        Client client = new Client(clientId);
-        Product product = new Product(objectId);
-        Product secondProduct = new Product(productId);
-
-        product.setProductName("hio");
-        secondProduct.setProductName("asf");
-        OrderLine orderLine = new OrderLine(product, 5);
-        OrderLine secondOrderLine = new OrderLine(secondProduct, 10);
-
-        order.setTitle("fesf");
-        secondOrder.setTitle("fsef");
+        OrderLine orderLine = new OrderLine(product, 250);
+        OrderLine secondOrderLine = new OrderLine(secondProduct, 222);
         order.setOrderLines(Collections.singleton(orderLine));
         secondOrder.setOrderLines(Collections.singleton(secondOrderLine));
 
-        List<Order> orders = new ArrayList<>();
-        orders.add(secondOrder);
-        orders.add(order);
         client.addOrder(order);
         client.addOrder(secondOrder);
 
@@ -179,15 +194,24 @@ public class ClientRepositoryTest {
         Stream<Order> orderStream = retrievedClient.getOrderStream();
         List<Order> orderList = orderStream.collect(Collectors.toList());
 
-        Assert.assertNotNull(orderList);
-        Assert.assertEquals(2, orderList.size());
-        Assert.assertEquals(order.getTitle(), orderList.get(0).getTitle());
-        Assert.assertEquals(orders, orderList);
+        assertNotNull(orderList);
+        assertEquals(2, orderList.size());
+    }
 
-        orderRepository.deleteAll(orders);
-        clientRepository.deleteById(clientId);
-        productRepository.deleteById(objectId);
-        productRepository.deleteById(productId);
+    @Test
+    public void testProductUserRef() {
+        Client client = makeClient();
+        Publisher publisher = makePublisher();
+
+        publisher.addClient(client);
+        client.setPublisher(publisher);
+
+        clientRepository.save(client);
+        publisherRepository.save(publisher);
+
+        Client retrievedClient = clientRepository.findById(client.getId()).orElse(null);
+        System.out.println(retrievedClient.getPublisherRef().getUserHexId());
+        assertEquals(client.getPublisherRef().getUserHexId(), retrievedClient.getPublisherRef().getUserHexId());
     }
 
     @Test
@@ -195,6 +219,6 @@ public class ClientRepositoryTest {
         clientRepository.deleteAll();
 
         List<Client> clientList = new ArrayList<>();
-        Assert.assertEquals(clientList, clientRepository.findAll());
+        assertEquals(clientList, clientRepository.findAll());
     }
 }
