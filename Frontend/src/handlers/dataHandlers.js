@@ -40,6 +40,7 @@ export function makeProductsRowsFromResponseData(data) {
 }
 
 
+
   export function makePublisherAndClientOrdersData(data) {
     var orders = [];
     let orderObject = {};
@@ -126,16 +127,28 @@ export function makeOwnersData(data) {
     return owners;
 }
 
-export function makeEmployeeData(data){
-    var employees = [];
-
+export function makeEmployeeData(data) {
+    let employees = [];
     data.forEach((employee) => {
-        employees.push({
-            username: employee.userName,
-            name: employee.nickname,
-            id: employee.hexId
+    employees.push({
+        userName: employee.userName,
+        nickname: employee.nickname,
+        hexId: employee.hexId
         })
     })
 
     return employees;
+}
+
+export function makeOrderLinesData(data) {
+    let orderLines = [];
+
+    data.orderLines.forEach((orderLine) => {
+        orderLines.push({
+            productName: orderLine.product.productName,
+            amount: orderLine.quantity,
+            quantity: orderLine.product.quantity
+        })
+    })
+    return orderLines;
 }

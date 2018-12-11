@@ -59,28 +59,28 @@ import {Link} from "react-router-dom";
                         <br/>
                         <br/>
                         <label className="font-weight-bold">Company name: </label>
-                        <label className="font-weight-normal">{this.props.adress.company.company}</label>
+                        <label className="font-weight-normal">{this.props.adress.company}</label>
                         <br/>
                         <label className="font-weight-bold">Recipient: </label>
-                        <label className="font-weight-normal">{this.props.adress.contactPerson.contactPerson}</label>
+                        <label className="font-weight-normal">{this.props.adress.contactPerson}</label>
                         <br/>
                         <label className="font-weight-bold">Phone: </label>
-                        <label className="font-weight-normal">{this.props.adress.phoneNumber.phoneNumber}</label>
+                        <label className="font-weight-normal">{this.props.adress.phoneNumber}</label>
                         <br/>
                         <label className="font-weight-bold">CVR: </label>
-                        <label className="font-weight-normal">{this.props.adress.cvr.cvr}</label>
+                        <label className="font-weight-normal">{this.props.adress.cvr}</label>
                         <br/>
                         <label className="font-weight-bold">Address: </label>
-                        <label className="font-weight-normal">{this.props.adress.address.address}</label>
+                        <label className="font-weight-normal">{this.props.adress.address}</label>
                         <br/>
                         <label className="font-weight-bold">Zip: </label>
-                        <label className="font-weight-normal">{this.props.adress.zip.zip}</label>
+                        <label className="font-weight-normal">{this.props.adress.zip}</label>
                         <br/>
                         <label className="font-weight-bold">City</label>
-                        <label className="font-wight-normal">{this.props.adress.city.city}</label>
+                        <label className="font-wight-normal">{this.props.adress.city}</label>
                         <br/>
                         <label className="font-weight-bold">Country: </label>
-                        <label className="font-weight-normal">{this.props.adress.country.country}</label>
+                        <label className="font-weight-normal">{this.props.adress.country}</label>
                         
                         <Link to="/User/Order" className="btn-success btn-block my-3 btn" role="button">Confirm order</Link>
                        

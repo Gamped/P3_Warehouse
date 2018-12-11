@@ -40,11 +40,11 @@ import CreateUser from "./components/pages/Admin/AdminUsers/CreateUser";
 ReactDOM.render(
     <Provider store={redux}>
         <BrowserRouter>
+
         <div>
             <Route exact path="/" component={loginMain}/>
             <Route path="/Home" component={Menues}/>
-            <Route exact path="/Home" component={Home}/>
-            
+            <Route exact path="/Home" component={Home}/>     
             <Route path="/Admin" component={Menues}/>
             <Route exact path="/Admin/*" component={adminMain}/>
             <Route exact path="/Admin/Orders" component={AdminOrders}/>
@@ -55,7 +55,7 @@ ReactDOM.render(
             <Route exact path="/Admin/Profile" component={AdminProfile}/>
             <Route exact path="/Admin/Profile/AddEmployee" component={AdminAdd}/>
             <Route exact path="/Admin/Profile/RemoveEmployee" component={AdminRemove}/>
-            <Route exact path="/Admin/Profile/Edit" component={AdminProfileEdit}/>
+            <Route exact path="/Admin/Profile/Edit/:id" component={AdminProfileEdit}/>
             <Route exact path="/Admin/Stock" component={AdminStock}/>
             <Route exact path="/Admin/Stock/New" component={NewWare}/>
             <Route exact path="/Admin/Stock/Edit/:id" component={Edit}/>
@@ -65,7 +65,6 @@ ReactDOM.render(
             <Route exact path="/Admin/Order" component={AdminOrder}/>
             <Route exact path="/Admin/Order/Cart" component={AdminOrderCart}/>
             <Route exact path="/Admin/Order/Cart/Confirm" component={AdminCartConfirm}/>
-  
             <Route path="/User" component={Menues}/>
             <Route exact path="/User/*" component={userMain}/>
             <Route exact path="/User/Order" component={UserOrder}/>
@@ -73,7 +72,7 @@ ReactDOM.render(
             <Route exact path="/User/Order/Cart/Confirm" component={UserCartConfirm}/>
             <Route exact path="/User/Stock" component={UserStock}/>
             <Route exact path="/User/Profile" component={UserProfile}/>
-            <Route exact path="/User/Profile/Edit" component={UserProfileEdit}/>
+            <Route exact path="/User/Profile/Edit/:id" component={UserProfileEdit}/>
             <Route exact path="/User/Profile/OrderHistory" component={UserOrderHistory}/>
             <Route exact path="/User/Clients" component={PublisherClient}/>
             <Route exact path="/User/Clients/Request" component={PublisherRequestClientChange}/>
