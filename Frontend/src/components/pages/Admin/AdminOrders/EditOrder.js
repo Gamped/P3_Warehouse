@@ -1,11 +1,9 @@
 import React,{Component} from 'react';
-import axios from 'axios';
 import ReactTable from 'react-table';
-import { Link } from "react-router-dom";
 import "../../Pages.css";
 import "./EditOrder.css"
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
-import {get} from './../../../../handlers/requestHandlers.js';
+import {get, put} from './../../../../handlers/requestHandlers.js';
 import {makeOrderLinesData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
 
 export default class EditOrder extends Component{
@@ -13,7 +11,11 @@ export default class EditOrder extends Component{
         super(props);
         this.state = {
             orderLines: [],
-            stock: []
+            stock: [],
+            userType: "",
+            userHexId: "",
+            selectedOrderLine: -1,
+            selectedProduct: -1
         }
     }
 
@@ -24,49 +26,60 @@ export default class EditOrder extends Component{
 
     getOrderLines() {
         get("employee/order/"+this.props.match.params.id, (data)=> {
+            console.log("data")
             const orderLines = makeOrderLinesData(data);
-            let userType = data.owner.userType.toLowerCase();
-
+            
             this.setState({
                 orderLines: orderLines, 
-                userType: userType,
-                userHexId: data.owner.userHexId
+                owner: {userType: data.owner.userType,
+                        userHexId: data.owner.userHexId,
+                        nickName: data.owner.nickName }
             });
-        
-            //this makes sure the table only shows products owned by the person who placed the order
-            this.ownerIsCustomer() ? this.getCustomerStock(userType, data.owner.userHexId) : this.getStock();
+
+            this.getCustomerStock(data.owner.userType, data.owner.userHexId);
         });
     }
 
-    ownerIsCustomer() {
-        if (userType.toLowerCase() == 'employee') {
-            return false;
-        } else {
-            return true;
-        }
-    }
+
 
     getCustomerStock(userType, userHexId) {
-        
+
         get("employee/"+userType.toLowerCase()+"/"+userHexId, (data) => {
-            const products = makeCustomerProductsData(data);
-            this.setState({products: products});
+            const stock = makeCustomerProductsData(data);
+            this.setState({stock: stock});
         });
     }
 
-    getStock() {
-        
-        get("employee/products", (data) => {
-            const products = makeProductsRowsFromResponseData(data);
-            this.setState({products: products});
-        })
+    addOrderLine = (e) => {
+        e.preventDefault();
+        let orderLines = this.state.orderLines;
+        let newOrderLine = this.state.stock[this.state.selectedProduct];
+        this.setState({orderLines : [...orderLines, newOrderLine]});
     }
+
+    removeOrderLine = (e) => {
+        e.preventDefault();
+        let id = this.state.orderLines[this.state.selectedOrderLine].productId;
+    
+        let orderLines = this.state.orderLines.filter(orderLine => {
+           return  orderLine.productId !== id
+            });
+
+       this.setState({orderLines : orderLines})
+    }
+
+    rowIsRemoved() {
+        return this.state.orderLines[this.state.selectedOrderLine] ? false : true;
+      }
 
     sendToPage = (address) => {
         this.props.history.push(address);
     }
 
-    renderEditable = cellInfo => {
+    renderEditable = (cellInfo) => {
+        //renderEditable complains if a row with a Cell property is being removed
+        if (!this.rowIsRemoved()) {
+        
         return (
           <div
             style={{ backgroundColor: "#fafafa" }}
@@ -88,26 +101,34 @@ export default class EditOrder extends Component{
             }}
           />
         );
-      };
+      }
+    }
 
-    render(){
+     
+    updateOrder = (e) => {
+        e.preventDefault();
+        put("orders/update/"+this.props.match.params.id, this.state.orderLines, (response) => {
+            console.log(response);
+        })
         
-        let orderColumns = getColumnsFromArray(["Product Name", "Amount", "Quantity"]);
-        columns[1].Cell = this.renderEditable;
+
+    }
+
+    render() {
+        
+        let orderLineColumns = getColumnsFromArray(["Product Name", "Product Id", "Amount", "Quantity"]);
+        orderLineColumns[2].Cell = this.renderEditable;
         let orderLines = this.state.orderLines;
-        console.log(orderLines)
 
-
-        const stockColumns = getColumnsFromArray(["Product Name", "Amount", "Quantity"]);
-        stockColumns[1].Cell = this.renderEditable;
+        const stockColumns = getColumnsFromArray(["Product Name", "Quantity"]);
         let stock = this.state.stock;
 
-        return(
+        return (
             <div className="PageStyle rounded">
                 <div className="Contents">
                     <ReactTable 
                         data={orderLines}
-                        columns={columns}
+                        columns={orderLineColumns}
                         showPagination={false}
                         className="OrderLines -striped -highlight"
                         getTrProps={(state, rowInfo) => {
@@ -116,13 +137,13 @@ export default class EditOrder extends Component{
                                 onClick: (e) => {
                                     
                                     this.setState({selectedOrderLine: rowInfo.index})
-                                    console.log(rowInfo.original)
+                                    console.log(this.state.selectedOrderLine)
                                 },
                                 style: {
-                                    background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                    color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                    background: rowInfo.index === this.state.selectedOrderLine ? '#00afec' : 'white',
+                                    color: rowInfo.index === this.state.selectedOrderLine ? 'white' : 'black'
                                 }
-                                }
+                            }
                             }else{
                                 return {}
                             }
@@ -131,22 +152,25 @@ export default class EditOrder extends Component{
 
                      </div>
                         <div className="editButtons col col-md-auto">
-                             <div class="h-25"></div>   
-                             <div class="btn-group-vertical">
+                             <div className="h-25"></div>   
+                             <div className="btn-group-vertical">
                                 <div className="row my-5">
-                                    <button className=" addButton btn btn-success  mx-1 "> Add Product </button>
-                                    <button className=" removeButton btn btn-danger mx-1 my-5">Remove Product</button>
+                                    <button className=" addButton btn btn-success  mx-1 " onClick={this.addOrderLine}> Add Product </button>
+                                    <button className=" removeButton btn btn-danger mx-1 my-5" onClick={this.removeOrderLine}>Remove Product</button>
                                 </div>  
                              </div>
                         </div>
                         
                         <div className=" col col-md-auto">
-                            <nav class="navbar navbar-light bg-light">
-                                <h className="navnbar" >Publiser stock</h>
+                            <nav className="navbar navbar-light bg-light">
+                                <h className="navnbar" >Publisher stock</h>
                             </nav>
+
+
+
                             <ReactTable 
-                                data={this.state.productData}
-                                columns={productColumns}
+                                data={stock}
+                                columns={stockColumns}
                                 className="Products"
                                 showPagination={false} 
                                 className="productTable -striped -highlight"
@@ -154,12 +178,11 @@ export default class EditOrder extends Component{
                                     if (rowInfo && rowInfo.row) {
                                         return {
                                             onClick: (e) => {
-                                                this.setStateAsSelected(rowInfo);
-                                                this.showOrderLines(rowInfo);
+                                                this.setState({selectedProduct: rowInfo.index})
                                             },
                                             style: {
-                                                background: rowInfo.index === this.state.productSelected ? '#00afec' : 'white',
-                                                color: rowInfo.index === this.state.productSelected ? 'white' : 'black'
+                                                background: rowInfo.index === this.state.selectedProduct ? '#00afec' : 'white',
+                                                color: rowInfo.index === this.state.selectedProduct ? 'white' : 'black'
                                             }
                                         }
                                     }else{
@@ -169,13 +192,11 @@ export default class EditOrder extends Component{
                             />
 
                     <div className="Buttons container row">
-                        <button className="btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+this.state.selectedOrderLine)}>Edit Address</button>
-                        <button className="btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderContent")}>Edit Contents</button>
-                        <div className="finishingButtons container row my-3">
-                        <button className="col  btn btn-success mx-2">Save Content</button>
-                        <button className="col  btn btn-danger mx-2">Discard Content</button>
+                        <button className="btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+this.props.match.params.id)}>Edit Address</button>        
+                        <button className="col  btn btn-success mx-2" onClick={this.updateOrder}>Save Content</button>
+
                         <button className="col btn btn-info mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit")}>Back</button>                       
-                    </div>
+               
                     
                     </div>
                 </div>

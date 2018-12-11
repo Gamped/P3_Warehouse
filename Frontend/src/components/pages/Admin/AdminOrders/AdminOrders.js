@@ -39,9 +39,10 @@ export default class AdminOrders extends Component {
     }
 
     getPublishers() {
-        get("publishers", (data)=> {
+        get("employee/publishers", (data)=> {
+            console.log(data);
             const orders = makePublisherAndClientOrdersData(data);
-            
+            console.log("ORDERS " + orders)
             this.setState({ 
                 data: data,
                 orders: orders

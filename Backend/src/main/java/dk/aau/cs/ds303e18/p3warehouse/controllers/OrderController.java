@@ -12,7 +12,7 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
 import org.bson.types.ObjectId;
-import org.omg.CORBA.DynAnyPackage.Invalid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -78,8 +78,10 @@ public class OrderController {
     Collection<Order> findAllOrders() {
         return orderRepository.findAll();
     }
+
     @DeleteMapping("/orders/delete/{hexId}")
     void finishOrder(@PathVariable String hexId) {
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
     }
 }
+

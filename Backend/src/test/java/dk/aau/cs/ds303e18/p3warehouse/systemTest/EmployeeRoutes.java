@@ -129,10 +129,12 @@ public class EmployeeRoutes {
         clientProduct.setProductName("Running news");
         clientProduct.setQuantity(20);
         clientProduct.setProductId("sefe5684646");
+        clientProduct.setOwner(client);
 
         publisherProduct.setProductName("Car magazine");
         publisherProduct.setQuantity(35);
         publisherProduct.setProductId("561313");
+        publisherProduct.setOwner(publisher);
 
 
         Order clientOrder = new Order(newObjectId());
@@ -539,6 +541,10 @@ public class EmployeeRoutes {
         independentClient();
         addEmployeeToDb();
 
+        client.setPublisher(publisher);
+        secondClient.setPublisher(secondPublisher);
+        thirdClient.setPublisher(thirdPublisher);
+
         Product product = new Product(newObjectId());
         Product secondProduct = new Product(newObjectId());
         Product thirdProduct = new Product(newObjectId());
@@ -558,6 +564,11 @@ public class EmployeeRoutes {
         ContactInformation secondPublisherContactInformation = new ContactInformation();
         ContactInformation thirdPublisherContactInformation = new ContactInformation();
 
+        ContactInformation publisherContactInformation = new ContactInformation();
+        ContactInformation clientContactInformation = new ContactInformation();
+        ContactInformation secondClientContactInformation = new ContactInformation();
+        ContactInformation thirdClientContactInformation = new ContactInformation();
+
         thirdPublisherContactInformation.setNickName("music store");
         thirdPublisherContactInformation.setEmail("thirdPublisher@ff.cc");
         thirdPublisherContactInformation.setPhoneNumber("87525632");
@@ -573,6 +584,7 @@ public class EmployeeRoutes {
         product.setProductName("move");
         product.setQuantity(20);
         product.setProductId("343253beb");
+
 
         secondProduct.setProductName("run");
         secondProduct.setQuantity(20);
@@ -657,23 +669,31 @@ public class EmployeeRoutes {
         client.setUserName("client");
         client.setPassword("24fsefsefrg");
         client.addOrder(secondOrder);
+        secondOrder.setOwner(client);
         client.addProduct(fifthProduct);
+        fifthProduct.setOwner(client);
 
         secondClient.setContactInformation(otherContactInformation());
         secondClient.setUserType(UserType.CLIENT);
         secondClient.setUserName("secondclient");
         secondClient.setPassword("esfesgrs");
         secondClient.addOrder(order);
+        order.setOwner(secondClient);
         secondClient.addProduct(product);
         secondClient.addProduct(secondProduct);
         secondClient.addProduct(thirdProduct);
+        secondProduct.setOwner(secondClient);
+        thirdProduct.setOwner(secondClient);
+        product.setOwner(secondClient);
 
         thirdClient.setContactInformation(extraContactInformation());
         thirdClient.setUserType(UserType.CLIENT);
         thirdClient.setUserName("thirdclient");
         thirdClient.setPassword("fesgr4546");
         thirdClient.addOrder(fourthOrder);
+        fourthOrder.setOwner(thirdClient);
         thirdClient.addProduct(sixthProduct);
+        sixthProduct.setOwner(thirdClient);
 
         publisher.setContactInformation(publisherContactInformation());
         publisher.setUserType(UserType.PUBLISHER);
@@ -682,7 +702,9 @@ public class EmployeeRoutes {
         publisher.addClient(client);
         publisher.addClient(secondClient);
         publisher.addOrder(thirdOrder);
+        thirdOrder.setOwner(publisher);
         publisher.addProduct(fourthProduct);
+        fourthProduct.setOwner(publisher);
 
         secondPublisher.setContactInformation(secondPublisherContactInformation);
         secondPublisher.setUserType(UserType.PUBLISHER);
@@ -690,14 +712,18 @@ public class EmployeeRoutes {
         secondPublisher.setPassword("erw3ret544");
         secondPublisher.addClient(thirdClient);
         secondPublisher.addOrder(fifthOrder);
+        fifthOrder.setOwner(secondPublisher);
         secondPublisher.addProduct(seventhProduct);
+        seventhProduct.setOwner(secondPublisher);
 
         thirdPublisher.setContactInformation(thirdPublisherContactInformation);
         thirdPublisher.setUserType(UserType.PUBLISHER);
         thirdPublisher.setUserName("thirdpublisher");
         thirdPublisher.setPassword("r43tdhytf");
         thirdPublisher.addOrder(sixthOrder);
+        sixthOrder.setOwner(thirdPublisher);
         thirdPublisher.addProduct(eightProduct);
+        eightProduct.setOwner(thirdPublisher);
 
         productRepository.save(product);
         productRepository.save(secondProduct);
@@ -733,14 +759,14 @@ public class EmployeeRoutes {
         product.setQuantity(500);
         product.setProductName("books");
         product.setProductId("134253464756812212");
-
+        product.setOwner(client);
         OrderLine orderLine = new OrderLine(product, 250);
         order.setOrderId("21323");
         order.setTitle("history books");
         order.setAddress("høvej 39");
         order.setDate(new Date());
         order.setOrderLines(Collections.singleton(orderLine));
-
+        order.setOwner(client);
         client.setContactInformation(clientContactInformation());
         client.setUserType(UserType.CLIENT);
         client.setPassword("fes352fse");
