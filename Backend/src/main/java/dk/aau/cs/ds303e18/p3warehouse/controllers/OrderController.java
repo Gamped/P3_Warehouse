@@ -73,6 +73,11 @@ public class OrderController {
         return "Created!";
     }
 
+    @PutMapping("/employee/orders/{hexId}")
+    private Order updateOrder(){
+        return null;
+    }
+
     @GetMapping("/employee/orders")
     Collection<Order> findAllOrders() {
         return orderRepository.findAll();
