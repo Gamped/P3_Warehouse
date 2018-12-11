@@ -3,7 +3,7 @@ import "./AdminUsers.css";
 import ReactTable from 'react-table';
 import {Link} from "react-router-dom";
 import {get, del, put} from "../../../../handlers/requestHandlers.js";
-import {makeCustomerData} from "../../../../handlers/dataHandlers.js";
+
 
 
 export default class AdminUsers extends Component {
@@ -29,14 +29,14 @@ export default class AdminUsers extends Component {
     getClients() {
         get('employee/clients', (data) => {
 
-            const clients = makeCustomerData(data);
+            const clients = this.makeCustomerData(data);
             this.concatinateWithNewData(clients);
         });
     }
 
     getPublishers() {
        get('employee/publishers', (data) => {
-            const publishers = makeCustomerData(data);
+            const publishers = this.makeCustomerData(data);
             this.concatinateWithNewData(publishers);
     });
     }
@@ -107,7 +107,7 @@ export default class AdminUsers extends Component {
                         }
                     }
                     console.log(body)
-            if(usertype==="PUBLISHER"){
+            if(usertype==="Publisher"){
                 put("publishers/"+this.state.selectedCustomer.hexId,body,(respondse)=>{
                     let customers = this.state.customers.filter(customer =>{
                         return this.state.selectedId !== customer.hexId
@@ -123,7 +123,7 @@ export default class AdminUsers extends Component {
                     })
                     this.props.history.push("/Admin/Users/Push")
                 })
-            }else if(usertype==="CLIENT"){
+            }else if(usertype==="Client"){
                 put("clients/"+this.state.selectedCustomer.hexId,body,(respondse)=>{
                     let customers = this.state.customers.filter(customer =>{
                         return this.state.selectedId !== customer.hexId
@@ -149,7 +149,7 @@ export default class AdminUsers extends Component {
  
     onDelete = () => {
         const usertype= this.state.selectedCustomer.userType
-        if(usertype ==="PUBLISHER"){
+        if(usertype ==="Publisher"){
             del("employee/publishers/delete/"+this.state.selectedCustomer.hexId,(res)=>{
                 let customers = this.state.customers.filter(customer =>{
                     return this.state.selectedId !== customer.hexId
@@ -158,7 +158,7 @@ export default class AdminUsers extends Component {
                     customers:customers
                 })
             });
-        }else if(usertype==="CLIENT"){
+        }else if(usertype==="Client"){
             del("employee/clients/delete/"+this.state.selectedCustomer.hexId,(res)=>{
                 let customers = this.state.customers.filter(customer =>{
                     return this.state.selectedId !== customer.hexId
