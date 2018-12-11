@@ -55,9 +55,6 @@ export default class AdminStock extends Component {
         return(
             <div className="PageStyle rounded">
                 <div className="MainContainer container row">
-                    <div className="CustomerList col border-dark rounded bg-secondary">
-                        <h1 className="Header">Filter by:</h1>
-                    </div>
                     <div className="Table container col">
                         <h1 className="Header">Stock</h1>
 
@@ -83,6 +80,7 @@ export default class AdminStock extends Component {
                               return {}
                             }
                         }}
+                        style={{height: "60vh"}}
                           />
                         
                         <div className="CRUD container row">
