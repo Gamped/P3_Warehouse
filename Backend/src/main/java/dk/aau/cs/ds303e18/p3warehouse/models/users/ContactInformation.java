@@ -8,6 +8,7 @@ public class ContactInformation {
     private String address;
     private String zipCode;
     private String nickName;
+    private String city;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -48,7 +49,15 @@ public class ContactInformation {
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
-    
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     @Override
     public String toString(){
         return email + " " + phoneNumber + " " + address + " " + zipCode;

@@ -7,7 +7,14 @@ class CreateUser extends React.Component{
         super(props);
         this.state={
             userType:"CLIENT",
-            login:"",
+            userName:"",
+            password:"",
+            repeatPass:"",
+            contactInformation:{
+                email: "",
+                phoneNumber: "",
+                nickName: ""
+            }
         }
     }
 
@@ -26,14 +33,23 @@ class CreateUser extends React.Component{
 
     submit=(e)=>{
         e.preventDefault();
-        const body = {...this.state};
+        const body = {
+                    userName:this.state.userName,
+                    password:this.state.password,
+                    userType:this.state.userType,
+                    contactInformation:{
+                        nickName:this.state.nickName,
+                        email:this.state.email,
+                        phoneNumber:this.state.phoneNumber
+                        }
+                    }
         if(this.state.password===this.state.repeatPass){
             if(this.state.userType==="CLIENT"){
-                post("employee/clients/", {body}, (response)=>{
+                post("employee/clients", body, (response)=>{
                     this.props.history.push("/Admin/Users/")
                     });
             }else{
-                post("employee/publishers/", {body}, (response)=>{
+                post("employee/publishers", body, (response)=>{
                     this.props.history.push("/Admin/Users/")
                     });
             }
@@ -55,7 +71,7 @@ class CreateUser extends React.Component{
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="login">Login:</label>
                             </div>
-                            <input type="text" className="form-control" id="login" name="login" onChange={this.onChange} required autoFocus/>
+                            <input type="text" className="form-control" id="login" name="userName" onChange={this.onChange} required autoFocus/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
@@ -71,9 +87,9 @@ class CreateUser extends React.Component{
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="name">Name:</label>
+                                <label className="input-group-text" htmlFor="nickName">Name:</label>
                             </div>
-                            <input type="text" className="form-control" id="name" name="name" onChange={this.onChange} required/>
+                            <input type="text" className="form-control" id="nickName" name="nickName" onChange={this.onChange} required/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
@@ -83,21 +99,15 @@ class CreateUser extends React.Component{
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="contact">Contact person:</label>
-                            </div>
-                            <input type="text" className="form-control" id="contact" name="contact" onChange={this.onChange} required/>
-                        </div>
-                        <div className="input-group my-3">
-                            <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="phone">Phonenumber:</label>
                             </div>
-                            <input type="number" className="form-control" id="phone" name="phone" onChange={this.onChange} required/>
+                            <input type="number" className="form-control" id="phone" name="phoneNumber" onChange={this.onChange} required/>
                         </div>        
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="publisher">Publisher:</label>
+                                <label className="input-group-text" htmlFor="publisherToggle">Publisher:</label>
                             </div>
-                            <input type="checkbox" className="form-control" id="publisher" name="publisher" onChange={this.toggleUserType}/>
+                            <input type="checkbox" className="form-control" id="publisherToggle" onChange={this.toggleUserType}/>
                         </div>
                         <div className="row">
                             <div className="col my-3 mx-4">

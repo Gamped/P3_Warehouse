@@ -1,16 +1,16 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.restmodels;
 
 public class RestEmployeeModel extends RestUserModel{
-    private String username;
+    private String userName;
     private String password;
     private String nickname;
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     @Override

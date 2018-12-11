@@ -78,7 +78,9 @@ public class ClientControllerTest {
         Client client = new Client(id);
         when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
 
+
         Client retrievedClient = clientController.findClientById(String.valueOf(client.getId()));
+
         verify(clientRepository).findById(client.getId());
         assertEquals(client.getId(), retrievedClient.getId());
     }
