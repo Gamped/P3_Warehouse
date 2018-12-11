@@ -28,7 +28,8 @@ export default class AdminAdd extends React.Component {
         this.setState({[e.target.name]: e.target.value});
     }
 
-    render(){
+    render() {
+
         return(
             <div className="PageStyle rounded">
                 <div className="container col mb-3">
@@ -45,7 +46,7 @@ export default class AdminAdd extends React.Component {
                                 type="text" 
                                 className="form-control mb-2" 
                                 onChange={this.onChange}
-                                name="nickName"
+                                name="nickname"
                                 placeholder="nickname"/>
                             <input 
                                 type="password" 

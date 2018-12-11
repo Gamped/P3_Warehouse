@@ -39,6 +39,18 @@ export function makeProductsRowsFromResponseData(data) {
     return product;
 }
 
+    export function makeEmployeeData(data) {
+        let employees = [];
+        data.forEach((employee) => {
+        employees.push({
+            userName: employee.userName,
+            nickname: employee.nickname,
+            hexId: employee.hexId
+            })
+        })
+
+        return employees;
+}
 
   export function makePublisherAndClientOrdersData(data) {
     var orders = [];

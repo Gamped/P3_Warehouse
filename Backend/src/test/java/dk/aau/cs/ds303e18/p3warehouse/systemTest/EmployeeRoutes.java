@@ -1,5 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.systemTest;
 
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
@@ -9,6 +10,7 @@ import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -36,6 +38,9 @@ public class EmployeeRoutes {
     @Autowired
     EmployeeRepository employeeRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     @Before
     public void start() {
         orderRepository.deleteAll();
@@ -43,16 +48,85 @@ public class EmployeeRoutes {
         productRepository.deleteAll();
         clientRepository.deleteAll();
         employeeRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
+    public void makeEmployees() {
+        Employee emp = new Employee(new ObjectId());
+        emp.setNickname("Jane");
+        emp.setUserType(UserType.EMPLOYEE);
+        emp.setPassword("123");
+        emp.setUserName("jane");
+
+        Employee emp2 = new Employee(new ObjectId());
+        emp2.setNickname("Casper");
+        emp2.setUserType(UserType.EMPLOYEE);
+        emp2.setPassword("123");
+        emp2.setUserName("casper");
+
+        Employee emp3 = new Employee(new ObjectId());
+        emp3.setNickname("Steen");
+        emp3.setUserType(UserType.EMPLOYEE);
+        emp3.setPassword("123");
+        emp3.setUserName("steen");
+
+        employeeRepository.save(emp);
+        employeeRepository.save(emp2);
+        employeeRepository.save(emp3);
+
+        User user = new User(emp.getId());
+        User user2 = new User(emp2.getId());
+        User user3 = new User(emp3.getId());
+        BeanUtils.copyProperties(emp, user);
+        BeanUtils.copyProperties(emp2, user2);
+        BeanUtils.copyProperties(emp3, user3);
+
+
+        userRepository.save(user);
+        userRepository.save(user2);
+        userRepository.save(user3);
+
     }
 
     //One publisher with one client
     @Test
-    public void onePublisherAndOneClient() {
+    public void checkDatabase() {
+
+        makeEmployees();
+
+        ObjectId publisherId = new ObjectId();
+        ObjectId clientId = new ObjectId();
+        ObjectId productId = new ObjectId();
+        ObjectId publisherProductId = new ObjectId();
+        ObjectId clientProductId = new ObjectId();
+        ObjectId publisherOrderId = new ObjectId();
+        ObjectId clientOrderId = new ObjectId();
+
+        Publisher publisher = new Publisher(publisherId);
+        Client client = new Client(clientId);
+        ContactInformation publisherContact = new ContactInformation();
+        ContactInformation clientContact = new ContactInformation();
+        publisherContact.setNickName("Gyldendal");
+        publisherContact.setEmail("123@123.com");
+        clientContact.setEmail("123@123 .com");
+        publisherContact.setPhoneNumber("12345678");
+        clientContact.setPhoneNumber("12345678");
+        clientContact.setNickName("Aalborg Zoo");
+
+        publisher.setContactInformation(publisherContact);
+        client.setContactInformation(clientContact);
+
+
+        Product product = new Product(productId);
+        Product clientProduct = new Product(clientProductId);
+        Product publisherProduct = new Product(publisherProductId);
+
         Publisher publisher = new Publisher(newObjectId());
         Client client = new Client(newObjectId());
         Product product = new Product(newObjectId());
         Product clientProduct = new Product(newObjectId());
         Product publisherProduct = new Product(newObjectId());
+
 
         product.setProductName("Cycling news");
         product.setQuantity(10);

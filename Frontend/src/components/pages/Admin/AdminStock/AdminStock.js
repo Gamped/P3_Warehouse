@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import "../../Pages.css";
-import "./AdminStock.css"
+import "./AdminStock.css";
 import ReactTable from 'react-table';
 import {makeProductsRowsFromResponseData} from './../../../../handlers/dataHandlers.js'
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';

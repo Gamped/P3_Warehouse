@@ -10,6 +10,7 @@ import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -53,7 +54,6 @@ public class EmployeeController {
             return "Could not create, customerId or userType is not set!";
         }
 
-
         Product product = new Product(new ObjectId());
         BeanUtils.copyProperties(restProduct, product);
 
@@ -70,12 +70,13 @@ public class EmployeeController {
     String createPublisher(@RequestBody RestCustomerModel restCustomerModel) {
 
         Publisher publisher = new Publisher(new ObjectId());
+        User user = new User(publisher.getId());
+        BeanUtils.copyProperties(restCustomerModel, user);
         publisher.setUserType(UserType.PUBLISHER);
         BeanUtils.copyProperties(restCustomerModel, publisher);
         publisherRepository.save(publisher);
-        User user = new User(publisher.getId());
-        user.copyFrom(publisher);
         userRepository.save(user);
+
         return "Created!";
     }
 
@@ -83,10 +84,11 @@ public class EmployeeController {
     String createClient(@RequestBody RestCustomerModel restCustomerModel) {
 
         Client client = new Client(new ObjectId());
-
         User user = new User(client.getId());
-        BeanUtils.copyProperties(restCustomerModel, user);
+
         BeanUtils.copyProperties(restCustomerModel, client);
+        BeanUtils.copyProperties(restCustomerModel, user);
+
         client.setUserType(UserType.CLIENT);
         user.setUserType(UserType.CLIENT);
         userRepository.save(user);
@@ -125,8 +127,8 @@ public class EmployeeController {
 
     //FIND BY ID: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
-    @GetMapping("/employee/{hexId}")
-    Employee getOneEmployee(@PathVariable String hexId){
+    @GetMapping("/employee/employee/{hexId}")
+    Employee findEmployeeById(@PathVariable String hexId){
         return employeeRepository.findById(new ObjectId(hexId)).orElse(null);
     }
 
@@ -151,13 +153,19 @@ public class EmployeeController {
 
     @PutMapping("/employee/edit/{hexId}")
     String updateEmployee(@PathVariable("hexId") String hexId, @RequestBody RestEmployeeModel restEmployeeModel) {
+
         Optional<Employee> optionalEmployee = employeeRepository.findById(new ObjectId(hexId));
         Employee employee = optionalEmployee.get();
-        employee.setNickname(restEmployeeModel.getNickname());
-        employee.setPassword(restEmployeeModel.getPassword());
-        employeeRepository.save(employee);
 
-        return "Updated Employee with nickName " + employee.getNickname() + " and password " + employee.getPassword();
+        Optional<User> optionalUser = userRepository.findById(new ObjectId(hexId));
+        User user = optionalUser.get();
+
+        BeanUtils.copyProperties(restEmployeeModel, employee);
+        BeanUtils.copyProperties(restEmployeeModel, user);
+        employeeRepository.save(employee);
+        userRepository.save(user);
+
+        return "Updated Employee with nickName ";
     }
 
 
@@ -226,8 +234,15 @@ public class EmployeeController {
 
 
     @DeleteMapping("/employee/delete/{hexId}")
-    public void deleteEmployeeById(@PathVariable String hexId) {
-        employeeRepository.deleteById(new ObjectId(hexId));
+    public String deleteEmployeeById(@PathVariable String hexId) {
+        ObjectId id = new ObjectId(hexId);
+        if(!employeeRepository.existsById(id)) {
+            return "Employee does not exist in employee repository";
+        }
+        
+        employeeRepository.deleteById(id);
+        userRepository.deleteById(id);
+        return "Deletion Success";
     }
 
 
