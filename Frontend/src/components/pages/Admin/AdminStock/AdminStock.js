@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import {connect} from "react-redux";
 import "../../Pages.css";
 import "./AdminStock.css";
 import ReactTable from 'react-table';
@@ -8,7 +8,7 @@ import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 import {get, del} from './../../../../handlers/requestHandlers.js';
 import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
 
-export default class AdminStock extends Component {
+ class AdminStock extends Component {
 
     constructor(props) {
         super(props);
@@ -32,17 +32,40 @@ export default class AdminStock extends Component {
         this.props.history.push(address);
     }
 
+    changeToEditPage = () =>{
+        if(this.state.selectedId !== ""){
+            const item = this.state.products.find(x=>x.hexId===this.state.selectedId)
+            this.props.setProductId(item.productId);
+            this.props.setProductName(item.productName);
+            this.props.setProductQuantity(item.quantity);
+            this.props.history.push(`/Admin/Stock/Edit/${this.state.selectedId}`)
+
+        }else{
+            alert("Please choose an item to edit first.")
+        }
+    }
+
     deleteProduct = () => {
         let selectedId = this.state.selectedId;
         if(selectedId !== ""){
             
             if(window.confirm("You are deleting an item")){
                
-               del('employee/products/'+this.state.selectedId, (res) => {
-                window.location.reload()
-               })      
-            }    
+                del('employee/products/delete/'+this.state.selectedId, (res) => {
+                    let products = this.state.products.filter(product =>{
+                        return this.state.selectedId !== product.hexId
+                    })
+                    this.setState({
+                        products:products
+                    })      
+                })    
+            }
         }
+    }
+    
+    newStock = () =>{
+       
+        this.props.history.push("/Admin/Stock/New")
     }
 
  
@@ -87,10 +110,10 @@ export default class AdminStock extends Component {
                         
                         <div className="CRUD container row">
                             <div className="">
-                                <button  className="btn-success btn-lg btn-block my-2" onClick={()=>this.sendToPage("/Admin/Stock/New")}>New</button>
+                                <button  className="btn-success btn-lg btn-block my-2" onClick={this.newStock}>New</button>
                             </div>
                             <div action="/Admin/Stock/Edit" className="">
-                                <Link  className="btn-lg btn-block btn-warning my-2" to={`/Admin/Stock/Edit/${selectedId}`}>Edit</Link>
+                                <button  className="btn-lg btn-block btn-warning my-2" onClick={this.changeToEditPage} >Edit</button>
                                 
                             </div>
                             <div action="/Admin/Stock/Remove" className="">
@@ -98,7 +121,7 @@ export default class AdminStock extends Component {
                                 >Remove</button>
                             </div>
                             <div>
-                                <button onClick={entireStockPDF} className="btn-lg btn-block btn-block my-2">Export</button>
+                                <button onClick={()=>entireStockPDF(this.state)} className="btn-lg btn-block btn-block my-2">Export</button>
                             </div>
                         </div>
                     </div>
@@ -107,3 +130,13 @@ export default class AdminStock extends Component {
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        setProductId: (id) => {dispatch({type: "SET_PRODUCT_ID",payload: {id}})},
+        setProductQuantity: (quantity) => {dispatch({type: "SET_PRODCUT_QUANTITY",payload: {quantity}})},
+        setProductName: (name) => {dispatch({type: "SET_PRODUCT_NAME",payload: {name}})},
+    }
+}
+
+export default connect(null,mapDispatchToProps)(AdminStock)

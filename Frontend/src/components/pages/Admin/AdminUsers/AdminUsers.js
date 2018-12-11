@@ -3,6 +3,7 @@ import "./AdminUsers.css";
 import ReactTable from 'react-table';
 import {Link} from "react-router-dom";
 import {get, del, put} from "../../../../handlers/requestHandlers.js";
+import {makeCustomerData} from "../../../../handlers/dataHandlers";
 
 
 
@@ -28,38 +29,16 @@ export default class AdminUsers extends Component {
 
     getClients() {
         get('employee/clients', (data) => {
-
-            const clients = this.makeCustomerData(data);
+            const clients = makeCustomerData(data);
             this.concatinateWithNewData(clients);
         });
     }
 
     getPublishers() {
        get('employee/publishers', (data) => {
-            const publishers = this.makeCustomerData(data);
+            const publishers = makeCustomerData(data);
             this.concatinateWithNewData(publishers);
-    });
-    }
-
-    makeCustomerData(data){
-        var customers = [];
-        data.forEach((customer) => {
-            
-            let letter = customer.userType.slice(0,1);
-            let userType = letter + customer.userType.slice(1,customer.userType.length).toLowerCase();
-            customers.push({
-                userName: customer.userName,
-                userType: userType,
-                password: customer.password,
-                hexId: customer.hexId,
-                nickName: customer.contactInformation.nickName,
-                email: customer.contactInformation.email,
-                phoneNumber: customer.contactInformation.phoneNumber,
-                address: customer.contactInformation.address,
-                zipCode: customer.contactInformation.zipCode              
-            })
         });
-        return customers;
     }
 
     concatinateWithNewData(newData) {
