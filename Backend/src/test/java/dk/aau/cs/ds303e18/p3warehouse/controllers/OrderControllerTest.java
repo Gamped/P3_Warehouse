@@ -2,6 +2,7 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.OrderRepository;
 import org.bson.types.ObjectId;
 import org.junit.Before;
@@ -33,6 +34,9 @@ public class OrderControllerTest {
 
     @Mock
     OrderRepository orderRepository;
+
+    @Mock
+    ClientRepository clientRepository;
 
     @Test
     public void orderControllerLoads() {

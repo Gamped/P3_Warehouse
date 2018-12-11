@@ -11,7 +11,6 @@ import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -220,7 +219,7 @@ public class EmployeeController {
         return "Updated Contact Information on Publisher: " + publisher.getUserName();
     }
 
-    @PutMapping("/employee/user/edit/{hexId")
+    @PutMapping("/employee/user/edit/{hexId}")
     String updateUserCredentials(@PathVariable String hexId, @RequestBody RestUserModel restUserModel) {
 
         ObjectId id = new ObjectId(hexId);
@@ -235,7 +234,7 @@ public class EmployeeController {
 
     //DELETE: EMPLOYEE, PRODUCT, CLIENT, PUBLISHER, USER
 
-    @DeleteMapping("/employee/products/delete/{id}")
+    @DeleteMapping("/employee/products/delete/{hexId}")
     public void deleteProductById(@PathVariable String hexId){
         productRepository.deleteById(new ObjectId(hexId));
     }

@@ -44,35 +44,34 @@ public class OrderController {
     String createOrder(@PathVariable("userHexId") String userHexId, @PathVariable("userType") String userType,
                        @RequestBody Order order) {
 
-            Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(userHexId));
-            Publisher publisher = optionalPublisher.get();
-            Order newOrder = new Order(new ObjectId());
-            BeanUtils.copyProperties(order, newOrder);
+        Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(userHexId));
+        Publisher publisher = optionalPublisher.get();
+        Order newOrder = new Order(new ObjectId());
+        BeanUtils.copyProperties(order, newOrder);
 
 
-            publisher.addOrder(order);
-            order.setOwner(publisher);
-            Collection<OrderLine> updatedOrderLines = new HashSet<>();
-            try {
-                for (OrderLine x : order.getOrderLines()) {
-                    if (x.getProduct().getQuantity() >= x.getQuantity()) {
-                        x.getProduct().subtract(x.getQuantity());
-                        updatedOrderLines.add(x);
-                    } else {
-                        throw new InvalidQuantityException(x.getProduct().getProductName());
-                    }
+        publisher.addOrder(order);
+        order.setOwner(publisher);
+        Collection<OrderLine> updatedOrderLines = new HashSet<>();
+        try {
+            for (OrderLine x : order.getOrderLines()) {
+                if (x.getProduct().getQuantity() >= x.getQuantity()) {
+                    x.getProduct().subtract(x.getQuantity());
+                    updatedOrderLines.add(x);
+                } else {
+                    throw new InvalidQuantityException(x.getProduct().getProductName());
                 }
             }
-            catch(InvalidQuantityException e){
-                return "Cannot order more than stock in product: " + e.getMessage();
-            }
-
-            productRepository.saveAll(updatedOrderLines.stream().map(x -> x.getProduct()).collect(Collectors.toSet()));
-            publisherRepository.save(publisher);
-            orderRepository.save(order);
-
-            return "Created!";
+        } catch (InvalidQuantityException e) {
+            return "Cannot order more than stock in product: " + e.getMessage();
         }
+
+        productRepository.saveAll(updatedOrderLines.stream().map(x -> x.getProduct()).collect(Collectors.toSet()));
+        publisherRepository.save(publisher);
+        orderRepository.save(order);
+
+        return "Created!";
+    }
 
     @GetMapping("/employee/orders")
     Collection<Order> findAllOrders() {
@@ -82,6 +81,7 @@ public class OrderController {
     @DeleteMapping("/orders/delete/{hexId}")
     void finishOrder(@PathVariable String hexId) {
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
+
     }
 }
 

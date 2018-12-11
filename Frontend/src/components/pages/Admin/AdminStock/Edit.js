@@ -1,33 +1,20 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import "../../Pages.css";
 import "./AdminStock.css";
 import {setProductProps} from './../../../../handlers/dataHandlers.js'
 import {get, put} from './../../../../handlers/requestHandlers.js';
+import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 
-export default class Edit extends Component {
+class Edit extends Component {
     constructor(props) {
         super(props);
-        this.state = { product: {}, hexId: this.props.match.params.id };
+        this.state = { product: this.props.product, hexId: this.props.match.params.id };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         
     }
 
-    componentDidMount() {
-        
-        this.getProduct();
-    }
-
-    getProduct = () => {
-      
-        get('employee/product/'+this.props.match.params.id, (data) => {
-            const product = setProductProps(data)
-            this.setState({product: product})
-       })      
-    }
-
-    
 
     onChange = (e) => {
         const state = this.state.product;
@@ -46,40 +33,57 @@ export default class Edit extends Component {
 
     render(){
         return(
+            
             <div className="PageStyle rounded">
-                <h1 className="title customText_b_big">Edit product:</h1>
-                <h1 className="subTitle customText_b">"Product name"</h1>
-                <div>
-                    <input
-                        type="text"
-                        name="productName"
-                        className="newForm"
-                        defaultValue={this.state.product.productName}
-                        onChange={this.onChange}
-                        placeholder="Product Name"/>
-                    <input
-                        type="text"
-                        className="newForm"
-                        name="productId"
-                        defaultValue={this.state.product.productId}
-                        onChange={this.onChange}
-                        placeholder="Product ID"/>
-                    <input
-                        type="text"
-                        className="newForm"
-                        name="quantity"
-                        defaultValue={this.state.product.quantity}
-                        onChange={this.onChange}
-                        placeholder="Quantity"/>
-                 </div>
-                 <div className="newForm stockForm">
-                    <button className="newButton stockButton_f btn">Back</button>
-                 </div>
-                 <div className="newForm stockForm">
-                    <button className="newButton stockButton_f btn" onClick={this.onSubmit} >Edit product</button>
-                 </div>
-                 <h1 className="note customText_b_big">Please double check to make sure you have changed to the correct info</h1>
+                <nav class="navbar navbar-light bg-light">
+                    <h1 className="customText_b_big">Edit product:</h1>
+                    <h1 className="subTitle customText_b">{this.state.product.name} </h1>´
+                </nav>
+                 <div className=" row">
+                    <div className="col-md-4 offset-md-5 my-5">
+                        <div className="input-group-prepend my-2">
+                        <input
+                            type="text"
+                            name="productName"
+                            className="newForm"
+                            defaultValue={this.state.product.name}
+                            onChange={this.onChange}
+                            placeholder="Product Name"/>
+                        </div>
+                        <div className="input-group-prepend my-2">
+                        <input
+                            type="text"
+                            className="newForm"
+                            name="productId"
+                            defaultValue={this.state.product.id}
+                            onChange={this.onChange}
+                            placeholder="Product ID"/>
+                        </div>
+                        <div className="input-group-prepend my-2">
+                        <input
+                            type="text"
+                            className="newForm"
+                            name="quantity"
+                            defaultValue={this.state.product.quantity}
+                            onChange={this.onChange}
+                            placeholder="Quantity"/>
+                            </div>
+                    </div>
+                        <div class="w-100"></div>
+                        <div className="col-md-6 offset-md-5">
+                                <button className="btn btn-warning" onClick={this.onSubmit} >Edit product</button>´
+                                <Link to="/Admin/Stock" className="btn btn-info">Back</Link>
+                        </div>
+                    </div>
             </div>
         );
     }
 }
+
+const mapStateToProps = (state) =>{
+    return{
+        product:state.productReducer
+    }
+}
+
+export default connect(mapStateToProps)(Edit);

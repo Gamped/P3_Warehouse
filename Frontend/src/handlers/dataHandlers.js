@@ -141,6 +141,7 @@ export function makeOrderLinesData(data) {
     return orderLines;
 }
 
+
 export function makeCustomerProductsData(customer) {
     let products = [];
     console.log("Customer: " + customer)
@@ -173,4 +174,5 @@ export function productsExist(owner) {
 
 export function isPublisher(owner) {
     return owner.userType == "PUBLISHER";
+
 }
