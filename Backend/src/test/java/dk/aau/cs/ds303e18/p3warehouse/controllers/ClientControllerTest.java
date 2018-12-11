@@ -1,6 +1,5 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.managers.ClientManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestClientModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
@@ -18,15 +17,12 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,7 +33,6 @@ public class ClientControllerTest {
     @InjectMocks
     private ClientController clientController;
 
-    private EmployeeController employeeController;
     @Mock
     private ClientRepository clientRepository;
 
@@ -83,7 +78,7 @@ public class ClientControllerTest {
         Client client = new Client(id);
         when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
 
-        Client retrievedClient = clientController.findClientById(id);
+        Client retrievedClient = clientController.findClientById(String.valueOf(client.getId()));
         verify(clientRepository).findById(client.getId());
         assertEquals(client.getId(), retrievedClient.getId());
     }
@@ -109,30 +104,22 @@ public class ClientControllerTest {
 
         String updateClient = clientController.updateClient(client.getHexId(), restClient);
         verify(clientRepository).findById(id);
-        String clientString = client.toString();
 
-        assertEquals(clientString, updateClient);
+        assertEquals("Client updated! \n" + client.getUserName() + "\n" + client.getHexId(), updateClient);
     }
 
     @Test
     public void testDeleteClientById() {
         ObjectId id = new ObjectId();
-        ObjectId objectId = new ObjectId();
         Client client = new Client(id);
-        Client client_2 = new Client(objectId);
 
-        List<Client> clients = new LinkedList<>();
-        clients.add(client);
-        clients.add(client_2);
+        when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
 
-        when(clientRepository.findAll()).thenReturn(clients);
+        clientController.deleteClient(client.getHexId());
 
-        clientController.deleteClient(((LinkedList<Client>) (clients)).remove().getHexId());
-        verify(clientRepository).deleteById(id);
+        verify(clientRepository).deleteById(client.getId());
 
-        List<Client> clientss = new ArrayList<>();
-
-        assertEquals(clientss, clientRepository.findAll());
+        assertEquals(0, clientRepository.findAll().size());
     }
 
     @Test
@@ -146,7 +133,7 @@ public class ClientControllerTest {
 
         verify(productRepository).findById(productId);
 
-        assertSame(product, retrievedProduct);
+        assertEquals(product, retrievedProduct);
     }
 
     @Test
