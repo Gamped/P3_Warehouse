@@ -15,7 +15,7 @@ public class Employee extends User {
     public Employee(ObjectId id){
         super(id);
         this.id = id;
-        this.hexId = id.toString();
+        this.hexId = this.id.toHexString();
     }
 
     public String getNickname() {
@@ -25,7 +25,9 @@ public class Employee extends User {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
     public String getHexId() {
-        return id.toString();
+        return hexId;
+
     }
 }

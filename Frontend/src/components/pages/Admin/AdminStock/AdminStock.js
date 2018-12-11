@@ -40,11 +40,9 @@ export default class AdminStock extends Component {
                
                del('employee/products/'+this.state.selectedId, (res) => {
                 window.location.reload()
-               })
-               
+               })      
             }    
         }
-        
     }
 
  
