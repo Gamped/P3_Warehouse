@@ -40,7 +40,7 @@ class CreateUser extends React.Component{
                     contactInformation:{
                         nickName:this.state.nickName,
                         email:this.state.email,
-                        phoneNumber:this.state.email
+                        phoneNumber:this.state.phoneNumber
                         }
                     }
         if(this.state.password===this.state.repeatPass){

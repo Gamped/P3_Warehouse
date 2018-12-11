@@ -24,8 +24,9 @@ import java.util.Optional;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -215,15 +216,32 @@ public class OrderRepositoryTest {
 
     }
 
+    public Product makeProduct() {
+        ObjectId productId = new ObjectId();
+
+        Product product = new Product(productId);
+        product.setQuantity(400);
+        product.setProductName("cycling news");
+        product.setProductId("342525");
+
+        return product;
+    }
+
+    public Order makeOrder() {
+        ObjectId orderId = new ObjectId();
+        Order order = new Order(orderId);
+        order.setTitle("flyers");
+        order.setOrderId("3255");
+        order.setAddress("musvej 3");
+        order.setDate(new Date());
+
+        return order;
+    }
+
+
     @Test
     public void testFindInformationOnOrder() {
-        ObjectId id = new ObjectId();
-        Order order = new Order(id);
-
-        order.setDate(new Date());
-        order.setAddress("hvv 33");
-        order.setTitle("flyers");
-        order.setOrderId("3244232");
+        Order order = makeOrder();
 
         orderRepository.save(order);
         Optional<Order> optOrder = orderRepository.findById(order.getId());
@@ -239,28 +257,24 @@ public class OrderRepositoryTest {
 
     @Test
     public void testFindOrderLine() {
-        ObjectId orderId = new ObjectId();
-        ObjectId productId = new ObjectId();
+        Product product = makeProduct();
 
-        Order order = new Order(orderId);
-        Product product = new Product(productId);
+        OrderLine orderLine = new OrderLine(product, 25);
 
-        product.setQuantity(562);
-        product.setProductId("25426426");
-        product.setProductName("notes");
-
-        OrderLine orderLine = new OrderLine(product, 265);
+        Order order = makeOrder();
         order.setOrderLines(Collections.singleton(orderLine));
 
         orderRepository.save(order);
-        productRepository.save(product);
+
         Optional<Order> optOrder = orderRepository.findById(order.getId());
         Order retrievedOrder = optOrder.get();
 
-        assertEquals(order.getOrderLines(), retrievedOrder.getOrderLines());
+        assertNotNull(retrievedOrder.getOrderLines());
+        assertEquals(1, retrievedOrder.getOrderLines().size());
+    }
 
-        orderRepository.delete(order);
-        productRepository.delete(product);
-
+    @Test
+    public void deleteAllOrders() {
+        orderRepository.deleteAll();
     }
 }
