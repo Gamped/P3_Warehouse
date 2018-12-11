@@ -44,8 +44,11 @@ export default class AdminUsers extends Component {
         var customers = [];
         data.forEach((customer) => {
             
+            let letter = customer.userType.slice(0,1);
+            let userType = letter + customer.userType.slice(1,customer.userType.length).toLowerCase();
             customers.push({
                 userName: customer.userName,
+                userType: userType,
                 password: customer.password,
                 hexId: customer.hexId,
                 nickName: customer.contactInformation.nickName,
@@ -70,7 +73,7 @@ export default class AdminUsers extends Component {
     return [{
         Header: "Customer",
         accessor: "nickName"
-        }]    
+        }, {Header: "User Type", accessor: "userType"}]    
     }
 
     onChange = (e) => {
@@ -298,7 +301,7 @@ export default class AdminUsers extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
+           
         );
     }
 }
