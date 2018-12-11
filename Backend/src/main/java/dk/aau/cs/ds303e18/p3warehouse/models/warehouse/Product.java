@@ -91,4 +91,8 @@ public class Product {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    public void subtract(int valueToSubtract){
+        quantity = quantity - valueToSubtract;
+    }
 }

@@ -47,6 +47,14 @@ public class OrderController {
 
             publisher.addOrder(order);
             order.setOwner(publisher);
+
+            for(OrderLine x : order.getOrderLines()){
+                if(x.getProduct().getQuantity() >= x.getQuantity()) {
+                    x.getProduct().subtract(x.getQuantity());
+                    productRepository.save(x.getProduct());
+                }
+            }
+
             publisherRepository.save(publisher);
             orderRepository.save(order);
 
