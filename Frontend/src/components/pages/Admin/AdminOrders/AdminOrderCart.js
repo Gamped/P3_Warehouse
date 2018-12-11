@@ -89,8 +89,7 @@ class AdminOrderCart extends React.Component {
                                 <input type="text" className="input-group mb-3" name="address" onChange={this.onChange} placeholder="Address" key="address" required/>
                                 <input type="number" className="input-group mb-3" name="zip" onChange={this.onChange} placeholder="Zip" key="zip" required/>
                                 <input type="text" className="input-group mb-3" name="city" onChange={this.onChange} placeholder="City" key="city" required/>
-                                <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" key="country" required/>
-                                
+                                <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" key="country" required/>         
                                 <button className=" btn-success btn btn-block my-3" onClick={this.confirmed} type="submit">Send order</button>
                                 <Link to="/Admin/Orders/" className=" btn-danger btn btn-block" >Cancel order</Link>        
                                    

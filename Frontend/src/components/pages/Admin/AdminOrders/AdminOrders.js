@@ -11,7 +11,6 @@ import {get, del} from "./../../../../handlers/requestHandlers.js"
 import {packListPDF, orderNotePDF} from "./../../../../handlers/pdfHandlers.js"
 import {getColumnsFromArray} from "./../../../../handlers/columnsHandlers.js"
 
-
 export default class AdminOrders extends Component {
 
     //A constructor that contains our state.
@@ -185,17 +184,22 @@ export default class AdminOrders extends Component {
                         </div>
                         <div className=" md-2">
                                 <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>                           
-                                <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order</Link>
+                                <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/:id${this.state.selectedId}`}>Edit order</Link>
                                 <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.sendToPage("/Admin/Orders/Delete")}>Delete order</button>
                         </div>
                     </div>
+                    <div className=" col-7">
                         <div className="Table">
                                 <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns} showPagination={false} 
                                 className="-striped -highlight"/>
                                  <div className="  px-1">
-
                                 </div>
-                       </div>  
+                       </div> 
+                       <div className="btn-group">
+                             <button type= "button mx-2" className="btn btn-info mx-2" >Export Order</button> 
+                             <button type= "button " className="btn btn-dark mx-5">Finish Order</button> 
+                       </div>
+                    </div>    
                  </div>    
             </div>
         )

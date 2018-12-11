@@ -34,10 +34,12 @@ export function makeProductsRowsFromResponseData(data) {
     let product = {
     productName: data.productName,
     productId: data.productId,
+    owner: data.owner.contactInformation.nickName,
     quantity: data.quantity
     }
     return product;
 }
+
 
 
   export function makePublisherAndClientOrdersData(data) {
@@ -126,45 +128,28 @@ export function makeOwnersData(data) {
     return owners;
 }
 
-export function makeEmployeeData(data){
-    var employees = [];
-
+export function makeEmployeeData(data) {
+    let employees = [];
     data.forEach((employee) => {
-        employees.push({
-            username: employee.userName,
-            name: employee.nickname,
-            id: employee.hexId
+    employees.push({
+        userName: employee.userName,
+        nickname: employee.nickname,
+        hexId: employee.hexId
         })
     })
 
     return employees;
 }
 
-export function getPublisherData() {
-    
-    
-}
+export function makeOrderLinesData(data) {
+    let orderLines = [];
 
-export function makeCustomerData(data) {
-    var customers = [];
-    data.forEach((customer) => {
-        
-        customers.push({
-            userName: customer.userName,
-            password: customer.password,
-            userType: customer.userType,
-            hexId: customer.hexId,
-            nickName: customer.contactInformation.nickName,
-            email: customer.contactInformation.email,
-            phoneNumber: customer.contactInformation.phoneNumber,
-            address: customer.contactInformation.address,
-            zipCode: customer.contactInformation.zipCode              
+    data.orderLines.forEach((orderLine) => {
+        orderLines.push({
+            productName: orderLine.product.productName,
+            amount: orderLine.quantity,
+            quantity: orderLine.product.quantity
         })
-    });
-    return customers;
-}
-
-export function getCustomerInformation() {
-
-    
+    })
+    return orderLines;
 }

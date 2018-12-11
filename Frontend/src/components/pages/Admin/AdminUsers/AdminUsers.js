@@ -38,7 +38,28 @@ export default class AdminUsers extends Component {
        get('employee/publishers', (data) => {
             const publishers = makeCustomerData(data);
             this.concatinateWithNewData(publishers);
-       })
+    });
+    }
+
+    makeCustomerData(data){
+        var customers = [];
+        data.forEach((customer) => {
+            
+            let letter = customer.userType.slice(0,1);
+            let userType = letter + customer.userType.slice(1,customer.userType.length).toLowerCase();
+            customers.push({
+                userName: customer.userName,
+                userType: userType,
+                password: customer.password,
+                hexId: customer.hexId,
+                nickName: customer.contactInformation.nickName,
+                email: customer.contactInformation.email,
+                phoneNumber: customer.contactInformation.phoneNumber,
+                address: customer.contactInformation.address,
+                zipCode: customer.contactInformation.zipCode              
+            })
+        });
+        return customers;
     }
 
     concatinateWithNewData(newData) {
@@ -51,8 +72,8 @@ export default class AdminUsers extends Component {
     getColumns = () => {
     return [{
         Header: "Customer",
-        accessor: "nickName",
-        }]    
+        accessor: "nickName"
+        }, {Header: "User Type", accessor: "userType"}]    
     }
 
     onChange = (e) => {
@@ -366,12 +387,13 @@ export default class AdminUsers extends Component {
                                     <div className="col my-2">
                                         <Link to="/Admin/Users/Create" className="btn btn-success">Create user</Link>
                                     </div>
+                                    </div>
                                 </div>  
                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+           
         );
     }
 }

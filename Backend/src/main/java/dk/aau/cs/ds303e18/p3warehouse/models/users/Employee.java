@@ -13,7 +13,7 @@ public class Employee extends User {
     private String hexId;
 
     public Employee(ObjectId id){
-        super(new ObjectId());
+        super(id);
         this.id = id;
         this.hexId = this.id.toHexString();
     }
@@ -28,5 +28,6 @@ public class Employee extends User {
 
     public String getHexId() {
         return hexId;
+
     }
 }

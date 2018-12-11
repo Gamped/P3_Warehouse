@@ -58,6 +58,7 @@ export default class NewWare extends Component {
             )
     }
     
+    //Doesn't properly fetch a list of owners
     getOwnerListItems(owner, i) {
          return (
          <option 
