@@ -1,3 +1,4 @@
+
 export function makeProductsRowsFromResponseData(data) {
 
     var products = [];
@@ -7,8 +8,9 @@ export function makeProductsRowsFromResponseData(data) {
         productName: product.productName,
         quantity: product.quantity,
         amount: 0,
-        hexId: product.hexId
-
+        hexId: product.hexId,
+        ownerHexId: product.owner.userHexId,
+        ownerName: product.owner.nickName
         });
     });
     return products;
@@ -17,13 +19,17 @@ export function makeProductsRowsFromResponseData(data) {
   export function makeProductsRowsWithOwner(data) {
     
     var products = [];
+    let ownerName = data.contactInformation.nickName;
     data.forEach((product) => {
         products.push({
-            ownerName: product.owner.name,
+            ownerName: ownerName,
+            ownerHexId: product.owner.hexId,
+            ownerUserType: product.owner.userType,
             productId: product.productId,
             productName: product.productName,
             quantity: product.quantity,
-            hexId: product.hexId
+            hexId: product.hexId,
+            amount: 0
         });
     });
     return products;
@@ -152,4 +158,32 @@ export function makeOrderLinesData(data) {
         })
     })
     return orderLines;
+}
+
+export function makeCustomerProductsData(data) {
+    let products = [];
+    
+    if (productsExist(data)) {
+        products = makeProductsRowsWithOwner(data);
+    }
+    if (isPublisher(publisher)) {
+        if (clientsExist(publisher)) {
+            let clientProducts = [];
+            publisher.clientStream.forEach((client) => {
+                
+                clientProducts = makeProductsRowsFromResponseData(client);
+                products = [...products, ...clientProducts];
+                console.log(products);
+            });
+        }
+    }   
+    return products;
+}
+
+export function productsExist(owner) {
+    return owner.productStream.length != 0;
+}
+
+export function isPublisher(owner) {
+    return owner.userType == "PUBLISHER";
 }

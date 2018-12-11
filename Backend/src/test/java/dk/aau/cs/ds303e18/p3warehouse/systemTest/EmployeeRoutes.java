@@ -140,12 +140,14 @@ public class EmployeeRoutes {
         clientOrder.setOrderId("322434");
         clientOrder.setAddress("mouveh 23");
         clientOrder.setDate(new Date());
+        clientOrder.setOwner(client);
 
         Order publisherOrder = new Order(newObjectId());
         publisherOrder.setTitle("publisherorder");
         publisherOrder.setOrderId("32423525");
         publisherOrder.setAddress("musvej 34");
         publisherOrder.setDate(new Date());
+        publisherOrder.setOwner(publisher);
 
         OrderLine clientOrderLine = new OrderLine(product, 4);
         OrderLine orderLine = new OrderLine(clientProduct, 10);
@@ -191,6 +193,8 @@ public class EmployeeRoutes {
         orderRepository.save(publisherOrder);
         clientRepository.save(client);
         publisherRepository.save(publisher);
+        userRepository.save(publisher);
+        userRepository.save(client);
     }
 
     public void addEmployeeToDb() {
