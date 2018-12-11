@@ -40,7 +40,7 @@ class CreateUser extends React.Component{
                     contactInformation:{
                         nickName:this.state.nickName,
                         email:this.state.email,
-                        phoneNumber:this.state.phoneNumber
+                        phoneNumber:this.state.email
                         }
                     }
         if(this.state.password===this.state.repeatPass){
@@ -64,56 +64,61 @@ class CreateUser extends React.Component{
     render(){
         return(
             <div className="PageStyle rounded">
-            <h1 className="text-center">Create a user</h1>
-                <div className="row">
-                    <div className="col-md-4 offset-md-4 ">
-                        <form>
-                            <div className="input-group my-3">
-                                <div className="input-group-prepend">
-                                    <label className="input-group-text" htmlFor="login">Login:</label>
-                                </div>
-                                <input type="text" className="form-control" id="login" name="userName" onChange={this.onChange} required autoFocus/>
+                <div className="col-md-4 offset-md-4">
+                    <h1 className="text-center">Create a user</h1>
+                    <form>
+                        <div className="input-group my-3">
+                            <div className="input-group-prepend">
+                                <label className="input-group-text" htmlFor="login">Login:</label>
                             </div>
-                            <div className="input-group my-3">
-                                <div className="input-group-prepend">
-                                    <label className="input-group-text" htmlFor="password">Password:</label>
-                                </div>
-                                <input type="text" className="form-control" id="password" name="password" onChange={this.onChange} required autoFocus/>
+                            <input type="text" className="form-control" id="login" name="userName" onChange={this.onChange} required autoFocus/>
+                        </div>
+                        <div className="input-group my-3">
+                            <div className="input-group-prepend">
+                                <label className="input-group-text" htmlFor="password">Password:</label>
                             </div>
-                            <div className="input-group my-3">
-                                <div className="input-group-prepend">
-                                    <label className="input-group-text" htmlFor="repeatPass">Repeat Password:</label>
-                                </div>
-                                <input type="text" className="form-control" id="repeatPass" name="repeatPass" onChange={this.onChange} required autoFocus/>
+                            <input type="text" className="form-control" id="password" name="password" onChange={this.onChange} required autoFocus/>
+                        </div>
+                        <div className="input-group my-3">
+                            <div className="input-group-prepend">
+                                <label className="input-group-text" htmlFor="repeatPass">Repeat Password:</label>
                             </div>
-                            <div className="input-group my-3">
-                                <div className="input-group-prepend">
-                                    <label className="input-group-text" htmlFor="nickName">Name:</label>
-                                </div>
-                                <input type="text" className="form-control" id="nickName" name="nickName" onChange={this.onChange} required/>
+                            <input type="text" className="form-control" id="repeatPass" name="repeatPass" onChange={this.onChange} required autoFocus/>
+                        </div>
+                        <div className="input-group my-3">
+                            <div className="input-group-prepend">
+                                <label className="input-group-text" htmlFor="nickName">Name:</label>
                             </div>
-                            <div className="input-group my-3">
-                                <div className="input-group-prepend">
-                                    <label className="input-group-text" htmlFor="email">Email:</label>
-                                </div>
-                                <input type="email" className="form-control" id="email" name="email" onChange={this.onChange} required/>
+                            <input type="text" className="form-control" id="nickName" name="nickName" onChange={this.onChange} required/>
+                        </div>
+                        <div className="input-group my-3">
+                            <div className="input-group-prepend">
+                                <label className="input-group-text" htmlFor="email">Email:</label>
                             </div>
-                            <div className="input-group my-3">
-                                <div className="input-group-prepend">
-                                    <label className="input-group-text" htmlFor="phone">Phonenumber:</label>
-                                </div>
-                                <input type="number" className="form-control" id="phone" name="phoneNumber" onChange={this.onChange} required/>
-                            </div>   
-                            <div className="input-group my-3">
-                                <div className="input-group-prepend">
-                                    <label className="input-group-text" htmlFor="publisherToggle">Publisher:</label>
-                                </div>
-                                <input type="checkbox" className="form-control" id="publisherToggle" onChange={this.toggleUserType}/>
+                            <input type="email" className="form-control" id="email" name="email" onChange={this.onChange} required/>
+                        </div>
+                        <div className="input-group my-3">
+                            <div className="input-group-prepend">
+                                <label className="input-group-text" htmlFor="phone">Phonenumber:</label>
                             </div>
-                                    <button className="btn btn-success btn-block" onClick={this.submit}>Create User</button>
-                                    <Link to="/Admin/Users/" className="btn btn-danger btn-block">Go Back</Link>
-                            </form>
-                     </div>
+                            <input type="number" className="form-control" id="phone" name="phoneNumber" onChange={this.onChange} required/>
+                        </div>        
+                        <div className="input-group my-3">
+                            <div className="input-group-prepend">
+                                <label className="input-group-text" htmlFor="publisherToggle">Publisher:</label>
+                            </div>
+                            <input type="checkbox" className="form-control" id="publisherToggle" onChange={this.toggleUserType}/>
+                        </div>
+                        <div className="row">
+                            <div className="col my-3 mx-4">
+                                <button className="btn btn-success btn-block" onClick={this.submit}>Create User</button>
+                            </div>
+                            <div className="col my-3 mx-4">
+                                <Link to="/Admin/Users/" className="btn btn-danger btn-block">Go Back</Link>
+                            </div>
+                        </div>
+                    </form>
+                   
                 </div>
             </div>
         )
