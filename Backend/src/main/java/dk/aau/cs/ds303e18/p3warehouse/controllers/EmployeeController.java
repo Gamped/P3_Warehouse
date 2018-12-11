@@ -204,7 +204,7 @@ public class EmployeeController {
         return "Updated Contact Information on Publisher: " + publisher.getUserName();
     }
 
-    @PutMapping("/employee/user/edit/{hexId")
+    @PutMapping("/employee/user/edit/{hexId}")
     String updateUserCredentials(@PathVariable String hexId, @RequestBody RestUserModel restUserModel) {
 
         ObjectId id = new ObjectId(hexId);

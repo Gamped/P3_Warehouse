@@ -139,3 +139,32 @@ export function makeEmployeeData(data){
 
     return employees;
 }
+
+export function getPublisherData() {
+    
+    
+}
+
+export function makeCustomerData(data) {
+    var customers = [];
+    data.forEach((customer) => {
+        
+        customers.push({
+            userName: customer.userName,
+            password: customer.password,
+            userType: customer.userType,
+            hexId: customer.hexId,
+            nickName: customer.contactInformation.nickName,
+            email: customer.contactInformation.email,
+            phoneNumber: customer.contactInformation.phoneNumber,
+            address: customer.contactInformation.address,
+            zipCode: customer.contactInformation.zipCode              
+        })
+    });
+    return customers;
+}
+
+export function getCustomerInformation() {
+
+    
+}
