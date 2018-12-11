@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from "react-router-dom";
 import "../../Pages.css"
 import "./EditOrderAddress.css"
+import { get } from './../../../../handlers/requestHandlers.js';
 
 export default class EditOrderAddress extends Component{
     constructor(props){
@@ -13,8 +14,17 @@ export default class EditOrderAddress extends Component{
         }
     }
 
-    //Todo make this work.
+    componentDidMount() {
 
+        this.getOrder();
+    }
+
+    getOrder() {
+        //get("employee/orders/"+this.props.match.params.id, (data) => {
+
+        //});
+    }
+    
     render(){
         return(
             <div className="PageStyle rounded">

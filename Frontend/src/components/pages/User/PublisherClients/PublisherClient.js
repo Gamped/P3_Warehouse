@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ReactTable from 'react-table';
-import {makeProductsRowsWithOwner} from './../../../../handlers/dataHandlers.js';
+import {makeProductsData} from './../../../../handlers/dataHandlers.js';
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 import {get} from './../../../../handlers/requestHandlers';
 
@@ -30,7 +30,7 @@ class PublisherClient extends React.Component {
 
         get("publisher/" + this.state.userId + "/clients/products", (data) => {
         
-            const products = makeProductsRowsWithOwner(data);
+            const products = makeProductsData(data.productStream);
             this.setState({ products: products });
         })
            

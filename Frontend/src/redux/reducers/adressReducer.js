@@ -8,7 +8,7 @@ const initialState ={
     cvr:"",
     country:""};
 
-    const loginReducer = (state = initialState, action) => {
+    const adressReducer = (state = initialState, action) => {
         switch(action.type){
             case "SET_COMPANY":
             case "SET_CONTACTPERSON":
@@ -28,4 +28,4 @@ const initialState ={
         return state
     }
     
-    export default loginReducer;
+    export default adressReducer;
