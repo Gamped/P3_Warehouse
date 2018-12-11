@@ -121,12 +121,6 @@ public class EmployeeRoutes {
         Product clientProduct = new Product(clientProductId);
         Product publisherProduct = new Product(publisherProductId);
 
-        Publisher publisher = new Publisher(newObjectId());
-        Client client = new Client(newObjectId());
-        Product product = new Product(newObjectId());
-        Product clientProduct = new Product(newObjectId());
-        Product publisherProduct = new Product(newObjectId());
-
 
         product.setProductName("Cycling news");
         product.setQuantity(10);

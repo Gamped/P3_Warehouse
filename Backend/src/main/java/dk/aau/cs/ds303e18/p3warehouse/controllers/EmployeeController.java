@@ -1,5 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
+import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestCustomerModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestEmployeeModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
@@ -31,6 +32,8 @@ public class EmployeeController {
     PublisherRepository publisherRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    OrderRepository orderRepository;
 
 
     //CREATE: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
@@ -147,6 +150,11 @@ public class EmployeeController {
     private Optional<Client> findClientById(@PathVariable String hexId) {
         return clientRepository.findById(new ObjectId(hexId));
 
+    }
+
+    @GetMapping("employee/order/{hexId}")
+    private Optional<Order> findOrderById(@PathVariable String hexId) {
+        return orderRepository.findById(new ObjectId(hexId));
     }
 
     //UPDATE: EMPLOYEE, PRODUCTS, CONTACT INFORMATION (CLIENT, PUBLISHER), USERS

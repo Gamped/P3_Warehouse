@@ -40,29 +40,6 @@ import CreateUser from "./components/pages/Admin/AdminUsers/CreateUser";
 ReactDOM.render(
     <Provider store={redux}>
         <BrowserRouter>
-            <div>
-                <Route exact path="/" component={loginMain}/>
-                <Route path="/Home" component={Header}/>
-                <Route exact path="/Home" component={Home}/>
-    
-                <Route exact path="/Admin/*" component={adminMain}/>
-                <Route exact path="/Admin/Orders" component={AdminOrders}/>
-                <Route exact path="/Admin/Orders/New" component={NewOrder}/>
-                <Route exact path="/Admin/Orders/Edit/:id" component={EditOrder}/>
-                <Route exact path="/Admin/Orders/Edit/OrderAddress" component={EditOrderAddress}/>
-                <Route exact path="/Admin/Orders/Edit/OrderContent" component={EditOrderContent}/>
-                <Route exact path="/Admin/Profile" component={AdminProfile}/>
-                <Route exact path="/Admin/Profile/AddEmployee" component={AdminAdd}/>
-                <Route exact path="/Admin/Profile/RemoveEmployee" component={AdminRemove}/>
-                <Route exact path="/Admin/Profile/Edit" component={AdminProfileEdit}/>
-                <Route exact path="/Admin/Stock" component={AdminStock}/>
-                <Route exact path="/Admin/Stock/New" component={NewWare}/>
-                <Route exact path="/Admin/Stock/Edit/:id" component={Edit}/>
-                <Route exact path="/Admin/Stock/Remove" component={RemoveWare}/>
-                <Route exact path="/Admin/Users" component={AdminUsers}/>
-
-                <Route exact path="/Admin/Order/Cart" component={AdminOrderCart}/>
-                <Route exact path="/Admin/Order/Cart/Confirm" component={AdminCartConfirm}/>
 
         <div>
             <Route exact path="/" component={loginMain}/>
