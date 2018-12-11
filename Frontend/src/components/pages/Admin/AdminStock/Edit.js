@@ -1,30 +1,18 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import "../../Pages.css";
 import "./AdminStock.css";
 import {setProductProps} from './../../../../handlers/dataHandlers.js'
 import {get, put} from './../../../../handlers/requestHandlers.js';
 import {Link} from "react-router-dom";
+import {connect} from "react-redux";
 
-export default class Edit extends Component {
+class Edit extends Component {
     constructor(props) {
         super(props);
-        this.state = { product: {}, hexId: this.props.match.params.id };
+        this.state = { product: this.props.product, hexId: this.props.match.params.id };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         
-    }
-
-    componentDidMount() {
-        this.getProduct();
-    }
-
-    getProduct = () => {
-      
-        get('employee/product/'+this.props.match.params.id, (data) => {
-            const product = setProductProps(data)
-            this.setState({product: product})
-       })      
     }
 
 
@@ -49,7 +37,7 @@ export default class Edit extends Component {
             <div className="PageStyle rounded">
                 <nav class="navbar navbar-light bg-light">
                     <h1 className="customText_b_big">Edit product:</h1>
-                    <h1 className="subTitle customText_b">{this.state.product.productName} </h1>´
+                    <h1 className="subTitle customText_b">{this.state.product.name} </h1>´
                 </nav>
                  <div className=" row">
                     <div className="col-md-4 offset-md-5 my-5">
@@ -58,7 +46,7 @@ export default class Edit extends Component {
                             type="text"
                             name="productName"
                             className="newForm"
-                            defaultValue={this.state.product.productName}
+                            defaultValue={this.state.product.name}
                             onChange={this.onChange}
                             placeholder="Product Name"/>
                         </div>
@@ -67,7 +55,7 @@ export default class Edit extends Component {
                             type="text"
                             className="newForm"
                             name="productId"
-                            defaultValue={this.state.product.productId}
+                            defaultValue={this.state.product.id}
                             onChange={this.onChange}
                             placeholder="Product ID"/>
                         </div>
@@ -91,3 +79,11 @@ export default class Edit extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) =>{
+    return{
+        product:state.productReducer
+    }
+}
+
+export default connect(mapStateToProps)(Edit);
