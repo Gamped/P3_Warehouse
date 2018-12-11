@@ -218,7 +218,7 @@ public class EmployeeControllerTest {
 
         when(employeeRepository.findById(id)).thenReturn(Optional.of(employee));
 
-        Employee retrievedEmployee = employeeController.getOneEmployee(String.valueOf(id));
+        Employee retrievedEmployee = employeeController.findEmployeeById(String.valueOf(id));
         verify(employeeRepository).findById(id);
         assertEquals(employee.getId(), retrievedEmployee.getId());
     }
