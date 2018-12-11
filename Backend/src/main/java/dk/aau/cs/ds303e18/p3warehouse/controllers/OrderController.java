@@ -12,7 +12,7 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
 import org.bson.types.ObjectId;
-import org.omg.CORBA.DynAnyPackage.Invalid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

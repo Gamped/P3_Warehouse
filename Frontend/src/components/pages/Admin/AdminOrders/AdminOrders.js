@@ -39,9 +39,10 @@ export default class AdminOrders extends Component {
     }
 
     getPublishers() {
-        get("publishers", (data)=> {
+        get("employee/publishers", (data)=> {
+            console.log(data);
             const orders = makePublisherAndClientOrdersData(data);
-            
+            console.log("ORDERS " + orders)
             this.setState({ 
                 data: data,
                 orders: orders
@@ -184,7 +185,7 @@ export default class AdminOrders extends Component {
                         </div>
                         <div className=" md-2">
                                 <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>                           
-                                <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/:id${this.state.selectedId}`}>Edit order</Link>
+                                <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order</Link>
                                 <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.sendToPage("/Admin/Orders/Delete")}>Delete order</button>
                         </div>
                     </div>
