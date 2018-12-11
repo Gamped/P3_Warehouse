@@ -34,6 +34,7 @@ export function makeProductsRowsFromResponseData(data) {
     let product = {
     productName: data.productName,
     productId: data.productId,
+    owner: data.owner.contactInformation.nickName,
     quantity: data.quantity
     }
     return product;

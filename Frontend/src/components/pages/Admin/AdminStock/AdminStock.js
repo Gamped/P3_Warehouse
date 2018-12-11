@@ -50,7 +50,7 @@ export default class AdminStock extends Component {
     render() {
         
         let selectedId = this.state.selectedId
-        const columns = getColumnsFromArray(["Product Id", "Product Name", "Quantity"]);
+        const columns = getColumnsFromArray(["Product Id", "Product Name", "Owner", "Quantity"]);
 
         return(
             <div className="PageStyle rounded">
