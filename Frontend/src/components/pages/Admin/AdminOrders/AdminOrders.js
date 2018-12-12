@@ -136,7 +136,11 @@ export default class AdminOrders extends Component {
         } else {
             allProductsNotPackedWarning();
         }
-           }
+    }
+    deleteOrder(){
+        del("orders/delete/:id" + this.state.selectedId, () => {});
+    }
+
 
     render() {
       
@@ -186,7 +190,7 @@ export default class AdminOrders extends Component {
                         <div className=" md-2">
                                 <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>                           
                                 <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order</Link>
-                                <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.sendToPage("/Admin/Orders/Delete")}>Delete order</button>
+                                <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.deleteOrder()}>Delete order</button>
                         </div>
                     </div>
                     <div className=" col-7">
@@ -198,7 +202,7 @@ export default class AdminOrders extends Component {
                        </div> 
                        <div className="btn-group">
                              <button type= "button mx-2" className="btn btn-info mx-2" >Export Order</button> 
-                             <button type= "button " className="btn btn-dark mx-5">Finish Order</button> 
+                             <button type= "button " className="btn btn-dark mx-5"onClick={()=>this.finishOrder()}>Finish Order</button> 
                        </div>
                     </div>    
                  </div>    
