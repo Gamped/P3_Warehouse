@@ -2,7 +2,7 @@ import React,{Component} from 'react';
 import "../../Pages.css";
 import "./AdminStock.css";
 import { Link } from "react-router-dom";
-import {makeCustomerData} from './../../../../handlers/dataHandlers.js';
+import {makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
 import {get, post} from './../../../../handlers/requestHandlers.js';
 import Dropdown from "../../../MenuComponents/Dropdown/Dropdown";
 import { connect } from "react-redux";
@@ -31,14 +31,14 @@ class NewWare extends Component {
 
     getClients() {
         get('employee/clients', (data) => {
-            const clients = makeCustomerData(data);
+            const clients = makeCustomerProductsData(data);
             this.concatinateWithNewData(clients);
         });
     }
 
     getPublishers() {
         get('employee/publishers', (data) => {
-             const publishers = makeCustomerData(data);
+             const publishers = makeCustomerProductsData(data);
              this.concatinateWithNewData(publishers);
         });
      }
