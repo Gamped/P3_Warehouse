@@ -28,11 +28,11 @@ class UserStock extends React.Component {
     getStock() {
         
         const userType = this.props.userType.toLowerCase();
-        const id = this.props.userId
+        const id = this.props.userId;
         
-        get(userType + '/' + id + '/products', (data) => {
+        get(userType + 's/' + id + '/products', (data) => {
             let products = [];
-
+            
             userType === 'publisher' ? products = makeCustomerProductsData(data) : products = makeProductsData(data);
 
             this.setState({ products: products });
@@ -56,27 +56,7 @@ class UserStock extends React.Component {
                                 data={this.state.products}
                                 showPagination={false} 
                                 className="-striped -highlight"
-                                getTrProps={(state, rowInfo) => {
-                                    if (rowInfo && rowInfo.row) {
-                                        return {
-                                        onClick: (e) => {
-                                            
-                                            this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-                                            console.log(rowInfo.original)
-                                        },
-                                        style: {
-                                            background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                            color: rowInfo.index === this.state.selected ? 'white' : 'black'
-                                        }
-                                        }
-                                    }else{
-                                        return {}
-                                    }
-                                    
-                                }}
-                                     // This will force the table body to overflow and scroll, 
-                                    // since there is not enough room
-                                    defaultPageSize={25}
+                                defaultPageSize={25}
                                     style={{
                                         height: "400px"                                      
                                      }}

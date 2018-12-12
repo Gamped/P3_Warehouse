@@ -1,13 +1,13 @@
-const blankOrder = {order:[]}
+const blankOrder = {};
 
 
 const orderReducer = (state = blankOrder ,action)=>{
     switch(action.type){
         case "ADD_ITEMTOORDER":
-            let newOrder = {...state,order:[...state.order, action.payload]}
-            return newOrder
+            let orderLines = {...state, ...action.payload}
+            return orderLines
         case "DESTROY_ORDER":
-            return {...state,order:[]}
+            return {...state,orderLines:[]}
         default:
             return state;
     }

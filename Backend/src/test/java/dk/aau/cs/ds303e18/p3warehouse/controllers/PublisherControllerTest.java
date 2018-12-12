@@ -126,8 +126,8 @@ public class PublisherControllerTest {
 
         when(publisherRepository.findById(publisher.getId())).thenReturn(Optional.of(publisher));
 
-        Optional<Publisher> optPublisher = publisherController.findAllProductsOnPublisher(
-                String.valueOf(publisher.getUserType()), publisher.getHexId());
+        Optional<Publisher> optPublisher = publisherController.findPublisherInfoById(
+               publisher.getHexId());
         Publisher retrievedPublisher = optPublisher.get();
 
         verify(publisherRepository).findById(publisher.getId());
