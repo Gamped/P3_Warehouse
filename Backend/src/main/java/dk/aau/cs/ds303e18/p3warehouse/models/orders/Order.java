@@ -36,6 +36,13 @@ public class Order {
     private String country;
     private String company;
 
+    public Order(ObjectId id){
+        this.id = id;
+        this.hexId = id.toString();
+        this.orderLines = new HashSet<OrderLine>();
+        this.date = new Date();
+    }
+
     public String getZipCode() {
         return zipCode;
     }
@@ -82,13 +89,6 @@ public class Order {
 
     public void setCompany(String company) {
         this.company = company;
-    }
-
-    public Order(ObjectId id){
-        this.id = id;
-        this.hexId = id.toString();
-        this.orderLines = new HashSet<OrderLine>();
-        this.date = new Date();
     }
 
     public Date getDate() {
