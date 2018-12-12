@@ -11,8 +11,10 @@ import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -52,17 +54,26 @@ public class EmployeeController {
     String createProduct(@PathVariable("customerId") String customerId, @PathVariable("userType") String userType,
                          @RequestBody RestProductModel restProduct) {
 
-        if (userType == "DEFAULT" || customerId == "DEFAULT") {
+        if (userType.equals("DEFAULT") || customerId.equals("DEFAULT")) {
             return "Could not create, customerId or userType is not set!";
         }
 
         Product product = new Product(new ObjectId());
         BeanUtils.copyProperties(restProduct, product);
 
-        Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(customerId));
-        Publisher publisher = optionalPublisher.get();
-        publisher.addProduct(product);
-        publisherRepository.save(publisher);
+        if(userType.equals(UserType.PUBLISHER.name())){
+            Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(customerId));
+            Publisher publisher = optionalPublisher.get();
+            publisher.addProduct(product);
+            product.setOwner(publisher);
+            publisherRepository.save(publisher);
+        }else if(userType.equals(UserType.CLIENT.name())){
+            Client client = clientRepository.findById(customerId);
+            client.addProduct(product);
+            product.setOwner(client);
+            clientRepository.save(client);
+        }
+
         productRepository.save(product);
 
         return "Created!";
@@ -236,6 +247,16 @@ public class EmployeeController {
 
     @DeleteMapping("/employee/products/delete/{hexId}")
     public void deleteProductById(@PathVariable String hexId){
+        Product product = productRepository.findById(new ObjectId(hexId)).get();
+        if(product.getOwner().getUserType().equals(UserType.CLIENT)){
+            Client client = clientRepository.findById(product.getOwner().getHexId());
+            client.removeProduct(product);
+            clientRepository.save(client);
+        }else if(product.getOwner().getUserType().equals(UserType.PUBLISHER)){
+            Publisher publisher = publisherRepository.findById(product.getOwner().getHexId()).get();
+            publisher.removeProduct(product);
+            publisherRepository.save(publisher);
+        }
         productRepository.deleteById(new ObjectId(hexId));
     }
 

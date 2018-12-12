@@ -14,6 +14,7 @@ public class Customer extends User {
     private Collection<Product> customerProducts;
     private Collection<Order> customerOrders;
     private String hexId;
+    private String cvr;
 
     Customer(ObjectId id){
         super(id);
@@ -50,4 +51,12 @@ public class Customer extends User {
     }
 
     public String getHexId(){ return this.hexId; }
+
+    public String getCvr() {
+        return cvr;
+    }
+
+    public void setCvr(String cvr) {
+        this.cvr = cvr;
+    }
 }

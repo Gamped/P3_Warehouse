@@ -146,4 +146,9 @@ public class UserRepositoryTest {
 
     }
 
+    @Test
+    public void testDeleteAllUsers() {
+        userRepository.deleteAll();
+    }
+
 }

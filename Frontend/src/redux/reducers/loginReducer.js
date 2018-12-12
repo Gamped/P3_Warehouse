@@ -8,6 +8,7 @@ userType:"PUBLISHER",
 nickName:"Kev The Machine",
 userId:"5c10d67a8e2f371ff81fa7d6",};
 
+
 const loginReducer = (state = devState, action) => {
     switch(action.type){
         case "SET_USERTYPE":
