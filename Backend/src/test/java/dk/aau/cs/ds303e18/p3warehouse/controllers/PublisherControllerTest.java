@@ -83,7 +83,6 @@ public class PublisherControllerTest {
         RestPublisherModel restPublisherModel = new RestPublisherModel();
         restPublisherModel.setUserName("GoMore");
 
-
         publisherController.newPublisher(restPublisherModel);
     }
 

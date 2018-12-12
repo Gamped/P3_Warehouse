@@ -46,8 +46,10 @@ class AdminOrderCart extends React.Component {
         //Some logic before rendering.
         //takes the order saved in redux and assigns it to a local variable.
         //Then changes that local variable to contain some code our html can understand
-        let lines = this.props.order
-        lines = lines.map((line)=>{return(
+        let lines = [];
+        lines.concat(this.props.orderLines);
+        const lineMapping = lines.map((line)=>{
+            return(
                 <tr key={line.productId}>
                     <th scope="row">{line.productId}</th>
                     <td>{line.productName}</td>
@@ -72,7 +74,7 @@ class AdminOrderCart extends React.Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {lines}                                       
+                                        {lineMapping}                                       
                                     </tbody>
                                 </table>
                             </div>
