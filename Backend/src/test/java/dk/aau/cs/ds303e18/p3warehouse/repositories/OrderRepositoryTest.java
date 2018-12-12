@@ -234,6 +234,12 @@ public class OrderRepositoryTest {
         order.setOrderId("3255");
         order.setAddress("musvej 3");
         order.setDate(new Date());
+        order.setCity("Serene");
+        order.setPhoneNumber("66498726");
+        order.setZipCode("5979");
+        order.setCountry("Denmark");
+        order.setCompany("sports shop");
+        order.setContactPerson("Molly");
 
         return order;
     }
@@ -251,6 +257,14 @@ public class OrderRepositoryTest {
         assertEquals(order.getOrderId(), retrievedOrder.getOrderId());
         assertEquals(order.getAddress(), retrievedOrder.getAddress());
         assertEquals(order.getDate(), retrievedOrder.getDate());
+        assertEquals(order.getCity(), retrievedOrder.getCity());
+        assertEquals(order.getCompany(), retrievedOrder.getCompany());
+        assertEquals(order.getContactPerson(), retrievedOrder.getContactPerson());
+        assertEquals(order.getCountry(), retrievedOrder.getCountry());
+        assertEquals(order.getPhoneNumber(), retrievedOrder.getPhoneNumber());
+
+        System.out.println(order.getCity() + "\n" + order.getCompany() + "\n" + order.getContactPerson()
+        + "\n" + order.getCountry() + "\n" + order.getPhoneNumber());
 
         orderRepository.delete(order);
     }

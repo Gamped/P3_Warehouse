@@ -2,7 +2,7 @@ import React from 'react';
 import "./Login.css";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import axios from "axios"
+import {get} from "./../../../handlers/requestHandlers"
 
 // The box for sign-in to the system
 class SignInBox extends React.Component {
@@ -26,13 +26,15 @@ class SignInBox extends React.Component {
     //Then we map the results to redux through dispatches before pushing the user to main.
     loginHandler = (event) => {
         event.preventDefault()
-       axios.get("http://localhost:8080/api/users/login/" + this.state.userName + "/" +this.state.password)
-            .then(result => {
-                this.props.setUserName(result.data.contactInformation.nickName);
-                this.props.setUserType(result.data.userType);
-                this.props.setUserId(result.data.hexId)
-                this.props.setlogIn("True")
-            })
+        get("users/login/" + this.state.userName + "/" +this.state.password,(res)=>{
+            console.log(res)
+            console.log(this.state)
+            
+            /*this.props.setUserName(res.nickName);
+            this.props.setUserType(res.userType);
+            this.props.setUserId(res.hexId)
+            this.props.setlogIn("True")*/
+        })
     }
 
     render(){

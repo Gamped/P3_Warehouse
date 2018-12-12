@@ -156,7 +156,8 @@ export const makeCustomerData = (data) =>{
             email: customer.contactInformation.email,
             phoneNumber: customer.contactInformation.phoneNumber,
             address: customer.contactInformation.address,
-            zipCode: customer.contactInformation.zipCode              
+            zipCode: customer.contactInformation.zipCode,
+            city: customer.contactInformation.city              
         })
     });
     return customers;
@@ -195,4 +196,18 @@ export function productsExist(owner) {
 export function isPublisher(owner) {
     return owner.userType == "PUBLISHER";
 
+}
+
+export function makeOrderAddressData(data) {
+    let order = {};
+
+    order.address = data.address;
+    order.zipCode = data.zipCode;
+    order.country = data.country;
+    order.company = data.company;
+    order.phoneNumber = data.phoneNumber;
+    order.contactPerson = data.contactPerson;
+    order.city = data.city;
+
+    return order;
 }

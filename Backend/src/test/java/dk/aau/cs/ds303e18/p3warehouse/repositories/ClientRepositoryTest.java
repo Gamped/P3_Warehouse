@@ -50,6 +50,7 @@ public class ClientRepositoryTest {
         contactInformation.setPhoneNumber("15334888");
         contactInformation.setAddress("møllevej 4");
         contactInformation.setZipCode("5497");
+        contactInformation.setCity("Aalborg");
 
         client.setUserName("Client");
         client.setPassword("3wdgr4");
@@ -199,7 +200,7 @@ public class ClientRepositoryTest {
     }
 
     @Test
-    public void testProductUserRef() {
+    public void testUserRef() {
         Client client = makeClient();
         Publisher publisher = makePublisher();
 
