@@ -5,17 +5,15 @@ import "./UserCart.css";
 import { connect } from "react-redux";
 
 class UserOrderCart extends React.Component {
-    constructor() {
-        super();
-        
-    
+    constructor(props) {
+        super(props);
         this.state = {
            address:"",
            company:"",
            cvr:"",
            contact:"",
            phone:null,
-           zip:null,
+           zip:"",
            city:"",
            country:""
 
@@ -24,6 +22,7 @@ class UserOrderCart extends React.Component {
  
     onChange = (e) => {
         this.setState({[e.target.name]:e.target.value})
+        console.log(this.sate)
     }
 
     confirmed = (event) =>{
@@ -47,7 +46,6 @@ class UserOrderCart extends React.Component {
 
     render(){
         let lines = this.props.orderLines.orderLines;
-        console.log(lines);
 
         lines = lines.map((line, i)=>{return(
             <tr key={i}>

@@ -9,12 +9,38 @@ import { put, post } from '../../../../handlers/requestHandlers';
  class UserCartConfirm extends React.Component {
     constructor(props) {
         super(props);
+
+        let address = this.setPropsToState();
         this.state = {
             userID: this.props.userId,
             products: props.productList,
+            address: {}
         };
     }
 
+    componentDidMount() {
+
+        this.setPropsToState();
+    }
+
+    setPropsToState() {
+        let address = {};
+        let props = this.props.address;
+        console.log("PROPS " + props);
+        
+        if (props) {
+            props.company ? address.company = props.company : address.company = "Not specified";
+            props.zip ? address.zip = props.zip : address.zip = "Not specified";
+            props.phoneNumber ? address.phoneNumber = props.phoneNumber : address.phoneNumber = "Not specified";
+            props.country ? address.country = props.country : address.country = "Not specified";
+            props.contactPerson ? address.contactPerson = props.contactPerson : address.contactPerson = "Not specified";
+            props.address ? address.address = props.address : address.address = "Not specified";
+            props.city ? address.city = props.city : address.city = "Not specified";
+        }
+
+        return address;
+
+    }
     confirmed = (event) => {
         window.confirm("Your order has been confirmed. If you wish to make any edit from now, please contact 4N");
         console.log("THIS")
@@ -27,21 +53,31 @@ import { put, post } from '../../../../handlers/requestHandlers';
 
         });
     }
+
+    onChange = (event) => {
+        
+    }
  
 
     render(){
-        const company = this.props.address
-        console.log(company)
+        const address = this.state.address;
+        
+        console.log(address);
+
         let lines = this.props.orderLines;
         console.log("OrderLines: " + lines)
-
+       
+        if (lines) {
+            
         lines = lines.map((line, i)=>{return(
                 <tr key={i}>
                     <th scope="row">{line.productId}</th>
                     <td>{line.productName}</td>
                     <td>{line.amount}</td>
                 </tr>
-            )})
+            )});
+        }
+
         return(
         <div className="PageStyle rounded">
             <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
@@ -69,28 +105,27 @@ import { put, post } from '../../../../handlers/requestHandlers';
                         <br/>
                         <br/>
                         <label className="font-weight-bold">Company name: </label>
-                        <label className="font-weight-normal">{this.props.address.company}</label>
+                        <label className="font-weight-normal">{this.state.address.company}</label>
                         <br/>
                         <label className="font-weight-bold">Recipient: </label>
-                        <label className="font-weight-normal">{this.props.address.contactPerson}</label>
+                        <label className="font-weight-normal">{this.state.address.contactPerson}</label>
                         <br/>
                         <label className="font-weight-bold">Phone: </label>
-                        <label className="font-weight-normal">{this.props.address.phoneNumber}</label>
+                        <label className="font-weight-normal">{this.state.address.phoneNumber}</label>
                         <br/>
-                        <label className="font-weight-bold">CVR: </label>
-                        <label className="font-weight-normal">{this.props.address.cvr}</label>
+                       
                         <br/>
                         <label className="font-weight-bold">Address: </label>
-                        <label className="font-weight-normal">{this.props.address.address}</label>
+                        <label className="font-weight-normal">{this.state.address.address}</label>
                         <br/>
                         <label className="font-weight-bold">Zip: </label>
-                        <label className="font-weight-normal">{this.props.address.zip}</label>
+                        <label className="font-weight-normal">{this.state.address.zip}</label>
                         <br/>
                         <label className="font-weight-bold">City</label>
-                        <label className="font-wight-normal">{this.props.address.city}</label>
+                        <label className="font-wight-normal">{this.state.city}</label>
                         <br/>
                         <label className="font-weight-bold">Country: </label>
-                        <label className="font-weight-normal">{this.props.address.country}</label>
+                        <label className="font-weight-normal">{this.state.address.country}</label>
                         
                         <div onClick={this.confirmed} className="btn-success btn-block my-3 btn" role="button">Confirm order</div>
                        

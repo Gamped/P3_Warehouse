@@ -80,9 +80,9 @@ class UserProfileEdit extends React.Component {
                 <div className="row">
                     <div className ="col-md-4 offset-md-4">
                         <form>
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon10">User Name</span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon10">User Name</span>
                                 </div>
                                 <input
                                     name="userName" 
@@ -92,9 +92,9 @@ class UserProfileEdit extends React.Component {
                                     defaultValue={this.props.user.userName}/>
                             </div>
 
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon9">Nickname</span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon9">Nickname</span>
                                 </div>
                                 <input 
                                     name="nickName"
@@ -104,9 +104,9 @@ class UserProfileEdit extends React.Component {
                                     defaultValue={this.props.user.nickName}/>
                             </div>
 
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon8">Email</span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon8">Email</span>
                                 </div>
                                 <input
                                     name="email" 
@@ -116,9 +116,9 @@ class UserProfileEdit extends React.Component {
                                     defaultValue={this.props.user.email}/>
                             </div>
                             
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon7">Phonenumber</span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon7">Phonenumber</span>
                                 </div> 
                                 <input
                                 name="phoneNumber" 
@@ -128,9 +128,9 @@ class UserProfileEdit extends React.Component {
                                 defaultValue={this.props.user.phoneNumber}/>
                             </div>
 
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon6">Adress</span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon6">Adress</span>
                                 </div>
                             <input
                                 name="address" 
@@ -140,9 +140,9 @@ class UserProfileEdit extends React.Component {
                                 defaultValue={this.props.user.address}/>
                             </div>
 
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon5">City</span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon5">City</span>
                                 </div>
                                 <input
                                     name="city" 
@@ -152,9 +152,9 @@ class UserProfileEdit extends React.Component {
                                     defaultValue={this.props.user.city}/>
                             </div>
                             
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon4">Zip Code</span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon4">Zip Code</span>
                                 </div>
                                 <input
                                 name="zipCode" 
@@ -164,9 +164,9 @@ class UserProfileEdit extends React.Component {
                                 defaultValue={this.props.user.zipCode}/>
                             </div>
                             
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon3">Country</span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon3">Country</span>
                                 </div>
                                 <input
                                     name="country" 
@@ -176,9 +176,9 @@ class UserProfileEdit extends React.Component {
                                     defaultValue={this.props.user.country}/>
                             </div>
 
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon2">New Password</span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon2">New Password</span>
                                 </div>
                                 <input
                                     name="passwordNew"
@@ -188,9 +188,9 @@ class UserProfileEdit extends React.Component {
                                     placeholder="New password"/>
                             </div>
 
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">Password repeat</span>
+                            <div className="input-group mb-2">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-addon1">Password repeat</span>
                                 </div>    
                                 <input
                                     name="passwordNewRepeat" 
