@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import {itemPreviouslyAddedWarning, 
         amountExceedingQuantityWarning, 
         amountIsZeroWarning} from "./../../../../handlers/exceptions.js";
-import {makeProductsRowsFromResponseData} from "./../../../../handlers/dataHandlers.js";
+import {makeProductsData} from "./../../../../handlers/dataHandlers.js";
 import {get} from './../../../../handlers/requestHandlers.js'
 //TODO: Render warning in previouslyAddedWarning
 //TODO: Fix textfield in row errors
@@ -42,7 +42,7 @@ class NewOrder extends React.Component {
     getProducts() {
 
         get('employee/products', (data) => {
-            const products = makeProductsRowsFromResponseData(data);
+            const products = makeProductsData(data);
             this.setState({products: products})
         })
     }

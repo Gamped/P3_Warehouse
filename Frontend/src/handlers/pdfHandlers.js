@@ -124,11 +124,11 @@ export function packListPDF () {
     doc.save("Følgeseddel.pdf")
 }
 
-export function entireStockPDF() {
+export function entireStockPDF(state) {
     
     const pdfConverter = require('jspdf');
     const doc = new pdfConverter();
-    const elements= {...this.state.products}
+    const elements= {...state.products}
     
     doc.setFontSize(22);
     doc.text(20,50,"Entire stock:");
