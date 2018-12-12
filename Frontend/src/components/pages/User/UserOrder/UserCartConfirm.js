@@ -4,29 +4,39 @@ import "./UserOrder.css";
 import "./UserCart.css";
 import { connect } from "react-redux"
 import {Link} from "react-router-dom";
+import { put, post } from '../../../../handlers/requestHandlers';
 
  class UserCartConfirm extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: props.ID,
-            quarry: "",
+            userID: this.props.userId,
             products: props.productList,
         };
     }
 
     confirmed = (event) => {
-        alert("Your order has been confirmed.")
-        //TODO: Sent this.props.adress to server. 
+        window.confirm("Your order has been confirmed. If you wish to make any edit from now, please contact 4N");
+        console.log("THIS")
+        console.log(this.props.address)
+        console.log(this.props.orderLines)
+        console.log(this.props.userId)
+        console.log(this.props.userType)
+        post('/orders/'+this.props.userId+'/'+this.props.userType, {}, (response) => {
+
+
+        });
     }
  
 
     render(){
-        const company = this.props.adress
+        const company = this.props.address
         console.log(company)
-        let lines = this.props.order
-        lines = lines.map((line)=>{return(
-                <tr key={line.productId}>
+        let lines = this.props.orderLines;
+        console.log("OrderLines: " + lines)
+
+        lines = lines.map((line, i)=>{return(
+                <tr key={i}>
                     <th scope="row">{line.productId}</th>
                     <td>{line.productName}</td>
                     <td>{line.amount}</td>
@@ -59,30 +69,30 @@ import {Link} from "react-router-dom";
                         <br/>
                         <br/>
                         <label className="font-weight-bold">Company name: </label>
-                        <label className="font-weight-normal">{this.props.adress.company}</label>
+                        <label className="font-weight-normal">{this.props.address.company}</label>
                         <br/>
                         <label className="font-weight-bold">Recipient: </label>
-                        <label className="font-weight-normal">{this.props.adress.contactPerson}</label>
+                        <label className="font-weight-normal">{this.props.address.contactPerson}</label>
                         <br/>
                         <label className="font-weight-bold">Phone: </label>
-                        <label className="font-weight-normal">{this.props.adress.phoneNumber}</label>
+                        <label className="font-weight-normal">{this.props.address.phoneNumber}</label>
                         <br/>
                         <label className="font-weight-bold">CVR: </label>
-                        <label className="font-weight-normal">{this.props.adress.cvr}</label>
+                        <label className="font-weight-normal">{this.props.address.cvr}</label>
                         <br/>
                         <label className="font-weight-bold">Address: </label>
-                        <label className="font-weight-normal">{this.props.adress.address}</label>
+                        <label className="font-weight-normal">{this.props.address.address}</label>
                         <br/>
                         <label className="font-weight-bold">Zip: </label>
-                        <label className="font-weight-normal">{this.props.adress.zip}</label>
+                        <label className="font-weight-normal">{this.props.address.zip}</label>
                         <br/>
                         <label className="font-weight-bold">City</label>
-                        <label className="font-wight-normal">{this.props.adress.city}</label>
+                        <label className="font-wight-normal">{this.props.address.city}</label>
                         <br/>
                         <label className="font-weight-bold">Country: </label>
-                        <label className="font-weight-normal">{this.props.adress.country}</label>
+                        <label className="font-weight-normal">{this.props.address.country}</label>
                         
-                        <Link to="/User/Order" className="btn-success btn-block my-3 btn" role="button">Confirm order</Link>
+                        <div onClick={this.confirmed} className="btn-success btn-block my-3 btn" role="button">Confirm order</div>
                        
                         <Link to="/User/Order/Cart" className="btn-info btn btn-block my-3" role="button">Back</Link>
                         
@@ -97,8 +107,10 @@ import {Link} from "react-router-dom";
 
 const mapStateToProps = (state)=>{
     return{
-        order: state.orderReducer.order,
-        adress: state.adressReducer
+        orderLines: state.orderReducer.orderLines,
+        address: state.addressReducer,
+        userType: state.loginReducer.userType,
+        userId: state.loginReducer.userId
     }
 }
 

@@ -44,7 +44,7 @@ public class OrderController {
 
     @PostMapping("/orders/{userHexId}/{userType}")
     String createOrder(@PathVariable("userHexId") String userHexId, @PathVariable("userType") String userType,
-                       @RequestBody Order order) {
+                       @RequestBody RestOrderModel order) {
 
         Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(userHexId));
         Publisher publisher = optionalPublisher.get();
@@ -52,8 +52,8 @@ public class OrderController {
         BeanUtils.copyProperties(order, newOrder);
 
 
-        publisher.addOrder(order);
-        order.setOwner(publisher);
+        publisher.addOrder(newOrder);
+        newOrder.setOwner(publisher);
         Collection<OrderLine> updatedOrderLines = new HashSet<>();
         try {
             for (OrderLine x : order.getOrderLines()) {
@@ -70,13 +70,13 @@ public class OrderController {
 
         productRepository.saveAll(updatedOrderLines.stream().map(x -> x.getProduct()).collect(Collectors.toSet()));
         publisherRepository.save(publisher);
-        orderRepository.save(order);
+        orderRepository.save(newOrder);
 
         return "Created!";
     }
 
     @PutMapping("/employee/orders/{hexId}")
-    private Order updateOrder(@PathVariable String hexId, @RequestBody Order responseBody){
+    private Order updateOrder(@PathVariable String hexId, @RequestBody RestOrderModel responseBody){
         Order order;
         try {
             order = orderRepository.findById(new ObjectId(hexId)).orElseThrow(() -> new Exception());
@@ -103,7 +103,8 @@ public class OrderController {
     @DeleteMapping("/orders/delete/{hexId}")
     void finishOrder(@PathVariable String hexId) {
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
-
+        confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
+        orderRepository.deleteById(new ObjectId(hexId));
     }
 }
 

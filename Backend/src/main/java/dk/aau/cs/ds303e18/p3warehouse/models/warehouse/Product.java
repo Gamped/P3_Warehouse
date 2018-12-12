@@ -71,7 +71,7 @@ public class Product {
     }
 
     public Customer getOwner() {
-        return owner;   
+        return owner;
     }
 
     @JsonProperty("owner")

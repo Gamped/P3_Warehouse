@@ -6,6 +6,7 @@ class CreateUser extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            ShowMe:false,
             userType:"CLIENT",
             userName:"",
             password:"",
@@ -30,6 +31,11 @@ class CreateUser extends React.Component{
     onChange = (e) => {
         this.setState({[e.target.name]:e.target.value});
     }
+    showclient(boolean){
+        this.setState({
+            ShowMe:boolean
+        })
+    }
 
     submit=(e)=>{
         e.preventDefault();
@@ -40,7 +46,7 @@ class CreateUser extends React.Component{
                     contactInformation:{
                         nickName:this.state.nickName,
                         email:this.state.email,
-                        phoneNumber:this.state.phoneNumber
+                        phoneNumber:this.state.email
                         }
                     }
         if(this.state.password===this.state.repeatPass){
@@ -102,13 +108,16 @@ class CreateUser extends React.Component{
                                 <label className="input-group-text" htmlFor="phone">Phonenumber:</label>
                             </div>
                             <input type="number" className="form-control" id="phone" name="phoneNumber" onChange={this.onChange} required/>
-                        </div>        
-                        <div className="input-group my-3">
-                            <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="publisherToggle">Publisher:</label>
-                            </div>
-                            <input type="checkbox" className="form-control" id="publisherToggle" onChange={this.toggleUserType}/>
                         </div>
+                             <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={this.toggleUserType} onClick ={()=> this.showclient(false)} >Make Publisher</button> 
+                             <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showclient(true)}>Client</button>
+                        {    
+                            this.state.ShowMe?
+                            <div>
+                                please client table her 
+                            </div>
+                            :null
+                        }
                         <div className="row">
                             <div className="col my-3 mx-4">
                                 <button className="btn btn-success btn-block" onClick={this.submit}>Create User</button>

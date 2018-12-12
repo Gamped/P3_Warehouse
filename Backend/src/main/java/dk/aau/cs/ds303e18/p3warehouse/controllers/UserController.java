@@ -7,8 +7,9 @@ import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-@RequestMapping("/api")
+
 @CrossOrigin
+@RequestMapping("/api")
 @RestController
 public class UserController {
 
@@ -39,7 +40,7 @@ public class UserController {
                     return employeeRepository.findById(user.getId()).get();
             }
         }
-        return null;
+        return user;
     }
 
 
