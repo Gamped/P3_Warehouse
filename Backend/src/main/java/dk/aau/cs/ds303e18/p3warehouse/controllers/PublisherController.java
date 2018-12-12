@@ -66,8 +66,8 @@ public class PublisherController {
         publisherRepository.deleteById(id);
     }
 
-    @GetMapping("/publishers/products/{userType}/{hexId}")
-    Optional<Publisher> findAllProductsOnPublisher(@PathVariable("userType") String userType,
+    @GetMapping("/publishers/{hexId}/products")
+    Optional<Publisher> findPublisherInfoById(@PathVariable("userType") String userType,
                                                    @PathVariable("hexId") String hexId) {
 
         ObjectId objectId = new ObjectId(hexId);

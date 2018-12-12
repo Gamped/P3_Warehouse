@@ -197,3 +197,17 @@ export function isPublisher(owner) {
     return owner.userType == "PUBLISHER";
 
 }
+
+export function makeOrderAddressData(data) {
+    let order = {};
+
+    order.address = data.address;
+    order.zipCode = data.zipCode;
+    order.country = data.country;
+    order.company = data.company;
+    order.phoneNumber = data.phoneNumber;
+    order.contactPerson = data.contactPerson;
+    order.city = data.city;
+
+    return order;
+}
