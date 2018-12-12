@@ -67,8 +67,7 @@ public class PublisherController {
     }
 
     @GetMapping("/publishers/{hexId}/products")
-    Optional<Publisher> findPublisherInfoById(@PathVariable("userType") String userType,
-                                                   @PathVariable("hexId") String hexId) {
+    Optional<Publisher> findPublisherInfoById(@PathVariable("hexId") String hexId) {
 
         ObjectId objectId = new ObjectId(hexId);
         return publisherRepository.findById(objectId);
