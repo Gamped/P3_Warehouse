@@ -36,6 +36,8 @@ public class Order {
     private String country;
     private String company;
 
+    public Order() {}
+
     public String getZipCode() {
         return zipCode;
     }

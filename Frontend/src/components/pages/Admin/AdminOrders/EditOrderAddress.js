@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "../../Pages.css"
 import "./EditOrderAddress.css"
 import { get, put } from './../../../../handlers/requestHandlers.js';
-import {makeOrderAddressData} from './../../../../handlers/dataHandlers.js';
+import {makeOrderAddressData, makeOrderLinesData} from './../../../../handlers/dataHandlers.js';
 
 
 export default class EditOrderAddress extends Component{
@@ -19,8 +19,13 @@ export default class EditOrderAddress extends Component{
     }
 
     getOrder() {
-        get("employee/orders/"+this.props.match.params.id, (data) => {
+        get("employee/order/"+this.props.match.params.id, (data) => {
+            const orderLines = makeOrderLinesData(data);
             const order = makeOrderAddressData(data);
+            order.orderLines = orderLines;
+            order.owner = data.owner;
+
+            console.log(JSON.stringify(order));
             this.setState({order: order})
             
         });
@@ -57,7 +62,7 @@ export default class EditOrderAddress extends Component{
                         <input type="text" name="country" defaultValue={this.state.order.country} className="newForm" onChange={this.onChange} placeholder="Country"/>
 
                         <div className="btn-group my-2">
-                            <button className="col btn btn-succes mx-2">Save Changes</button>
+                            <button className="col btn btn-succes mx-2" onClick={this.onSubmit}>Save Changes</button>
                             <button className="col btn btn-warning mx-2">Discard Changes</button>
                             <Link to="/Admin/Orders/Edit" className="col btn btn-info mx-2 " role=" button" >Back</Link>
                          </div>
