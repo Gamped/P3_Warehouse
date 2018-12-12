@@ -47,6 +47,9 @@ public class EmployeeController {
         BeanUtils.copyProperties(restEmployeeModel, employee);
         employee.setUserType(UserType.EMPLOYEE);
         employeeRepository.save(employee);
+        User user = new User(employee.getId());
+        user.copyFrom(employee);
+        userRepository.save(user);
         return "created!";
     }
 
