@@ -10,12 +10,12 @@ class UserProfileEdit extends React.Component {
         this.state = {
             userId: this.props.userId,
             userName: this.props.user.userName,
-            name: this.props.user.nickName,
+            nickName: this.props.user.nickName,
             email: this.props.user.email,
             phoneNumber: this.props.user.phoneNumber,
             address: this.props.user.address,
             city:this.props.user.city,
-            zip:this.props.user.zipCode,
+            zipCode:this.props.user.zipCode,
             country:this.props.user.country,
             changed:{passwordNew:"",passwordNewRepeat:""}
         };
@@ -87,7 +87,7 @@ class UserProfileEdit extends React.Component {
                                 onChange={this.onChangeHandler}
                                 defaultValue={this.props.user.userName}/>
                             <input 
-                                name="name"
+                                name="nickName"
                                 type="text" 
                                 className="my-2 form-control" 
                                 onChange={this.onChangeHandler}
@@ -117,7 +117,7 @@ class UserProfileEdit extends React.Component {
                                 onChange={this.onChangeHandler}
                                 defaultValue={this.props.user.city}/>
                             <input
-                                name="zip" 
+                                name="zipCode" 
                                 type="text" 
                                 className="my-2 form-control" 
                                 onChange={this.onChangeHandler}

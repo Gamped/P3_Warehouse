@@ -4,9 +4,9 @@ userName:"",
 userId:"",};*/
 
 const devState ={loggedIn:"True",
-userType:"PUBLISHER",
+userType:"CLIENT",
 nickName:"Kev The Machine",
-userId:"5c10d67a8e2f371ff81fa7d6"};
+userId:"5c10d50a9b0db21bcc87821a"};
 const loginReducer = (state = devState, action) => {
     switch(action.type){
         case "SET_USERTYPE":
