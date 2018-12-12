@@ -74,7 +74,7 @@ ReactDOM.render(
             <Route exact path="/User/Order/Cart/Confirm" component={UserCartConfirm}/>
             <Route exact path="/User/Stock" component={UserStock}/>
             <Route exact path="/User/Profile" component={UserProfile}/>
-            <Route exact path="/User/Profile/Edit/:id" component={UserProfileEdit}/>
+            <Route exact path="/User/Profile/Edit/" component={UserProfileEdit}/>
             <Route exact path="/User/Profile/OrderHistory" component={UserOrderHistory}/>
             <Route exact path="/User/Clients" component={PublisherClient}/>
             <Route exact path="/User/Clients/Request" component={PublisherRequestClientChange}/>

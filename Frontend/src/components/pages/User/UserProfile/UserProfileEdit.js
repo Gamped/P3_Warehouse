@@ -7,18 +7,18 @@ class UserProfileEdit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: props.ID,
-            userName: "",
-            name: "",
-            email: "",
-            phoneNumber: "",
-            address: "",
+            userId: this.props.userId,
+            userName: "User Name",
+            name: "Name",
+            email: "Email",
+            phoneNumber: "Phonenumber",
+            address: "Address",
             passwordNewRepeat: "",
             passwordNew: "",
-            cvr: "",
-            city:"",
-            zip:"",
-            country:"",
+            cvr: "CVR",
+            city:"City",
+            zip:"Zip Code",
+            country:"Country",
         };
     }
 
@@ -40,6 +40,7 @@ class UserProfileEdit extends React.Component {
     }
 
     render(){
+        console.log(this.props.user)
         return(
             <div className="PageStyle rounded">
                 <h1 className="text-center">Edit profile:</h1>
@@ -51,55 +52,55 @@ class UserProfileEdit extends React.Component {
                                 type="text" 
                                 className="my-2 form-control" 
                                 onChange={this.handleUName}
-                                placeholder="User name"/>
+                                defaultValue={this.props.user.userName}/>
                             <input 
                                 name="name"
                                 type="text" 
                                 className="my-2 form-control" 
                                 onChange={this.handleName}
-                                placeholder="Name"/>
+                                defaultValue={this.props.user.nickName}/>
                             <input
                                 name="email" 
                                 type="email" 
                                 className="my-2 form-control" 
                                 onChange={this.handleEmail}
-                                placeholder="Email"/>
+                                defaultValue={this.props.user.email}/>
                             <input
                                 name="phoneNumber" 
-                                type="number" 
+                                type="text" 
                                 className="my-2 form-control" 
                                 onChange={this.handlePhoneNumber}
-                                placeholder="Phone Number"/>
+                                defaultValue={this.props.user.phoneNumber}/>
                             <input
                                 name="address" 
                                 type="text" 
                                 className="my-2 form-control" 
                                 onChange={this.handleAddress}
-                                placeholder="Address"/>
+                                defaultValue={this.props.user.address}/>
                             <input
                                 name="city" 
                                 type="text" 
                                 className="my-2 form-control" 
                                 onChange={this.handleAddress}
-                                placeholder="City"/>
+                                defaultValue={this.props.user.city}/>
                             <input
                                 name="zip" 
-                                type="number" 
+                                type="text" 
                                 className="my-2 form-control" 
                                 onChange={this.handleAddress}
-                                placeholder="Zip"/>
+                                defaultValue={this.props.user.zipCode}/>
                             <input
                                 name="country" 
                                 type="text" 
                                 className="my-2 form-control" 
                                 onChange={this.handleAddress}
-                                placeholder="Country"/>
+                                defaultValue={this.props.user.country}/>
                             <input 
                                 name="cvr"
                                 type="text" 
                                 className="my-2 form-control" 
                                 onChange={this.handleCVR}
-                                placeholder="CVR"/>
+                                defaultValue={this.state.cvr}/>
                             <input
                                 name="passwordNew"
                                 type="test" 
@@ -129,7 +130,9 @@ class UserProfileEdit extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        userID: state.loginReducer.userId
+        user:state.profileReducer,
+        userId:state.loginReducer.userId,
+        userType:state.loginReducer.userType,
     }
 }
 
