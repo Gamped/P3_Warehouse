@@ -3,7 +3,7 @@ import "./AdminUsers.css";
 import ReactTable from 'react-table';
 import {Link} from "react-router-dom";
 import {get, del, put} from "../../../../handlers/requestHandlers.js";
-import { makeCustomerProductsData} from "../../../../handlers/dataHandlers";
+import {makeCustomerData} from "../../../../handlers/dataHandlers";
 
 
 
@@ -29,14 +29,14 @@ export default class AdminUsers extends Component {
 
     getClients() {
         get('employee/clients', (data) => {
-            const clients = makeCustomerProductsData(data);
+            const clients = makeCustomerData(data);
             this.concatinateWithNewData(clients);
         });
     }
 
     getPublishers() {
        get('employee/publishers', (data) => {
-            const publishers = makeCustomerProductsData(data);
+            const publishers = makeCustomerData(data);
             this.concatinateWithNewData(publishers);
         });
     }
