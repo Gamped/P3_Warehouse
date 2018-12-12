@@ -263,9 +263,6 @@ public class OrderRepositoryTest {
         assertEquals(order.getCountry(), retrievedOrder.getCountry());
         assertEquals(order.getPhoneNumber(), retrievedOrder.getPhoneNumber());
 
-        System.out.println(order.getCity() + "\n" + order.getCompany() + "\n" + order.getContactPerson()
-        + "\n" + order.getCountry() + "\n" + order.getPhoneNumber());
-
         orderRepository.delete(order);
     }
 
@@ -285,6 +282,35 @@ public class OrderRepositoryTest {
 
         assertNotNull(retrievedOrder.getOrderLines());
         assertEquals(1, retrievedOrder.getOrderLines().size());
+    }
+
+    @Test
+    public void testAddProductsBackToStock() {
+        Product product = makeProduct();
+        Order order = makeOrder();
+
+        OrderLine orderLine = new OrderLine(product, 25);
+        order.setOrderLines(Collections.singleton(orderLine));
+
+        order.addProductsBackToStock();
+        assertEquals(425, product.getQuantity());
+    }
+
+    @Test
+    public void testSubtractProductsFromStock() {
+        Product product = makeProduct();
+        Order order = makeOrder();
+
+        OrderLine orderLine = new OrderLine(product, 300);
+        order.setOrderLines(Collections.singleton(orderLine));
+
+        try {
+            order.subtractProductsFromStock();
+        } catch (InvalidQuantityException e) {
+
+        }
+
+        assertEquals(100, product.getQuantity());
     }
 
     @Test
