@@ -79,6 +79,15 @@ public class PublisherControllerTest {
     }
 
     @Test
+    public void testNewPublisher() {
+        RestPublisherModel restPublisherModel = new RestPublisherModel();
+        restPublisherModel.setUserName("GoMore");
+
+
+        publisherController.newPublisher(restPublisherModel);
+    }
+
+    @Test
     public void testUpdatePublisher() {
         ObjectId id = new ObjectId();
         Publisher publisher = new Publisher(id);

@@ -1,6 +1,5 @@
 package dk.aau.cs.ds303e18.p3warehouse.systemTest;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
@@ -523,6 +522,8 @@ public class EmployeeRoutes {
         contactInformation.setAddress("ryvej 5");
         contactInformation.setPhoneNumber("26589542");
         contactInformation.setZipCode("6599");
+        contactInformation.setCity("Bamse");
+
         client.setContactInformation(contactInformation);
         client.setUserType(UserType.CLIENT);
         client.setUserName("client");
@@ -539,6 +540,7 @@ public class EmployeeRoutes {
         contactInformation.setAddress("luevej 4");
         contactInformation.setPhoneNumber("29575236");
         contactInformation.setZipCode("1694");
+        contactInformation.setCity("Århus");
 
         publisher.setContactInformation(contactInformation);
         publisher.setUserType(UserType.PUBLISHER);
@@ -557,6 +559,8 @@ public class EmployeeRoutes {
         contactInformation.setAddress("fffavej 2");
         contactInformation.setPhoneNumber("298522654");
         contactInformation.setZipCode("9825");
+        contactInformation.setCity("Hadsten");
+
         client.setContactInformation(contactInformation);
         client.setUserType(UserType.CLIENT);
         client.setUserName("secondclient");
@@ -574,6 +578,7 @@ public class EmployeeRoutes {
         contactInformation.setAddress("revej 4");
         contactInformation.setPhoneNumber("1568433546");
         contactInformation.setZipCode("5979");
+        contactInformation.setCity("Rye");
 
         client.setUserType(UserType.CLIENT);
         client.setUserName("thirdclient");
@@ -590,6 +595,8 @@ public class EmployeeRoutes {
         contactInformation.setPhoneNumber("26546235");
         contactInformation.setAddress("hale 34");
         contactInformation.setZipCode("2695");
+        contactInformation.setCity("Hals");
+
         publisher.setUserType(UserType.PUBLISHER);
         publisher.setUserName("secondpublisher");
         publisher.setPassword("erw3ret544");
@@ -606,6 +613,8 @@ public class EmployeeRoutes {
         contactInformation.setPhoneNumber("87525632");
         contactInformation.setAddress("gyldenvej 4");
         contactInformation.setZipCode("2796");
+        contactInformation.setCity("Padborg");
+
         publisher.setUserType(UserType.PUBLISHER);
         publisher.setUserName("thirdpublisher");
         publisher.setPassword("r43tdhytf");
@@ -684,6 +693,7 @@ public class EmployeeRoutes {
         contactInformation.setPhoneNumber("15334888");
         contactInformation.setAddress("møllevej 4");
         contactInformation.setZipCode("5497");
+        contactInformation.setCity("Vice country");
 
         client.setUserName("Client");
         client.setPassword("3wdgr4");
