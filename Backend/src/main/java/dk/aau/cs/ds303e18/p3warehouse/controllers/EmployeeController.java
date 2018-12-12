@@ -52,7 +52,7 @@ public class EmployeeController {
     String createProduct(@PathVariable("customerId") String customerId, @PathVariable("userType") String userType,
                          @RequestBody RestProductModel restProduct) {
 
-        if (userType == "DEFAULT" || customerId == "DEFAULT") {
+        if (userType.equals("DEFAULT") || customerId.equals("DEFAULT")) {
             return "Could not create, customerId or userType is not set!";
         }
 
