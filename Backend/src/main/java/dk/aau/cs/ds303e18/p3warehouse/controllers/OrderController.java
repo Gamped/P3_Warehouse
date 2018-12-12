@@ -103,7 +103,8 @@ public class OrderController {
     @DeleteMapping("/orders/delete/{hexId}")
     void finishOrder(@PathVariable String hexId) {
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
-
+        confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
+        orderRepository.deleteById(new ObjectId(hexId));
     }
 }
 
