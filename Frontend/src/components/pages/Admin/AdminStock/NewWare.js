@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import {makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
 import {get, post} from './../../../../handlers/requestHandlers.js';
 import Dropdown from "../../../MenuComponents/Dropdown/Dropdown";
-import { connect } from "react-redux";
 
 class NewWare extends Component {
 
