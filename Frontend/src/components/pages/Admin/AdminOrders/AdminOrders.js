@@ -54,7 +54,7 @@ export default class AdminOrders extends Component {
     }
 
     setStateAsSelected = (rowInfo) => {
-        
+
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId });
     }
 
@@ -132,13 +132,16 @@ export default class AdminOrders extends Component {
     finishOrder() {
         let allPacked = this.state.allPacked;
         if (allPacked == 1) {
-            del("employee/orders/delete/" + this.state.selectedId, () => {});
+            del("orders/delete/:id" + this.state.selectedId, () => {});
         } else {
             allProductsNotPackedWarning();
         }
     }
     deleteOrder(){
-        del("orders/delete/:id" + this.state.selectedId, () => {});
+        console.log(this.state.selectedId)
+        del("orders/delete/" + this.state.selectedId, (response) => {
+            console.log(response);
+        });
     }
 
 
@@ -187,9 +190,9 @@ export default class AdminOrders extends Component {
                             }
                              />
                         </div>
-                        <div className=" md-2">
+                        <div className=" md-2 my-2">
                                 <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>                           
-                                <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order</Link>
+                                <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order </Link>
                                 <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.deleteOrder()}>Delete order</button>
                         </div>
                     </div>
