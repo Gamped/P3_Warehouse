@@ -247,6 +247,16 @@ public class EmployeeController {
 
     @DeleteMapping("/employee/products/delete/{hexId}")
     public void deleteProductById(@PathVariable String hexId){
+        Product product = productRepository.findById(new ObjectId(hexId)).get();
+        if(product.getOwner().getUserType().equals(UserType.CLIENT)){
+            Client client = clientRepository.findById(product.getOwner().getHexId());
+            client.removeProduct(product);
+            clientRepository.save(client);
+        }else if(product.getOwner().getUserType().equals(UserType.PUBLISHER)){
+            Publisher publisher = publisherRepository.findById(product.getOwner().getHexId()).get();
+            publisher.removeProduct(product);
+            publisherRepository.save(publisher);
+        }
         productRepository.deleteById(new ObjectId(hexId));
     }
 
