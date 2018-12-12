@@ -160,6 +160,7 @@ export const makeCustomerData = (data) =>{
         })
     });
     return customers;
+}
 
 export function makeCustomerProductsData(customer) {
     let products = [];
