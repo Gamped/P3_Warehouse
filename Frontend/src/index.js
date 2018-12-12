@@ -29,7 +29,6 @@ import PublisherRequestClientChange from "./components/pages/User/PublisherClien
 import UserStock from "./components/pages/User/UserStock/UserStock";
 import UserProfile from "./components/pages/User/UserProfile/UserProfile";
 import UserProfileEdit from "./components/pages/User/UserProfile/UserProfileEdit";
-import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHistory";
 import UserOrder from "./components/pages/User/UserOrder/UserOrder";
 import Pushback from "./components/pages/Admin/AdminUsers/pushback"
 import UserOrderCart from "./components/pages/User/UserOrder/UserOrderCart";
@@ -75,7 +74,6 @@ ReactDOM.render(
             <Route exact path="/User/Stock" component={UserStock}/>
             <Route exact path="/User/Profile" component={UserProfile}/>
             <Route exact path="/User/Profile/Edit/" component={UserProfileEdit}/>
-            <Route exact path="/User/Profile/OrderHistory" component={UserOrderHistory}/>
             <Route exact path="/User/Clients" component={PublisherClient}/>
             <Route exact path="/User/Clients/Request" component={PublisherRequestClientChange}/>
         </div>
