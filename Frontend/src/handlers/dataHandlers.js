@@ -156,7 +156,8 @@ export const makeCustomerData = (data) =>{
             email: customer.contactInformation.email,
             phoneNumber: customer.contactInformation.phoneNumber,
             address: customer.contactInformation.address,
-            zipCode: customer.contactInformation.zipCode              
+            zipCode: customer.contactInformation.zipCode,
+            city: customer.contactInformation.city              
         })
     });
     return customers;
