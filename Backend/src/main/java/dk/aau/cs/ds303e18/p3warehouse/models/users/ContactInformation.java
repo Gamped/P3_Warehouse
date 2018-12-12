@@ -9,6 +9,7 @@ public class ContactInformation {
     private String zipCode;
     private String nickName;
     private String city;
+    private String country;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -52,6 +53,14 @@ public class ContactInformation {
 
     public String getCity() {
         return city;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public void setCity(String city) {
