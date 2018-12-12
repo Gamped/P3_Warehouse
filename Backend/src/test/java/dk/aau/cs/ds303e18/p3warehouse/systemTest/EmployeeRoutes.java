@@ -1,6 +1,5 @@
 package dk.aau.cs.ds303e18.p3warehouse.systemTest;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
@@ -194,6 +193,8 @@ public class EmployeeRoutes {
         orderRepository.save(fifthOrder);
         orderRepository.save(sixthOrder);
 
+        System.out.println(order.getCity() + "\n" + order.getPhoneNumber() + "\n" + order.getCountry() + "\n"
+        + order.getContactPerson() + "\n" + order.getCompany() + "\n" + order.getZipCode());
         clientRepository.save(client);
         clientRepository.save(secondClient);
         clientRepository.save(thirdClient);
@@ -532,6 +533,8 @@ public class EmployeeRoutes {
         contactInformation.setAddress("ryvej 5");
         contactInformation.setPhoneNumber("26589542");
         contactInformation.setZipCode("6599");
+        contactInformation.setCity("Bamse");
+
         client.setContactInformation(contactInformation);
         client.setUserType(UserType.CLIENT);
         client.setUserName("client");
@@ -549,6 +552,7 @@ public class EmployeeRoutes {
         contactInformation.setAddress("luevej 4");
         contactInformation.setPhoneNumber("29575236");
         contactInformation.setZipCode("1694");
+        contactInformation.setCity("Århus");
 
 
         publisher.setContactInformation(contactInformation);
@@ -570,6 +574,8 @@ public class EmployeeRoutes {
         contactInformation.setAddress("fffavej 2");
         contactInformation.setPhoneNumber("298522654");
         contactInformation.setZipCode("9825");
+        contactInformation.setCity("Hadsten");
+
         client.setContactInformation(contactInformation);
         client.setUserType(UserType.CLIENT);
         client.setUserName("secondclient");
@@ -587,6 +593,7 @@ public class EmployeeRoutes {
         contactInformation.setAddress("revej 4");
         contactInformation.setPhoneNumber("1568433546");
         contactInformation.setZipCode("5979");
+        contactInformation.setCity("Rye");
 
         client.setUserType(UserType.CLIENT);
         client.setUserName("thirdclient");
@@ -603,6 +610,8 @@ public class EmployeeRoutes {
         contactInformation.setPhoneNumber("26546235");
         contactInformation.setAddress("hale 34");
         contactInformation.setZipCode("2695");
+        contactInformation.setCity("Hals");
+
         publisher.setUserType(UserType.PUBLISHER);
         publisher.setUserName("secondpublisher");
         publisher.setPassword("erw3ret544");
@@ -619,6 +628,8 @@ public class EmployeeRoutes {
         contactInformation.setPhoneNumber("87525632");
         contactInformation.setAddress("gyldenvej 4");
         contactInformation.setZipCode("2796");
+        contactInformation.setCity("Padborg");
+
         publisher.setUserType(UserType.PUBLISHER);
         publisher.setUserName("thirdpublisher");
         publisher.setPassword("r43tdhytf");
@@ -633,7 +644,12 @@ public class EmployeeRoutes {
         order.setDate(new Date());
         order.setAddress("mour 4");
         order.setOrderId("35223645654ddd");
-
+        order.setCity("Serene");
+        order.setPhoneNumber("66498726");
+        order.setZipCode("5979");
+        order.setCountry("Denmark");
+        order.setCompany("sports shop");
+        order.setContactPerson("Molly");
 
         return order;
     }
@@ -644,6 +660,12 @@ public class EmployeeRoutes {
         order.setDate(new Date());
         order.setAddress("foul 23");
         order.setOrderId("242543643678");
+        order.setCity("Moonlight");
+        order.setPhoneNumber("56846987");
+        order.setZipCode("9985");
+        order.setCountry("Denmark");
+        order.setCompany("music store");
+        order.setContactPerson("ole");
 
         return order;
     }
@@ -655,6 +677,12 @@ public class EmployeeRoutes {
         order.setDate(new Date());
         order.setAddress("doo 4");
         order.setOrderId("325346436");
+        order.setCity("Stone");
+        order.setPhoneNumber("43599856");
+        order.setZipCode("5955");
+        order.setCountry("Denmark");
+        order.setCompany("book store");
+        order.setContactPerson("Hans");
 
         return order;
     }
@@ -665,6 +693,12 @@ public class EmployeeRoutes {
         order.setDate(new Date());
         order.setAddress("yellow 2");
         order.setOrderId("3254368888");
+        order.setCity("Gesser");
+        order.setPhoneNumber("46488798");
+        order.setZipCode("1354");
+        order.setCountry("Denmark");
+        order.setCompany("Museum");
+        order.setContactPerson("Mogens");
 
         return order;
     }
@@ -675,6 +709,12 @@ public class EmployeeRoutes {
         order.setDate(new Date());
         order.setAddress("moon 90");
         order.setOrderId("325378897430");
+        order.setCity("Smalling");
+        order.setPhoneNumber("15988526");
+        order.setZipCode("9335");
+        order.setCountry("Sweeden");
+        order.setCompany("car magazine maker");
+        order.setContactPerson("Maren");
 
         return order;
     }
@@ -685,6 +725,12 @@ public class EmployeeRoutes {
         order.setDate(new Date());
         order.setAddress("sun 33");
         order.setOrderId("3536347568");
+        order.setCity("Kunsten");
+        order.setPhoneNumber("26885487");
+        order.setZipCode("9526");
+        order.setCountry("Denmark");
+        order.setCompany("general store");
+        order.setContactPerson("Mark");
 
         return order;
     }
@@ -699,6 +745,7 @@ public class EmployeeRoutes {
         contactInformation.setPhoneNumber("15334888");
         contactInformation.setAddress("møllevej 4");
         contactInformation.setZipCode("5497");
+        contactInformation.setCity("Vice country");
 
         client.setUserName("Client");
         client.setPassword("3wdgr4");
@@ -726,6 +773,12 @@ public class EmployeeRoutes {
         order.setOrderId("3255");
         order.setAddress("musvej 3");
         order.setDate(new Date());
+        order.setCity("Aalborg");
+        order.setPhoneNumber("99635485");
+        order.setZipCode("9523");
+        order.setCountry("Denmark");
+        order.setCompany("News company");
+        order.setContactPerson("Oliver");
 
         return order;
     }

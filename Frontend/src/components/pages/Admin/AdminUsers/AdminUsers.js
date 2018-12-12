@@ -313,7 +313,7 @@ export default class AdminUsers extends Component {
                                                 id="zip" 
                                                 className="form-control" 
                                                 type="number"
-                                                defaultValue={selectedCustomer.city}
+                                                defaultValue={selectedCustomer.zipCode}
                                                 name="zipCode"                                        
                                                  />
                                         </div>

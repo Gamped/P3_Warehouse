@@ -5,21 +5,30 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 public class RestOrderModel {
-
-    private Customer owner;
+    private Collection<OrderLine> orderLines;
     private String orderId;
     private String title;
-    private Date date;
-    private Collection<OrderLine> orderLines;
+    private String address;
+    private String zipCode;
+    private String city;
+    private String contactPerson;
+    private String phoneNumber;
+    private String country;
+    private String company;
 
-    public Customer getOwner() {
-        return owner;
+    public RestOrderModel(){
+        this.orderLines = new HashSet<>();
     }
 
-    public void setOwner(Customer owner) {
-        this.owner = owner;
+    public Collection<OrderLine> getOrderLines() {
+        return orderLines;
+    }
+
+    public void setOrderLines(Collection<OrderLine> orderLines) {
+        this.orderLines = orderLines;
     }
 
     public String getOrderId() {
@@ -38,19 +47,59 @@ public class RestOrderModel {
         this.title = title;
     }
 
-    public Date getDate() {
-        return date;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public Collection<OrderLine> getOrderLines() {
-        return orderLines;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setOrderLines(Collection<OrderLine> orderLines) {
-        this.orderLines = orderLines;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getContactPerson() {
+        return contactPerson;
+    }
+
+    public void setContactPerson(String contactPerson) {
+        this.contactPerson = contactPerson;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
     }
 }
