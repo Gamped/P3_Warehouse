@@ -18,10 +18,14 @@ import java.util.HashSet;
 import java.util.stream.Collectors;
 
 
+@CrossOrigin
 @RequestMapping("/api")
 @RestController
-@CrossOrigin
 public class ClientController {
+
+    //TODO: updateClient opdateres i userAuth også.
+    //TODO: deleteClient slettes i userAuth ogsaa.
+    //TODO: Overvej hvorfor ProductManager.saveProductToDb(product, owner); kaldes i addNewProduct men ikke i updateClientProduct
 
     @Autowired
     ClientRepository clientRepository;
@@ -34,35 +38,8 @@ public class ClientController {
     }
 
     @GetMapping("/clients/{id}")
-    Client findClientById(@PathVariable String id) { return clientRepository.findById(new ObjectId(id)).orElse(null);
-    }
-
-
-    @PutMapping("/clients/{hexId}")
-    String updateClient(@PathVariable("hexId") String hexId, @RequestBody RestClientModel restClientModel) {
-
-        ObjectId id = new ObjectId(hexId);
-        Client client = clientRepository.findById(id).orElse(null);
-        BeanUtils.copyProperties(restClientModel, client);
-        clientRepository.save(client);
-
-        return "Client updated! \n" + client.getUserName() + "\n" + client.getHexId();
-    }
-
-    @DeleteMapping("/clients/{id}")
-    void deleteClient(@PathVariable String hexId) {
-        ObjectId id = new ObjectId(hexId);
-
-        clientRepository.deleteById(id);
-    }
-
-    @PostMapping("/clients/{hexId}/products")
-    private Product addNewProductToClient(@PathVariable String hexId, @RequestBody RestProductModel restProduct){
-        Customer owner = clientRepository.findById(new ObjectId(hexId)).orElse(null);
-        Product product = new Product(new ObjectId());
-        
-        BeanUtils.copyProperties(restProduct, product);
-        return ProductManager.saveProductToDb(product, owner);
+    Client findClientById(@PathVariable String id) {
+        return clientRepository.findById(new ObjectId(id)).orElse(null);
     }
 
     @GetMapping("/clients/{hexId}/products")
@@ -78,6 +55,18 @@ public class ClientController {
         return productRepository.findById(objectId).orElse(null);
     }
 
+    @PutMapping("/clients/{hexId}")
+    String updateClient(@PathVariable("hexId") String hexId, @RequestBody RestClientModel restClientModel) {
+
+        ObjectId id = new ObjectId(hexId);
+        Client client = clientRepository.findById(id).orElse(null);
+        BeanUtils.copyProperties(restClientModel, client);
+        clientRepository.save(client);
+
+        return "Client updated! \n" + client.getUserName() + "\n" + client.getHexId();
+    }
+
+
     @PutMapping("/clients/products/{hexId}")
     String updateClientProduct(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
 
@@ -88,4 +77,23 @@ public class ClientController {
 
         return "Product updated! \n" + product.getProductName() + "\n" + product.getHexId();
     }
+
+    @DeleteMapping("/clients/{id}")
+    void deleteClient(@PathVariable String hexId) {
+        ObjectId id = new ObjectId(hexId);
+
+        clientRepository.deleteById(id);
+    }
+
+
+    @PostMapping("/clients/{hexId}/products")
+    private Product addNewProductToClient(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
+        Customer owner = clientRepository.findById(new ObjectId(hexId)).orElse(null);
+        Product product = new Product(new ObjectId());
+
+        BeanUtils.copyProperties(restProduct, product);
+        return ProductManager.saveProductToDb(product, owner);
+    }
+
+
 }
