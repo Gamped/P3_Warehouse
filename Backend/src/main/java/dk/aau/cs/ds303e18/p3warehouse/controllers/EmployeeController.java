@@ -11,8 +11,10 @@ import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -59,10 +61,19 @@ public class EmployeeController {
         Product product = new Product(new ObjectId());
         BeanUtils.copyProperties(restProduct, product);
 
-        Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(customerId));
-        Publisher publisher = optionalPublisher.get();
-        publisher.addProduct(product);
-        publisherRepository.save(publisher);
+        if(userType.equals(UserType.PUBLISHER.name())){
+            Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(customerId));
+            Publisher publisher = optionalPublisher.get();
+            publisher.addProduct(product);
+            product.setOwner(publisher);
+            publisherRepository.save(publisher);
+        }else if(userType.equals(UserType.CLIENT.name())){
+            Client client = clientRepository.findById(customerId);
+            client.addProduct(product);
+            product.setOwner(client);
+            clientRepository.save(client);
+        }
+
         productRepository.save(product);
 
         return "Created!";
