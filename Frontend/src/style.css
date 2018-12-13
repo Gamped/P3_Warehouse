@@ -8,7 +8,6 @@ body {
     text-align: center;
     font-size: 25px;
     color: rgb(255, 255, 255);
-    width: 100%;
 }
 
 .customText_w_medium{
@@ -16,7 +15,6 @@ body {
     text-align: center;
     font-size: 25px;
     color: rgb(255, 255, 255);
-    width: 100%;
 }
 
 .customText_b{
@@ -24,7 +22,6 @@ body {
     text-align: center;
     font-size: 25px;
     color: rgb(0, 0, 0);
-    width: 100%;
 }
 
 .customText_b_big{
@@ -33,7 +30,6 @@ body {
     width: 100%;
     font-size: 35px;
     color: rgb(0, 0, 0);
-    width: 100%;
 }
 
 .std_BTN{
@@ -58,6 +54,26 @@ body {
     background-color: rgb(24, 155, 20);
     border-style: solid;
     border-color: rgb(65, 65, 65); 
+}
+
+.blue_BTN{
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    color: white;
+    background-color: rgb(20, 112, 155);
+    border-style: solid;
+    border-color: rgb(65, 65, 65); 
+}
+
+.red_BTN{
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    color: white;
+    background-color: rgb(170, 11, 11);
+    border-style: solid;
+    border-color: rgb(65, 65, 65); 
+}
+
+.pushTop{
+    top: 30px;
 }
 
 .makeRelative{

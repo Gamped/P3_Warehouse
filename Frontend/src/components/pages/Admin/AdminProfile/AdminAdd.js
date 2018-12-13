@@ -31,9 +31,9 @@ export default class AdminAdd extends React.Component {
     render() {
 
         return(
-            <div className="PageStyle rounded">
+            <div className="PageStyle customText_b">
                 <div className="container col mb-3">
-                    <h1 className="text-center display-3">Add new employee:</h1>
+                    <h1 className="customText_b_big text-center display-3">Add new employee:</h1>
                     <div className="container">
                         <form>
                             <input 
@@ -47,7 +47,7 @@ export default class AdminAdd extends React.Component {
                                 className="form-control mb-2" 
                                 onChange={this.onChange}
                                 name="nickname"
-                                placeholder="nickname"/>
+                                placeholder="Nickname"/>
                             <input 
                                 type="password" 
                                 className="form-control mb-2" 
@@ -56,9 +56,9 @@ export default class AdminAdd extends React.Component {
                                 placeholder="New password"/>
                         </form>
                         <form className="newForm stockForm">
-                            <button onClick={this.addEmployeeHandler} className="btn-success btn-lg btn-block btn my-2">Add new employee</button>
+                            <button onClick={this.addEmployeeHandler} className="green_BTN btn-lg btn-block btn my-2">Add new employee</button>
                         </form>
-                        <Link to="/Admin/Profile" className="btn-info btn-lg btn-block btn my-2">Back</Link>
+                        <Link to="/Admin/Profile" className="dark_BTN btn-lg btn-block btn my-2">Back</Link>
                     </div>
                 </div>
             </div>

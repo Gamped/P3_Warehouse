@@ -116,22 +116,4 @@ public class PublisherControllerTest {
 
         assertEquals(0, publisherRepository.findAll().size());
     }
-
-    @Test
-    public void testPublisherFindAllProducts() {
-        ObjectId id = new ObjectId();
-        Publisher publisher = new Publisher(id);
-        publisher.setUserType(UserType.PUBLISHER);
-
-        when(publisherRepository.findById(publisher.getId())).thenReturn(Optional.of(publisher));
-
-        Optional<Publisher> optPublisher = publisherController.findPublisherInfoById(
-               publisher.getHexId());
-        Publisher retrievedPublisher = optPublisher.get();
-
-        verify(publisherRepository).findById(publisher.getId());
-
-        assertEquals(publisher.getUserType(), retrievedPublisher.getUserType());
-        assertEquals(publisher.getHexId(), retrievedPublisher.getHexId());
-    }
 }

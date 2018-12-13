@@ -22,6 +22,21 @@ public class Customer extends User {
         customerOrders = new HashSet<>();
         this.hexId = id.toHexString();
     }
+    public Stream<Product> unassignAllProducts() {
+          return this.getProductStream().map(x -> {
+            this.removeProduct(x);
+            x.setOwner(null);
+            return x;
+        });
+    }
+    public Stream<Order> unassignAllOrders(){
+        return this.getOrderStream().map(x -> {
+           this.removeOrder(x);
+           x.setOwner(null);
+           return x;
+        });
+    }
+
 
     public ContactInformation getContactInformation(){
         return contactInformation;
