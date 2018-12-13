@@ -8,6 +8,7 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class ClientController {
     ClientRepository clientRepository;
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/clients")
     Iterable<Client> findAllClients() {
@@ -83,6 +86,7 @@ public class ClientController {
         ObjectId id = new ObjectId(hexId);
 
         clientRepository.deleteById(id);
+        userRepository.deleteById(id);
     }
 
 

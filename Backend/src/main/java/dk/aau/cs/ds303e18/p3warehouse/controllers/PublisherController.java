@@ -3,6 +3,7 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class PublisherController {
 
     @Autowired
     PublisherRepository publisherRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/publishers")
     Iterable<Publisher> findAll() {
@@ -68,7 +71,7 @@ public class PublisherController {
     @DeleteMapping("/publishers/{id}")
     void delete(@PathVariable String hexId) {
         ObjectId id = new ObjectId(hexId);
-
+        userRepository.deleteById(id);
         publisherRepository.deleteById(id);
     }
 

@@ -10,7 +10,7 @@ export function makeProductsData(productStream) {
         amount: 0,
         hexId: product.hexId,
         ownerHexId: product.owner.userHexId,
-        ownerName: product.owner.nickName
+        owner: product.owner.nickName
         });
     });
     return products;
