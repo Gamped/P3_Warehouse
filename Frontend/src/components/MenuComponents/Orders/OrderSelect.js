@@ -93,8 +93,12 @@ class UserOrder extends React.Component {
     }
 
     addSelectedToOrderLine = () => {
-      this.setState({orderLines: [...this.state.orderLines, this.state.products[this.state.selected]]}); 
-      console.log(this.state.orderLines)
+        if(this.state.selected!==null){
+            this.setState({orderLines: [...this.state.orderLines, this.state.products[this.state.selected]]}); 
+            console.log(this.state.orderLines)      
+        }else{
+            window.alert("Please choose something to add to the cart")
+        }
       }
 
     undoOrderLine = () => {
@@ -109,10 +113,19 @@ class UserOrder extends React.Component {
     }
 
     changeToCart = (event) => {
-        this.props.addItemToCart(this.state.orderLines)
+        event.preventDefault()
+        this.props.setItemToCart(this.state.orderLines)
         const userType = this.props.userType
+        const {userSelectedId} = this.state
         if(userType === "EMPLOYEE"){
-            this.props.history.push("/Admin/Order/Cart")
+            if(userSelectedId!==undefined&&userSelectedId!==null&&userSelectedId!==""){
+                this.props.setCustomerToCart({userType:this.state.userSelectedType,userId:this.state.userSelectedId})
+                console.log(this.state.selectedId)
+                this.props.history.push("/Admin/Order/Cart")
+            }else{
+                window.alert("Please select a customer you are ordering for.")
+            }
+            
         }else{
             this.props.history.push("/User/Order/Cart")
         }
@@ -150,18 +163,23 @@ class UserOrder extends React.Component {
         let navbar = null;
         if(this.props.userType==="EMPLOYEE"){
             navbar = (
-                <nav class="navbar navbar-light bg-light">                   
-                    <form class = "form-inline">
-                                <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
-                    </form>       
+                <nav className="navbar navbar-light bg-light">                   
+                    <form className = "form-inline">
+                                <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
+                    </form>
+                    <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                            <span htmlFor="dropdown" className="input-group-text" id="basic-addon1">Create order for:</span>
+                        </div>
                         <Dropdown actors={this.state.customers} action={this.setSelectedUser}/>
+                    </div>
                 </nav> 
                 )
         }else{
             navbar = (
-                <nav class="navbar navbar-light bg-light">                   
-                    <form class = "form-inline">
-                                <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
+                <nav className="navbar navbar-light bg-light">                   
+                    <form className = "form-inline">
+                        <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
                     </form>       
                 </nav> 
                 )
@@ -171,10 +189,18 @@ class UserOrder extends React.Component {
     }
 
     setSelectedUser = (e) =>{
-        this.setState({userSelectedId:e.target.value},()=>{
-            this.setState({userSelectedType:this.state.customers.find(x=>x.hexId===this.state.userSelectedId).userType})
-        })
+        if(e.target.value.toLowerCase()!=="choose customer"){    
+            this.setState({userSelectedId:e.target.value},()=>{
+                console.log(this.state)
+                this.setState({userSelectedType:this.state.customers.find(x=>x.hexId===this.state.userSelectedId).userType},()=>{
+                    console.log(this.state)
+                })
+            })
+        }else{
+            window.alert("That is not a valid user")
+        }
     }
+
 
     render(){
         const data = this.state.products;
@@ -188,14 +214,14 @@ class UserOrder extends React.Component {
 
         return(
             <div className="PageStyle rounded">
-            <nav class="navbar navbar-light bg-light"> 
+            <nav className="navbar navbar-light bg-light"> 
                 <h2 className=" text-center "> Order:</h2>
             </nav>   
                 {this.createNavBar()}        
                 
                 <div className="table">
                     <div className="SideBar col rounded bg-secondary">
-                         <div class="col-my-auto">
+                         <div className="col-my-auto">
                                  <div className="OrderList">
                                     <ReactTable  
                                     data={data} 
@@ -226,7 +252,7 @@ class UserOrder extends React.Component {
                                  </div>
                          </div>  
                     </div>  
-                    <nav class="navbarToButtoms navbar-light bg-light"> 
+                    <nav className="navbarToButtoms navbar-light bg-light"> 
                          <div className="container row">
                              <div className="col my-2">
                                  <button type="button" className="btn-success btn-lg btn-block btn my-2" onClick={this.addSelectedToOrderLine}>Add to order</button>
@@ -252,7 +278,8 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        addItemToCart: (orderLines) => {dispatch({type: "ADD_ITEMTOORDER",payload: {orderLines}})}
+        setItemToCart: (orderLines) => {dispatch({type: "SET_ORDERLINES",payload: {orderLines}})},
+        setCustomerToCart: (customer) =>{dispatch({type:"SET_CUSTOMER", payload:{customer}})}
     }
 }
 
