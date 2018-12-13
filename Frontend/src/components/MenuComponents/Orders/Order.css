@@ -62,3 +62,8 @@
     right: 0;
     font-family: 'Trebuchet MS', Tahoma, Arial;
 }
+
+.orderCartTable{
+    background-color: rgb(80, 79, 79);
+    color: white;
+}
