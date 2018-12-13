@@ -84,123 +84,124 @@ class UserProfileEdit extends React.Component {
 
     render() {
         return(
-            <div className="PageStyle rounded">
-                <h1 className="text-center">Edit profile:</h1>
-                <div className="row">
-                    <div className ="col-md-4 offset-md-4">
-                        <form>
-                            
-                            <div className="input-group mb-2">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon10">User Name</span>
+            <div className="PageStyle customText_b">
+                <div className="frameBordering">
+                    <h1 className="customText_b_big">Edit profile:</h1>
+                    <div className="row">
+                        <div className ="col-md-4 offset-md-4">
+                            <form>
+                                <div className="input-group mb-2">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" id="basic-addon10">User Name</span>
+                                    </div>
+                                    <input
+                                        name="userName" 
+                                        type="text" 
+                                        className="form-control" 
+                                        onChange={this.onChangeHandler}
+                                        defaultValue={this.props.user.userName} required/>
                                 </div>
+
+                                <div className="input-group mb-2">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" id="basic-addon9">Nickname</span>
+                                    </div>
+                                    <input 
+                                        name="nickName"
+                                        type="text" 
+                                        className="form-control" 
+                                        onChange={this.onChangeHandler}
+                                        defaultValue={this.props.user.nickName} required/>
+                                </div>
+
+                                <div className="input-group mb-2">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" id="basic-addon8">Email</span>
+                                    </div>
+                                    <input
+                                        name="email" 
+                                        type="email" 
+                                        className="form-control" 
+                                        onChange={this.onChangeHandler}
+                                        defaultValue={this.props.user.email} required/>
+                                </div>
+                                
+                                <div className="input-group mb-2">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" id="basic-addon7">Phonenumber</span>
+                                    </div> 
+                                    <input
+                                    name="phoneNumber" 
+                                    type="tel" 
+                                    className="my-2 form-control" 
+                                    onChange={this.onChangeHandler}
+                                    defaultValue={this.props.user.phoneNumber} required/>
+                                </div>
+
+                                <div className="input-group mb-2">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" id="basic-addon6">Adress</span>
+                                    </div>
                                 <input
-                                    name="userName" 
+                                    name="address" 
                                     type="text" 
                                     className="form-control" 
                                     onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.userName} required/>
-                            </div>
-
-                            <div className="input-group mb-2">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon9">Nickname</span>
+                                    defaultValue={this.props.user.address} required/>
                                 </div>
-                                <input 
-                                    name="nickName"
+
+                                <div className="input-group mb-2">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" id="basic-addon5">City</span>
+                                    </div>
+                                    <input
+                                        name="city" 
+                                        type="text" 
+                                        className="form-control" 
+                                        onChange={this.onChangeHandler}
+                                        defaultValue={this.props.user.city} required/>
+                                </div>
+                                
+                                <div className="input-group mb-2">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" id="basic-addon4">Zip Code</span>
+                                    </div>
+                                <input
+                                    name="zipCode" 
                                     type="text" 
                                     className="form-control" 
                                     onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.nickName} required/>
-                            </div>
-
-                            <div className="input-group mb-2">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon8">Email</span>
-                                </div>
+                                    defaultValue={this.props.user.zipCode} required/>
                                 <input
-                                    name="email" 
-                                    type="email" 
-                                    className="form-control" 
-                                    onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.email} required/>
-                            </div>
-                            
-                            <div className="input-group mb-2">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon7">Phonenumber</span>
-                                </div> 
-                                <input
-                                name="phoneNumber" 
-                                type="tel" 
-                                className="my-2 form-control" 
-                                onChange={this.onChangeHandler}
-                                defaultValue={this.props.user.phoneNumber} required/>
-                            </div>
-
-                            <div className="input-group mb-2">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon6">Adress</span>
-                                </div>
-                            <input
-                                name="address" 
-                                type="text" 
-                                className="form-control" 
-                                onChange={this.onChangeHandler}
-                                defaultValue={this.props.user.address} required/>
-                            </div>
-
-                            <div className="input-group mb-2">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon5">City</span>
-                                </div>
-                                <input
-                                    name="city" 
+                                    name="country" 
                                     type="text" 
-                                    className="form-control" 
+                                    className="my-2 form-control" 
                                     onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.city} required/>
-                            </div>
+                                    defaultValue={this.props.user.country} required/>
+                                <input
+                                    name="passwordNew"
+                                    type="password" 
+                                    className="my-2 form-control" 
+                                    onChange={this.onChangeHandler}
+                                    placeholder="New password" required/>
+                                <input
+                                    name="passwordNewRepeat" 
+                                    type="password" 
+                                    className="my-2 form-control" 
+                                    onChange={this.onChangeHandler}
+                                    placeholder="New password repeat" required/>
                             
-                            <div className="input-group mb-2">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon4">Zip Code</span>
-                                </div>
-                            <input
-                                name="zipCode" 
-                                type="text" 
-                                className="form-control" 
-                                onChange={this.onChangeHandler}
-                                defaultValue={this.props.user.zipCode} required/>
-                            <input
-                                name="country" 
-                                type="text" 
-                                className="my-2 form-control" 
-                                onChange={this.onChangeHandler}
-                                defaultValue={this.props.user.country} required/>
-                            <input
-                                name="passwordNew"
-                                type="password" 
-                                className="my-2 form-control" 
-                                onChange={this.onChangeHandler}
-                                placeholder="New password" required/>
-                            <input
-                                name="passwordNewRepeat" 
-                                type="password" 
-                                className="my-2 form-control" 
-                                onChange={this.onChangeHandler}
-                                placeholder="New password repeat" required/>
-                        
-                       </div>
-                        <form className="newForm stockForm">
-                            <button className="btn btn-block btn-warning my-2" onClick={this.confirmed}>Edit profile</button>
-                        </form> </form> 
-                        
-                        <Link to="/User/Profile" className="btn-info btn btn-block btn my-2">Back</Link>
-                        
-                
+                        </div>
+                            <form className="newForm stockForm">
+                                <button className="btn btn-block green_BTN my-2" onClick={this.confirmed}>Edit profile</button>
+                            </form> </form> 
+                            
+                            <Link to="/User/Profile" className="std_BTN btn btn-block btn my-2">Back</Link>
+                            
+                    
+                        </div>
+                    </div>
                 </div>
-            </div>
             </div>
         );
     }

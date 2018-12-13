@@ -19,7 +19,7 @@ const LandingPage = (props)=>{
     return(
         <div className="container">
             <div className="fixed-top LandingText">
-                <h1 className="customText_b">Welcome {name}!</h1>
+                <h1 className="customText_b_medium">Welcome {name}!</h1>
                 <br/>
                 <div className="row mt-6">
                     {buttonList}
