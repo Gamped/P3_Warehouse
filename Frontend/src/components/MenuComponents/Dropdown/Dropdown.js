@@ -13,7 +13,7 @@ const Dropdown = (props) =>{
          )
     })
     return(
-        <select className="custom-select my-2" onChange={action}>
+        <select className="custom-select form-control" id="dropdown" onChange={action}>
             <option>Choose Customer</option>
             {actorList}
         </select>  
