@@ -157,12 +157,12 @@ export default class AdminUsers extends Component {
         let selectedCustomer = this.state.selectedCustomer;
         let columns = this.getColumns();
         return(
-            <div className="PageStyle rounded">
-                <div className="userPageStyle rounded">
+            <div className="PageStyle customText_b">
+                <div className="frameBordering userPageStyle">
                     <div className="container row">
 
-                        <div className="SelectionBar col sidebar border border-dark rounded bg-secondary userNavbar">
-                            <div className="border border-light rounded bg-info">
+                        <div className="SelectionBar col sidebar">
+                            <div className="border border-light  bg-info">
                             <ReactTable 
                             data={this.state.customers}
                             columns={columns} 
@@ -358,13 +358,13 @@ export default class AdminUsers extends Component {
                                 </div>
                                 <div className="container row">
                                     <div className="col my-2">
-                                        <button type="button" onClick={this.onDelete} className="btn btn-danger">Delete this user</button>
+                                        <button type="button" onClick={this.onDelete} className="btn adminUserBtn red_BTN">Delete this user</button>
                                     </div>
                                     <div className="col my-2">
-                                        <button type="button" onClick={this.onSubmit} className="btn btn-warning">Confirm edit</button>
+                                        <button type="button" onClick={this.onSubmit} className="btn adminUserBtn blue_BTN">Confirm edit</button>
                                     </div>
                                     <div className="col my-2">
-                                        <Link to="/Admin/Users/Create" className="btn btn-success">Create user</Link>
+                                        <Link to="/Admin/Users/Create" className="btn adminUserBtn green_BTN">Create new user</Link>
                                     </div>
                                     </div>
                                 </div>  

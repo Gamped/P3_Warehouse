@@ -69,7 +69,7 @@ class AdminProfileEdit extends React.Component {
     
     render(){
         return(
-            <div className="PageStyle rounded">
+            <div className="PageStyle customText_b">
                 <h1 className="text-center">Edit profile:</h1>
                 <div className="row">
                     <div className ="col-md-4 offset-md-4">
@@ -107,9 +107,9 @@ class AdminProfileEdit extends React.Component {
                         </form>
 
                         <form className="newForm stockForm">
-                        <button className="btn-success btn-lg btn-block btn my-2" onClick={this.confirmed}>Save profile</button>
+                        <button className="green_BTN btn-lg btn-block btn my-2" onClick={this.confirmed}>Save profile</button>
                         </form>
-                        <Link to="/Admin/Profile" className="btn-info btn-lg btn-block btn my-2">Back</Link>
+                        <Link to="/Admin/Profile" className="dark_BTN btn-lg btn-block btn my-2">Back</Link>
                     </div>
                 </div>
             </div>

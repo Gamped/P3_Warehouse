@@ -1,5 +1,4 @@
 import React from "react";
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 
 const Dropdown = (props) =>{
     const {action, actors} = props;

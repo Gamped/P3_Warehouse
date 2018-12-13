@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import ReactTable from 'react-table';
 import "../../Pages.css";
-import "./EditOrder.css"
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 import {get, put} from './../../../../handlers/requestHandlers.js';
 import {makeOrderLinesData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';

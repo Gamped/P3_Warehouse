@@ -47,7 +47,9 @@ class CreateUser extends React.Component{
         
     }
 
+
     showPublisherDropdown(flag){
+
         this.setState({
             publisherTableShows: flag
         })
@@ -102,9 +104,9 @@ class CreateUser extends React.Component{
 
     render(){
         return(
-            <div className="PageStyle rounded">
+            <div className="PageStyle customText_b">
+                <h1 className="customText_b_big text-center">Create a new user</h1>
                 <div className="col-md-4 offset-md-4">
-                    <h1 className="text-center">Create a user</h1>
                     <form>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
@@ -143,6 +145,7 @@ class CreateUser extends React.Component{
                             <input type="number" className="form-control" id="phone" name="phoneNumber" placeholder="12345678" onChange={this.onChange} required/>
                         </div>
 
+
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="nickName">Address:</label>
@@ -167,6 +170,7 @@ class CreateUser extends React.Component{
 
                              <button type="button" className="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showPublisherDropdown(false)} >Make Publisher</button> 
                              <button type="button" className="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showPublisherDropdown(true)}>Client</button>
+
                         {    
                             this.state.publisherTableShows?
                             <div>
@@ -176,10 +180,12 @@ class CreateUser extends React.Component{
                         }
                         <div className="row">
                             <div className="col my-3 mx-4">
+
                                 <button className="btn btn-success btn-block" onClick={this.onSubmit}>Create User</button>
+
                             </div>
                             <div className="col my-3 mx-4">
-                                <Link to="/Admin/Users/" className="btn btn-danger btn-block">Go Back</Link>
+                                <Link to="/Admin/Users/" className="btn adminUserBtn std_BTN btn-block">Go Back</Link>
                             </div>
                         </div>
                     </form>

@@ -7,14 +7,14 @@ class UserOrderCart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           address:"DEFAULT",
-           company:"DEFAULT",
-           cvr:"DEFAULT",
-           contact:"DEFAULT",
+           address:"",
+           company:"",
+           cvr:"",
+           contact:"",
            phone:null,
-           zip:"DEFAULT",
-           city:"DEFAULT",
-           country:"DEFAULT"
+           zip:"",
+           city:"",
+           country:""
         };
     }
  
@@ -69,6 +69,8 @@ class UserOrderCart extends React.Component {
             )})
 
         }
+
+        
         
         return(
             <div className="PageStyle rounded">
@@ -98,7 +100,7 @@ class UserOrderCart extends React.Component {
                             <form className="">
                                 <input type="text" className="input-group mb-3" name="company" onChange={this.onChange} placeholder="Company"/>
                                 <input type="text" className="input-group mb-3" name="cvr" onChange={this.onChange} placeholder="CVR"/>
-                                <input type="text" className="input-group mb-3" name="contact" onChange={this.onChang} placeholder="Contact Person" required/>
+                                <input type="text" className="input-group mb-3" name="contact" onChange={this.onChange} placeholder="Contact Person" required/>
                                 <input type="number" className="input-group mb-3" name="phone" onChange={this.onChange} placeholder="PhoneNumber" required/>
                                 <input type="text" className="input-group mb-3" name="address" onChange={this.onChange} placeholder="Address" required/>
                                 <input type="number" className="input-group mb-3" name="zip" onChange={this.onChange} placeholder="Zip" required/>
