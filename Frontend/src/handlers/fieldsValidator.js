@@ -1,3 +1,47 @@
+import {fieldInvalidWarning, passwordsDoNotMatchWarning, 
+        publisherNotSetOnClientProfileCreationWarning} from './exceptions.js';
+
+
+export function customerProfileFieldsAreValidated(fields) {
+
+    if (isUserNameValid(fields.userName)) {
+        if (isNickNameValid(fields.nickName)) {
+            if (isEmailValid(fields.email)) {
+                if (isPhoneValid(fields.phoneNumber)) {
+                    if (isPublisherChosen(fields.userType, fields.selectedActorHexId)) {
+                      if (isPasswordValid(fields.password, fields.passwordRepeat)) {
+                          if (isAddressValid(fields.address)) {
+                              if (isCityValid(fields.city)) {
+                                  if (isZipCodeValid(fields.zipCode)) {
+                                        return true;
+                                  }
+                              }
+                          }        
+                       }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+
+export function employeeProfileFieldsAreValidated(fields) {
+    if (isUserNameValid(fields.userName)) {
+        if (isNickNameValid(fields.nickName)) {
+            if (fields.password && fields.passwordRepeat) {
+                if (isPasswordValid(fields.password, fields.passwordRepeat)) {
+                    return true;
+                }
+            } else {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 export function userProfileFieldsAreValidated(fields) {
    
     if (isAddressValid(fields.address)) {
@@ -5,12 +49,16 @@ export function userProfileFieldsAreValidated(fields) {
             if (isZipCodeValid(fields.zipCode)) {
                 if (isUserNameValid(fields.userName)) {
                     if (isEmailValid(fields.email)) {
-                        if (isPasswordValid(fields.changed)) {
-                            if (isPhoneValid(fields.phone)) {
+                            if (isPhoneValid(fields.phoneNumber)) {
                                 if (isCountryValid(fields.country)) {
                                     if (isNickNameValid(fields.nickName)) {
-                                        return true;
-                                    }
+                                        if (fields.passwordNew && fields.passwordNewRepeat) {
+                                            if (isPasswordValid(fields.passwordNew, fields.passwordNewRepeat)) {
+                                                return true;
+                                            }
+                                        } else {
+                                            return true;
+                                        }
                                 }
                             }    
                         }
@@ -59,7 +107,7 @@ export function isUserNameValid(userName) {
 }
 
 export function isNickNameValid(nickName) {
-    if (nickName.match(/[\w\d]/)) {
+    if (nickName.match(/.*/)) {
         return true;
     } else {
         fieldInvalidWarning({nickName});
@@ -77,7 +125,7 @@ export function isEmailValid(email) {
 }
 
 export function isPhoneValid(phone) {
-    if (phone.match(/\+?\d{8,10}/)) {
+    if (phone.match(/\+?\d+/)) {
         return true;
     } else {
         fieldInvalidWarning({phone});
@@ -94,25 +142,24 @@ export function isCountryValid(country) {
     }
 }
 
-export function isPasswordValid(password) {
-    if (password.passwordNew === password.passwordNewRepeat) {
-    if (password.passwordNew.match(/[\S]/)) {
+export function isPasswordValid(password, retypedPassword) {
+    if (password === retypedPassword) {
+    if (password.match(/[\S]/)) {
         return true;
     } else {
         fieldInvalidWarning({password});
         return false;
         }
     } else {
-        window.alert("Password do not match retyped password");
+        passwordsDoNotMatchWarning();
     }
 }
 
 
-export function fieldInvalidWarning(field) {
-    window.alert(variableNameToString(field) + ' is not valid')
-}
-
-export function variableNameToString(objectWithField) {
-    let name = Object.keys(objectWithField)[0];
-    return name;
+export function isPublisherChosen(userType, pubHex) {
+    if (userType.toLowerCase() == 'client' && pubHex.toLowerCase() == 'default') {
+        publisherNotSetOnClientProfileCreationWarning();
+        return false;
+    } 
+    return true;
 }

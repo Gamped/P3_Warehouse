@@ -18,22 +18,22 @@ class UserProfileEdit extends React.Component {
             city:this.props.user.city,
             zipCode:this.props.user.zipCode,
             country:this.props.user.country,
-            changed:{passwordNew:"",passwordNewRepeat:""}
+            passwordNew:"",
+            passwordNewRepeat:""}
         };
-    }
+    
 
     onChangeHandler = (event) => {
         console.log(this.state)
-        this.setState({
-            changed:{[event.target.name]: event.target.value},
-        })
+        this.setState({[event.target.name]: event.target.value});
     }
 
     
     confirmed = (event) =>{
         event.preventDefault();
-
+        
         let fields = this.state;
+        console.log(fields);
         if (userProfileFieldsAreValidated(fields)) {
             
         
@@ -56,17 +56,17 @@ class UserProfileEdit extends React.Component {
 
     makeBodyFromChangedState() {
         let newState = {};
-        const changedState = {...this.state.changed}
-        Object.keys(changedState).forEach((key) => {
-            if(changedState[key] !=="" && changedState[key] !== null) {
-                newState[key] = changedState[key];
+        const state = this.state;
+        Object.keys(state).forEach((key) => {
+            if(state[key] !=="" && state[key] !== null) {
+                newState[key] = state[key];
             }
         })
 
         newState={...this.state,...newState}
         const body = {
             userName:newState.userName,
-            password:newState.password,
+            password:newState.passwordNew,
             userType:newState.userType,
             contactInformation:{
                 nickName:newState.nickName,
@@ -78,10 +78,11 @@ class UserProfileEdit extends React.Component {
                 country: newState.country
             }
         }
+        console.log("Body: " + body);
         return body;
     }
 
-    render(){
+    render() {
         return(
             <div className="PageStyle rounded">
                 <h1 className="text-center">Edit profile:</h1>
@@ -164,7 +165,7 @@ class UserProfileEdit extends React.Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon4">Zip Code</span>
                                 </div>
-                                <input
+                            <input
                                 name="zipCode" 
                                 type="text" 
                                 className="form-control" 
@@ -188,16 +189,17 @@ class UserProfileEdit extends React.Component {
                                 className="my-2 form-control" 
                                 onChange={this.onChangeHandler}
                                 placeholder="New password repeat"/>
-                        </form>
                         
+                       </div> </form> 
                         <form className="newForm stockForm">
                             <button className="btn btn-block btn-warning my-2" onClick={this.confirmed}>Edit profile</button>
                         </form>
                         
                         <Link to="/User/Profile" className="btn-info btn btn-block btn my-2">Back</Link>
                         
-                    </div>
+                
                 </div>
+            </div>
             </div>
         );
     }

@@ -3,21 +3,26 @@ import {Link} from "react-router-dom";
 import {get, post} from "../../../../handlers/requestHandlers";
 import Dropdown from "../../../MenuComponents/Dropdown/Dropdown";
 import {makeCustomerData} from './../../../../handlers/dataHandlers.js';
+import {customerProfileFieldsAreValidated} from './../../../../handlers/fieldsValidator';
+import { publisherNotSetOnClientProfileCreationWarning } from "../../../../handlers/exceptions";
 
 class CreateUser extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            ShowMe:false,
+            publisherTableShows:false,
             userType:"CLIENT",
             userName:"",
             password:"",
-            repeatPass:"",
-            contactInformation:{
+            passwordRepeat:"",
+            //ContactInformation
                 email: "",
                 phoneNumber: "",
-                nickName: ""
-            },
+                nickName: "",
+                address: "",
+                city: "",
+                zip: "",
+            
             publishers: [],
             selectedActorHexId: "DEFAULT",
             selectedActorUserType: "DEFAULT"
@@ -25,6 +30,12 @@ class CreateUser extends React.Component{
     }
 
     componentDidMount(){
+        
+        this.getPublishers();
+    }
+
+    getPublishers() {
+        
         get('employee/publishers', (data) => {
             const publishers = makeCustomerData(data);
             this.setState({ publishers: publishers});
@@ -33,15 +44,23 @@ class CreateUser extends React.Component{
 
     onChange = (e) => {
         this.setState({[e.target.name]:e.target.value});
+        
     }
-    showclient(boolean){
+
+    showPublisherDropdown(flag){
         this.setState({
-            ShowMe:boolean
+            publisherTableShows: flag
         })
     }
 
-    submit=(e)=>{
+    onSubmit=(e)=>{
         e.preventDefault();
+       
+        console.log(this.state.email)
+        const fields = this.state;
+        console.log("Her")
+        if (customerProfileFieldsAreValidated(fields)) {
+        console.log("I iffen")
         const body = {
                     userName:this.state.userName,
                     password:this.state.password,
@@ -52,29 +71,33 @@ class CreateUser extends React.Component{
                         phoneNumber:this.state.phoneNumber
                         }
                     }
-        if(this.state.password===this.state.repeatPass){
-            if(this.state.ShowMe===true){
+                   
+            if(this.state.publisherTableShows===true){
                 post("employee/clients", body, (response)=>{
                     this.props.history.push("/Admin/Users/")
                     });
-            }else{
+            } else {
                 post("employee/publishers", body, (response)=>{
                     this.props.history.push("/Admin/Users/")
                     });
             }
-        }else{
-            alert("Password does not match")
-        }
-        
-        console.log(body)
         
     }
+}
+
 
     setSelected = (e) =>{
-        this.setState({
-            selectedActorHexId:e.target.value,
-            selectedActorUserType:this.state.Actors.find(x=>x.hexId===e.target.value).userType.toUpperCase()
-        })
+        if (e.target.value.toLowerCase() !== 'choose customer') {
+            
+            this.setState({
+                selectedActorHexId:e.target.value,
+                selectedActorUserType:this.state.publishers.find(x=>x.hexId===e.target.value).userType.toUpperCase()
+            })
+    
+        } else {
+            publisherNotSetOnClientProfileCreationWarning();
+        }
+            console.log(this.state.selectedActorHexId);
     }
 
     render(){
@@ -87,42 +110,65 @@ class CreateUser extends React.Component{
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="login">Login:</label>
                             </div>
-                            <input type="text" className="form-control" id="login" name="userName" onChange={this.onChange} required autoFocus/>
+                            <input type="text" className="form-control" id="login" name="userName" placeholder="The username the company logs in with" onChange={this.onChange} required autoFocus/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="password">Password:</label>
                             </div>
-                            <input type="text" className="form-control" id="password" name="password" onChange={this.onChange} required autoFocus/>
+                            <input type="text" className="form-control" id="password" name="password" placeholder="Minimum 6 characters" onChange={this.onChange} required autoFocus/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="repeatPass">Repeat Password:</label>
+                                <label className="input-group-text" htmlFor="passwordRepeat">Repeat Password:</label>
                             </div>
-                            <input type="text" className="form-control" id="repeatPass" name="repeatPass" onChange={this.onChange} required autoFocus/>
+                            <input type="text" className="form-control" id="passwordRepeat" name="passwordRepeat" placeholder="Repeat typed password" onChange={this.onChange} required autoFocus/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="nickName">Name:</label>
                             </div>
-                            <input type="text" className="form-control" id="nickName" name="nickName" onChange={this.onChange} required/>
+                            <input type="text" className="form-control" id="nickName" name="nickName" placeholder="Name of the company" onChange={this.onChange} required/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="email">Email:</label>
                             </div>
-                            <input type="email" className="form-control" id="email" name="email" onChange={this.onChange} required/>
+                            <input type="email" className="form-control" id="email" name="email" placeholder="Fx. example@example.com" onChange={this.onChange} required/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="phone">Phonenumber:</label>
+                                <label className="input-group-text" htmlFor="phone">Phone number:</label>
                             </div>
-                            <input type="number" className="form-control" id="phone" name="phoneNumber" onChange={this.onChange} required/>
+                            <input type="number" className="form-control" id="phone" name="phoneNumber" placeholder="12345678" onChange={this.onChange} required/>
                         </div>
-                             <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showclient(false)} >Make Publisher</button> 
-                             <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showclient(true)}>Client</button>
+
+                        <div className="input-group my-3">
+                            <div className="input-group-prepend">
+                                <label className="input-group-text" htmlFor="nickName">Address:</label>
+                            </div>
+                            <input type="text" className="form-control" id="address" name="address" placeholder="Fx. Industrivej 2 (Optional)" onChange={this.onChange}/>
+                        </div>
+
+                        <div className="input-group my-3">
+                            <div className="input-group-prepend">
+                                <label className="input-group-text" htmlFor="nickName">City:</label>
+                            </div>
+                            <input type="text" className="form-control" id="city" name="city" placeholder="Fx. Aalborg (Optional)" onChange={this.onChange}/>
+                        </div>
+
+                        <div className="input-group my-3">
+                            <div className="input-group-prepend">
+                                <label className="input-group-text" htmlFor="nickName">Zipcode:</label>
+                            </div>
+                            <input type="text" className="form-control" id="zipCode" name="zipCode" placeholder="Fx. 9000 (Optional)" onChange={this.onChange}/>
+                        </div>
+
+
+                             <button type="button" className="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showPublisherDropdown(false)} >Make Publisher</button> 
+                             <button type="button" className="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showPublisherDropdown(true)}>Client</button>
                         {    
-                            this.state.ShowMe?
+                            this.state.publisherTableShows?
                             <div>
                                 <Dropdown actors = {this.state.publishers} action={this.setSelected}/>
                             </div>
@@ -130,7 +176,7 @@ class CreateUser extends React.Component{
                         }
                         <div className="row">
                             <div className="col my-3 mx-4">
-                                <button className="btn btn-success btn-block" onClick={this.submit}>Create User</button>
+                                <button className="btn btn-success btn-block" onClick={this.onSubmit}>Create User</button>
                             </div>
                             <div className="col my-3 mx-4">
                                 <Link to="/Admin/Users/" className="btn btn-danger btn-block">Go Back</Link>
