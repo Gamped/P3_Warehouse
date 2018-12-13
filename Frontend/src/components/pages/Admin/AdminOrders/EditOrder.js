@@ -135,7 +135,7 @@ export default class EditOrder extends Component{
         let stock = this.state.stock;
 
         return (
-            <div className="PageStyle rounded">
+            <div className="PageStyle customText_b">
                 <div className="frameBordering">
 
                     <div className="EditOrderLeft">

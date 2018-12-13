@@ -88,7 +88,6 @@ public class OrderController {
                 break;
         }
         orderRepository.save(newOrder);
-
         return "Created!";
     }
 
@@ -119,7 +118,6 @@ public class OrderController {
 
     @DeleteMapping("/orders/delete/{hexId}")
     String finishOrder(@PathVariable String hexId) {
-        orderRepository.deleteById(new ObjectId(hexId));
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
         confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
         Order queryedOrder = orderRepository.findById(new ObjectId(hexId)).orElse(null);
@@ -145,6 +143,7 @@ public class OrderController {
             catch(Exception e){
 
             }
+            orderRepository.deleteById(new ObjectId(hexId));
             return "Order deleted?";
         }
         return "Error: Failed Successfully";
