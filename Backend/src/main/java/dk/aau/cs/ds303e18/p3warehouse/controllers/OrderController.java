@@ -139,6 +139,7 @@ public class OrderController {
             catch(Exception e){
 
             }
+            return "Order deleted?";
         }
         return "Error: Failed Successfully";
     }
