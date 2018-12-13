@@ -100,6 +100,7 @@ class UserProfileEdit extends React.Component {
                                         className="form-control" 
                                         onChange={this.onChangeHandler}
                                         defaultValue={this.props.user.userName} required/>
+
                                 </div>
 
                                 <div className="input-group mb-2">
@@ -201,6 +202,7 @@ class UserProfileEdit extends React.Component {
                     
                         </div>
                     </div>
+
                 </div>
             </div>
         );
