@@ -167,7 +167,7 @@ export default class AdminUsers extends Component {
                             data={this.state.customers}
                             columns={columns} 
                             showPagination={false} 
-                            className="-striped -highlight" 
+                            className="noBlueTable -striped -highlight" 
                             getTrProps={(state, rowInfo) => {
                                 if (rowInfo && rowInfo.row) {
                                   return {
