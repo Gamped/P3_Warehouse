@@ -4,13 +4,8 @@ import {BrowserRouter,Route} from "react-router-dom";
 import './style.css';
 import {Provider} from "react-redux";
 import redux from "./redux/Redux";
-import NewOrder from './components/pages/Admin/AdminOrders/NewOrder';
 import EditOrder from './components/pages/Admin/AdminOrders/EditOrder';
 import AdminOrder from './components/pages/Admin/AdminOrders/EditOrder';
-import AdminOrderConfirmed from './components/pages/Admin/AdminOrders/AdminOrderConfirmed';
-import AdminOrderFailed from './components/pages/Admin/AdminOrders/AdminOrderFailed';
-import AdminOrderCart from './components/pages/Admin/AdminOrders/AdminOrderCart';
-import AdminCartConfirm from './components/pages/Admin/AdminOrders/AdminCartConfirm';
 import EditOrderAddress from './components/pages/Admin/AdminOrders/EditOrderAddress';
 import EditOrderContent from './components/pages/Admin/AdminOrders/EditOrderContent';
 import loginMain from "./mainPages/loginMain";
@@ -31,13 +26,10 @@ import PublisherRequestClientChange from "./components/pages/User/PublisherClien
 import UserStock from "./components/pages/User/UserStock/UserStock";
 import UserProfile from "./components/pages/User/UserProfile/UserProfile";
 import UserProfileEdit from "./components/pages/User/UserProfile/UserProfileEdit";
-import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHistory";
-import UserOrder from "./components/pages/User/UserOrder/UserOrder";
+import Order from "./components/MenuComponents/Orders/OrderSelect";
 import Pushback from "./components/pages/Admin/AdminUsers/pushback"
-import UserOrderCart from "./components/pages/User/UserOrder/UserOrderCart";
-import UserOrderConfirmed from "./components/pages/User/UserOrder/UserOrderConfirmed";
-import UserOrderFailed from "./components/pages/User/UserOrder/UserOrderFailed";
-import UserCartConfirm from "./components/pages/User/UserOrder/UserCartConfirm";
+import OrderCart from "./components/MenuComponents/Orders/OrderCart";
+import CartConfirm from "./components/MenuComponents/Orders/CartConfirm";
 import Menues from "./components/Menues/Menues";
 import Home from "./mainPages/landingPage";
 import CreateUser from "./components/pages/Admin/AdminUsers/CreateUser";
@@ -48,13 +40,14 @@ ReactDOM.render(
 
         <div>
             <Route exact path="/" component={loginMain}/>
+            
             <Route path="/Home" component={Menues}/>
-            <Route exact path="/Home" component={Home}/>  
+            <Route exact path="/Home" component={Home}/>
 
             <Route path="/Admin" component={Menues}/>
             <Route exact path="/Admin/*" component={adminMain}/>
             <Route exact path="/Admin/Orders" component={AdminOrders}/>
-            <Route exact path="/Admin/Orders/New" component={NewOrder}/>
+            <Route exact path="/Admin/Orders/New" component={Order}/>
             <Route exact path="/Admin/Orders/Edit/:id" component={EditOrder}/>
             <Route exact path="/Admin/Orders/Confirmed" component={AdminOrderConfirmed}/>
             <Route exact path="/Admin/Orders/Failed" component={AdminOrderFailed}/>
@@ -72,20 +65,17 @@ ReactDOM.render(
             <Route exact path="/Admin/Users/Create" component={CreateUser}/>
             <Route exact path="/Admin/Users/Push" component={Pushback}/>
             <Route exact path="/Admin/Order" component={AdminOrder}/>
-            <Route exact path="/Admin/Order/Cart" component={AdminOrderCart}/>
-            <Route exact path="/Admin/Order/Cart/Confirm" component={AdminCartConfirm}/>
+            <Route exact path="/Admin/Order/Cart" component={OrderCart}/>
+            <Route exact path="/Admin/Order/Cart/Confirm" component={CartConfirm}/>
 
             <Route path="/User" component={Menues}/>
             <Route exact path="/User/*" component={userMain}/>
-            <Route exact path="/User/Order" component={UserOrder}/>
-            <Route exact path="/User/Order/Cart" component={UserOrderCart}/>
-            <Route exact path="/User/Order/Cart/Confirm" component={UserCartConfirm}/>
-            <Route exact path="/User/Order/Confirmed" component={UserOrderConfirmed}/>
-            <Route exact path="/User/Order/Failed" component={UserOrderFailed}/>
+            <Route exact path="/User/Order" component={Order}/>
+            <Route exact path="/User/Order/Cart" component={OrderCart}/>
+            <Route exact path="/User/Order/Cart/Confirm" component={CartConfirm}/>
             <Route exact path="/User/Stock" component={UserStock}/>
             <Route exact path="/User/Profile" component={UserProfile}/>
             <Route exact path="/User/Profile/Edit/" component={UserProfileEdit}/>
-            <Route exact path="/User/Profile/OrderHistory" component={UserOrderHistory}/>
             <Route exact path="/User/Clients" component={PublisherClient}/>
             <Route exact path="/User/Clients/Request" component={PublisherRequestClientChange}/>
         </div>

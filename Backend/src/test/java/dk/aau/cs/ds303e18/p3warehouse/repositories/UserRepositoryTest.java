@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -144,6 +145,41 @@ public class UserRepositoryTest {
         assertEquals(user.getUserName(), retrievedUser.getUserName());
         assertEquals(user.getPassword(), retrievedUser.getPassword());
 
+    }
+
+    @Test
+    public void testUserCopyFrom() {
+        ObjectId id = new ObjectId();
+        Client client = new Client(id);
+        client.setPassword("rw435r");
+        client.setUserName("client");
+        client.setUserType(UserType.CLIENT);
+        User user = new User(client.getId());
+        user.copyFrom(client);
+
+        clientRepository.save(client);
+        userRepository.save(user);
+
+        Client retrievedClient = clientRepository.findById(client.getId()).orElse(null);
+        User retrievedUser = userRepository.findById(retrievedClient.getId()).orElse(null);
+
+        assertNotNull(retrievedUser);
+        assertEquals(retrievedClient.getUserName(), retrievedUser.getUserName());
+    }
+
+    @Test
+    public void testFindUser() {
+        ObjectId id = new ObjectId();
+        User user = new User(id);
+        Publisher publisher = new Publisher(user.getId());
+
+        userRepository.save(user);
+        publisherRepository.save(publisher);
+
+        User retrievedUser = userRepository.findById(user.getId()).orElse(null);
+        Publisher retrievedPublisher = publisherRepository.findById(retrievedUser.getId()).orElse(null);
+
+        assertNotNull(retrievedPublisher);
     }
 
     @Test
