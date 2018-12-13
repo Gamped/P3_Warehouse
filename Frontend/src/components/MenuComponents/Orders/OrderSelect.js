@@ -3,7 +3,7 @@ import "./Order.css";
 import ReactTable from 'react-table';
 import { connect } from "react-redux";
 import {makeProductsData, makeCustomerProductsData} from '../../../handlers/dataHandlers.js';
-import {itemPreviouslyAddedWarning} from '../../../handlers/exceptions.js';
+import {itemPreviouslyAddedWarning, amountIsNotANumberWarning, amountExceedingQuantityWarning} from '../../../handlers/exceptions.js';
 import { getColumnsFromArray } from '../../../handlers/columnsHandlers.js';
 import { get } from '../../../handlers/requestHandlers';
 import Dropdown from "../../MenuComponents/Dropdown/Dropdown";
@@ -134,27 +134,41 @@ class UserOrder extends React.Component {
 
     renderEditable = cellInfo => {
         return (
-          <div
+    
+            <div
             style={{ backgroundColor: "#fafafa" }}
             contentEditable
             onClick={(e) => {e.target.innerHTML = ""}}
             suppressContentEditableWarning
+            type="number"
             onBlur={e => {
+
+                var typedAmount = e.target.innerHTML ? e.target.innerHTML : "0";
+                if (!typedAmount.match(/^\d+$/)) { amountIsNotANumberWarning(); }
                 
-                var typedAmount = e.target.innerHTML;
-                console.log(typedAmount)
+                
                 this.state.products
                 .filter(product => 
                     product.hexId === cellInfo.original.hexId)
-                .map(product => 
-                    product.amount = typedAmount)
+                .map(product => {
+                   
+                    if (typedAmount <= product.quantity) { 
+                        product.amount = typedAmount;
+                    } else { 
+                        amountExceedingQuantityWarning();
+                        typedAmount = "0";
+                    }
+
+                })
+                    
                     cellInfo.original.amount = typedAmount;
-    
+                    e.target.innerHTML = typedAmount;
+                    
             }}
             dangerouslySetInnerHTML={{
               __html: this.state.products[cellInfo.index][cellInfo.column.id]
             }}
-          />
+            required/>
         );
       };
 
