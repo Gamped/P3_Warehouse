@@ -1,9 +1,14 @@
 import React,{Component} from 'react';
 import "./AdminUsers.css";
-import axios from 'axios';
 import ReactTable from 'react-table';
+import {Link} from "react-router-dom";
+import {get, del, put} from "../../../../handlers/requestHandlers.js";
+import {makeCustomerData} from "../../../../handlers/dataHandlers";
+
+
 
 export default class AdminUsers extends Component {
+   
     constructor(props) {
         super(props);
 
@@ -11,7 +16,8 @@ export default class AdminUsers extends Component {
             customers: [],
             selectedCustomer: [],
             selected: null,
-            selectedId: ""
+            selectedId: "",
+            changed:{}
         };
     }
 
@@ -22,42 +28,19 @@ export default class AdminUsers extends Component {
     }
 
     getClients() {
-        axios.get('http://localhost:8080/api/employee/clients')
-        .then((response) => {
-
-            const clients = this.makeCustomerData(response.data);
+        get('employee/clients', (data) => {
+            const clients = makeCustomerData(data);
             this.concatinateWithNewData(clients);
-        })
+        });
     }
 
     getPublishers() {
-        axios.get('http://localhost:8080/api/employee/publishers')
-        .then((response) => {
-
-            const publishers = this.makeCustomerData(response.data);
+       get('employee/publishers', (data) => {
+            const publishers = makeCustomerData(data);
             this.concatinateWithNewData(publishers);
-    });
-    }
-
-    makeCustomerData(data){
-        var customers = [];
-        data.forEach((customer) => {
-            
-            customers.push({
-                userName: customer.userName,
-                password: customer.password,
-                hexId: customer.hexId,
-                nickName: customer.contactInformation.nickName,
-                email: customer.contactInformation.email,
-                phoneNumber: customer.contactInformation.phoneNumber,
-                address: customer.contactInformation.address,
-                zipCode: customer.contactInformation.zipCode              
-            })
         });
-        return customers;
     }
 
- 
     concatinateWithNewData(newData) {
     
         const customersCopy = this.state.customers;
@@ -69,22 +52,104 @@ export default class AdminUsers extends Component {
     return [{
         Header: "Customer",
         accessor: "nickName"
-        }]    
+        }, {Header: "User Type", accessor: "userType"}]    
     }
 
     onChange = (e) => {
-        const state = this.state.selectedCustomer;
-        state[e.target.name] = e.target.value;
-        this.setState({selectedCustomer:state});
+        this.setState({...this.state,changed:{...this.state.changed,[e.target.name]:e.target.value}});
+        console.log(this.state)
     }
 
     onSubmit = () => {
-    
+        if(this.state.changed.password===this.state.changed.confirmedNewPassword){
+            const usertype= this.state.selectedCustomer.userType
+
+            let newState = {};
+                const changedState = {...this.state.changed}
+                Object.keys(changedState).forEach((key,index)=>{
+                    if(changedState[key] !=="" && changedState[key] !==null){
+                        newState[key] = changedState[key]
+                    }
+                })
+                newState={...this.state.selectedCustomer,...newState}
+                const body = {
+                    userName:newState.userName,
+                    password:newState.password,
+                    userType:newState.userType,
+                    contactInformation:{
+                        nickName:newState.nickName,
+                        email:newState.email,
+                        phoneNumber:newState.phoneNumber,
+                        city: newState.city,
+                        address: newState.address,
+                        zipCode: newState.zipCode
+                        }
+                    }
+                    console.log(body)
+            if(usertype==="Publisher"){
+                put("publishers/"+this.state.selectedCustomer.hexId,body,(respondse)=>{
+                    let customers = this.state.customers.filter(customer =>{
+                        return this.state.selectedId !== customer.hexId
+                    })
+                    let selectCustomer = this.state.customers.filter(customer =>{
+                        return this.state.selectedId === customer.hexId
+                    })
+                    selectCustomer[0]=body;
+                    const finalCustomers = [...customers,...selectCustomer];
+                    this.setState({
+                        customers:finalCustomers
+                        
+                    })
+                    this.props.history.push("/Admin/Users/Push")
+                })
+            }else if(usertype==="Client"){
+                put("clients/"+this.state.selectedCustomer.hexId,body,(respondse)=>{
+                    let customers = this.state.customers.filter(customer =>{
+                        return this.state.selectedId !== customer.hexId
+                    })
+                    let selectCustomer = this.state.customers.filter(customer =>{
+                        return this.state.selectedId === customer.hexId
+                    })
+                    selectCustomer[0]=body;
+                    const finalCustomers = [...customers,...selectCustomer];
+                    this.setState({
+                        customers:finalCustomers
+                    })
+                    this.props.history.push("/Admin/Users/Push")
+                })
+            }else{
+                alert("Nothing chosen")
+            }
+        }else{
+            alert("Passwords not the same")
+        }
 
     }
  
     onDelete = () => {
-
+        const usertype= this.state.selectedCustomer.userType
+        if(usertype ==="Publisher"){
+            del("employee/publishers/delete/"+this.state.selectedCustomer.hexId,(res)=>{
+                let customers = this.state.customers.filter(customer =>{
+                    return this.state.selectedId !== customer.hexId
+                })
+                this.setState({
+                    customers:customers
+                })
+            });
+        }else if(usertype==="Client"){
+            del("employee/clients/delete/"+this.state.selectedCustomer.hexId,(res)=>{
+                let customers = this.state.customers.filter(customer =>{
+                    return this.state.selectedId !== customer.hexId
+                })
+                this.setState({
+                    customers:customers
+                })
+            });
+        }else{
+            alert("Nothing chosen")
+        }
+        
     }
 
     render(){
@@ -102,7 +167,8 @@ export default class AdminUsers extends Component {
                             data={this.state.customers}
                             columns={columns} 
                             showPagination={false} 
-                            className="-striped -highlight"getTrProps={(state, rowInfo) => {
+                            className="-striped -highlight" 
+                            getTrProps={(state, rowInfo) => {
                                 if (rowInfo && rowInfo.row) {
                                   return {
                                     onClick: (e) => {
@@ -132,8 +198,8 @@ export default class AdminUsers extends Component {
                                 <div className="container col">
                                     <div className="row">
                                         
-                                        <div class="input-group mt-3 mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mt-3 mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="nickName" 
                                                 className="input-group-text" 
                                                 id="nickNameLabel">
@@ -141,6 +207,7 @@ export default class AdminUsers extends Component {
                                                 </label>
                                             </div>
                                                  <input
+                                                 onChange={this.onChange}
                                                  id="nickName" 
                                                  className="form-control" 
                                                  type="text"
@@ -148,8 +215,8 @@ export default class AdminUsers extends Component {
                                                  name="nickName"                                        
                                                  />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="userNameInput" 
                                                 className="input-group-text" 
                                                 id="userNameLabel">
@@ -157,6 +224,7 @@ export default class AdminUsers extends Component {
                                                 </label>
                                             </div>
                                             <input
+                                            onChange={this.onChange}
                                             id="userNameInput" 
                                             className="form-control" 
                                             type="text"
@@ -164,8 +232,8 @@ export default class AdminUsers extends Component {
                                             name="userName"                                        
                                             />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="email" 
                                                 className="input-group-text" 
                                                 id="emailLabel">
@@ -173,6 +241,7 @@ export default class AdminUsers extends Component {
                                                 </label>
                                             </div>
                                             <input
+                                            onChange={this.onChange}
                                             id="email" 
                                             className="form-control" 
                                             type="text"
@@ -180,8 +249,8 @@ export default class AdminUsers extends Component {
                                             name="email"                                        
                                             />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="phone" 
                                                 className="input-group-text" 
                                                 id="phoneLabel">
@@ -189,15 +258,16 @@ export default class AdminUsers extends Component {
                                                 </label>
                                             </div>
                                             <input
+                                                onChange={this.onChange}
                                                 id="phone" 
-                                                 className="form-control" 
-                                                 type="number"
-                                                 defaultValue={selectedCustomer.phoneNumber}
-                                                 name="phoneNumber"                                        
-                                                 />
+                                                className="form-control" 
+                                                type="number"
+                                                defaultValue={selectedCustomer.phoneNumber}
+                                                name="phoneNumber"                                        
+                                                />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="address" 
                                                 className="input-group-text" 
                                                 id="addressLabel">
@@ -205,6 +275,7 @@ export default class AdminUsers extends Component {
                                                 </label>
                                             </div>
                                             <input
+                                                onChange={this.onChange}
                                                 id="address" 
                                                 className="form-control" 
                                                 type="text"
@@ -212,8 +283,8 @@ export default class AdminUsers extends Component {
                                                 name="address"                                        
                                                  />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="city" 
                                                 className="input-group-text" 
                                                 id="cityLabel">
@@ -221,15 +292,16 @@ export default class AdminUsers extends Component {
                                                 </label>
                                             </div>
                                             <input
+                                                onChange={this.onChange}
                                                 id="city" 
-                                                 className="form-control" 
-                                                 type="text"
-                                                 defaultValue={selectedCustomer.city}
-                                                 name="city"                                        
+                                                className="form-control" 
+                                                type="text"
+                                                defaultValue={selectedCustomer.city}
+                                                name="city"                                        
                                                  />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="zip" 
                                                 className="input-group-text" 
                                                 id="zipLabel">
@@ -237,18 +309,19 @@ export default class AdminUsers extends Component {
                                                 </label>
                                             </div>
                                             <input
+                                                onChange={this.onChange}
                                                 id="zip" 
-                                                 className="form-control" 
-                                                 type="number"
-                                                 defaultValue={selectedCustomer.city}
-                                                 name="zipCode"                                        
+                                                className="form-control" 
+                                                type="number"
+                                                defaultValue={selectedCustomer.zipCode}
+                                                name="zipCode"                                        
                                                  />
                                         </div>
                                         
                                          <h4 className="text-center">Change password:</h4>
                                         
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="newPassword" 
                                                 className="input-group-text" 
                                                 id="passwordLabel">
@@ -256,14 +329,15 @@ export default class AdminUsers extends Component {
                                                 </label>
                                             </div>
                                             <input 
+                                                onChange={this.onChange}
                                                 id="newPassword"
-                                                 className="form-control" 
-                                                 type="password"
-                                                 name="newPassword"                                        
+                                                className="form-control" 
+                                                type="password"
+                                                name="password"                                        
                                                  />
                                         </div>
-                                        <div class="input-group mb-2">
-                                            <div class="input-group-prepend">
+                                        <div className="input-group mb-2">
+                                            <div className="input-group-prepend">
                                                 <label htmlFor="confirmedPassword" 
                                                 className="input-group-text" 
                                                 id="confirmedLabel">
@@ -271,11 +345,12 @@ export default class AdminUsers extends Component {
                                                 </label>
                                             </div>
                                                  <input
-                                                 id="confirmedPassword" 
-                                                 className="form-control" 
-                                                 type="password"
-                                                 placeholder="Retype new password"
-                                                 name="confirmedNewPassword"                                        
+                                                onChange={this.onChange}
+                                                id="confirmedPassword" 
+                                                className="form-control" 
+                                                type="password"
+                                                placeholder="Retype new password"
+                                                name="confirmedNewPassword"                                        
                                                  />
                                         </div>
                                     </div>
@@ -288,12 +363,16 @@ export default class AdminUsers extends Component {
                                     <div className="col my-2">
                                         <button type="button" onClick={this.onSubmit} className="btn btn-warning">Confirm edit</button>
                                     </div>
+                                    <div className="col my-2">
+                                        <Link to="/Admin/Users/Create" className="btn btn-success">Create user</Link>
+                                    </div>
+                                    </div>
                                 </div>  
                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+           
         );
     }
 }

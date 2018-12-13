@@ -28,7 +28,21 @@ body {
     width: 100%;
 }
 
+.std_BTN{
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    color: white;
+    background-color: rgb(95, 95, 95);
+    border-style: solid;
+    border-color: black; 
+}
 
+.green_BTN{
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    color: white;
+    background-color: rgb(24, 155, 20);
+    border-style: solid;
+    border-color: black; 
+}
 
 .makeRelative{
     position: relative;

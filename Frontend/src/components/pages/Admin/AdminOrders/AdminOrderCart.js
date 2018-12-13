@@ -16,7 +16,6 @@ class AdminOrderCart extends React.Component {
            zip:null,
            city:"",
            country:""
-
         };
     }
     
@@ -46,8 +45,10 @@ class AdminOrderCart extends React.Component {
         //Some logic before rendering.
         //takes the order saved in redux and assigns it to a local variable.
         //Then changes that local variable to contain some code our html can understand
-        let lines = this.props.order
-        lines = lines.map((line)=>{return(
+        let lines = [];
+        lines.concat(this.props.orderLines);
+        const lineMapping = lines.map((line)=>{
+            return(
                 <tr key={line.productId}>
                     <th scope="row">{line.productId}</th>
                     <td>{line.productName}</td>
@@ -72,7 +73,7 @@ class AdminOrderCart extends React.Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {lines}                                       
+                                        {lineMapping}                                       
                                     </tbody>
                                 </table>
                             </div>
@@ -89,8 +90,7 @@ class AdminOrderCart extends React.Component {
                                 <input type="text" className="input-group mb-3" name="address" onChange={this.onChange} placeholder="Address" key="address" required/>
                                 <input type="number" className="input-group mb-3" name="zip" onChange={this.onChange} placeholder="Zip" key="zip" required/>
                                 <input type="text" className="input-group mb-3" name="city" onChange={this.onChange} placeholder="City" key="city" required/>
-                                <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" key="country" required/>
-                                
+                                <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" key="country" required/>         
                                 <button className=" btn-success btn btn-block my-3" onClick={this.confirmed} type="submit">Send order</button>
                                 <Link to="/Admin/Orders/" className=" btn-danger btn btn-block" >Cancel order</Link>        
                                    

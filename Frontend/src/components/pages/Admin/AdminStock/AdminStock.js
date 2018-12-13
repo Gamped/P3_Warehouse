@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import {connect} from "react-redux";
 import "../../Pages.css";
-import "./AdminStock.css"
-import axios from 'axios';
+import "./AdminStock.css";
 import ReactTable from 'react-table';
-import {makeProductsRowsFromResponseData} from './../../../../handlers/dataHandlers.js'
+import {makeProductsData} from './../../../../handlers/dataHandlers.js'
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 import {get, del} from './../../../../handlers/requestHandlers.js';
+import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
 
-export default class AdminStock extends Component {
+ class AdminStock extends Component {
 
     constructor(props) {
         super(props);
@@ -23,7 +23,7 @@ export default class AdminStock extends Component {
 
     getProducts() {
         get('employee/products', (data) => {
-            const products = makeProductsRowsFromResponseData(data);
+            const products = makeProductsData(data);
             this.setState({ products: products });
         });  
     }
@@ -32,59 +32,52 @@ export default class AdminStock extends Component {
         this.props.history.push(address);
     }
 
+    changeToEditPage = () =>{
+        if(this.state.selectedId !== ""){
+            const item = this.state.products.find(x=>x.hexId===this.state.selectedId)
+            this.props.setProductId(item.productId);
+            this.props.setProductName(item.productName);
+            this.props.setProductQuantity(item.quantity);
+            this.props.history.push(`/Admin/Stock/Edit/${this.state.selectedId}`)
+
+        }else{
+            alert("Please choose an item to edit first.")
+        }
+    }
+
     deleteProduct = () => {
         let selectedId = this.state.selectedId;
         if(selectedId !== ""){
             
             if(window.confirm("You are deleting an item")){
                
-               del('employee/products/'+this.state.selectedId, (res) => {
-                window.location.reload()
-               })
-               
-            }    
-        }
-        
-    }
-
-    export = () => {
-        const pdfConverter = require('jspdf');
-        const doc = new pdfConverter();
-        const elements= {...this.state.products}
-        
-        doc.setFontSize(22);
-        doc.text(20,50,"Entire stock:");
-        doc.setFontSize(10);
-        let pdfXPlace = 25;
-        let pdfYPlace = 65;
-        let counter = 0;
-        for (const key in elements){
-            
-            doc.text("Name: "+elements[key].productName,pdfXPlace,pdfYPlace);
-            doc.text("Quantity: " + elements[key].quantity,pdfXPlace+120,pdfYPlace);
-            doc.line(20,pdfYPlace+5,175,pdfYPlace+5);
-            pdfYPlace += 17;
-            counter += 1;
-            if(counter%25===0){
-                doc.addPage()
+                del('employee/products/delete/'+this.state.selectedId, (res) => {
+                    let products = this.state.products.filter(product =>{
+                        return this.state.selectedId !== product.hexId
+                    })
+                    this.setState({
+                        products:products
+                    })      
+                })    
             }
         }
-
-        doc.save("EntireStock.pdf")
-
     }
+    
+    newStock = () =>{
+       
+        this.props.history.push("/Admin/Stock/New")
+    }
+
+ 
 
     render() {
         
         let selectedId = this.state.selectedId
-        const columns = getColumnsFromArray(["Product Id", "Product Name", "Quantity"]);
+        const columns = getColumnsFromArray(["Product Id", "Product Name", "Owner", "Quantity"]);
 
         return(
             <div className="PageStyle rounded">
                 <div className="MainContainer container row">
-                    <div className="CustomerList col border-dark rounded bg-secondary">
-                        <h1 className="Header">Filter by:</h1>
-                    </div>
                     <div className="Table container col">
                         <h1 className="Header">Stock</h1>
 
@@ -110,14 +103,15 @@ export default class AdminStock extends Component {
                               return {}
                             }
                         }}
+                        style={{height: "60vh"}}
                           />
                         
                         <div className="CRUD container row">
                             <div className="">
-                                <button  className="btn-success btn-lg btn-block my-2" onClick={()=>this.sendToPage("/Admin/Stock/New")}>New</button>
+                                <button  className="btn-success btn-lg btn-block my-2" onClick={this.newStock}>New</button>
                             </div>
                             <div action="/Admin/Stock/Edit" className="">
-                                <Link  className="btn-lg btn-block btn-warning my-2" to={`/Admin/Stock/Edit/${selectedId}`}>Edit</Link>
+                                <button  className="btn-lg btn-block btn-warning my-2" onClick={this.changeToEditPage} >Edit</button>
                                 
                             </div>
                             <div action="/Admin/Stock/Remove" className="">
@@ -125,7 +119,7 @@ export default class AdminStock extends Component {
                                 >Remove</button>
                             </div>
                             <div>
-                                <button onClick={this.export} className="btn-lg btn-block btn-block my-2">Export</button>
+                                <button onClick={()=>entireStockPDF(this.state)} className="btn-lg btn-block btn-block my-2">Export</button>
                             </div>
                         </div>
                     </div>
@@ -134,3 +128,13 @@ export default class AdminStock extends Component {
         );
     }
 }
+
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        setProductId: (id) => {dispatch({type: "SET_PRODUCT_ID",payload: {id}})},
+        setProductQuantity: (quantity) => {dispatch({type: "SET_PRODCUT_QUANTITY",payload: {quantity}})},
+        setProductName: (name) => {dispatch({type: "SET_PRODUCT_NAME",payload: {name}})},
+    }
+}
+
+export default connect(null,mapDispatchToProps)(AdminStock)

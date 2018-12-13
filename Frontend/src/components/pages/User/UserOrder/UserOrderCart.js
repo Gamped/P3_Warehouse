@@ -15,7 +15,7 @@ class UserOrderCart extends React.Component {
            cvr:"",
            contact:"",
            phone:null,
-           zip:null,
+           zip:"",
            city:"",
            country:""
 
@@ -46,15 +46,17 @@ class UserOrderCart extends React.Component {
     }
 
     render(){
-        let lines = this.props.order
-        lines = lines.map((line)=>{return(
-                <tr key={line.productId}>
-                    <th scope="row">{line.productId}</th>
-                    <td>{line.productName}</td>
-                    <td>{line.amount}</td>
-                </tr>
-            )})
-        
+        let lines = this.props.orderLines.orderLines;
+        console.log(lines);
+
+        lines = lines.map((line, i)=>{return(
+            <tr key={i}>
+                <th scope="row">{line.productId}</th>
+                <td>{line.productName}</td>
+                <td>{line.amount}</td>
+            </tr>
+        )})
+    
         
         return(
             <div className="PageStyle rounded">
@@ -106,7 +108,7 @@ class UserOrderCart extends React.Component {
 
 const mapStateToProps = (state)=>{
     return{
-        order: state.orderReducer.order
+        orderLines: state.orderReducer
     }
 }
 

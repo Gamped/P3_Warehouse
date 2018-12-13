@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 import {itemPreviouslyAddedWarning, 
         amountExceedingQuantityWarning, 
         amountIsZeroWarning} from "./../../../../handlers/exceptions.js";
-import {makeProductsRowsFromResponseData} from "./../../../../handlers/dataHandlers.js";
-
+import {makeProductsData} from "./../../../../handlers/dataHandlers.js";
+import {get} from './../../../../handlers/requestHandlers.js'
 //TODO: Render warning in previouslyAddedWarning
 //TODO: Fix textfield in row errors
 
@@ -28,7 +28,6 @@ class NewOrder extends React.Component {
             orderLines: []
         };
 
-        this.makeRow = this.makeRow.bind(this);
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
         this.undoOrderLine = this.undoOrderLine.bind(this);
         this.renderEditable = this.renderEditable.bind(this);
@@ -36,10 +35,15 @@ class NewOrder extends React.Component {
 
 
     componentWillMount() {
-        axios.get('http://localhost:8080/api/employee/products')
-        .then((response) => {
-            const data = makeProductsRowsFromResponseData(response.data);
-            this.setState({products: data})
+       
+        this.getProducts();
+    }
+
+    getProducts() {
+
+        get('employee/products', (data) => {
+            const products = makeProductsData(data);
+            this.setState({products: products})
         })
     }
 
@@ -175,13 +179,13 @@ class NewOrder extends React.Component {
                          <div class="col-my-auto">
                                  <div className="OrderList">
                                     <ReactTable  
-                                    data={data} 
-                                    columns={columns} 
-                                    showPagination={false} 
-                                    className="-striped -highlight"
-                                    getTrProps={(state, rowInfo) => {
-                                        if (rowInfo && rowInfo.row) {
-                                          return {
+                                        data={data} 
+                                        columns={columns} 
+                                        showPagination={false} 
+                                        className="-striped -highlight"
+                                        getTrProps={(state, rowInfo) => {
+                                            if (rowInfo && rowInfo.row) {
+                                            return {
                                             onClick: () => {
                                                 
                                                 this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
@@ -212,6 +216,9 @@ class NewOrder extends React.Component {
                              </div>
                              <div className="col my-2">
                                  <button type="button" className="btn-lg btn-block btn-warning my-2" onClick={this.undoOrderLine}>Undo</button>
+                            </div>
+                            <div className="col my-2">
+                                 <Link to="/Admin/Orders" className="btn-lg btn-block btn-info my-2 "role="button" >Back</Link>
                             </div>
                         </div>
                     </nav>      

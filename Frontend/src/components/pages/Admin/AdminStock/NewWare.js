@@ -1,18 +1,18 @@
 import React,{Component} from 'react';
-import axios from 'axios';
 import "../../Pages.css";
 import "./AdminStock.css";
 import { Link } from "react-router-dom";
-import {makeOwnersData} from './../../../../handlers/dataHandlers.js';
-import {get, post} from './../../../../handlers/requestHandlers.js'
-//import {successAlert} from '../../../../handlers/alerts.js'
+import {makeCustomerData} from './../../../../handlers/dataHandlers.js';
+import {get, post} from './../../../../handlers/requestHandlers.js';
+import Dropdown from "../../../MenuComponents/Dropdown/Dropdown";
 
-export default class NewWare extends Component {
+class NewWare extends Component {
 
     constructor(props) {
         
         super(props);
         this.state = {
+            currentProduct: this.props.product,
             product: {},
             owners: [],
             selectedOwnerHexId: "DEFAULT",
@@ -21,53 +21,55 @@ export default class NewWare extends Component {
 
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.getCustomers = this.getCustomers.bind(this);
     }
 
     componentDidMount() {
-          
-        this.getCustomers();
+        this.getClients();
+        this.getPublishers();
     }
 
+    getClients() {
+        get('employee/clients', (data) => {
+            const clients = makeCustomerData(data);
+            this.concatinateWithNewData(clients);
+        });
+    }
+
+    getPublishers() {
+        get('employee/publishers', (data) => {
+             const publishers = makeCustomerData(data);
+             this.concatinateWithNewData(publishers);
+        });
+     }
+     
+     concatinateWithNewData(newData) {
     
-    getCustomers() {
-
-       get('employee/publishers', (data) => {
-        let owners = makeOwnersData(data);
-        this.setState({owners: owners})
-       }) 
+        const ownersCopy = this.state.owners;
+        let concatinatedData = [...ownersCopy,...newData];
+        this.setState({ owners: concatinatedData });
     }
-
     onChange = (e) => {
-        const state = this.state.product;
-        state[e.target.name] = e.target.value;
-        this.setState({product:state});
+        this.setState({product:{...this.state.product,[e.target.name]:e.target.value}})
+        console.log(this.state)
     }
 
     onSubmit = (e) => {
         e.preventDefault();
         const {productName, productId, quantity} = this.state.product;
 
-           post('employee/products/'
-                + "assignTo=" + this.state.selectedOwnerHexId + "/withUserType=" + 
-                this.state.selectedOwnerUserType,
+           post("employee/products/assignTo=" + this.state.selectedOwnerHexId 
+                + "/withUserType=" + this.state.selectedOwnerUserType,
                 {productName, productId, quantity}, () => {
-                   // let alert = successAlert("Product Added!");
-                //    return alert;
+                   this.props.history.push("/Admin/Stock")
                 }
             )
     }
     
-    getOwnerListItems(owner, i) {
-         return (
-         <option 
-         key={i}
-         onSelect={()=> {
-            this.setState({selectedOwnerHexId: owner.hexId})
-         }} value={owner.hexId}>
-         {owner.userType} - {owner.nickName}
-         </option>
-         )        
+    setSelected = (e) =>{
+        this.setState({
+            selectedOwnerHexId:e.target.value,
+            selectedOwnerUserType:this.state.owners.find(x=>x.hexId===e.target.value).userType.toUpperCase()
+        })
     }
 
     render() {
@@ -83,32 +85,29 @@ export default class NewWare extends Component {
                         name="productName"
                         className="my-2 form-control  "
                         defaultValue={currentProduct.productName}
-                        onChange={this.onChangeProductName}
+                        onChange={this.onChange}
                         placeholder="Product Name"/>
                     <input
                         type="text"
                         name="productId"
                         className="my-2 form-control "
                         defaultValue={currentProduct.productId}
-                        onChange={this.onChangeProductId}
+                        onChange={this.onChange}
                         placeholder="Product Id"/>
                     <input
                         type="text"
                         name="quantity"
                         className="my-2 form-control"
                         defaultValue={currentProduct.quantity}
-                        onChange={this.onChangeQuantity}
+                        onChange={this.onChange}
                         placeholder="Quantity"/>
-                    
-                    <select className="custom-select my-2" >
-                    <option selected>Choose owner</option>
-                    {this.state.owners.map(this.getOwnerListItems)}
-                    </select>   
+                    <Dropdown owners={this.state.owners} action={this.setSelected}/>
+                     
                 </form>
 
 
                 <div className="" action="/Admin/Stock">
-                    <button className="btn-success btn-lg btn-block btn my-2" onClick={this.onSubmit}>Create product</button>
+                    <button className="btn-success btn-lg btn-block btn my-2" onClick={(hexID,userType)=>this.onSubmit(hexID,userType)}>Create product</button>
                 </div>
                 
                 <Link to="/Admin/Stock" className="btn-info btn-lg btn-block btn my-2">Back</Link>
@@ -117,3 +116,7 @@ export default class NewWare extends Component {
         )     
     }
 }
+
+
+
+export default NewWare;

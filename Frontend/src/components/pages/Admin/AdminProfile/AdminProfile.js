@@ -1,44 +1,103 @@
 import React from 'react';
-import Axios from "axios";
+import ReactTable from 'react-table';
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
-
+import {get, del} from './../../../../handlers/requestHandlers.js'
+import {makeEmployeeData} from './../../../../handlers/dataHandlers'
 import "../../Pages.css";
 import "./AdminProfile.css";
+import { getColumnsFromArray } from '../../../../handlers/columnsHandlers.js';
+import AdminStock from '../AdminStock/AdminStock.js';
+let alert = require('./../../../../handlers/alertHandlers.js');
 
 class AdminProfile extends React.Component {
     constructor(props){
         super(props);
-        const {userName, name} = "";
         this.state = {
+            userName: "",
+            nickName: "",
             userType: props.userType,
-            userId: props.userId
+            userId: props.userId,
+            employees: [],
+            selected: [],
+            selectedId: ""
         };
     }
    
     componentDidMount(){
-        //Todo: Sørg for at den henter det rigtige sted fra
-        Axios.get("http://localhost:8080/api/employee/" + this.state.userId)
-            .then((response) => {
-                this.userName = response.userName;
-                this.name = response.nickname;
-            })
+
+       this.getEmployees();
     }
 
-    render(){
-        return(
-            <div className="PageStyle rounded">
-                <h1 className="title customText_b_big">Profile information</h1>
-                <div className="informationBox">
-                    <h1 className="lead"><strong>User name: {this.userName}</strong></h1>
-                    <h1 className="lead"><strong>Name: {this.name}</strong></h1>
+    setLoggedInUserData() {
+        console.log(this.props.userId);
 
-                    <Link to="/Admin/Profile/AddEmployee" className="btn-block btn-success btn my-2">Add employee</Link>
-                    
-                    <Link to="/Admin/Profile/Edit" className="btn-block btn-warning btn my-2">Edit employee</Link>
-                    
-                    <Link to="/Admin/Profile/RemoveEmployee" className="btn-block btn-danger btn my-2">Remove employee</Link>
-                    
+        const loggedInUser = this.state.employees.filter(employee => employee.hexId == this.props.userId);
+        console.log(loggedInUser);
+
+        this.setState({userName: loggedInUser[0].userName, nickName: loggedInUser[0].nickname});
+    }
+
+    getEmployees() {
+        
+        get("employee/employees", (data) => {
+            const employees = makeEmployeeData(data);
+            this.setState({employees: employees});
+            this.setLoggedInUserData();
+        });  
+    }
+
+    deleteEmployee = (e) => {
+        e.preventDefault();
+
+        console.log(this.state.selectedId);
+        if (window.confirm("Do you wish to delete this employee user?")) {
+            
+            del("employee/delete/" + this.state.selectedId, (status) => {
+                console.log(status);
+                window.location.reload();
+            })
+        } 
+    }
+
+    render() {
+
+        const employees = this.state.employees;
+        const columns = getColumnsFromArray(["User Name", "Nick name"]);
+
+        return(
+            <div className="PageStyle rounded"> 
+                    <h1 className="title customText_b_big">Profile information</h1>
+                    <div className="informationBox">
+                        <h1 className="lead"><strong>User name: {this.state.userName}</strong></h1>
+                        <ReactTable
+                            data={employees} 
+                            columns={columns} 
+                            showPagination={false} 
+                            className="-striped -highlight"
+                            getTrProps={(state, rowInfo) => {
+                                if (rowInfo && rowInfo.row) {
+                                return {
+                                    onClick: (e) => {
+                                        
+                                    this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                    console.log(this.state.selectedId)
+                                    },
+                                    style: {
+                                    background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                    color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                    }
+                                }
+                                }else{
+                                return {}
+                                }
+                            }}
+                            style={{height: "50vh"}}
+                        />
+                   
+                        <Link to="/Admin/Profile/AddEmployee" className=" btn-success btn my-2 mx-2">Add employee</Link>
+                        <Link to={`/Admin/Profile/Edit/${this.state.selectedId}`} className="btn-warning btn my-2 mx-2">Edit employee</Link>
+                        <div className="btn-danger btn my-2 mx-2" onClick={this.deleteEmployee}>Remove employee</div>
                 </div>
             </div>
         );

@@ -1,10 +1,12 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.managers.ClientManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestClientModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.ContactInformation;
+import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,17 +14,15 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,9 +33,11 @@ public class ClientControllerTest {
     @InjectMocks
     private ClientController clientController;
 
-    private EmployeeController employeeController;
     @Mock
     private ClientRepository clientRepository;
+
+    @Mock
+    private ProductRepository productRepository;
 
     @Test
     public void clientControllerLoads() throws Exception {
@@ -74,41 +76,29 @@ public class ClientControllerTest {
     public void testFindClientById() {
         ObjectId id = new ObjectId();
         Client client = new Client(id);
-        when(clientRepository.findById(id)).thenReturn(Optional.of(client));
+        when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
 
-        Client retrievedClient = clientController.findClientById(id);
-        verify(clientRepository).findById(id);
+
+        Client retrievedClient = clientController.findClientById(String.valueOf(client.getId()));
+
+        verify(clientRepository).findById(client.getId());
         assertEquals(client.getId(), retrievedClient.getId());
     }
-    /*
-    @Test
-    public void testNewIndependentClient() {
-        //ObjectId id = new ObjectId();
-        Client client = new Client(new ObjectId());
-        ContactInformation contactInformation = new ContactInformation();
-        contactInformation.setPhoneNumber("285646");
-        contactInformation.setEmail("mille.vo@omd.gg");
-        RestClientModel restClientModel = new RestClientModel();
-        client.setContactInformation(contactInformation);
-        restClientModel.setUserName("mille");
-        restClientModel.setPassword("1234");
-        BeanUtils.copyProperties(client, restClientModel);
-
-        when(clientRepository.save(client)).thenReturn(client);
-        String status = employeeController.createClient(restClientModel);
-
-        verify(clientRepository).save(client);
-        assertEquals("Succes", status);
-    }
-    */
 
     @Test
     public void testUpdateClient() {
         ObjectId id = new ObjectId();
         Client client = new Client(id);
+        ContactInformation contactInformation = new ContactInformation();
+        contactInformation.setNickName("hans");
+        contactInformation.setEmail("hans@ff.cc");
+        contactInformation.setPhoneNumber("26497854");
+        contactInformation.setAddress("misese 2");
+        contactInformation.setZipCode("2689");
         RestClientModel restClient = new RestClientModel();
         client.setUserName("kelly");
         restClient.setUserName("helly");
+        restClient.setContactInformation(contactInformation);
 
         when(clientRepository.findById(id)).thenReturn(Optional.of(client));
 
@@ -116,41 +106,54 @@ public class ClientControllerTest {
 
         String updateClient = clientController.updateClient(client.getHexId(), restClient);
         verify(clientRepository).findById(id);
-        String clientString = client.toString();
 
-        assertEquals(clientString, updateClient);
+        assertEquals("Client updated! \n" + client.getUserName() + "\n" + client.getHexId(), updateClient);
     }
 
     @Test
     public void testDeleteClientById() {
         ObjectId id = new ObjectId();
-        ObjectId objectId = new ObjectId();
         Client client = new Client(id);
-        Client client_2 = new Client(objectId);
 
-        List<Client> clients = new LinkedList<>();
-        clients.add(client);
-        clients.add(client_2);
+        when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
 
-        when(clientRepository.findAll()).thenReturn(clients);
+        clientController.deleteClient(client.getHexId());
 
-        clientController.deleteClient(((LinkedList<Client>) (clients)).remove().getHexId());
-        verify(clientRepository).deleteById(id);
+        verify(clientRepository).deleteById(client.getId());
 
-        List<Client> clientss = new ArrayList<>();
+        assertEquals(0, clientRepository.findAll().size());
+    }
 
-        assertEquals(clientss, clientRepository.findAll());
+    @Test
+    public void testClientFindProductById() {
+        ObjectId productId = new ObjectId();
+        Product product = new Product(productId);
+
+        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+
+        Product retrievedProduct = clientController.findProductById(product.getHexId());
+
+        verify(productRepository).findById(productId);
+
+        assertEquals(product, retrievedProduct);
+    }
+
+    @Test
+    public void testClientUpdateProduct() {
+        ObjectId id = new ObjectId();
+        Product product = new Product(id);
+        RestProductModel restProductModel = new RestProductModel();
+        restProductModel.setQuantity(60);
+        restProductModel.setProductName("Run");
+
+        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+
+        String productUpdated = clientController.updateClientProduct(product.getHexId(), restProductModel);
+
+        verify(productRepository).findById(product.getId());
+
+        System.out.println(product);
+        assertNotNull(productUpdated);
     }
 }
-/*    @Test
-    public void testFindClientByPublisherId() {
-        ObjectId publisherId = new ObjectId();
-        Publisher publisher = new Publisher(publisherId);
 
-        when(clientRepository.findByPublisherId(publisherId)).thenReturn(publisher);
-
-        Publisher byPublisherId = clientController.clientRepository.findByPublisherId(publisherId);
-        verify(clientRepository).findByPublisherId(publisherId);
-        assertEquals(publisher.getId() , byPublisherId.getId());
-    }
-}*/

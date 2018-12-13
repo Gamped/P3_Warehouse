@@ -4,34 +4,76 @@ import "./UserOrder.css";
 import "./UserCart.css";
 import { connect } from "react-redux"
 import {Link} from "react-router-dom";
+import { put, post } from '../../../../handlers/requestHandlers';
 
  class UserCartConfirm extends React.Component {
     constructor(props) {
         super(props);
+
+        let address = this.setPropsToState();
         this.state = {
-            userID: props.ID,
-            quarry: "",
+            userID: this.props.userId,
             products: props.productList,
+            address: {}
         };
     }
 
+    componentDidMount() {
+
+        this.setPropsToState();
+    }
+
+    setPropsToState() {
+        let address = {};
+        let props = this.props.address;
+        console.log("PROPS " + props);
+        
+        if (props) {
+            props.company ? address.company = props.company : address.company = "Not specified";
+            props.zip ? address.zip = props.zip : address.zip = "Not specified";
+            props.phoneNumber ? address.phoneNumber = props.phoneNumber : address.phoneNumber = "Not specified";
+            props.country ? address.country = props.country : address.country = "Not specified";
+            props.contactPerson ? address.contactPerson = props.contactPerson : address.contactPerson = "Not specified";
+            props.address ? address.address = props.address : address.address = "Not specified";
+            props.city ? address.city = props.city : address.city = "Not specified";
+        }
+
+        return address;
+
+    }
     confirmed = (event) => {
-        alert("Your order has been confirmed.")
-        //TODO: Sent this.props.adress to server. 
+        window.confirm("Your order has been confirmed. If you wish to make any edit from now, please contact 4N");
+        console.log("THIS")
+        console.log(this.props.address)
+        console.log(this.props.orderLines)
+        console.log(this.props.userId)
+        console.log(this.props.userType)
+        post('/orders/'+this.props.userId+'/'+this.props.userType, {}, (response) => {
+
+
+        });
     }
  
 
     render(){
-        const company = this.props.adress
-        console.log(company)
-        let lines = this.props.order
-        lines = lines.map((line)=>{return(
-                <tr key={line.productId}>
+        const address = this.state.address;
+        
+        console.log(address);
+
+        let lines = this.props.orderLines;
+        console.log("OrderLines: " + lines)
+       
+        if (lines) {
+            
+        lines = lines.map((line, i)=>{return(
+                <tr key={i}>
                     <th scope="row">{line.productId}</th>
                     <td>{line.productName}</td>
                     <td>{line.amount}</td>
                 </tr>
-            )})
+            )});
+        }
+
         return(
         <div className="PageStyle rounded">
             <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
@@ -59,30 +101,29 @@ import {Link} from "react-router-dom";
                         <br/>
                         <br/>
                         <label className="font-weight-bold">Company name: </label>
-                        <label className="font-weight-normal">{this.props.adress.company.company}</label>
+                        <label className="font-weight-normal">{this.state.address.company}</label>
                         <br/>
                         <label className="font-weight-bold">Recipient: </label>
-                        <label className="font-weight-normal">{this.props.adress.contactPerson.contactPerson}</label>
+                        <label className="font-weight-normal">{this.state.address.contactPerson}</label>
                         <br/>
                         <label className="font-weight-bold">Phone: </label>
-                        <label className="font-weight-normal">{this.props.adress.phoneNumber.phoneNumber}</label>
+                        <label className="font-weight-normal">{this.state.address.phoneNumber}</label>
                         <br/>
-                        <label className="font-weight-bold">CVR: </label>
-                        <label className="font-weight-normal">{this.props.adress.cvr.cvr}</label>
+                       
                         <br/>
                         <label className="font-weight-bold">Address: </label>
-                        <label className="font-weight-normal">{this.props.adress.address.address}</label>
+                        <label className="font-weight-normal">{this.state.address.address}</label>
                         <br/>
                         <label className="font-weight-bold">Zip: </label>
-                        <label className="font-weight-normal">{this.props.adress.zip.zip}</label>
+                        <label className="font-weight-normal">{this.state.address.zip}</label>
                         <br/>
                         <label className="font-weight-bold">City</label>
-                        <label className="font-wight-normal">{this.props.adress.city.city}</label>
+                        <label className="font-wight-normal">{this.state.city}</label>
                         <br/>
                         <label className="font-weight-bold">Country: </label>
-                        <label className="font-weight-normal">{this.props.adress.country.country}</label>
+                        <label className="font-weight-normal">{this.state.address.country}</label>
                         
-                        <Link to="/User/Order" className="btn-success btn-block my-3 btn" role="button">Confirm order</Link>
+                        <div onClick={this.confirmed} className="btn-success btn-block my-3 btn" role="button">Confirm order</div>
                        
                         <Link to="/User/Order/Cart" className="btn-info btn btn-block my-3" role="button">Back</Link>
                         
@@ -97,8 +138,10 @@ import {Link} from "react-router-dom";
 
 const mapStateToProps = (state)=>{
     return{
-        order: state.orderReducer.order,
-        adress: state.adressReducer
+        orderLines: state.orderReducer.orderLines,
+        address: state.addressReducer,
+        userType: state.loginReducer.userType,
+        userId: state.loginReducer.userId
     }
 }
 

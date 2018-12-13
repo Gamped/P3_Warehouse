@@ -3,10 +3,19 @@ package dk.aau.cs.ds303e18.p3warehouse.models.users;
 public class UserRef {
     private String userHexId;
     private UserType userType;
+    private String nickName;
 
-    public UserRef(User user){
-        this.userHexId = user.getId().toHexString();
-        this.userType = user.getUserType();
+    public UserRef(Customer customer){
+        if(customer == null){
+            this.userHexId = null;
+            this.userType = null;
+            this.nickName = null;
+        }
+        else {
+            this.userHexId = customer.getId().toHexString();
+            this.userType = customer.getUserType();
+            this.nickName = customer.getContactInformation().getNickName();
+        }
     }
 
     public String getUserHexId() {
@@ -15,5 +24,9 @@ public class UserRef {
 
     public UserType getUserType() {
         return userType;
+    }
+
+    public String getNickName() {
+        return nickName;
     }
 }

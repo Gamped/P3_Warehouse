@@ -2,10 +2,14 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import ReactTable from "react-table";
 import axios from "axios";
+
 import "../../Pages.css";
 import "./AdminOrders.css";
 import {allProductsNotPackedWarning} from "./../../../../handlers/exceptions.js";
 import {makePublisherAndClientOrdersData} from "./../../../../handlers/dataHandlers.js"
+import {get, del} from "./../../../../handlers/requestHandlers.js"
+import {packListPDF, orderNotePDF} from "./../../../../handlers/pdfHandlers.js"
+import {getColumnsFromArray} from "./../../../../handlers/columnsHandlers.js"
 
 export default class AdminOrders extends Component {
 
@@ -35,19 +39,22 @@ export default class AdminOrders extends Component {
     }
 
     getPublishers() {
-        axios.get("http://localhost:8080/api/publishers")
-        .then((response) => {
-            const ordersData = makePublisherAndClientOrdersData(response.data);
-            
+        get("employee/publishers", (data)=> {
+            console.log(data);
+            const orders = makePublisherAndClientOrdersData(data);
+            console.log("ORDERS " + orders)
             this.setState({ 
-                data: response.data,
-                orders: ordersData
+                data: data,
+                orders: orders
             });
-        });
+        })
+        
+            
+        
     }
 
     setStateAsSelected = (rowInfo) => {
-        
+
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId });
     }
 
@@ -122,139 +129,21 @@ export default class AdminOrders extends Component {
         this.props.history.push(address);
     }
 
-    export = () =>{
-        const pdfConverter = require('jspdf');
-        const doc = new pdfConverter();
-
-        /* TODO: Find ud af hvad der skal skrives ind i pdfen.*/
-        let pdfXPlace = 20;
-        let pdfYPlace = 50;
-        
-
-        doc.setFontSize(22);
-        doc.text(pdfXPlace,pdfYPlace,"Packlist:");
-        pdfYPlace +=5;
-        doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
-        doc.setFontSize(15);
-        pdfYPlace +=8;
-        doc.text(pdfXPlace,pdfYPlace, "Order nummer: "+ "[Insert order number here]" )
-        pdfYPlace +=8;
-        doc.text(pdfXPlace,pdfYPlace, "Customer: "+ "[Insert Customer here]" )
-        pdfYPlace +=8;
-        doc.text(pdfXPlace,pdfYPlace,"Order date: "+"[Insert Date here]")
-        doc.setFontSize(10);
-        pdfYPlace +=10
-
-        doc.setFontStyle("bold")
-        doc.text(pdfXPlace,pdfYPlace,"Item ID")
-        doc.text(pdfXPlace+50,pdfYPlace,"Item Name")
-        doc.text(pdfXPlace+100,pdfYPlace,"Quantity")
-        doc.text(pdfXPlace+140,pdfYPlace,"Packed?")
-        pdfYPlace +=2
-        doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
-
-        /*let counter = 0;
-        for (const key in elements){
-            
-            doc.text("Name: "+elements[key].productName,pdfXPlace,pdfYPlace);
-            doc.text("Quantity: " + elements[key].quantity,pdfXPlace+120,pdfYPlace);
-            doc.line(20,pdfYPlace+5,175,pdfYPlace+5);
-            pdfYPlace += 17;
-            counter += 1;
-            if(counter%25===0){
-                doc.addPage()
-            }
-        }*/
-
-        doc.save("PackList.pdf")
-
-    }
-
-    finishOrder = () =>{
-
-        //TODO: DELETE ORDER TOO
-        const pdfConverter = require('jspdf');
-        const doc = new pdfConverter();
-
-        /* TODO: Find ud af hvad der skal skrives ind i pdfen.*/
-        let pdfXPlace = 20;
-        let pdfYPlace = 50;
-        
-        doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
-
-        pdfYPlace += 7
-        doc.setFontSize(12)
-        doc.text(pdfXPlace,pdfYPlace,"Leveres til:")
-        doc.setFontSize(16)
-        doc.text(pdfXPlace+90, pdfYPlace,"Følgeseddel: "+"[INSERT NUMBER]")
-        
-        pdfYPlace += 5
-        doc.setFontSize(12)
-        doc.text(pdfXPlace,pdfYPlace,"[Company name]")
-        doc.text(pdfXPlace+90, pdfYPlace,"Ordernr.: "+"[INSERT NUMBER]")
-
-        pdfYPlace += 5
-        doc.text(pdfXPlace,pdfYPlace,"[Person]")
-        doc.text(pdfXPlace+90, pdfYPlace,"Dato.: "+"[INSERT Date]")
-
-        pdfYPlace += 5
-        doc.text(pdfXPlace,pdfYPlace,"[Address]")
-        doc.text(pdfXPlace+90, pdfYPlace,"Kundenr.: "+"[INSERT NUMBER]")
-
-        pdfYPlace += 5
-        doc.text(pdfXPlace,pdfYPlace,"[zip and city name]")
-        doc.text(pdfXPlace+90, pdfYPlace,"Sag: "+"[INSERT CASE]")
-
-        pdfYPlace += 5
-        doc.text(pdfXPlace,pdfYPlace,"[Country]")
-        doc.text(pdfXPlace+90, pdfYPlace,"Reference: "+"[INSERT SPECIFIC PERSON]")
-
-        pdfYPlace += 10
-
-        doc.text(pdfXPlace,pdfYPlace,"Hermed følger:")
-        pdfYPlace +=5
-
-        doc.text(pdfXPlace,pdfYPlace,"Titel: " + "[INSERT TITEL]")
-        doc.setFontSize(18)
-        doc.text(pdfXPlace+90,pdfYPlace,"SLUTLEVERING")
-        doc.setFontSize(12)
-        pdfYPlace +=5
-
-        doc.text(pdfXPlace,pdfYPlace,"Rekv.nr.: " +"[Insert number]")
-        pdfYPlace +=7
-
-        doc.setFontStyle("bold")
-        doc.text(pdfXPlace,pdfYPlace,"Item ID")
-        doc.text(pdfXPlace+50,pdfYPlace,"Item Name")
-        doc.text(pdfXPlace+140,pdfYPlace,"Quantity")
-        pdfYPlace +=2
-
-        doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
-
-        /*let counter = 0;
-        for (const key in elements){
-            
-            doc.text("Name: "+elements[key].productName,pdfXPlace,pdfYPlace);
-            doc.text("Quantity: " + elements[key].quantity,pdfXPlace+120,pdfYPlace);
-            doc.line(20,pdfYPlace+5,175,pdfYPlace+5);
-            pdfYPlace += 17;
-            counter += 1;
-            if(counter%25===0){
-                doc.addPage()
-            }
-        }*/
-
-        doc.save("Følgeseddel.pdf")
-    }
-
     finishOrder() {
         let allPacked = this.state.allPacked;
         if (allPacked == 1) {
-            axios.delete("http://localhost:8080/api/employee/orders/delete/" + this.state.selectedId);
+            del("orders/delete/:id" + this.state.selectedId, () => {});
         } else {
             allProductsNotPackedWarning();
         }
-           }
+    }
+    deleteOrder(){
+        console.log(this.state.selectedId)
+        del("orders/delete/" + this.state.selectedId, (response) => {
+            console.log(response);
+        });
+    }
+
 
     render() {
       
@@ -267,16 +156,10 @@ export default class AdminOrders extends Component {
             packed: 0
         }];
   
-        const orderColumns = [
-            {Header: "Owner", accessor: "owner"},
-            {Header: "Date", accessor: "date"},
-            {Header: "ID", accessor: "orderId"}
-        ];
+        const orderColumns = getColumnsFromArray(["Owner", "Date", "Order Id"]);
 
-        const orderLineColumns = [
-            {Header: "Product Name", accessor: "productName"},
-            {Header: "Amount", accessor: "amount"},
-            this.getCheckBoxColumn()];
+        let orderLineColumns = getColumnsFromArray(["Product Name", "Amount"]);
+            orderLineColumns.push(this.getCheckBoxColumn());
 
         return (
             <div className="PageStyle rounded">
@@ -287,7 +170,8 @@ export default class AdminOrders extends Component {
                             data={orders}
                             columns={orderColumns} 
                             showPagination={false} 
-                            className="-striped -highlight"getTrProps={(state, rowInfo) => {
+                            className="-striped -highlight"
+                            getTrProps={(state, rowInfo) => {
                                 if (rowInfo && rowInfo.row) {
                                   return {
                                     onClick: (e) => {
@@ -306,19 +190,24 @@ export default class AdminOrders extends Component {
                             }
                              />
                         </div>
-                        <div className=" md-2">
+                        <div className=" md-2 my-2">
                                 <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>                           
-                                <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order</Link>
-                                <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.sendToPage("/Admin/Orders/Delete")}>Delete order</button>
+                                <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order </Link>
+                                <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.deleteOrder()}>Delete order</button>
                         </div>
                     </div>
+                    <div className=" col-7">
                         <div className="Table">
                                 <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns} showPagination={false} 
                                 className="-striped -highlight"/>
                                  <div className="  px-1">
-
                                 </div>
-                       </div>  
+                       </div> 
+                       <div className="btn-group">
+                             <button type= "button mx-2" className="btn btn-info mx-2" >Export Order</button> 
+                             <button type= "button " className="btn btn-dark mx-5"onClick={()=>this.finishOrder()}>Finish Order</button> 
+                       </div>
+                    </div>    
                  </div>    
             </div>
         )

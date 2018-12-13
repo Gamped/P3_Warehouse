@@ -1,39 +1,31 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.managers.ClientManager;
 import dk.aau.cs.ds303e18.p3warehouse.managers.ProductManager;
-import dk.aau.cs.ds303e18.p3warehouse.managers.UserManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestClientModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
-import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
-import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.web.bind.annotation.*;
-import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
-
-import javax.validation.constraints.Null;
-
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
-
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 
+@CrossOrigin
 @RequestMapping("/api")
 @RestController
-@CrossOrigin
 public class ClientController {
+
+    //TODO: updateClient opdateres i userAuth også.
+    //TODO: deleteClient slettes i userAuth ogsaa.
+    //TODO: Overvej hvorfor ProductManager.saveProductToDb(product, owner); kaldes i addNewProduct men ikke i updateClientProduct
 
     @Autowired
     ClientRepository clientRepository;
@@ -46,35 +38,8 @@ public class ClientController {
     }
 
     @GetMapping("/clients/{id}")
-    Client findClientById(@PathVariable ObjectId id) { return clientRepository.findById(id).orElse(null);
-    }
-
-
-    @PutMapping("/clients/{hexId}")
-    String updateClient(@PathVariable("hexId") String hexId, @RequestBody RestClientModel restClientModel) {
-
-        ObjectId id = new ObjectId(hexId);
-        Client client = clientRepository.findById(id).orElse(null);
-        BeanUtils.copyProperties(restClientModel, client);
-        clientRepository.save(client);
-
-        return "Client updated! \n" + client.getUserName() + "\n" + client.getHexId();
-    }
-
-    @DeleteMapping("/clients/{id}")
-    void deleteClient(@PathVariable String hexId) {
-        ObjectId id = new ObjectId(hexId);
-
-        clientRepository.deleteById(id);
-    }
-
-    @PostMapping("/clients/{hexId}/products")
-    private Product addNewProductToClient(@PathVariable String hexId, @RequestBody RestProductModel restProduct){
-        Customer owner = clientRepository.findById(new ObjectId(hexId)).orElse(null);
-        Product product = new Product(new ObjectId());
-        
-        BeanUtils.copyProperties(restProduct, product);
-        return ProductManager.saveProductToDb(product, owner);
+    Client findClientById(@PathVariable String id) {
+        return clientRepository.findById(new ObjectId(id)).orElse(null);
     }
 
     @GetMapping("/clients/{hexId}/products")
@@ -90,6 +55,18 @@ public class ClientController {
         return productRepository.findById(objectId).orElse(null);
     }
 
+    @PutMapping("/clients/{hexId}")
+    String updateClient(@PathVariable("hexId") String hexId, @RequestBody RestClientModel restClientModel) {
+
+        ObjectId id = new ObjectId(hexId);
+        Client client = clientRepository.findById(id).orElse(null);
+        BeanUtils.copyProperties(restClientModel, client);
+        clientRepository.save(client);
+
+        return "Client updated! \n" + client.getUserName() + "\n" + client.getHexId();
+    }
+
+
     @PutMapping("/clients/products/{hexId}")
     String updateClientProduct(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
 
@@ -100,4 +77,23 @@ public class ClientController {
 
         return "Product updated! \n" + product.getProductName() + "\n" + product.getHexId();
     }
+
+    @DeleteMapping("/clients/{id}")
+    void deleteClient(@PathVariable String hexId) {
+        ObjectId id = new ObjectId(hexId);
+
+        clientRepository.deleteById(id);
+    }
+
+
+    @PostMapping("/clients/{hexId}/products")
+    private Product addNewProductToClient(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
+        Customer owner = clientRepository.findById(new ObjectId(hexId)).orElse(null);
+        Product product = new Product(new ObjectId());
+
+        BeanUtils.copyProperties(restProduct, product);
+        return ProductManager.saveProductToDb(product, owner);
+    }
+
+
 }

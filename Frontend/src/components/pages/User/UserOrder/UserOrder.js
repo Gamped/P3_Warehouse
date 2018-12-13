@@ -5,9 +5,10 @@ import "./UserOrder.css";
 import axios from 'axios';
 import ReactTable from 'react-table';
 import { connect } from "react-redux";
-import {makeProductsRowsFromResponseData} from './../../../../handlers/dataHandlers.js';
+import {makeProductsData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
 import {itemPreviouslyAddedWarning} from './../../../../handlers/exceptions.js';
 import { getColumnsFromArray } from './../../../../handlers/columnsHandlers.js';
+import { get } from './../../../../handlers/requestHandlers.js';
 
 //TODO: Render warning in previouslyAddedWarning
 //TODO: Put items in cart notification symbol on cart button
@@ -32,26 +33,26 @@ class UserOrder extends React.Component {
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
         this.undoOrderLine = this.undoOrderLine.bind(this);
         this.renderEditable = this.renderEditable.bind(this);
-        this.getPublisherProducts = this.getPublisherProducts.bind(this);
+       
     }
 
-
-    componentWillMount() {
-      
-        this.getPublisherProducts();
+    componentDidMount(){
+       
+        this.getStock();           
     }
 
-    getPublisherProducts(){
+    getStock() {
+        
+        const userType = this.props.userType.toLowerCase();
+        const id = this.props.userId;
+        
+        get(userType + 's/' + id + '/products', (data) => {
+            let products = [];
 
-        const hexId = this.props.userId;
-        const userType = this.props.userType;
-        console.log(hexId + " " + userType);
-        axios.get('http://localhost:8080/api/publishers/products/'+userType+'/' + hexId)
-        .then((response) => {
+            userType === 'publisher' ? products = makeCustomerProductsData(data) : products = makeProductsData(data);
 
-            const products = makeProductsRowsFromResponseData(response.data);
-            this.setState({products: products});
-        })
+            this.setState({ products: products });
+    });
     }
 
     handleQuarry = (event) => {
@@ -61,7 +62,7 @@ class UserOrder extends React.Component {
     }
 
     addSelectedToOrderLine = () => {
-      this.setState({orderLines: [...this.state.orderLines, this.state.selected]}); 
+      this.setState({orderLines: [...this.state.orderLines, this.state.products[this.state.selected]]}); 
       console.log(this.state.orderLines)
       }
 
@@ -114,7 +115,7 @@ class UserOrder extends React.Component {
             "Product Name", 
             "Amount", 
             "Quantity", 
-            "Owner"]);
+            "Owner Name"]);
         columns[2].Cell = this.renderEditable;
 
         return(
@@ -195,7 +196,7 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) =>{
     return {
-        addItemToCart: (item) => {dispatch({type: "ADD_ITEMTOORDER",payload: {item}})}
+        addItemToCart: (orderLines) => {dispatch({type: "ADD_ITEMTOORDER",payload: {orderLines}})}
     }
 }
 

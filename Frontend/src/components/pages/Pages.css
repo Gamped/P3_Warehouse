@@ -35,3 +35,11 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+.orderInfoBox{
+    position: relative;
+    width: 80%;
+    height: 80%;
+    left: 10%;
+    top: 50px;
+}

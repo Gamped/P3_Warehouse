@@ -1,20 +1,22 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
- import dk.aau.cs.ds303e18.p3warehouse.exceptions.ProductNotFoundException;
- import dk.aau.cs.ds303e18.p3warehouse.managers.EmployeeManager;
- import dk.aau.cs.ds303e18.p3warehouse.managers.ProductManager;
- import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
- import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.*;
- import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
- import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
- import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
- import org.bson.types.ObjectId;
- import org.springframework.beans.BeanUtils;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.web.bind.annotation.*;
+import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestCustomerModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestEmployeeModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestUserModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
+import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
+import org.bson.types.ObjectId;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.web.bind.annotation.*;
 
- import java.util.Collection;
- import java.util.Optional;
+import javax.swing.text.html.Option;
+import java.util.Collection;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -31,6 +33,8 @@ public class EmployeeController {
     PublisherRepository publisherRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    OrderRepository orderRepository;
 
 
     //CREATE: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
@@ -41,27 +45,41 @@ public class EmployeeController {
         ObjectId id = new ObjectId();
         Employee employee = new Employee(id);
         BeanUtils.copyProperties(restEmployeeModel, employee);
-        employee.setUserType(UserType.EMPLOYEE);
-        employeeRepository.save(employee);
-        return "created!";
+        if(employee.isValid()) {
+            employee.setUserType(UserType.EMPLOYEE);
+            employeeRepository.save(employee);
+            User user = new User(employee.getId());
+            user.copyFrom(employee);
+            userRepository.save(user);
+            return "created!";
+        }
+        else return "Invalid User";
     }
 
     @PostMapping("/employee/products/assignTo={customerId}/withUserType={userType}")
     String createProduct(@PathVariable("customerId") String customerId, @PathVariable("userType") String userType,
                          @RequestBody RestProductModel restProduct) {
 
-        if (userType == "DEFAULT" || customerId == "DEFAULT") {
+        if (userType.equals("DEFAULT") || customerId.equals("DEFAULT")) {
             return "Could not create, customerId or userType is not set!";
         }
-
 
         Product product = new Product(new ObjectId());
         BeanUtils.copyProperties(restProduct, product);
 
-        Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(customerId));
-        Publisher publisher = optionalPublisher.get();
-        publisher.addProduct(product);
-        publisherRepository.save(publisher);
+        if(userType.equals(UserType.PUBLISHER.name())){
+            Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(customerId));
+            Publisher publisher = optionalPublisher.get();
+            publisher.addProduct(product);
+            product.setOwner(publisher);
+            publisherRepository.save(publisher);
+        }else if(userType.equals(UserType.CLIENT.name())){
+            Client client = clientRepository.findById(customerId);
+            client.addProduct(product);
+            product.setOwner(client);
+            clientRepository.save(client);
+        }
+
         productRepository.save(product);
 
         return "Created!";
@@ -71,24 +89,36 @@ public class EmployeeController {
     String createPublisher(@RequestBody RestCustomerModel restCustomerModel) {
 
         Publisher publisher = new Publisher(new ObjectId());
+        User user = new User(publisher.getId());
+        BeanUtils.copyProperties(restCustomerModel, user);
         publisher.setUserType(UserType.PUBLISHER);
         BeanUtils.copyProperties(restCustomerModel, publisher);
-        publisherRepository.save(publisher);
-        User user = new User(publisher.getId());
-        user.copyFrom(publisher);
-        userRepository.save(user);
-        return "Created!";
+        if(publisher.isValid()) {
+            publisherRepository.save(publisher);
+            userRepository.save(user);
+
+            return "Created!";
+        }
+        else return "Invalid User";
     }
 
     @PostMapping("/employee/clients")
     String createClient(@RequestBody RestCustomerModel restCustomerModel) {
 
         Client client = new Client(new ObjectId());
+        User user = new User(client.getId());
+
         BeanUtils.copyProperties(restCustomerModel, client);
+        BeanUtils.copyProperties(restCustomerModel, user);
+
         client.setUserType(UserType.CLIENT);
-        userRepository.save(client);
-        clientRepository.save(client);
-        return "Created!";
+        user.setUserType(UserType.CLIENT);
+        if(client.isValid()) {
+            userRepository.save(user);
+            clientRepository.save(client);
+            return "Created!";
+        }
+        else return "Invalid User";
     }
 
     //FIND ALL: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
@@ -122,8 +152,8 @@ public class EmployeeController {
 
     //FIND BY ID: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
-    @GetMapping("/employee/{hexId}")
-    Employee getOneEmployee(@PathVariable String hexId){
+    @GetMapping("/employee/employee/{hexId}")
+    Employee findEmployeeById(@PathVariable String hexId){
         return employeeRepository.findById(new ObjectId(hexId)).orElse(null);
     }
 
@@ -144,17 +174,28 @@ public class EmployeeController {
 
     }
 
+    @GetMapping("employee/order/{hexId}")
+    private Optional<Order> findOrderById(@PathVariable String hexId) {
+        return orderRepository.findById(new ObjectId(hexId));
+    }
+
     //UPDATE: EMPLOYEE, PRODUCTS, CONTACT INFORMATION (CLIENT, PUBLISHER), USERS
 
     @PutMapping("/employee/edit/{hexId}")
     String updateEmployee(@PathVariable("hexId") String hexId, @RequestBody RestEmployeeModel restEmployeeModel) {
+
         Optional<Employee> optionalEmployee = employeeRepository.findById(new ObjectId(hexId));
         Employee employee = optionalEmployee.get();
-        employee.setNickname(restEmployeeModel.getNickname());
-        employee.setPassword(restEmployeeModel.getPassword());
-        employeeRepository.save(employee);
 
-        return "Updated Employee with nickName " + employee.getNickname() + " and password " + employee.getPassword();
+        Optional<User> optionalUser = userRepository.findById(new ObjectId(hexId));
+        User user = optionalUser.get();
+
+        BeanUtils.copyProperties(restEmployeeModel, employee);
+        BeanUtils.copyProperties(restEmployeeModel, user);
+        employeeRepository.save(employee);
+        userRepository.save(user);
+
+        return "Updated Employee with nickName ";
     }
 
 
@@ -201,7 +242,7 @@ public class EmployeeController {
         return "Updated Contact Information on Publisher: " + publisher.getUserName();
     }
 
-    @PutMapping("/employee/user/edit/{hexId")
+    @PutMapping("/employee/user/edit/{hexId}")
     String updateUserCredentials(@PathVariable String hexId, @RequestBody RestUserModel restUserModel) {
 
         ObjectId id = new ObjectId(hexId);
@@ -216,20 +257,31 @@ public class EmployeeController {
 
     //DELETE: EMPLOYEE, PRODUCT, CLIENT, PUBLISHER, USER
 
-    @DeleteMapping("/employee/products/delete/{id}")
+    @DeleteMapping("/employee/products/delete/{hexId}")
     public void deleteProductById(@PathVariable String hexId){
+        Product product = productRepository.findById(new ObjectId(hexId)).get();
+        if(product.getOwner().getUserType().equals(UserType.CLIENT)){
+            Client client = clientRepository.findById(product.getOwner().getHexId());
+            client.removeProduct(product);
+            clientRepository.save(client);
+        }else if(product.getOwner().getUserType().equals(UserType.PUBLISHER)){
+            Publisher publisher = publisherRepository.findById(product.getOwner().getHexId()).get();
+            publisher.removeProduct(product);
+            publisherRepository.save(publisher);
+        }
         productRepository.deleteById(new ObjectId(hexId));
     }
 
 
     @DeleteMapping("/employee/delete/{hexId}")
-    public String deleteEmployeeById(@PathVariable String hexId, String employeeName, String password) {
+    public String deleteEmployeeById(@PathVariable String hexId) {
         ObjectId id = new ObjectId(hexId);
-        if(!employeeRepository.existsById(id)){ //Prevents the deleter from deleting if the deleter is not in the database.
-            return "Unauthorized action";
+        if(!employeeRepository.existsById(id)) {
+            return "Employee does not exist in employee repository";
         }
-        //returns a nullpointerexception and I don't know why
-        EmployeeManager.removeEmployeeFromDb(employeeRepository.findByNickname(employeeName));
+        
+        employeeRepository.deleteById(id);
+        userRepository.deleteById(id);
         return "Deletion Success";
     }
 
