@@ -2,7 +2,7 @@ import React from 'react';
 import "./Order.css";
 import "./Cart.css";
 import { connect } from "react-redux";
-import {makeOrderBodyFromData} from "../../../handlers/dataHandlers";
+import {makeOrderBodyFromData} from "../../../handlers/bodyHandlers";
 import { post } from '../../../handlers/requestHandlers';
 
  class UserCartConfirm extends React.Component {
@@ -20,7 +20,7 @@ import { post } from '../../../handlers/requestHandlers';
         const {userId,userType,orderLines} = this.props;
         const data = {...this.props.address}
         const body = makeOrderBodyFromData(data,orderLines)
-        console.log("Data: ", data)
+        console.log("Data: ", data,"Orderlines: ", orderLines)
         console.log("Body: ", body)
 
         if(userType === "EMPLOYEE"){

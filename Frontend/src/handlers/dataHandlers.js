@@ -294,20 +294,3 @@ export function makeOrderAddressData(data) {
 
     return order;
 }
-
-export const makeOrderBodyFromData = (data, orderLines) =>{
-    
-    let body = {};
-
-    body.orderLines = [];
-
-    body.address = data.address;
-    body.contactPerson = data.contactPerson;
-    body.phoneNumber = data.phoneNumber;
-    body.country = data.country;
-    body.company = data.company;
-    body.zipCode = data.zip;
-    body.products = {...orderLines}
-
-    return body;
-}
