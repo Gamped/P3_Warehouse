@@ -1,4 +1,5 @@
-    
+import {variableNameToString} from './utils.js';
+
 export function allProductsNotPackedWarning() {
     window.alert("Not all products are marked as packed.");
 }
@@ -19,5 +20,16 @@ export function repeatedPasswordWarning() {
     window.alert("Passwords do not match");
 }
 
+export function fieldInvalidWarning(field) {
+    window.alert(variableNameToString(field) + ' is not valid')
+}
+
+export function passwordsDoNotMatchWarning() {
+    window.alert("Password do not match retyped password");
+}
+
+export function publisherNotSetOnClientProfileCreationWarning() {
+    window.alert("Attempted to create a client profile, but a publisher was not chosen. Please select a publisher");
+}
 
 

@@ -2,7 +2,8 @@ import React from 'react';
 import "../../Pages.css";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { put } from "./../../../../handlers/requestHandlers"
+import { put } from "./../../../../handlers/requestHandlers";
+import { userProfileFieldsAreValidated } from "./../../../../handlers/fieldsValidator";
 
 class UserProfileEdit extends React.Component {
     constructor(props) {
@@ -17,63 +18,71 @@ class UserProfileEdit extends React.Component {
             city:this.props.user.city,
             zipCode:this.props.user.zipCode,
             country:this.props.user.country,
-            changed:{passwordNew:"",passwordNewRepeat:""}
+            passwordNew:"",
+            passwordNewRepeat:""}
         };
-    }
+    
 
     onChangeHandler = (event) => {
         console.log(this.state)
-        this.setState({
-            changed:{[event.target.name]: event.target.value},
-        })
+        this.setState({[event.target.name]: event.target.value});
     }
 
+    
     confirmed = (event) =>{
         event.preventDefault();
-        if (this.state.changed.passwordNew == this.state.changed.passwordNewRepeat){
+        
+        let fields = this.state;
+        console.log(fields);
+        if (userProfileFieldsAreValidated(fields)) {
+            
+        
 
             const usertype= this.props.userType
+            const body = this.makeBodyFromChangedState();
 
-            let newState = {};
-                const changedState = {...this.state.changed}
-                Object.keys(changedState).forEach((key,index)=>{
-                    if(changedState[key] !=="" && changedState[key] !==null){
-                        newState[key] = changedState[key]
-                    }
+            if (usertype === "PUBLISHER") {
+                put("publishers/"+this.props.userId, body, (response)=>{
+                    this.props.history.push("/User/Profile");
                 })
-
-                newState={...this.state,...newState}
-                const body = {
-                    userName:newState.userName,
-                    password:newState.password,
-                    userType:newState.userType,
-                    contactInformation:{
-                        nickName:newState.nickName,
-                        email:newState.email,
-                        phoneNumber:newState.phoneNumber,
-                        city: newState.city,
-                        address: newState.address,
-                        zipCode: newState.zipCode,
-                        country: newState.country
-                    }
-                }
-
-            if(usertype==="PUBLISHER"){
-                put("publishers/"+this.props.userId,body,(respondse)=>{
-                    this.props.history.push("/User/Profile")
-                })
-            }else if(usertype==="CLIENT"){
-                put("clients/"+this.props.userId,body,(respondse)=>{
-                    this.props.history.push("/User/Profile")
+            } else if (usertype === "CLIENT") {
+                put("clients/"+this.props.userId, body, (response)=>{
+                    this.props.history.push("/User/Profile");
                 })
             }
-        }else{
-            alert("Password has not been repeated correctly.")
-        }
     }
 
+}
 
-    render(){
+    makeBodyFromChangedState() {
+        let newState = {};
+        const state = this.state;
+        Object.keys(state).forEach((key) => {
+            if(state[key] !=="" && state[key] !== null) {
+                newState[key] = state[key];
+            }
+        })
+
+        newState={...this.state,...newState}
+        const body = {
+            userName:newState.userName,
+            password:newState.passwordNew,
+            userType:newState.userType,
+            contactInformation:{
+                nickName:newState.nickName,
+                email:newState.email,
+                phoneNumber:newState.phoneNumber,
+                city: newState.city,
+                address: newState.address,
+                zipCode: newState.zipCode,
+                country: newState.country
+            }
+        }
+        console.log("Body: " + body);
+        return body;
+    }
+
+    render() {
         return(
             <div className="PageStyle rounded">
                 <h1 className="text-center">Edit profile:</h1>
@@ -122,8 +131,8 @@ class UserProfileEdit extends React.Component {
                                 </div> 
                                 <input
                                 name="phoneNumber" 
-                                type="text" 
-                                className="form-control" 
+                                type="tel" 
+                                className="my-2 form-control" 
                                 onChange={this.onChangeHandler}
                                 defaultValue={this.props.user.phoneNumber}/>
                             </div>
@@ -156,59 +165,41 @@ class UserProfileEdit extends React.Component {
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon4">Zip Code</span>
                                 </div>
-                                <input
+                            <input
                                 name="zipCode" 
                                 type="text" 
                                 className="form-control" 
                                 onChange={this.onChangeHandler}
                                 defaultValue={this.props.user.zipCode}/>
-                            </div>
-                            
-                            <div className="input-group mb-2">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon3">Country</span>
-                                </div>
-                                <input
-                                    name="country" 
-                                    type="text" 
-                                    className="form-control" 
-                                    onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.country}/>
-                            </div>
-
-                            <div className="input-group mb-2">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon2">New Password</span>
-                                </div>
-                                <input
-                                    name="passwordNew"
-                                    type="test" 
-                                    className="form-control" 
-                                    onChange={this.onChangeHandler}
-                                    placeholder="New password"/>
-                            </div>
-
-                            <div className="input-group mb-2">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-addon1">Password repeat</span>
-                                </div>    
-                                <input
-                                    name="passwordNewRepeat" 
-                                    type="password" 
-                                    className="form-control" 
-                                    onChange={this.onChangeHandler}
-                                    placeholder="New password repeat"/>
-                            </div>
-                        </form>
+                            <input
+                                name="country" 
+                                type="text" 
+                                className="my-2 form-control" 
+                                onChange={this.onChangeHandler}
+                                defaultValue={this.props.user.country}/>
+                            <input
+                                name="passwordNew"
+                                type="password" 
+                                className="my-2 form-control" 
+                                onChange={this.onChangeHandler}
+                                placeholder="New password"/>
+                            <input
+                                name="passwordNewRepeat" 
+                                type="password" 
+                                className="my-2 form-control" 
+                                onChange={this.onChangeHandler}
+                                placeholder="New password repeat"/>
                         
+                       </div> </form> 
                         <form className="newForm stockForm">
                             <button className="btn btn-block btn-warning my-2" onClick={this.confirmed}>Edit profile</button>
                         </form>
                         
                         <Link to="/User/Profile" className="btn-info btn btn-block btn my-2">Back</Link>
                         
-                    </div>
+                
                 </div>
+            </div>
             </div>
         );
     }

@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.managers.ProductManager;
+import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestClientModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestProductModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
@@ -55,8 +56,14 @@ public class ClientController {
 
     @GetMapping("/clients/{hexId}/products")
     private Collection<Product> findAllProductsByClient(@PathVariable String hexId) {
-        Client client = clientRepository.findById(hexId);
+        Client client = clientRepository.findById(new ObjectId(hexId)).orElse(null);
         return client.getProductStream().collect(Collectors.toCollection(HashSet::new));
+    }
+
+    @GetMapping("/clients/{hexId}/products")
+    private Collection<Order>findAllOrdersByClient(@PathVariable String hexId){
+        Client client = clientRepository.findById(new ObjectId(hexId)).orElse(null);
+        return client.getOrderStream().collect(Collectors.toCollection(HashSet::new));
     }
 
     @GetMapping("/clients/products/{id}")
