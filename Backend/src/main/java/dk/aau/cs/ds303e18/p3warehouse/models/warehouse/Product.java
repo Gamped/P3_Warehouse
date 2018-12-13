@@ -1,19 +1,14 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.warehouse;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserRef;
 import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Reference;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.GeneratedValue;
 import java.util.Objects;
 
 @Document(collection = "products")
@@ -35,6 +30,8 @@ public class Product {
         this.id = id;
         this.hexId = id.toString();
     }
+    public Product(){}
+
 
     public String getProductName() {
         return productName;
