@@ -1,6 +1,8 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {post} from "../../../../handlers/requestHandlers";
+import {get, post} from "../../../../handlers/requestHandlers";
+import Dropdown from "../../../MenuComponents/Dropdown/Dropdown";
+import {makeCustomerData} from './../../../../handlers/dataHandlers.js';
 
 class CreateUser extends React.Component{
     constructor(props){
@@ -15,17 +17,18 @@ class CreateUser extends React.Component{
                 email: "",
                 phoneNumber: "",
                 nickName: ""
-            }
+            },
+            publishers: [],
+            selectedActorHexId: "DEFAULT",
+            selectedActorUserType: "DEFAULT"
         }
     }
 
-    toggleUserType=()=>{
-        if(this.state.userType==="CLIENT"){
-            this.setState({userType:"PUBLISHER"})
-        }else{
-            this.setState({userType:"CLIENT"})
-        }
-        console.log(this.state.userType)
+    componentDidMount(){
+        get('employee/publishers', (data) => {
+            const publishers = makeCustomerData(data);
+            this.setState({ publishers: publishers});
+       });
     }
 
     onChange = (e) => {
@@ -46,11 +49,11 @@ class CreateUser extends React.Component{
                     contactInformation:{
                         nickName:this.state.nickName,
                         email:this.state.email,
-                        phoneNumber:this.state.email
+                        phoneNumber:this.state.phoneNumber
                         }
                     }
         if(this.state.password===this.state.repeatPass){
-            if(this.state.userType==="CLIENT"){
+            if(this.state.ShowMe===true){
                 post("employee/clients", body, (response)=>{
                     this.props.history.push("/Admin/Users/")
                     });
@@ -65,6 +68,13 @@ class CreateUser extends React.Component{
         
         console.log(body)
         
+    }
+
+    setSelected = (e) =>{
+        this.setState({
+            selectedActorHexId:e.target.value,
+            selectedActorUserType:this.state.Actors.find(x=>x.hexId===e.target.value).userType.toUpperCase()
+        })
     }
 
     render(){
@@ -109,12 +119,12 @@ class CreateUser extends React.Component{
                             </div>
                             <input type="number" className="form-control" id="phone" name="phoneNumber" onChange={this.onChange} required/>
                         </div>
-                             <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick={this.toggleUserType} onClick ={()=> this.showclient(false)} >Make Publisher</button> 
+                             <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showclient(false)} >Make Publisher</button> 
                              <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showclient(true)}>Client</button>
                         {    
                             this.state.ShowMe?
                             <div>
-                                please client table her 
+                                <Dropdown actors = {this.state.publishers} action={this.setSelected}/>
                             </div>
                             :null
                         }

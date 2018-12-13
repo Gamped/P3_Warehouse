@@ -10,7 +10,7 @@ export function makeProductsData(productStream) {
         amount: 0,
         hexId: product.hexId,
         ownerHexId: product.owner.userHexId,
-        ownerName: product.owner.nickName
+        owner: product.owner.nickName
         });
     });
     return products;
@@ -60,6 +60,24 @@ export function makeProductsData(productStream) {
         });
 
         return orders;
+}
+
+export function makeClientOrdersData(data){
+    var orders = [];
+    let owner, ownerHexId = "";
+
+    data.forEach((client)=>{
+        if(ordersExist(client)){
+            owner = client.contactInformation.nickName;
+                ownerHexId = client.hexId;
+
+                client.orderStream.forEach((order) => {
+                    orders.push(addOrder(order, owner, ownerHexId));
+                }); 
+        }
+    })
+
+    return orders;
 }
 
 
@@ -230,4 +248,21 @@ export function makeOrderAddressData(data) {
     order.city = data.city;
 
     return order;
+}
+
+export const makeOrderBodyFromData = (data, orderLines) =>{
+    
+    let body = {};
+
+    body.orderLines = [];
+
+    body.address = data.address;
+    body.contactPerson = data.contactPerson;
+    body.phoneNumber = data.phoneNumber;
+    body.country = data.country;
+    body.company = data.company;
+    body.zipCode = data.zip;
+    body.products = {...orderLines}
+
+    return body;
 }

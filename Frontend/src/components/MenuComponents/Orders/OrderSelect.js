@@ -1,14 +1,11 @@
-
 import React from 'react';
-import "../../Pages.css";
-import "./UserOrder.css";
-import axios from 'axios';
+import "./Order.css";
 import ReactTable from 'react-table';
 import { connect } from "react-redux";
-import {makeProductsData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
-import {itemPreviouslyAddedWarning} from './../../../../handlers/exceptions.js';
-import { getColumnsFromArray } from './../../../../handlers/columnsHandlers.js';
-import { get } from './../../../../handlers/requestHandlers.js';
+import {makeProductsData, makeCustomerProductsData} from '../../../handlers/dataHandlers.js';
+import {itemPreviouslyAddedWarning} from '../../../handlers/exceptions.js';
+import { getColumnsFromArray } from '../../../handlers/columnsHandlers.js';
+import { get } from '../../../handlers/requestHandlers';
 
 //TODO: Render warning in previouslyAddedWarning
 //TODO: Put items in cart notification symbol on cart button
@@ -45,14 +42,21 @@ class UserOrder extends React.Component {
         
         const userType = this.props.userType.toLowerCase();
         const id = this.props.userId;
-        
-        get(userType + 's/' + id + '/products', (data) => {
-            let products = [];
 
-            userType === 'publisher' ? products = makeCustomerProductsData(data) : products = makeProductsData(data);
+        if(userType==="employee"){
+            get('employee/products', (data) => {
+                const products = makeProductsData(data);
+                this.setState({products: products})
+            })
+        }else{
+            get(userType + 's/' + id + '/products', (data) => {
+                let products = [];
 
-            this.setState({ products: products });
-    });
+                userType === 'publisher' ? products = makeCustomerProductsData(data) : products = makeProductsData(data);
+
+                this.setState({ products: products });
+            });
+        }
     }
 
     handleQuarry = (event) => {
@@ -79,7 +83,13 @@ class UserOrder extends React.Component {
 
     changeToCart = (event) => {
         this.props.addItemToCart(this.state.orderLines)
-        this.props.history.push("/User/Order/Cart")
+        const userType = this.props.userType
+        if(userType === "EMPLOYEE"){
+            this.props.history.push("/Admin/Order/Cart")
+        }else{
+            this.props.history.push("/User/Order/Cart")
+        }
+        
     }
 
     renderEditable = cellInfo => {

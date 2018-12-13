@@ -14,6 +14,7 @@ import dk.aau.cs.ds303e18.p3warehouse.repositories.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -43,6 +44,9 @@ public class ClientController {
     Iterable<Client> findAllClients() {
         return clientRepository.findAll();
     }
+
+    @GetMapping("/clients/independent")
+    Iterable<Client> findAllIndependentClients(){ return clientRepository.findByPublisherId(null); }
 
     @GetMapping("/clients/{id}")
     Client findClientById(@PathVariable String id) {

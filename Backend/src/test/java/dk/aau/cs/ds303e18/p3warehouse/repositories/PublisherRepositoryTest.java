@@ -23,6 +23,8 @@ import java.util.stream.Stream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThanOrEqualTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -109,7 +111,7 @@ public class PublisherRepositoryTest {
         System.out.println(publisher.getHexId());
         Optional<Publisher> optionalPublisher = publisherRepository.findById(publisher.getHexId());
         Publisher retrievedPublisher = optionalPublisher.get();
-        Assert.assertEquals(publisher.getHexId(), retrievedPublisher.getHexId());
+        assertEquals(publisher.getHexId(), retrievedPublisher.getHexId());
     }
     @Test
     public void publisherGotClient(){
@@ -121,7 +123,7 @@ public class PublisherRepositoryTest {
         Client client2 = new Client(idC2);
         publisher.addClient(client);
         publisher.addClient(client2);
-        Assert.assertEquals(publisher.getNumberOfClients(),2);
+        assertEquals(publisher.getNumberOfClients(),2);
     }
 
     @Test
@@ -135,7 +137,15 @@ public class PublisherRepositoryTest {
         publisher.addClient(client);
         publisher.addClient(client2);
 
+        publisherRepository.save(publisher);
+        clientRepository.save(client);
+        clientRepository.save(client2);
 
+        Publisher retrievedPublisher = publisherRepository.findById(publisher.getId()).orElse(null);
+        Stream<Client> clientStream = retrievedPublisher.getClientStream();
+        List<Client> clients = clientStream.collect(Collectors.toList());
+        assertTrue(clients.contains(client));
+        assertTrue(clients.contains(client2));
     }
 
     @Test
@@ -156,39 +166,7 @@ public class PublisherRepositoryTest {
         Stream<Product> products = retrievedPublisher.getProductStream();
         List<Product> retrievedProducts = products.collect(Collectors.toList());
 
-        Assert.assertEquals(2, retrievedProducts.size());
-    }
-
-    @Test
-    public void testPublisherFindClientProduct(){
-        Product product = makeProduct();
-        Product secondProduct = makeProduct();
-        Client client = makeClient();
-        Client secondClient = makeClient();
-        Publisher publisher = makePublisher();
-
-        client.addProduct(product);
-        secondClient.addProduct(secondProduct);
-        client.addProduct(secondProduct);
-        publisher.addClient(client);
-        publisher.addClient(secondClient);
-
-        productRepository.save(product);
-        productRepository.save(secondProduct);
-        clientRepository.save(client);
-        clientRepository.save(secondClient);
-        publisherRepository.save(publisher);
-
-        Optional<Publisher> optPublisher = publisherRepository.findById(publisher.getHexId());
-        Publisher retrievedPublisher = optPublisher.get();
-        Stream<Client> clientStream = retrievedPublisher.getClientStream();
-
-        System.out.println(publisher.getClientStream());
-
-        Stream<Product> productStream =
-                clientStream.iterator().next().getProductStream();
-
-        Assert.assertEquals(1, productStream.collect(Collectors.toList()).size());
+        assertEquals(2, retrievedProducts.size());
     }
 
     @Test
@@ -212,7 +190,7 @@ public class PublisherRepositoryTest {
 
         Stream<Order> orderStream = retrievedPublisher.getOrderStream();
 
-        Assert.assertEquals(3, orderStream.collect(Collectors.toList()).size());
+        assertEquals(3, orderStream.collect(Collectors.toList()).size());
     }
 
     @Test
@@ -224,10 +202,10 @@ public class PublisherRepositoryTest {
         Optional<Publisher> optPublisher = publisherRepository.findById(publisher.getHexId());
         Publisher retrievedPublisher = optPublisher.get();
 
-        Assert.assertEquals(publisher.getUserName(), retrievedPublisher.getUserName());
-        Assert.assertEquals(publisher.getPassword(), retrievedPublisher.getPassword());
-        Assert.assertEquals(publisher.getContactInformation(), retrievedPublisher.getContactInformation());
-        Assert.assertEquals(publisher.getUserType(), retrievedPublisher.getUserType());
+        assertEquals(publisher.getUserName(), retrievedPublisher.getUserName());
+        assertEquals(publisher.getPassword(), retrievedPublisher.getPassword());
+        assertEquals(publisher.getContactInformation(), retrievedPublisher.getContactInformation());
+        assertEquals(publisher.getUserType(), retrievedPublisher.getUserType());
     }
 
     @Test
@@ -244,6 +222,6 @@ public class PublisherRepositoryTest {
     public void testDeleteAllPublishers(){
         publisherRepository.deleteAll();
 
-        Assert.assertEquals(0, publisherRepository.findAll().size());
+        assertEquals(0, publisherRepository.findAll().size());
     }
 }

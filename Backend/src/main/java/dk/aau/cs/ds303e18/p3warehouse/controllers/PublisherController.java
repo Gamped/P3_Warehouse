@@ -33,15 +33,14 @@ public class PublisherController {
 
     @Autowired
     PublisherRepository publisherRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     ProductRepository productRepository;
 
     @Autowired
     OrderRepository orderRepository;
-
-    @Autowired
-    UserRepository userRepository;
 
     @GetMapping("/publishers")
     Iterable<Publisher> findAll() {
@@ -100,7 +99,6 @@ public class PublisherController {
         publisherRepository.delete(publisher);
         User user = userRepository.findById(publisher.getId()).orElse(null);
         userRepository.delete(user);
-
     }
 
 @GetMapping("/publishers/{hexId}/products")

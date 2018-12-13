@@ -1,14 +1,11 @@
 import React from 'react';
-import "../../Pages.css";
-import "./UserOrder.css";
-import "./UserCart.css";
+import "./Order.css";
+import "./Cart.css";
 import { connect } from "react-redux";
 
 class UserOrderCart extends React.Component {
-    constructor() {
-        super();
-        
-    
+    constructor(props) {
+        super(props);
         this.state = {
            address:"",
            company:"",
@@ -18,12 +15,13 @@ class UserOrderCart extends React.Component {
            zip:"",
            city:"",
            country:""
-
         };
     }
  
     onChange = (e) => {
-        this.setState({[e.target.name]:e.target.value})
+        const state = this.state;
+        state[e.target.name] = e.target.value;
+        this.setState({state});
     }
 
     confirmed = (event) =>{
@@ -38,25 +36,39 @@ class UserOrderCart extends React.Component {
         this.props.setCVR(this.state.cvr)
         this.props.setCountry(this.state.country)
 
-        this.props.history.push("/User/Order/Cart/Confirm")
+        const userType = this.props.userType
+        if(userType==="EMPLOYEE"){
+            this.props.history.push("/Admin/Order/Cart/Confirm")
+        }else{
+            this.props.history.push("/User/Order/Cart/Confirm")
+        }
+        
     }
 
     back = (event)=>{
-        this.props.history.push("/User/Order/")
+        event.preventDefault();
+        const userType = this.props.userType
+        if(userType==="EMPLOYEE"){
+            this.props.history.push("/Admin/Orders/New")
+        }else{
+            this.props.history.push("/User/Order/")
+        }
+        
     }
 
     render(){
         let lines = this.props.orderLines.orderLines;
-        console.log(lines);
 
-        lines = lines.map((line, i)=>{return(
-            <tr key={i}>
-                <th scope="row">{line.productId}</th>
-                <td>{line.productName}</td>
-                <td>{line.amount}</td>
-            </tr>
-        )})
-    
+        if(lines !== undefined){
+            lines = lines.map((line, i)=>{return(
+                <tr key={i}>
+                    <th scope="row">{line.productId}</th>
+                    <td>{line.productName}</td>
+                    <td>{line.amount}</td>
+                </tr>
+            )})
+
+        }
         
         return(
             <div className="PageStyle rounded">
@@ -84,14 +96,14 @@ class UserOrderCart extends React.Component {
                             <h4 className="text-center my-2">Where to send the order:</h4>
 
                             <form className="">
-                                <input type="text" className="input-group mb-3" name="company" onChange={this.onChange} placeholder="Company" key="company"/>
-                                <input type="text" className="input-group mb-3" name="cvr" onChange={this.onChange} placeholder="CVR" key="cvr"/>
-                                <input type="text" className="input-group mb-3" name="contact" onChange={this.onChange} placeholder="Contact Person" key="contact" required/>
-                                <input type="number" className="input-group mb-3" name="phone" onChange={this.onChange} placeholder="PhoneNumber" key="phone" required/>
-                                <input type="text" className="input-group mb-3" name="address" onChange={this.onChange} placeholder="Address" key="address" required/>
-                                <input type="number" className="input-group mb-3" name="zip" onChange={this.onChange} placeholder="Zip" key="zip" required/>
-                                <input type="text" className="input-group mb-3" name="city" onChange={this.onChange} placeholder="City" key="city" required/>
-                                <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" key="country" required/>
+                                <input type="text" className="input-group mb-3" name="company" onChange={this.onChange} placeholder="Company"/>
+                                <input type="text" className="input-group mb-3" name="cvr" onChange={this.onChange} placeholder="CVR"/>
+                                <input type="text" className="input-group mb-3" name="contact" onChange={this.onChange} placeholder="Contact Person" required/>
+                                <input type="number" className="input-group mb-3" name="phone" onChange={this.onChange} placeholder="PhoneNumber" required/>
+                                <input type="text" className="input-group mb-3" name="address" onChange={this.onChange} placeholder="Address" required/>
+                                <input type="number" className="input-group mb-3" name="zip" onChange={this.onChange} placeholder="Zip" required/>
+                                <input type="text" className="input-group mb-3" name="city" onChange={this.onChange} placeholder="City" required/>
+                                <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" required/>
                                 
                                 <button className=" btn-success btn btn-block my-3" onClick={this.confirmed} type="submit">Send order</button>
                                 <button className=" btn-danger btn btn-block" onClick={this.back}>Cancel order</button>
@@ -108,7 +120,8 @@ class UserOrderCart extends React.Component {
 
 const mapStateToProps = (state)=>{
     return{
-        orderLines: state.orderReducer
+        orderLines: state.orderReducer,
+        userType: state.loginReducer.userType
     }
 }
 

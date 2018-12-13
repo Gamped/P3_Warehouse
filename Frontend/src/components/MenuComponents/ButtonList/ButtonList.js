@@ -1,5 +1,4 @@
 import React from 'react';
-import "./ButtonList.css";
 import {Link} from "react-router-dom";
 
 
@@ -14,17 +13,17 @@ const Buttonlist = (props) => {
             (link)?
                 (current!==button.location)?
                 <div className="Link" key={button.id}>
-                    <Link to={button.location} className=" btn-secondary btn btn-block" role="button">{button.name}</Link>
+                    <Link to={button.location} className="std_BTN leftMenuButton btn-secondary btn btn-block" role="button">{button.name}</Link>
                     <br/>
                 </div>
                 :
                 <div className="Link" key={button.id}>
-                    <Link to={button.location} className=" btn-darker btn btn-block" role="button">{button.name}</Link>
+                    <Link to={button.location} className="dark_BTN leftMenuButton btn-darker btn btn-block" role="button">{button.name}</Link>
                     <br/>
                 </div>
             :
             <div className="my-2" key={button.id}>
-                <button type="button" className={"btn btn-block btn-"+ color} onClick={()=> props.action(button.id)}>{button.name}</button>
+                <button type="button" className={"std_BTN leftMenuButton btn btn-block btn-"+ color} onClick={()=> props.action(button.id)}>{button.name}</button>
             </div>
         )
     })

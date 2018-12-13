@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import "../../Pages.css";
 import "./AdminStock.css";
-import {setProductProps} from './../../../../handlers/dataHandlers.js'
-import {get, put} from './../../../../handlers/requestHandlers.js';
+import {put} from './../../../../handlers/requestHandlers.js';
 import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 
