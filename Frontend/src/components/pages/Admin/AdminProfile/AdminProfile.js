@@ -7,7 +7,7 @@ import {makeEmployeeData} from './../../../../handlers/dataHandlers'
 import "../../Pages.css";
 import "./AdminProfile.css";
 import { getColumnsFromArray } from '../../../../handlers/columnsHandlers.js';
-import AdminStock from '../AdminStock/AdminStock.js';
+
 let alert = require('./../../../../handlers/alertHandlers.js');
 
 class AdminProfile extends React.Component {
