@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.swing.text.html.Option;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin
@@ -298,14 +299,26 @@ public class EmployeeController {
 
     @DeleteMapping("/employee/clients/delete/{hexId}")
     private void deleteClientById(@PathVariable String hexId) {
-        ClientController clientController = new ClientController();
-        clientController.deleteClient(hexId);
+        ObjectId id = new ObjectId(hexId);
+        Client client = clientRepository.findById(id).orElse(null);
+        client.unassignAllOrders().forEach(orderRepository::delete);
+        client.unassignAllProducts().forEach(productRepository::save);
+        User user = userRepository.findById(id).orElse(null);
+        clientRepository.delete(client);
+        userRepository.delete(user);
     }
 
     @DeleteMapping("/employee/publishers/delete/{hexId}")
     private void deletePublisherById(@PathVariable String hexId) {
-        PublisherController publisherController = new PublisherController();
-        publisherController.delete(hexId);
+        ObjectId id = new ObjectId(hexId);
+        Publisher publisher = publisherRepository.findById(id).orElse(null);
+        publisher.getClientStream().map(x -> x.unassignAllProducts().map(product -> productRepository.save(product)));
+        publisher.getClientStream().map(x -> x.unassignAllOrders()).reduce((x, y) -> Stream.concat(x, y)).get().forEach(orderRepository::delete);
+        publisher.unassignAllOrders().forEach(orderRepository::delete);
+        publisher.unassignAllProducts().map(product -> productRepository.save(product));
+        publisherRepository.delete(publisher);
+        User user = userRepository.findById(publisher.getId()).orElse(null);
+        userRepository.delete(user);
     }
 
     @DeleteMapping("/employee/users/delete/{hexId")

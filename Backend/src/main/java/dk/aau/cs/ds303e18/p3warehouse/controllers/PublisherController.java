@@ -33,6 +33,7 @@ public class PublisherController {
 
     @Autowired
     PublisherRepository publisherRepository;
+
     @Autowired
     UserRepository userRepository;
 
