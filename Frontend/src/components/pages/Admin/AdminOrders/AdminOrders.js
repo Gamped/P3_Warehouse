@@ -177,7 +177,7 @@ export default class AdminOrders extends Component {
                             data={orders}
                             columns={orderColumns} 
                             showPagination={false} 
-                            className="leftReactTableAdminOrder -striped -highlight darkenReactTable"
+                            className=" -striped -highlight darkenReactTable"
                             getTrProps={(state, rowInfo) => {
                                 if (rowInfo && rowInfo.row) {
                                   return {
@@ -195,6 +195,7 @@ export default class AdminOrders extends Component {
                                 }
                                }
                             }
+                            style={{height: "100%"}}
                              />
                         </div>
                         <div className=" md-2 my-2">
@@ -206,16 +207,16 @@ export default class AdminOrders extends Component {
 
                     
                     <div className="AdminOrderRight">
-                        <div className="Table">
+                        <div className="Table rightReactTableAdminOrder">
                                 <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns} showPagination={false} 
-                                className="-striped -highlight"/>
+                                className="-striped -highlight"
+                                style={{height: "100%"}}
+                                />
                                  <div className="  px-1">
                                 </div>
                        </div> 
-                       <div className="btn-group">
-                             <button type= "button mx-2" className="AdinOrderButtonSizer btn std_BTN mx-2  " >Export Order</button> 
-                             <button type= "button " className="AdinOrderButtonSizer btn blue_BTN mx-5 "onClick={()=>this.finishOrder()}>Finish Order</button> 
-                       </div>
+                             <button type= "button" className="AdinOrderButtonSizer btn std_BTN mx-2  " >Export Order</button> 
+                             <button type= "button" className="AdinOrderButtonSizer btn blue_BTN mx-2 "onClick={()=>this.finishOrder()}>Finish Order</button> 
                     </div>    
                 </div>    
             </div>
