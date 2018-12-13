@@ -1,22 +1,21 @@
 import React from "react";
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 
 const Dropdown = (props) =>{
-    const {action, owners} = props;
-    const ownerList = owners.map((owner)=>{
+    const {action, actors} = props;
+    const actorList = actors.map((actor)=>{
         return(
             <option 
-            key={owner.hexId}
-            value={owner.hexId}
-            name={owner.userType}>
-            {owner.userType} - {owner.nickName}
+            key={actor.hexId}
+            value={actor.hexId}
+            name={actor.userType}>
+            {actor.userType} - {actor.nickName}
             </option>
          )
     })
     return(
         <select className="custom-select my-2" onChange={action}>
-            <option>Choose owner</option>
-            {ownerList}
+            <option>Choose Customer</option>
+            {actorList}
         </select>  
     )
 

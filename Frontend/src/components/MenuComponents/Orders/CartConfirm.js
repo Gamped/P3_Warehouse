@@ -1,16 +1,14 @@
 import React from 'react';
-import "../../Pages.css";
-import "./UserOrder.css";
-import "./UserCart.css";
-import { connect } from "react-redux"
-import {Link} from "react-router-dom";
-import { put, post } from '../../../../handlers/requestHandlers';
+import "./Order.css";
+import "./Cart.css";
+import { connect } from "react-redux";
+import {makeOrderBodyFromData} from "../../../handlers/dataHandlers";
+import { post } from '../../../handlers/requestHandlers';
 
  class UserCartConfirm extends React.Component {
     constructor(props) {
         super(props);
 
-        let address = this.setPropsToState();
         this.state = {
             userID: this.props.userId,
             products: props.productList,
@@ -18,53 +16,44 @@ import { put, post } from '../../../../handlers/requestHandlers';
         };
     }
 
-    componentDidMount() {
+    confirmed = (event) => {
+        const {userId,userType,orderLines} = this.props;
+        const data = {...this.props.address}
+        const body = makeOrderBodyFromData(data,orderLines)
+        console.log("Data: ", data)
+        console.log("Body: ", body)
+        /*
+        const body = {
 
-        this.setPropsToState();
-    }
-
-    setPropsToState() {
-        let address = {};
-        let props = this.props.address;
-        console.log("PROPS " + props);
-        
-        if (props) {
-            props.company ? address.company = props.company : address.company = "Not specified";
-            props.zip ? address.zip = props.zip : address.zip = "Not specified";
-            props.phoneNumber ? address.phoneNumber = props.phoneNumber : address.phoneNumber = "Not specified";
-            props.country ? address.country = props.country : address.country = "Not specified";
-            props.contactPerson ? address.contactPerson = props.contactPerson : address.contactPerson = "Not specified";
-            props.address ? address.address = props.address : address.address = "Not specified";
-            props.city ? address.city = props.city : address.city = "Not specified";
         }
 
-        return address;
+        if(userType === "EMPLOYEE"){
 
-    }
-    confirmed = (event) => {
-        window.confirm("Your order has been confirmed. If you wish to make any edit from now, please contact 4N");
-        console.log("THIS")
-        console.log(this.props.address)
-        console.log(this.props.orderLines)
-        console.log(this.props.userId)
-        console.log(this.props.userType)
-        post('/orders/'+this.props.userId+'/'+this.props.userType, {}, (response) => {
-
-
-        });
+        }else{
+            post('orders/'+userId+'/'+userType, {body}, (response) => {
+                if(response === null){
+                    this.props.history.push("/User/Order/Failed")
+                }else{
+                    this.props.history.push("/User/Order/Success")
+                }
+            });
+        }*/
     }
  
+    goBack = () =>{
+        if(this.props.userType==="EMPLOYEE"){
+            this.props.history.push("/Admin/Order/Cart")
+        }else{
+            this.props.history.push("/User/Order/Cart")
+        }
+    }
 
     render(){
-        const address = this.state.address;
-        
-        console.log(address);
-
+        const address = this.props.address;
+        console.log(address)
         let lines = this.props.orderLines;
-        console.log("OrderLines: " + lines)
        
-        if (lines) {
-            
+        if (lines !== undefined) {
         lines = lines.map((line, i)=>{return(
                 <tr key={i}>
                     <th scope="row">{line.productId}</th>
@@ -101,31 +90,31 @@ import { put, post } from '../../../../handlers/requestHandlers';
                         <br/>
                         <br/>
                         <label className="font-weight-bold">Company name: </label>
-                        <label className="font-weight-normal">{this.state.address.company}</label>
+                        <label className="font-weight-normal">{address.company}</label>
                         <br/>
                         <label className="font-weight-bold">Recipient: </label>
-                        <label className="font-weight-normal">{this.state.address.contactPerson}</label>
+                        <label className="font-weight-normal">{address.contactPerson}</label>
                         <br/>
                         <label className="font-weight-bold">Phone: </label>
-                        <label className="font-weight-normal">{this.state.address.phoneNumber}</label>
+                        <label className="font-weight-normal">{address.phoneNumber}</label>
                         <br/>
                        
                         <br/>
                         <label className="font-weight-bold">Address: </label>
-                        <label className="font-weight-normal">{this.state.address.address}</label>
+                        <label className="font-weight-normal">{address.address}</label>
                         <br/>
                         <label className="font-weight-bold">Zip: </label>
-                        <label className="font-weight-normal">{this.state.address.zip}</label>
+                        <label className="font-weight-normal">{address.zip}</label>
                         <br/>
                         <label className="font-weight-bold">City</label>
-                        <label className="font-wight-normal">{this.state.city}</label>
+                        <label className="font-wight-normal">{address.city}</label>
                         <br/>
                         <label className="font-weight-bold">Country: </label>
-                        <label className="font-weight-normal">{this.state.address.country}</label>
+                        <label className="font-weight-normal">{address.country}</label>
                         
                         <div onClick={this.confirmed} className="btn-success btn-block my-3 btn" role="button">Confirm order</div>
                        
-                        <Link to="/User/Order/Cart" className="btn-info btn btn-block my-3" role="button">Back</Link>
+                        <button className="btn-info btn btn-block my-3" onClick={this.goBack} role="button">Back</button>
                         
                     </div>
                     

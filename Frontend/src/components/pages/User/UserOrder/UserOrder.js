@@ -1,205 +1,63 @@
-
 import React from 'react';
-import "../../Pages.css";
-import "./UserOrder.css";
-import axios from 'axios';
+import {Link} from "react-router-dom";
 import ReactTable from 'react-table';
-import { connect } from "react-redux";
-import {makeProductsData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
-import {itemPreviouslyAddedWarning} from './../../../../handlers/exceptions.js';
-import { getColumnsFromArray } from './../../../../handlers/columnsHandlers.js';
-import { get } from './../../../../handlers/requestHandlers.js';
-
-//TODO: Render warning in previouslyAddedWarning
-//TODO: Put items in cart notification symbol on cart button
-//TODO: Make downsliding text saying "Added to cart" and "Removed from cart"
-//TODO: Fix textfield in row errors
-//TODO: Properly pass orderLines in state as props to UserOrderCart child
+import "./UserOrder.css";
+import {connect} from "react-redux";
+import {get} from "./../../../../handlers/requestHandlers";
 
 class UserOrder extends React.Component {
-    
     constructor(props) {
         super(props);
 
         this.state = {
-            userID: props.ID,
-            quarry: "",
-            products: [],
-            selected: null,
-            selectedId: "",
-            orderLines: []
+            columns: [],
         };
-
-        this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
-        this.undoOrderLine = this.undoOrderLine.bind(this);
-        this.renderEditable = this.renderEditable.bind(this);
-       
     }
-
+    
     componentDidMount(){
-       
-        this.getStock();           
+        this.getOrders();
     }
 
-    getStock() {
-        
-        const userType = this.props.userType.toLowerCase();
-        const id = this.props.userId;
-        
-        get(userType + 's/' + id + '/products', (data) => {
-            let products = [];
-
-            userType === 'publisher' ? products = makeCustomerProductsData(data) : products = makeProductsData(data);
-
-            this.setState({ products: products });
-    });
-    }
-
-    handleQuarry = (event) => {
-        this.setState({
-            quarry: event.target.value,
-        });
-    }
-
-    addSelectedToOrderLine = () => {
-      this.setState({orderLines: [...this.state.orderLines, this.state.products[this.state.selected]]}); 
-      console.log(this.state.orderLines)
-      }
-
-    undoOrderLine = () => {
-        this.setState({orderLines: this.state.orderLines.splice(-1, 1)})
-      }
-
-    checkIfPreviouslyAdded = (orderLine) => {
-          
-        if(this.state.orderLines.filter(line => orderLine.hexId === line.hexId)) {
-            itemPreviouslyAddedWarning(); 
+    getOrders = () =>{
+        const {userId,userType} = this.props;
+        if(userType==="CLIENT"){
+            get("clients/"+userId+"/orders",(data)=>this.setDataToState(data))
+        }else if(userType === "PUBLISHER"){
+            get("publishers/"+userId+"/orders",(data)=>this.setDataToState(data))
         }
     }
 
-    changeToCart = (event) => {
-        this.props.addItemToCart(this.state.orderLines)
-        this.props.history.push("/User/Order/Cart")
+    setDataToState = (data) =>{
+        
     }
 
-    renderEditable = cellInfo => {
-        return (
-          <div
-            style={{ backgroundColor: "#fafafa" }}
-            contentEditable
-            suppressContentEditableWarning
-            onBlur={e => {
-                
-                var typedAmount = e.target.innerHTML;
-                
-                this.state.products
-                .filter(product => 
-                    product.hexId === cellInfo.original.hexId)
-                .map(product => 
-                    product.amount = typedAmount)
-    
-                    cellInfo.original.amount = typedAmount;
-    
-            }}
-            dangerouslySetInnerHTML={{
-              __html: this.state.products[cellInfo.index][cellInfo.column.id]
-            }}
-          />
-        );
-      };
+    //TODO: Fix react-table.
 
-    render(){
-        const data = this.state.products;
-        const columns = getColumnsFromArray([
-            "Product Id", 
-            "Product Name", 
-            "Amount", 
-            "Quantity", 
-            "Owner Name"]);
-        columns[2].Cell = this.renderEditable;
-
+    render() {
         return(
-            <div className="PageStyle rounded">
-            <nav class="navbar navbar-light bg-light"> 
-                <h2 className=" text-center "> Order:</h2>
-            </nav>   
-                <nav class="navbar navbar-light bg-light">                   
-                        <form class = "form-inline">
-                                    <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
-                        </form>
-                              
-                </nav>         
-                
-                <div className="table">
-                    <div className="SideBar col rounded bg-secondary">
-                         <div class="col-my-auto">
-                                 <div className="OrderList">
-                                    <ReactTable  
-                                    data={data} 
-                                    columns={columns} 
-                                    showPagination={false} 
-                                    className="-striped -highlight"
-                                    getTrProps={(state, rowInfo) => {
-                                        if (rowInfo && rowInfo.row) {
-                                          return {
-                                            onClick: () => {
-                                                
-                                                this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-                                            },
-                                            style: {
-                                              background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                              color: rowInfo.index === this.state.selected ? 'white' : 'black'
-                                            }
-                                          }
-                                        }else{
-                                          return {}
-                                        }
-                                    }}
-                                    defaultPageSize={25}
-                                    style={{
-                                        height: "400px"                                      
-                                     }}
-                                    />
-                                 </div>
-                         </div>  
-                    </div>  
-                    <nav class="navbarToButtoms navbar-light bg-light"> 
-                         <div className="container row">
-                             <div className="col my-2">
-                                 <button type="button" className="btn-success btn-lg btn-block btn my-2" onClick={this.addSelectedToOrderLine}>Add to order</button>
-                             </div>
-                             <div className="col my-2">
-                                 <button type="button" className="btn-lg btn-block btn-warning my-2" onClick={this.undoOrderLine}>Undo</button>
-                            </div>
-                        </div>
-                    </nav>      
+            <div className="PageStyle">
+                <div className="frameBordering">
+                    <div className="UserOrderLeft">
+                        <ReactTable 
+                                className="productTable -striped -highlight"
+                                columns={this.state.columns}
+                            />
+                    </div>
+                    <div className="UserOrderRight">
+                        <Link to="/User/Order/Select" className="btn green_BTN btn-block">Create new order</Link>
+                        <Link to="/Home" className="btn red_BTN btn-block">Remove order</Link>
+                    </div>
                 </div>
-                
-   
-                
-                
-
             </div>
-          
-            
-            );
-    }
-
-}
-
-const mapStateToProps = (state)=>{
-    return{
-        userType: state.loginReducer.userType, 
-        userId: state.loginReducer.userId
+        );
     }
 }
 
-const mapDispatchToProps = (dispatch) =>{
+const mapStateToProps = (state) =>{
     return {
-        addItemToCart: (orderLines) => {dispatch({type: "ADD_ITEMTOORDER",payload: {orderLines}})}
+        userId: state.loginReducer.userId,
+        userType: state.loginReducer.userType
     }
 }
 
-export default connect(mapStateToProps ,mapDispatchToProps)(UserOrder)
-
-
+export default connect(mapStateToProps)(UserOrder);

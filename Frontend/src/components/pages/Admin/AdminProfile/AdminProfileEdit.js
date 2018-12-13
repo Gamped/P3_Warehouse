@@ -4,7 +4,7 @@ import "./AdminProfile.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import {put, get} from './../../../../handlers/requestHandlers.js'
-import {repeatedPasswordWarning} from './../../../../handlers/exceptions.js'
+import {employeeProfileFieldsAreValidated} from './../../../../handlers/fieldsValidator.js';
 
 //TODO: Passwords has to match
 
@@ -14,7 +14,7 @@ class AdminProfileEdit extends React.Component {
         super(props);
         this.state = {
             userId: this.props.userId,
-            nickname: "",
+            nickName: "",
             userName: "",
             passwordRepeat: "",
             password: ""
@@ -28,26 +28,40 @@ class AdminProfileEdit extends React.Component {
     getEmployeeData() {
         get("employee/employee/" + this.props.match.params.id, (data) => {
             this.setState({
-                nickname: data.nickname,
+                nickName: data.nickName,
                 userName: data.userName });
     });
 }
 
     confirmed = (event) =>{
         event.preventDefault();
+        const fields = this.state;
+    
+        if (employeeProfileFieldsAreValidated(fields)) {
+            const body = this.makeBody();
+            
+            console.log(body);
 
-        const {userName, nickname, password} = this.state;
-        
-        if (this.state.password === this.state.passwordRepeat){
-            put("employee/edit/" + this.props.match.params.id, 
-            {userName, nickname, password}, ()=>{
+            put("employee/edit/" + this.props.match.params.id, body, (res)=>{
                 this.props.history.push("/Admin/Profile")
             });
-    } else {
-        repeatedPasswordWarning();
-
-    }
+        }
 }
+
+    makeBody() {
+        let body = {};
+        body.userName = this.state.userName;
+        body.nickname = this.state.nickName;
+
+        if (this.passwordSet()) {
+            body.password = this.state.password;
+        } 
+        return body;
+    }
+
+    passwordSet() {
+        return this.state.password && this.state.passwordRepeat;
+    }
 
     onChange = (e) => {
         this.setState({[e.target.name]: e.target.value});
@@ -55,7 +69,7 @@ class AdminProfileEdit extends React.Component {
     
     render(){
         return(
-            <div className="PageStyle rounded">
+            <div className="PageStyle customText_b">
                 <h1 className="text-center">Edit profile:</h1>
                 <div className="row">
                     <div className ="col-md-4 offset-md-4">
@@ -70,9 +84,9 @@ class AdminProfileEdit extends React.Component {
 
                             <input 
                                 type="text" 
-                                name="nickname"
+                                name="nickName"
                                 className="my-2 form-control"
-                                defaultValue={this.state.nickname} 
+                                defaultValue={this.state.nickName} 
                                 onChange={this.onChange}
                                 placeholder="Name"/>
                                
@@ -93,9 +107,9 @@ class AdminProfileEdit extends React.Component {
                         </form>
 
                         <form className="newForm stockForm">
-                        <button className="btn-success btn-lg btn-block btn my-2" onClick={this.confirmed}>Save profile</button>
+                        <button className="green_BTN btn-lg btn-block btn my-2" onClick={this.confirmed}>Save profile</button>
                         </form>
-                        <Link to="/Admin/Profile" className="btn-info btn-lg btn-block btn my-2">Back</Link>
+                        <Link to="/Admin/Profile" className="dark_BTN btn-lg btn-block btn my-2">Back</Link>
                     </div>
                 </div>
             </div>

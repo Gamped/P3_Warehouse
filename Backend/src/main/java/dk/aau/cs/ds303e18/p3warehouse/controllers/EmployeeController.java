@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.swing.text.html.Option;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin
@@ -47,8 +48,16 @@ public class EmployeeController {
         BeanUtils.copyProperties(restEmployeeModel, employee);
         if(employee.isValid()) {
             employee.setUserType(UserType.EMPLOYEE);
-            employeeRepository.save(employee);
-            return "created!";
+            if(userRepository.findAll().stream().noneMatch(x -> x.getUserName().equals(employee.getUserName()))) {
+                employeeRepository.save(employee);
+                User user = new User(employee.getId());
+                user.copyFrom(employee);
+                userRepository.save(user);
+                return "created!";
+            }
+            else{
+                return "Username already taken";
+            }
         }
         else return "Invalid User";
     }
@@ -64,13 +73,13 @@ public class EmployeeController {
         Product product = new Product(new ObjectId());
         BeanUtils.copyProperties(restProduct, product);
 
-        if(userType.equals(UserType.PUBLISHER.name())){
+        if(UserType.valueOf(userType).equals(UserType.PUBLISHER)){
             Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(customerId));
             Publisher publisher = optionalPublisher.get();
             publisher.addProduct(product);
             product.setOwner(publisher);
             publisherRepository.save(publisher);
-        }else if(userType.equals(UserType.CLIENT.name())){
+        }else if(UserType.valueOf(userType).equals(UserType.CLIENT)){
             Client client = clientRepository.findById(customerId);
             client.addProduct(product);
             product.setOwner(client);
@@ -90,13 +99,16 @@ public class EmployeeController {
         BeanUtils.copyProperties(restCustomerModel, user);
         publisher.setUserType(UserType.PUBLISHER);
         BeanUtils.copyProperties(restCustomerModel, publisher);
-        if(publisher.isValid()) {
-            publisherRepository.save(publisher);
-            userRepository.save(user);
+        if(publisherRepository.findAll().stream().noneMatch(x -> x.getUserName().equals(publisher.getUserName()))) {
+            if (publisher.isValid()) {
+                publisherRepository.save(publisher);
+                userRepository.save(user);
 
-            return "Created!";
+                return "Created!";
+            }
+               else return "Invalid User";
         }
-        else return "Invalid User";
+        return "Username already taken";
     }
 
     @PostMapping("/employee/clients")
@@ -110,12 +122,14 @@ public class EmployeeController {
 
         client.setUserType(UserType.CLIENT);
         user.setUserType(UserType.CLIENT);
-        if(client.isValid()) {
-            userRepository.save(user);
-            clientRepository.save(client);
-            return "Created!";
+        if(clientRepository.findAll().stream().noneMatch(x -> x.getUserName().equals(client.getUserName()))) {
+            if (client.isValid()) {
+                userRepository.save(user);
+                clientRepository.save(client);
+                return "Created!";
+            } else return "Invalid User";
         }
-        else return "Invalid User";
+        return "Username already taken";
     }
 
     //FIND ALL: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
@@ -285,12 +299,28 @@ public class EmployeeController {
 
     @DeleteMapping("/employee/clients/delete/{hexId}")
     private void deleteClientById(@PathVariable String hexId) {
-        clientRepository.deleteById(new ObjectId(hexId));
+        ObjectId id = new ObjectId(hexId);
+        Client client = clientRepository.findById(id).orElse(null);
+        client.unassignAllOrders().forEach(orderRepository::delete);
+        client.unassignAllProducts().forEach(productRepository::save);
+        User user = userRepository.findById(id).orElse(null);
+        clientRepository.delete(client);
+        userRepository.delete(user);
     }
 
     @DeleteMapping("/employee/publishers/delete/{hexId}")
     private void deletePublisherById(@PathVariable String hexId) {
-        publisherRepository.deleteById(new ObjectId(hexId));
+        ObjectId id = new ObjectId(hexId);
+        Publisher publisher = publisherRepository.findById(id).orElse(null);
+        publisher.getClientStream().map(x -> x.unassignAllProducts().map(product -> productRepository.save(product)));
+        publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(orderStream -> orderStream.forEach(orderRepository::delete));
+        publisher.unassignAllOrders().forEach(orderRepository::delete);
+        publisher.unassignAllProducts().map(product -> productRepository.save(product));
+        publisher.getClientStream().forEach(clientRepository::delete);
+        publisher.getClientStream().forEach(userRepository::delete);
+        publisherRepository.delete(publisher);
+        User user = userRepository.findById(publisher.getId()).orElse(null);
+        userRepository.delete(user);
     }
 
     @DeleteMapping("/employee/users/delete/{hexId")

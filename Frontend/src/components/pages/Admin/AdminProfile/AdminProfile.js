@@ -7,7 +7,7 @@ import {makeEmployeeData} from './../../../../handlers/dataHandlers'
 import "../../Pages.css";
 import "./AdminProfile.css";
 import { getColumnsFromArray } from '../../../../handlers/columnsHandlers.js';
-import AdminStock from '../AdminStock/AdminStock.js';
+
 let alert = require('./../../../../handlers/alertHandlers.js');
 
 class AdminProfile extends React.Component {
@@ -51,7 +51,7 @@ class AdminProfile extends React.Component {
         e.preventDefault();
 
         console.log(this.state.selectedId);
-        if (window.confirm("Do you wish to delete this employee user?")) {
+        if (window.confirm("Do you wish to delete this employee from the system?")) {
             
             del("employee/delete/" + this.state.selectedId, (status) => {
                 console.log(status);
@@ -60,48 +60,57 @@ class AdminProfile extends React.Component {
         } 
     }
 
+    sendToEdit = () =>{
+        if(this.state.selectedId === ""){
+            window.alert("Please choose a profile to edit.")
+        }else{
+            this.props.history.push(`/Admin/Profile/Edit/${this.state.selectedId}`)
+        }
+        
+    }
+
     render() {
 
         const employees = this.state.employees;
         const columns = getColumnsFromArray(["User Name", "Nick name"]);
 
         return(
-            <div className="PageStyle rounded">
-                <h1 className="title customText_b_big">Profile information</h1>
-                <div className="informationBox">
-                    <h1 className="lead"><strong>User name: {this.state.userName}</strong></h1>
-                    <h1 className="lead"><strong>Name: {this.state.nickName}</strong></h1>
+            <div className="PageStyle customText_b"> 
+                    <h1 className="title customText_b_big">Profile information</h1>
+                    <div className="informationBox">
 
-                    <ReactTable
-                        data={employees} 
-                        columns={columns} 
-                        showPagination={false} 
-                        className="-striped -highlight"
-                        getTrProps={(state, rowInfo) => {
-                            if (rowInfo && rowInfo.row) {
-                              return {
-                                onClick: (e) => {
-                                    
-                                  this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-                                  console.log(this.state.selectedId)
-                                },
-                                style: {
-                                  background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                  color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                        <h1 className="lead"><strong>Other employees: {this.state.userName}</strong></h1>
+
+                        <ReactTable
+                            data={employees} 
+                            columns={columns} 
+                            showPagination={false} 
+                            className="-striped -highlight"
+                            getTrProps={(state, rowInfo) => {
+                                if (rowInfo && rowInfo.row) {
+                                return {
+                                    onClick: (e) => {
+                                        
+                                    this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                    console.log(this.state.selectedId)
+                                    },
+                                    style: {
+                                    background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                    color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                    }
                                 }
-                              }
-                            }else{
-                              return {}
-                            }
-                        }}
-                          />
+                                }else{
+                                return {}
+                                }
+                            }}
+                            style={{height: "50vh"}}
+                        />
+                   
 
-                    <Link to="/Admin/Profile/AddEmployee" className="btn-block btn-success btn my-2">Add employee</Link>
-                    
-                    <Link to={`/Admin/Profile/Edit/${this.state.selectedId}`} className="btn-block btn-warning btn my-2">Edit employee</Link>
-                    
-                    <div className="btn-block btn-danger btn my-2" onClick={this.deleteEmployee}>Remove employee</div>
-                    
+                        <Link to="/Admin/Profile/AddEmployee" className="std_BTN btn my-2 mx-2">Add employee</Link>
+                        <button onClick={this.sendToEdit} className="std_BTN btn my-2 mx-2">Edit employee</button>
+                        <div className="red_BTN btn my-2 mx-2" onClick={this.deleteEmployee}>Remove employee</div>
+
                 </div>
             </div>
         );

@@ -9,7 +9,7 @@ const LandingPage = (props)=>{
             <div className="col" key={button.id}>
                 <Link 
                     to={button.location}  
-                    className=" LandingPageButtons btn btn-dark btn-lg border border-secondary rounded" 
+                    className="std_BTN LandingPageButtons btn btn-dark btn-lg border border-secondary rounded" 
                     role="button">
                     {button.name}
                 </Link>

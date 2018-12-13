@@ -77,41 +77,42 @@ class NewWare extends Component {
         const currentProduct = this.state.product;
 
         return (
-            <div className="PageStyle rounded">
-                <h1 className=" text-center">Add new product</h1>
-                <form>
-                    <input
-                        type="text "
-                        name="productName"
-                        className="my-2 form-control  "
-                        defaultValue={currentProduct.productName}
-                        onChange={this.onChange}
-                        placeholder="Product Name"/>
-                    <input
-                        type="text"
-                        name="productId"
-                        className="my-2 form-control "
-                        defaultValue={currentProduct.productId}
-                        onChange={this.onChange}
-                        placeholder="Product Id"/>
-                    <input
-                        type="text"
-                        name="quantity"
-                        className="my-2 form-control"
-                        defaultValue={currentProduct.quantity}
-                        onChange={this.onChange}
-                        placeholder="Quantity"/>
-                    <Dropdown owners={this.state.owners} action={this.setSelected}/>
-                     
-                </form>
+            <div className="PageStyle adminReduceFontSize customText_b">
+                <div className="frameBordering">
+                    <h1 className=" text-center">Add new product</h1>
+                    <form>
+                        <input
+                            type="text "
+                            name="productName"
+                            className="my-2 form-control  "
+                            defaultValue={currentProduct.productName}
+                            onChange={this.onChange}
+                            placeholder="Product Name"/>
+                        <input
+                            type="text"
+                            name="productId"
+                            className="my-2 form-control "
+                            defaultValue={currentProduct.productId}
+                            onChange={this.onChange}
+                            placeholder="Product Id"/>
+                        <input
+                            type="text"
+                            name="quantity"
+                            className="my-2 form-control"
+                            defaultValue={currentProduct.quantity}
+                            onChange={this.onChange}
+                            placeholder="Quantity"/>
+                        <Dropdown className="dropdownSmallSizeForNew" actors={this.state.owners} action={this.setSelected}/>
+                        
+                    </form>
 
 
-                <div className="" action="/Admin/Stock">
-                    <button className="btn-success btn-lg btn-block btn my-2" onClick={(hexID,userType)=>this.onSubmit(hexID,userType)}>Create product</button>
-                </div>
-                
-                <Link to="/Admin/Stock" className="btn-info btn-lg btn-block btn my-2">Back</Link>
-               
+                    <div className="" action="/Admin/Stock">
+                        <button className="green_BTN btn-lg btn-block btn my-2" onClick={(hexID,userType)=>this.onSubmit(hexID,userType)}>Create product</button>
+                    </div>
+                    
+                    <Link to="/Admin/Stock" className="std_BTN btn-lg btn-block btn my-2">Back</Link>
+                    </div>
             </div>
         )     
     }

@@ -1,3 +1,4 @@
+import {makeDateString} from './utils';
 
 export function makeProductsData(productStream) {
    
@@ -10,7 +11,7 @@ export function makeProductsData(productStream) {
         amount: 0,
         hexId: product.hexId,
         ownerHexId: product.owner.userHexId,
-        ownerName: product.owner.nickName
+        owner: product.owner.nickName
         });
     });
     return products;
@@ -62,6 +63,24 @@ export function makeProductsData(productStream) {
         return orders;
 }
 
+export function makeClientOrdersData(data){
+    var orders = [];
+    let owner, ownerHexId = "";
+
+    data.forEach((client)=>{
+        if(ordersExist(client)){
+            owner = client.contactInformation.nickName;
+                ownerHexId = client.hexId;
+
+                client.orderStream.forEach((order) => {
+                    orders.push(addOrder(order, owner, ownerHexId));
+                }); 
+        }
+    })
+
+    return orders;
+}
+
 
 export function ordersExist(customer) {
     return customer.orderStream != null && customer.orderStream != undefined;
@@ -76,7 +95,7 @@ export function addOrder(order, owner, ownerHexId) {
     orderObject.ownerHexId = ownerHexId;
     orderObject.owner = owner;
     orderObject.orderId = order.orderId;
-    orderObject.data = order.date;
+    orderObject.date = makeDateString(order.date);
     orderObject.hexId = order.hexId;
     orderObject.orderLines = order.orderLines.map((orderLine) => {
         return {
@@ -87,6 +106,8 @@ export function addOrder(order, owner, ownerHexId) {
     })
     return orderObject;
 }
+
+
 
 export function makeOwnersData(data) {
     this.setState({rawOwnerData: data});
@@ -230,4 +251,21 @@ export function makeOrderAddressData(data) {
     order.city = data.city;
 
     return order;
+}
+
+export const makeOrderBodyFromData = (data, orderLines) =>{
+    
+    let body = {};
+
+    body.orderLines = [];
+
+    body.address = data.address;
+    body.contactPerson = data.contactPerson;
+    body.phoneNumber = data.phoneNumber;
+    body.country = data.country;
+    body.company = data.company;
+    body.zipCode = data.zip;
+    body.products = {...orderLines}
+
+    return body;
 }

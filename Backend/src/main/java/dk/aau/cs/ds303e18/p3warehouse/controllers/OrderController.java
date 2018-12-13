@@ -6,9 +6,7 @@ import dk.aau.cs.ds303e18.p3warehouse.managers.OrderManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestOrderModel;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
 import org.bson.types.ObjectId;
@@ -48,14 +46,22 @@ public class OrderController {
     String createOrder(@PathVariable("userHexId") String userHexId, @PathVariable("userType") String userType,
                        @RequestBody RestOrderModel order) {
 
-        Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(userHexId));
-        Publisher publisher = optionalPublisher.get();
+        Customer owner = null;
+        try{
+            switch(UserType.valueOf(userType)){
+                case CLIENT: clientRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
+                case PUBLISHER: publisherRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
+            }
+        }
+        catch(Exception e){
+            return "User not found on id: " + userHexId;
+        }
         Order newOrder = new Order(new ObjectId());
         BeanUtils.copyProperties(order, newOrder);
 
 
-        publisher.addOrder(newOrder);
-        newOrder.setOwner(publisher);
+        owner.addOrder(newOrder);
+        newOrder.setOwner(owner);
         Collection<OrderLine> updatedOrderLines = new HashSet<>();
         try {
             for (OrderLine x : order.getOrderLines()) {
@@ -71,7 +77,10 @@ public class OrderController {
         }
 
         productRepository.saveAll(updatedOrderLines.stream().map(x -> x.getProduct()).collect(Collectors.toSet()));
-        publisherRepository.save(publisher);
+        switch (owner.getUserType()){
+            case CLIENT: clientRepository.save((Client)owner); break;
+            case PUBLISHER: publisherRepository.save((Publisher)owner); break;
+        }
         orderRepository.save(newOrder);
 
         return "Created!";
@@ -103,10 +112,36 @@ public class OrderController {
     }
 
     @DeleteMapping("/orders/delete/{hexId}")
-    void finishOrder(@PathVariable String hexId) {
+    String finishOrder(@PathVariable String hexId) {
+        orderRepository.deleteById(new ObjectId(hexId));
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
         confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
-        orderRepository.deleteById(new ObjectId(hexId));
+        Order queryedOrder = orderRepository.findById(new ObjectId(hexId)).orElse(null);
+        if(queryedOrder != null){
+            Customer owner = queryedOrder.getOwner();
+            try {
+                owner.removeOrder(queryedOrder);
+            }
+            catch(Exception e){
+
+            }
+            orderRepository.delete(queryedOrder);
+            try {
+                switch (owner.getUserType()) {
+                    case CLIENT:
+                        clientRepository.save((Client) owner);
+                        break;
+                    case PUBLISHER:
+                        publisherRepository.save((Publisher) owner);
+                        break;
+                }
+            }
+            catch(Exception e){
+
+            }
+            return "Order deleted?";
+        }
+        return "Error: Failed Successfully";
     }
 }
 
