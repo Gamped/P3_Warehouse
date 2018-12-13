@@ -23,7 +23,6 @@ import java.util.stream.Stream;
 @RestController
 public class PublisherController {
 
-    //TODO: Publisher kan slette en client.
     //TODO: Publisher kan slettes ordentligt. Klienter under publisher skal også slettes.
     //TODO: Publisher kan se deres ordrer
     //TODO: Publisher kan requeste klientændringer. En besked der kan sende en mail til 4n
