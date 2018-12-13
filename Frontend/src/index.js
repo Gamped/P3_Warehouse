@@ -25,6 +25,7 @@ import UserStock from "./components/pages/User/UserStock/UserStock";
 import UserProfile from "./components/pages/User/UserProfile/UserProfile";
 import UserProfileEdit from "./components/pages/User/UserProfile/UserProfileEdit";
 import Order from "./components/MenuComponents/Orders/OrderSelect";
+import UserOrder from "./components/pages/User/UserOrder/UserOrder";
 import Pushback from "./components/pages/Admin/AdminUsers/pushback"
 import OrderCart from "./components/MenuComponents/Orders/OrderCart";
 import CartConfirm from "./components/MenuComponents/Orders/CartConfirm";
@@ -69,7 +70,7 @@ ReactDOM.render(
 
             <Route path="/User" component={Menues}/>
             <Route exact path="/User/*" component={userMain}/>
-            <Route exact path="/User/Order" component={Order}/>
+            <Route exact path="/User/Order" component={UserOrder}/>
             <Route exact path="/User/Order/Cart" component={OrderCart}/>
             <Route exact path="/User/Order/Cart/Confirm" component={CartConfirm}/>
             <Route exact path="/User/Order/Success" component={OrderSuccess}/>
