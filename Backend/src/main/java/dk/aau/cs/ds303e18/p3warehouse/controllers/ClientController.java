@@ -60,7 +60,7 @@ public class ClientController {
         return client.getProductStream().collect(Collectors.toCollection(HashSet::new));
     }
 
-    @GetMapping("/clients/{hexId}/products")
+    @GetMapping("/clients/{hexId}/orders")
     private Collection<Order>findAllOrdersByClient(@PathVariable String hexId){
         Client client = clientRepository.findById(new ObjectId(hexId)).orElse(null);
         return client.getOrderStream().collect(Collectors.toCollection(HashSet::new));

@@ -124,17 +124,17 @@ class UserOrder extends React.Component {
           <div
             style={{ backgroundColor: "#fafafa" }}
             contentEditable
+            onClick={(e) => {e.target.innerHTML = ""}}
             suppressContentEditableWarning
             onBlur={e => {
                 
                 var typedAmount = e.target.innerHTML;
-                
+                console.log(typedAmount)
                 this.state.products
                 .filter(product => 
                     product.hexId === cellInfo.original.hexId)
                 .map(product => 
                     product.amount = typedAmount)
-    
                     cellInfo.original.amount = typedAmount;
     
             }}
@@ -210,8 +210,7 @@ class UserOrder extends React.Component {
                                                 this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
                                             },
                                             style: {
-                                              background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                              color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                              background: rowInfo.index === this.state.selected ? '#00afec' : 'white'
                                             }
                                           }
                                         }else{

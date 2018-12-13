@@ -4,59 +4,109 @@ import ReactTable from 'react-table';
 import "./UserOrder.css";
 import {connect} from "react-redux";
 import {get} from "./../../../../handlers/requestHandlers.js";
-import {makeClientOrdersData, makePublisherAndClientOrdersData} from '../../../../handlers/dataHandlers.js';
+import {makeDataFromOrderList, makePublisherAndItsClientsOrdersData} from '../../../../handlers/dataHandlers.js';
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 
 class UserOrder extends React.Component {
     
     constructor(props) {
         super(props);
-        this.state = { orders: [] };
+        this.state = { orders: [], selectedOrder: [], selected: null, selectedId: "" };
     
     }
     
     componentDidMount(){
-        this.getOrders();
+        this.checkUserType();
     }
 
-    getOrders = () =>{
+    checkUserType() {
 
-        const {userId,userType} = this.props;
-        get(userType.toLowerCase() + "s/" +userId + "/orders",(data)=>this.setDataToState(data, userType))
-       
+        if (this.props.userType.toLowerCase() == 'publisher') {
+            this.getPublisherData();
+        } else {
+            this.getClientData();
+        }
     }
 
-    setDataToState = (data, userType) => {
-        console.log(data);
+    getPublisherData() {
+
+        get("publishers/"+this.props.userId, (data) => {
+            this.setDataToState(data)
+        });
+    }
+
+    getClientData() {
+        get("clients/"+this.props.userId+"/orders", (data) => {
+            this.setDataToState(data)
+    
+        });
+    }
+
+    setDataToState = (data) => {
 
         let orders = [];
-      //  userType.toLowerCase() === "client" ? orders = makeClientOrdersData(data) : orders = makePublisherAndClientOrdersData(data);
+        
+        if (this.props.userType.toLowerCase() === "client") {
+            orders = makeDataFromOrderList(data);
+        } else {
+            orders = makePublisherAndItsClientsOrdersData(data);
+        }
+
         this.setState({orders: orders});
     }
 
+    setStateAsSelected = (rowInfo) => {
+
+        this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId });
+    }
+
+    showOrderLines(rowInfo) {
+
+        const selectedOrder = this.state.orders[rowInfo.index].orderLines;
+        this.setState({seletedOrder: selectedOrder});
+    }
+
     render() {
-        
-        const columns = getColumnsFromArray(["Order Id", "Placed By", "Date"]);
-        const orders = this.state.orders;
+
+        const orderColumns = getColumnsFromArray(["Order Id", "Owner", "Date"]);
+        //let orderLineColumns = getColumnsFromArray(["Product Id", "Product Name", "Amount"]);
 
         return(
             <div className="PageStyle">
                 <div className="frameBordering">
                     <div className="UserOrderLeft">
                         <ReactTable 
-                                data={orders}
+                                data={this.state.orders}
                                 className="productTable -striped -highlight"
-                                columns={columns}
+                                columns={orderColumns}
                                 showPagination={false} 
                                 className=" -striped -highlight darkenReactTable"
+                                getTrProps={(state, rowInfo) => {
+                                    if (rowInfo && rowInfo.row) {
+                                      return {
+                                        onClick: (e) => {
+                                           this.setStateAsSelected(rowInfo);
+                                           this.showOrderLines(rowInfo);
+                                        },
+                                        style: {
+                                          background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                          color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                        }
+                                      }
+                                    }else{
+                                      return {}
+                                    }
+                                   }
+                                }
 
                             />
                     </div>
                     <div className="UserOrderRight">
                         <Link to="/User/Order/Select" className="btn green_BTN btn-block">Create new order</Link>
                         <Link to="/Home" className="btn red_BTN btn-block">Remove order</Link>
-                    </div>
+                  </div>
                 </div>
+                       
             </div>
         );
     }

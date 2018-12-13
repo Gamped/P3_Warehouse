@@ -84,6 +84,7 @@ export default class EditOrder extends Component{
             style={{ backgroundColor: "#fafafa" }}
             contentEditable
             suppressContentEditableWarning
+            onClick={(e) => {e.target.innerHTML = ""}}
             onBlur={e => {
                 var typedValue = e.target.innerHTML;
                 
@@ -141,7 +142,7 @@ export default class EditOrder extends Component{
                                         },
                                         style: {
                                             background: rowInfo.index === this.state.selectedOrderLine ? '#00afec' : 'white',
-                                            color: rowInfo.index === this.state.selectedOrderLine ? 'white' : 'black'
+                                        
                                         }
                                     }
                                     }else{
