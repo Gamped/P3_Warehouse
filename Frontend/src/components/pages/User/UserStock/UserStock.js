@@ -44,28 +44,27 @@ class UserStock extends React.Component {
         const columns = getColumnsFromArray(["Product Id", "Product Name", "Quantity", "Owner Name"]);
         
         return(
-            <div className="PageStyle rounded">
-             <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <a className="navbar-brand" href="#">Your Stock</a>
-             </nav>
+            <div className="PageStyle customText_b">
+                <div className="frameBordering">
+                    <h className="customText_b_big">Your Stock</h>
                     <div className="row">
                         <div className="col">
-                        <div className="">
-                            <ReactTable
-                                columns={columns}
-                                data={this.state.products}
-                                showPagination={false} 
-                                className="-striped -highlight"
-                                defaultPageSize={25}
-                                    style={{
-                                        height: "400px"                                      
-                                     }}
-                            
-                            />
+                            <div className="">
+                                <ReactTable
+                                    columns={columns}
+                                    data={this.state.products}
+                                    showPagination={false} 
+                                    className="-striped -highlight"
+                                    defaultPageSize={25}
+                                        style={{
+                                            height: "400px"                                      
+                                        }}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
-        </div>
+            </div>
         );
     }
 }
