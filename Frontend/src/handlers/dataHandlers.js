@@ -28,9 +28,7 @@ export function makeProductsData(productStream) {
     return product;
 }
 
-
-
-  export function makePublisherAndClientOrdersData(data) {
+  export function makeAllPublishersAndClientsOrdersData(data) {
         var orders = [];
         let owner, ownerHexId = "";
 
@@ -63,23 +61,73 @@ export function makeProductsData(productStream) {
         return orders;
 }
 
-export function makeClientOrdersData(data){
+export function makePublisherAndItsClientsOrdersData(publisher) {
     var orders = [];
     let owner, ownerHexId = "";
 
-    data.forEach((client)=>{
-        if(ordersExist(client)){
-            owner = client.contactInformation.nickName;
+    if (ordersExist(publisher)) {
+        owner = publisher.contactInformation.nickName;
+        ownerHexId = publisher.hexId;
+
+        publisher.orderStream.forEach((order) => {
+            orders.push(addOrder(order, owner, ownerHexId));
+        }); 
+    }
+
+    if (clientsExist(publisher)) {
+        publisher.clientStream.forEach((client) => {
+            
+            if (ordersExist(client)) {
+                owner = client.contactInformation.nickName;
                 ownerHexId = client.hexId;
 
                 client.orderStream.forEach((order) => {
                     orders.push(addOrder(order, owner, ownerHexId));
-                }); 
-        }
+                    
+                });
+            }
+        });
+    }
+    return orders;
+}
+
+export function makeClientsOrdersData(data){
+    var orders = [];
+    let owner, ownerHexId = "";
+
+    data.forEach((client)=>{
+        owner = client.contactInformation.nickName;
+        ownerHexId = client.hexId;
+       orders.concat(makeClientOrdersData(client, owner, ownerHexId));
     })
 
     return orders;
 }
+
+export function makeDataFromOrderList(data) {
+    let orders = [];
+    if (data) {
+        data.forEach((order) => {
+            orders.push(addOrder(order));
+        })
+    } else {
+        return [];
+    }
+    return orders;
+}
+
+
+export function makeClientOrdersData(client, owner, ownerHexId) {
+    let orders = [];
+
+    if (ordersExist(client)) {
+        client.orderStream.forEach((order) => {
+            orders.push(addOrder(order, owner, ownerHexId));
+        })
+    }
+    return orders;
+}
+
 
 
 export function ordersExist(customer) {
@@ -92,8 +140,8 @@ export function clientsExist(publisher) {
 
 export function addOrder(order, owner, ownerHexId) {
     let orderObject = {};
-    orderObject.ownerHexId = ownerHexId;
-    orderObject.owner = owner;
+    orderObject.ownerHexId = ownerHexId ? ownerHexId : order.owner.userHexId;
+    orderObject.owner = owner ? owner : order.owner.nickName;
     orderObject.orderId = order.orderId;
     orderObject.date = makeDateString(order.date);
     orderObject.hexId = order.hexId;
@@ -206,21 +254,15 @@ export function makeClientDetails(publisher) {
 
 export function makeCustomerProductsData(customer) {
     let products = [];
-    console.log("Customer: " + customer)
     if (productsExist(customer)) {
-        console.log("productsExist")
         products = makeProductsData(customer.productStream);
     }
 
-    console.log("Producsts: " + products);
-
     if (isPublisher(customer)) {
         if (clientsExist(customer)) {
-            console.log("Clients exist ");
             let clientProducts = [];
 
             customer.clientStream.forEach((client) => {
-             console.log("ClientStream exist ");    
                 clientProducts = makeProductsData(client.productStream);
                 products = [...products, ...clientProducts];
             });
