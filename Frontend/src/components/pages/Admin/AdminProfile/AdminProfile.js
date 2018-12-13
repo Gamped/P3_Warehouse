@@ -60,6 +60,15 @@ class AdminProfile extends React.Component {
         } 
     }
 
+    sendToEdit = () =>{
+        if(this.state.selectedId === undefined){
+            alert("Please choose a profile to edit.")
+        }else{
+            this.props.history.push(`/Admin/Profile/Edit/${this.state.selectedId}`)
+        }
+        
+    }
+
     render() {
 
         const employees = this.state.employees;
@@ -95,7 +104,7 @@ class AdminProfile extends React.Component {
                         />
                    
                         <Link to="/Admin/Profile/AddEmployee" className=" btn-success btn my-2 mx-2">Add employee</Link>
-                        <Link to={`/Admin/Profile/Edit/${this.state.selectedId}`} className="btn-warning btn my-2 mx-2">Edit employee</Link>
+                        <button onClick={this.sendToEdit} className="btn-warning btn my-2 mx-2">Edit employee</button>
                         <div className="btn-danger btn my-2 mx-2" onClick={this.deleteEmployee}>Remove employee</div>
                 </div>
             </div>
