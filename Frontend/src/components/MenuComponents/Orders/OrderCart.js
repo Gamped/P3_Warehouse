@@ -73,13 +73,13 @@ class UserOrderCart extends React.Component {
 
         
         return(
-            <div className="PageStyle rounded">
-                    <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
+            <div className="PageStyle customText_b">
+                <h2 className="customText_b_big">Cart:</h2>
                 <div className="container">
                     <div className="row">
                         <div className="col">
                             <div className="container my-3">
-                                <table className="table table-dark">
+                                <table className="table orderCartTable">
                                     <thead>
                                         <tr key="header">
                                             <th scope="col">Product ID</th>
@@ -107,9 +107,9 @@ class UserOrderCart extends React.Component {
                                 <input type="text" className="input-group mb-3" name="city" onChange={this.onChange} placeholder="City" required/>
                                 <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" required/>
                                 
-                                <button className=" btn-success btn btn-block mt-5 mb-2" type="submit">Send order</button>
+                                <button className="green_BTN btn btn-block mt-5 mb-2" type="submit">Send order</button>
                             </form>
-                            <button className=" btn-danger btn btn-block" onClick={this.back}>Cancel order</button>
+                            <button className="red_BTN btn btn-block" onClick={this.back}>Cancel order</button>
                         </div>
                     </div>        
                 </div>

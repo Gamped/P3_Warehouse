@@ -24,6 +24,14 @@ body {
     color: rgb(0, 0, 0);
 }
 
+.customText_b_bold{
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    text-align: center;
+    font-size: 2vh;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
 .customText_b_big{
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
