@@ -61,8 +61,8 @@ class AdminProfile extends React.Component {
     }
 
     sendToEdit = () =>{
-        if(this.state.selectedId === undefined){
-            alert("Please choose a profile to edit.")
+        if(this.state.selectedId === ""){
+            window.alert("Please choose a profile to edit.")
         }else{
             this.props.history.push(`/Admin/Profile/Edit/${this.state.selectedId}`)
         }
