@@ -110,13 +110,15 @@ import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
                             <div className="">
                                 <button  className="green_BTN stockBTNSizer btn my-2" onClick={this.newStock}>New</button>
                             </div>
-                            <div action="/Admin/Stock/Edit" className="">
-                                <button  className="std_BTN stockBTNSizer btn my-2" onClick={this.changeToEditPage} >Edit</button>
-                                
-                            </div>
+
                             <div action="/Admin/Stock/Remove" className="">
                                 <button  className="red_BTN stockBTNSizer btn my-2" onClick={this.deleteProduct}>Remove</button>
                             </div>
+
+                            <div action="/Admin/Stock/Edit" className="">
+                                <button  className="blue_BTN stockBTNSizer btn my-2" onClick={this.changeToEditPage} >Edit</button>
+                            </div>
+
                             <div>
                                 <button onClick={()=>entireStockPDF(this.state)} className="std_BTN stockBTNSizer btn my-2">Export</button>
                             </div>

@@ -165,7 +165,7 @@ class UserOrder extends React.Component {
             navbar = (
                 <nav className="navbar navbar-light bg-light">                   
                     <form className = "form-inline">
-                                <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
+                        <button className="btn std_BTN my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
                     </form>
                     <div className="input-group mb-3">
                         <div className="input-group-prepend">
@@ -179,7 +179,7 @@ class UserOrder extends React.Component {
             navbar = (
                 <nav className="navbar navbar-light bg-light">                   
                     <form className = "form-inline">
-                        <button className="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
+                        <button className="btn  std_BTN my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
                     </form>       
                 </nav> 
                 )
@@ -213,54 +213,57 @@ class UserOrder extends React.Component {
         columns[2].Cell = this.renderEditable;
 
         return(
-            <div className="PageStyle rounded">
-            <nav className="navbar navbar-light bg-light"> 
-                <h2 className=" text-center "> Order:</h2>
-            </nav>   
-                {this.createNavBar()}        
-                
-                <div className="table">
-                    <div className="SideBar col rounded bg-secondary">
-                         <div className="col-my-auto">
-                                 <div className="OrderList">
-                                    <ReactTable  
-                                    data={data} 
-                                    columns={columns} 
-                                    showPagination={false} 
-                                    className="-striped -highlight"
-                                    getTrProps={(state, rowInfo) => {
-                                        if (rowInfo && rowInfo.row) {
-                                          return {
-                                            onClick: () => {
-                                                
-                                                this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-                                            },
-                                            style: {
-                                              background: rowInfo.index === this.state.selected ? '#00afec' : 'white'
+            <div className="PageStyle customText_b">
+                <div className="frameBordering">
+                    <nav className="navbar navbar-light bg-light"> 
+                        <h2 className=" customText_b_big "> Order:</h2>
+                    </nav> 
+
+                    {this.createNavBar()}        
+                    
+                    <div className="table">
+                        <div className="SideBar col rounded">
+                            <div className="col-my-auto">
+                                    <div className="OrderList">
+                                        <ReactTable  
+                                        data={data} 
+                                        columns={columns} 
+                                        showPagination={false} 
+                                        className="-striped -highlight"
+                                        getTrProps={(state, rowInfo) => {
+                                            if (rowInfo && rowInfo.row) {
+                                            return {
+                                                onClick: () => {
+                                                    
+                                                    this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                                },
+                                                style: {
+                                                background: rowInfo.index === this.state.selected ? '#00afec' : 'white'
+                                                }
                                             }
-                                          }
-                                        }else{
-                                          return {}
-                                        }
-                                    }}
-                                    defaultPageSize={25}
-                                    style={{
-                                        height: "400px"                                      
-                                     }}
-                                    />
-                                 </div>
-                         </div>  
-                    </div>  
-                    <nav className="navbarToButtoms navbar-light bg-light"> 
-                         <div className="container row">
-                             <div className="col my-2">
-                                 <button type="button" className="btn-success btn-lg btn-block btn my-2" onClick={this.addSelectedToOrderLine}>Add to order</button>
-                             </div>
-                             <div className="col my-2">
-                                 <button type="button" className="btn-lg btn-block btn-warning my-2" onClick={this.undoOrderLine}>Undo</button>
+                                            }else{
+                                            return {}
+                                            }
+                                        }}
+                                        defaultPageSize={25}
+                                        style={{
+                                            height: "400px"                                      
+                                        }}
+                                        />
+                                    </div>
+                            </div>  
+                        </div>  
+                        <nav className="navbarToButtoms navbar-light bg-light"> 
+                            <div className="container row">
+                                <div className="col my-2">
+                                    <button type="button" className="green_BTN btn-lg btn-block btn my-2" onClick={this.addSelectedToOrderLine}>Add to order</button>
+                                </div>
+                                <div className="col my-2 form-inline">
+                                    <button type="button" className="yellow_BTN btn-lg btn-block btn my-2" onClick={this.undoOrderLine}>Undo</button>
+                                </div>
                             </div>
-                        </div>
-                    </nav>      
+                        </nav>      
+                    </div>
                 </div>
             </div>
             );
