@@ -69,6 +69,8 @@ class UserOrderCart extends React.Component {
             )})
 
         }
+
+        
         
         return(
             <div className="PageStyle rounded">
