@@ -51,7 +51,7 @@ class AdminProfile extends React.Component {
         e.preventDefault();
 
         console.log(this.state.selectedId);
-        if (window.confirm("Do you wish to delete this employee user?")) {
+        if (window.confirm("Do you wish to delete this employee from the system?")) {
             
             del("employee/delete/" + this.state.selectedId, (status) => {
                 console.log(status);
@@ -66,10 +66,10 @@ class AdminProfile extends React.Component {
         const columns = getColumnsFromArray(["User Name", "Nick name"]);
 
         return(
-            <div className="PageStyle rounded"> 
+            <div className="PageStyle customText_b"> 
                     <h1 className="title customText_b_big">Profile information</h1>
                     <div className="informationBox">
-                        <h1 className="lead"><strong>User name: {this.state.userName}</strong></h1>
+                        <h1 className="lead"><strong>Other employees: {this.state.userName}</strong></h1>
                         <ReactTable
                             data={employees} 
                             columns={columns} 
@@ -95,9 +95,9 @@ class AdminProfile extends React.Component {
                             style={{height: "50vh"}}
                         />
                    
-                        <Link to="/Admin/Profile/AddEmployee" className=" btn-success btn my-2 mx-2">Add employee</Link>
-                        <Link to={`/Admin/Profile/Edit/${this.state.selectedId}`} className="btn-warning btn my-2 mx-2">Edit employee</Link>
-                        <div className="btn-danger btn my-2 mx-2" onClick={this.deleteEmployee}>Remove employee</div>
+                        <Link to="/Admin/Profile/AddEmployee" className="std_BTN btn my-2 mx-2">Add employee</Link>
+                        <Link to={`/Admin/Profile/Edit/${this.state.selectedId}`} className="std_BTN btn my-2 mx-2">Edit employee</Link>
+                        <div className="red_BTN btn my-2 mx-2" onClick={this.deleteEmployee}>Remove employee</div>
                 </div>
             </div>
         );
