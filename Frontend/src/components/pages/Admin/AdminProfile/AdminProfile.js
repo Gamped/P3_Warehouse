@@ -66,42 +66,38 @@ class AdminProfile extends React.Component {
         const columns = getColumnsFromArray(["User Name", "Nick name"]);
 
         return(
-            <div className="PageStyle rounded">
-                <h1 className="title customText_b_big">Profile information</h1>
-                <div className="informationBox">
-                    <h1 className="lead"><strong>User name: {this.state.userName}</strong></h1>
-                    <h1 className="lead"><strong>Name: {this.state.nickName}</strong></h1>
-
-                    <ReactTable
-                        data={employees} 
-                        columns={columns} 
-                        showPagination={false} 
-                        className="-striped -highlight"
-                        getTrProps={(state, rowInfo) => {
-                            if (rowInfo && rowInfo.row) {
-                              return {
-                                onClick: (e) => {
-                                    
-                                  this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-                                  console.log(this.state.selectedId)
-                                },
-                                style: {
-                                  background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                  color: rowInfo.index === this.state.selected ? 'white' : 'black'
+            <div className="PageStyle rounded"> 
+                    <h1 className="title customText_b_big">Profile information</h1>
+                    <div className="informationBox">
+                        <h1 className="lead"><strong>User name: {this.state.userName}</strong></h1>
+                        <ReactTable
+                            data={employees} 
+                            columns={columns} 
+                            showPagination={false} 
+                            className="-striped -highlight"
+                            getTrProps={(state, rowInfo) => {
+                                if (rowInfo && rowInfo.row) {
+                                return {
+                                    onClick: (e) => {
+                                        
+                                    this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                    console.log(this.state.selectedId)
+                                    },
+                                    style: {
+                                    background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                    color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                    }
                                 }
-                              }
-                            }else{
-                              return {}
-                            }
-                        }}
-                          />
-
-                    <Link to="/Admin/Profile/AddEmployee" className="btn-block btn-success btn my-2">Add employee</Link>
-                    
-                    <Link to={`/Admin/Profile/Edit/${this.state.selectedId}`} className="btn-block btn-warning btn my-2">Edit employee</Link>
-                    
-                    <div className="btn-block btn-danger btn my-2" onClick={this.deleteEmployee}>Remove employee</div>
-                    
+                                }else{
+                                return {}
+                                }
+                            }}
+                            style={{height: "50vh"}}
+                        />
+                   
+                        <Link to="/Admin/Profile/AddEmployee" className=" btn-success btn my-2 mx-2">Add employee</Link>
+                        <Link to={`/Admin/Profile/Edit/${this.state.selectedId}`} className="btn-warning btn my-2 mx-2">Edit employee</Link>
+                        <div className="btn-danger btn my-2 mx-2" onClick={this.deleteEmployee}>Remove employee</div>
                 </div>
             </div>
         );

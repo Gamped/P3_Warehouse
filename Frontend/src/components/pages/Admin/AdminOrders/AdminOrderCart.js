@@ -16,7 +16,6 @@ class AdminOrderCart extends React.Component {
            zip:null,
            city:"",
            country:""
-
         };
     }
     
