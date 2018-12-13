@@ -4,7 +4,9 @@ import "../../Pages.css";
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 import {get, put} from './../../../../handlers/requestHandlers.js';
 import {makeOrderLinesData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
+import {amountIsNotANumberWarning, amountExceedingQuantityWarning} from './../../../../handlers/exceptions.js';
 import "./EditOrder.css";
+
 
 export default class EditOrder extends Component{
     constructor(props){
@@ -84,23 +86,31 @@ export default class EditOrder extends Component{
           <div
             style={{ backgroundColor: "#fafafa" }}
             contentEditable
-            suppressContentEditableWarning
+            type="number"
             onClick={(e) => {e.target.innerHTML = ""}}
             onBlur={e => {
-                var typedValue = e.target.innerHTML;
-                
+              
+                var typedAmount = e.target.innerHTML ? e.target.innerHTML : "0";
+                if (!typedAmount.match(/^\d+$/)) { amountIsNotANumberWarning() }
                 this.state.orderLines
                 .filter(orderLine => orderLine.hexId === cellInfo.original.hexId)
-                .map(orderLine => 
-                    orderLine.amount = typedValue);
-                    
-                    cellInfo.original[e.target.name] = typedValue;
-    
+                .map(orderLine => {
+                    if (typedAmount <= orderLine.quantity) { 
+                        orderLine.amount = typedAmount;
+                    } else { 
+                        amountExceedingQuantityWarning();
+                        typedAmount = "0";
+                    }
+                         
+                })
+                   cellInfo.original.amount = typedAmount;
+                   e.target.innerHTML = typedAmount;
+                   
             }}
             dangerouslySetInnerHTML={{
               __html: this.state.orderLines[cellInfo.index][cellInfo.column.id]
             }}
-          />
+          required/>
         );
       }
     }
