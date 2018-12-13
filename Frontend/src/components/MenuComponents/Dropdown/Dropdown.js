@@ -14,7 +14,7 @@ const Dropdown = (props) =>{
     })
     return(
         <select className="custom-select my-2" onChange={action}>
-            <option>Choose User</option>
+            <option>Choose Customer</option>
             {actorList}
         </select>  
     )
