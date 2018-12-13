@@ -16,7 +16,8 @@ const initialState ={
             case "SET_ZIP":
             case "SET_CITY":
             case "SET_COUNTRY":
-                state = {...state, ...action.payload}                
+                state = {...state, ...action.payload}
+                console.log(state)                
                 break;
             case "DELETE_ADRESS":
                 state ={...state, initialState} 

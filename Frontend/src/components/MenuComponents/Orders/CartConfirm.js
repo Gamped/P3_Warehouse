@@ -1,10 +1,9 @@
 import React from 'react';
-import "../../Pages.css";
-import "./UserOrder.css";
-import "./UserCart.css";
+import "./Order.css";
+import "./Cart.css";
 import { connect } from "react-redux"
 import {Link} from "react-router-dom";
-import { put, post } from '../../../../handlers/requestHandlers';
+import { post } from '../../../handlers/requestHandlers';
 
  class UserCartConfirm extends React.Component {
     constructor(props) {
@@ -52,6 +51,10 @@ import { put, post } from '../../../../handlers/requestHandlers';
 
 
         });
+    }
+
+    onChange = (event) => {
+        
     }
  
 

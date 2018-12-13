@@ -1,30 +1,29 @@
 import React from 'react';
-import "../../Pages.css";
+import "./Order.css";
+import "./Cart.css";
 import { connect } from "react-redux";
-import {Link} from "react-router-dom";
 
-class AdminOrderCart extends React.Component {
-    //A constructor that also sets state.
+class UserOrderCart extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           address:"",
-           company:"",
-           cvr:"",
-           contact:"",
+           address:"DEFAULT",
+           company:"DEFAULT",
+           cvr:"DEFAULT",
+           contact:"DEFAULT",
            phone:null,
-           zip:null,
-           city:"",
-           country:""
+           zip:"DEFAULT",
+           city:"DEFAULT",
+           country:"DEFAULT"
         };
     }
-    
-    //On change we assign a state with the input's name to the input's value  
+ 
     onChange = (e) => {
-        this.setState({[e.target.name]:e.target.value})
+        const state = this.state;
+        state[e.target.name] = e.target.value;
+        this.setState({state});
     }
 
-    //When the user confirms the adress it is then saved in redux.
     confirmed = (event) =>{
         event.preventDefault();
         console.log(this.state)
@@ -37,26 +36,40 @@ class AdminOrderCart extends React.Component {
         this.props.setCVR(this.state.cvr)
         this.props.setCountry(this.state.country)
 
-        this.props.history.push("/Admin/Order/Cart/Confirm")
+        const userType = this.props.userType
+        if(userType==="EMPLOYEE"){
+            this.props.history.push("/Admin/Order/Cart/Confirm")
+        }else{
+            this.props.history.push("/User/Order/Cart/Confirm")
+        }
+        
     }
 
+    back = (event)=>{
+        event.preventDefault();
+        const userType = this.props.userType
+        if(userType==="EMPLOYEE"){
+            this.props.history.push("/Admin/Orders/New")
+        }else{
+            this.props.history.push("/User/Order/")
+        }
+        
+    }
 
     render(){
-        //Some logic before rendering.
-        //takes the order saved in redux and assigns it to a local variable.
-        //Then changes that local variable to contain some code our html can understand
-        let lines = [];
-        lines.concat(this.props.orderLines);
-        const lineMapping = lines.map((line)=>{
-            return(
-                <tr key={line.productId}>
+        let lines = this.props.orderLines.orderLines;
+
+        if(lines !== undefined){
+            lines = lines.map((line, i)=>{return(
+                <tr key={i}>
                     <th scope="row">{line.productId}</th>
                     <td>{line.productName}</td>
                     <td>{line.amount}</td>
                 </tr>
             )})
+
+        }
         
-        //This is what is actually rendered.
         return(
             <div className="PageStyle rounded">
                     <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
@@ -73,7 +86,7 @@ class AdminOrderCart extends React.Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {lineMapping}                                       
+                                        {lines}                                       
                                     </tbody>
                                 </table>
                             </div>
@@ -83,18 +96,20 @@ class AdminOrderCart extends React.Component {
                             <h4 className="text-center my-2">Where to send the order:</h4>
 
                             <form className="">
-                                <input type="text" className="input-group mb-3" name="company" onChange={this.onChange} placeholder="Company" key="company"/>
-                                <input type="text" className="input-group mb-3" name="cvr" onChange={this.onChange} placeholder="CVR" key="cvr"/>
-                                <input type="text" className="input-group mb-3" name="contact" onChange={this.onChange} placeholder="Contact Person" key="contact" required/>
-                                <input type="number" className="input-group mb-3" name="phone" onChange={this.onChange} placeholder="PhoneNumber" key="phone" required/>
-                                <input type="text" className="input-group mb-3" name="address" onChange={this.onChange} placeholder="Address" key="address" required/>
-                                <input type="number" className="input-group mb-3" name="zip" onChange={this.onChange} placeholder="Zip" key="zip" required/>
-                                <input type="text" className="input-group mb-3" name="city" onChange={this.onChange} placeholder="City" key="city" required/>
-                                <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" key="country" required/>         
+                                <input type="text" className="input-group mb-3" name="company" onChange={this.onChange} placeholder="Company"/>
+                                <input type="text" className="input-group mb-3" name="cvr" onChange={this.onChange} placeholder="CVR"/>
+                                <input type="text" className="input-group mb-3" name="contact" onChange={this.onChang} placeholder="Contact Person" required/>
+                                <input type="number" className="input-group mb-3" name="phone" onChange={this.onChange} placeholder="PhoneNumber" required/>
+                                <input type="text" className="input-group mb-3" name="address" onChange={this.onChange} placeholder="Address" required/>
+                                <input type="number" className="input-group mb-3" name="zip" onChange={this.onChange} placeholder="Zip" required/>
+                                <input type="text" className="input-group mb-3" name="city" onChange={this.onChange} placeholder="City" required/>
+                                <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" required/>
+                                
                                 <button className=" btn-success btn btn-block my-3" onClick={this.confirmed} type="submit">Send order</button>
-                                <Link to="/Admin/Orders/" className=" btn-danger btn btn-block" >Cancel order</Link>        
-                                   
+                                <button className=" btn-danger btn btn-block" onClick={this.back}>Cancel order</button>
+            
                             </form>
+                    
                         </div>
                     </div>        
                 </div>
@@ -103,14 +118,13 @@ class AdminOrderCart extends React.Component {
     }
 }
 
-//Maps the redux state to props
 const mapStateToProps = (state)=>{
     return{
-        order: state.orderReducer.order
+        orderLines: state.orderReducer,
+        userType: state.loginReducer.userType
     }
 }
 
-//Maps redux dispatch functions to props.
 const mapDispatchToProps = (dispatch) =>{
     return{
         
@@ -126,5 +140,4 @@ const mapDispatchToProps = (dispatch) =>{
     }
 }
 
-//Connects to redux through a higher order component.
-export default connect(mapStateToProps, mapDispatchToProps)(AdminOrderCart);
+export default connect(mapStateToProps, mapDispatchToProps)(UserOrderCart);

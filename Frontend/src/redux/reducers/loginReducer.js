@@ -4,9 +4,9 @@ userName:"",
 userId:"",};*/
 
 const devState ={loggedIn:"True",
-userType:"CLIENT",
+userType:"EMPLOYEE",
 nickName:"Kev The Machine",
-userId:"5c10d67a8e2f371ff81fa7d6",};
+userId:"5c110f7c8e2f373cd81c1048",};
 
 const loginReducer = (state = devState, action) => {
     switch(action.type){

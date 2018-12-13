@@ -73,6 +73,8 @@ public class EmployeeRoutes {
         employeeRepository.save(emp2);
         employeeRepository.save(emp3);
 
+
+
         User user = new User(emp.getId());
         User user2 = new User(emp2.getId());
         User user3 = new User(emp3.getId());
@@ -202,6 +204,26 @@ public class EmployeeRoutes {
         publisherRepository.save(publisher);
         publisherRepository.save(secondPublisher);
         publisherRepository.save(thirdPublisher);
+
+        User user = new User(publisher.getId());
+        User user2 = new User(secondPublisher.getId());
+        User user3 = new User(thirdPublisher.getId());
+        User user4 = new User(client.getId());
+        User user5 = new User(secondClient.getId());
+        User user6 = new User(thirdClient.getId());
+        BeanUtils.copyProperties(publisher, user);
+        BeanUtils.copyProperties(secondPublisher, user2);
+        BeanUtils.copyProperties(thirdPublisher, user3);
+        BeanUtils.copyProperties(client, user4);
+        BeanUtils.copyProperties(secondClient, user5);
+        BeanUtils.copyProperties(thirdClient, user6);
+
+        userRepository.save(user);
+        userRepository.save(user2);
+        userRepository.save(user3);
+        userRepository.save(user4);
+        userRepository.save(user5);
+        userRepository.save(user6);
     }
 
     //One publisher with one client
@@ -249,8 +271,14 @@ public class EmployeeRoutes {
         orderRepository.save(publisherOrder);
         clientRepository.save(client);
         publisherRepository.save(publisher);
-        userRepository.save(publisher);
-        userRepository.save(client);
+
+        User user = new User(client.getId());
+        User user2 = new User(publisher.getId());
+        BeanUtils.copyProperties(client, user);
+        BeanUtils.copyProperties(publisher, user2);
+
+        userRepository.save(user);
+        userRepository.save(user2);
     }
 
     public void addEmployeeToDb() {
@@ -271,6 +299,14 @@ public class EmployeeRoutes {
 
         employeeRepository.save(secondEmployee);
         employeeRepository.save(employee);
+
+        User user = new User(employee.getId());
+        User user2 = new User(secondEmployee.getId());
+        BeanUtils.copyProperties(employee, user);
+        BeanUtils.copyProperties(secondEmployee, user2);
+
+        userRepository.save(user);
+        userRepository.save(user2);
     }
 
     @Test
@@ -299,6 +335,17 @@ public class EmployeeRoutes {
         clientRepository.save(client);
         clientRepository.save(secondClient);
         publisherRepository.save(publisher);
+
+        User user = new User(client.getId());
+        User user2 = new User(secondClient.getId());
+        User user3 = new User(publisher.getId());
+        BeanUtils.copyProperties(user, user);
+        BeanUtils.copyProperties(user2, user2);
+        BeanUtils.copyProperties(user3, user3);
+
+        userRepository.save(user);
+        userRepository.save(user2);
+        userRepository.save(user3);
     }
 
     @Test
@@ -381,6 +428,23 @@ public class EmployeeRoutes {
         clientRepository.save(fourthClient);
         publisherRepository.save(publisher);
 
+        User user = new User(client.getId());
+        User user2 = new User(secondClient.getId());
+        User user3 = new User(thirdClient.getId());
+        User user4 = new User(fourthClient.getId());
+        User user5 = new User(publisher.getId());
+        BeanUtils.copyProperties(client, user);
+        BeanUtils.copyProperties(secondClient, user2);
+        BeanUtils.copyProperties(thirdClient, user3);
+        BeanUtils.copyProperties(fourthClient, user4);
+        BeanUtils.copyProperties(publisher, user5);
+
+        userRepository.save(user);
+        userRepository.save(user2);
+        userRepository.save(user3);
+        userRepository.save(user4);
+        userRepository.save(user5);
+
     }
 
     @Test
@@ -397,10 +461,6 @@ public class EmployeeRoutes {
         orderLines.add(secondOrderLine);
 
         order.setOrderLines(orderLines);
-        order.setDate(new Date());
-        order.setAddress("govvej 10");
-        order.setOrderId("3436346grd");
-        order.setTitle("Moving Titles");
 
         Client client = makeClient();
         Client secondClient = makeSecondClient();
@@ -423,6 +483,17 @@ public class EmployeeRoutes {
         clientRepository.save(client);
         clientRepository.save(secondClient);
         publisherRepository.save(publisher);
+
+        User user = new User(publisher.getId());
+        User user2 = new User(client.getId());
+        User user3 = new User(secondClient.getId());
+        BeanUtils.copyProperties(publisher, user);
+        BeanUtils.copyProperties(client, user2);
+        BeanUtils.copyProperties(secondClient, user3);
+
+        userRepository.save(user);
+        userRepository.save(user2);
+        userRepository.save(user3);
     }
 
     public void independentClient() {
@@ -431,7 +502,6 @@ public class EmployeeRoutes {
 
         OrderLine orderLine = new OrderLine(product, 25);
         order.setOrderLines(Collections.singleton(orderLine));
-
 
         Client client = makeExtraClient();
         client.addProduct(product);
@@ -442,6 +512,11 @@ public class EmployeeRoutes {
         productRepository.save(product);
         orderRepository.save(order);
         clientRepository.save(client);
+
+        User user = new User(client.getId());
+        BeanUtils.copyProperties(client, user);
+
+        userRepository.save(user);
     }
 
     private ObjectId newObjectId() {
@@ -453,6 +528,7 @@ public class EmployeeRoutes {
 
     private Product makeProduct() {
         Product product = new Product(newObjectId());
+
         product.setProductName("move");
         product.setQuantity(20);
         product.setProductId("343253beb");
@@ -464,6 +540,7 @@ public class EmployeeRoutes {
 
     private Product makeSecondProduct() {
         Product product = new Product(newObjectId());
+
         product.setProductName("run");
         product.setQuantity(20);
         product.setProductId("42432b");
@@ -473,6 +550,7 @@ public class EmployeeRoutes {
 
     private Product makeThirdProduct() {
         Product product = new Product(newObjectId());
+
         product.setProductName("jump");
         product.setQuantity(30);
         product.setProductId("24325de");
@@ -482,6 +560,7 @@ public class EmployeeRoutes {
 
     private Product makeFourthProduct() {
         Product product = new Product(newObjectId());
+
         product.setProductName("bike");
         product.setQuantity(60);
         product.setProductId("353645765756");
@@ -491,6 +570,7 @@ public class EmployeeRoutes {
 
     private Product makeFifthProduct() {
         Product product = new Product(newObjectId());
+
         product.setProductName("car");
         product.setQuantity(30);
         product.setProductId("43256456457");
@@ -500,6 +580,7 @@ public class EmployeeRoutes {
 
     private Product makeSixthProduct() {
         Product product = new Product(newObjectId());
+
         product.setProductName("ship");
         product.setQuantity(65);
         product.setProductId("3243354654");
@@ -509,6 +590,7 @@ public class EmployeeRoutes {
 
     private Product makeSeventhProduct() {
         Product product = new Product(newObjectId());
+
         product.setProductName("bus");
         product.setQuantity(66);
         product.setProductId("3r23543645765");
@@ -518,6 +600,7 @@ public class EmployeeRoutes {
 
     private Product makeEigthProduct() {
         Product product = new Product(newObjectId());
+
         product.setProductName("music");
         product.setQuantity(26);
         product.setProductId("35264564765765");
@@ -528,6 +611,7 @@ public class EmployeeRoutes {
     private Client makeClient() {
         Client client = new Client(newObjectId());
         ContactInformation contactInformation = new ContactInformation();
+
         contactInformation.setNickName("karin");
         contactInformation.setEmail("secondclient@cc.ff");
         contactInformation.setAddress("ryvej 5");
@@ -554,21 +638,18 @@ public class EmployeeRoutes {
         contactInformation.setZipCode("1694");
         contactInformation.setCity("Århus");
 
-
         publisher.setContactInformation(contactInformation);
         publisher.setUserType(UserType.PUBLISHER);
         publisher.setUserName("publisher");
         publisher.setPassword("esfesfreg3");
-
 
         return publisher;
     }
 
     private Client makeSecondClient() {
         Client client = new Client(newObjectId());
-
-
         ContactInformation contactInformation = new ContactInformation();
+
         contactInformation.setNickName("Karen");
         contactInformation.setEmail("client@kare.rr");
         contactInformation.setAddress("fffavej 2");
@@ -586,8 +667,8 @@ public class EmployeeRoutes {
 
     private Client makeThirdClient() {
         Client client = new Client(newObjectId());
-
         ContactInformation contactInformation = new ContactInformation();
+
         contactInformation.setNickName("Gose");
         contactInformation.setEmail("publisher@fef.rr");
         contactInformation.setAddress("revej 4");
@@ -599,12 +680,14 @@ public class EmployeeRoutes {
         client.setUserName("thirdclient");
         client.setPassword("fesgr4546");
         client.setContactInformation(contactInformation);
+
         return client;
     }
 
     private Publisher makeSecondPublisher() {
         Publisher publisher = new Publisher(newObjectId());
         ContactInformation contactInformation = new ContactInformation();
+
         contactInformation.setNickName("lej og byg");
         contactInformation.setEmail("secondPublisher@ff.cc");
         contactInformation.setPhoneNumber("26546235");
@@ -623,6 +706,7 @@ public class EmployeeRoutes {
     private Publisher makeThirdPublisher() {
         Publisher publisher = new Publisher(newObjectId());
         ContactInformation contactInformation = new ContactInformation();
+
         contactInformation.setNickName("music store");
         contactInformation.setEmail("thirdPublisher@ff.cc");
         contactInformation.setPhoneNumber("87525632");
@@ -640,6 +724,7 @@ public class EmployeeRoutes {
 
     private Order makeOrder() {
         Order order = new Order(newObjectId());
+
         order.setTitle("order");
         order.setDate(new Date());
         order.setAddress("mour 4");
@@ -656,6 +741,7 @@ public class EmployeeRoutes {
 
     private Order makeSecondOrder() {
         Order order = new Order(newObjectId());
+
         order.setTitle("secondorder");
         order.setDate(new Date());
         order.setAddress("foul 23");
@@ -673,6 +759,7 @@ public class EmployeeRoutes {
 
     private Order makeThirdOrder() {
         Order order = new Order(newObjectId());
+
         order.setTitle("thirdorder");
         order.setDate(new Date());
         order.setAddress("doo 4");
@@ -689,6 +776,7 @@ public class EmployeeRoutes {
 
     private Order makeFourthOrder() {
         Order order = new Order(newObjectId());
+
         order.setTitle("fourthorder");
         order.setDate(new Date());
         order.setAddress("yellow 2");
@@ -705,6 +793,7 @@ public class EmployeeRoutes {
 
     private Order makeFifthOrder() {
         Order order = new Order(newObjectId());
+
         order.setTitle("fifthorder");
         order.setDate(new Date());
         order.setAddress("moon 90");
@@ -721,6 +810,7 @@ public class EmployeeRoutes {
 
     private Order makeSixthOrder() {
         Order order = new Order(newObjectId());
+
         order.setTitle("sixthorder");
         order.setDate(new Date());
         order.setAddress("sun 33");
@@ -736,8 +826,7 @@ public class EmployeeRoutes {
     }
 
     public Client makeExtraClient() {
-        ObjectId id = new ObjectId();
-        Client client = new Client(id);
+        Client client = new Client(newObjectId());
         ContactInformation contactInformation = new ContactInformation();
 
         contactInformation.setNickName("Hans");
@@ -756,9 +845,8 @@ public class EmployeeRoutes {
     }
 
     public Product makeExtraProduct() {
-        ObjectId productId = new ObjectId();
+        Product product = new Product(newObjectId());
 
-        Product product = new Product(productId);
         product.setQuantity(400);
         product.setProductName("cycling news");
         product.setProductId("342525");
@@ -767,8 +855,8 @@ public class EmployeeRoutes {
     }
 
     public Order makeExtraOrder() {
-        ObjectId orderId = new ObjectId();
-        Order order = new Order(orderId);
+        Order order = new Order(newObjectId());
+
         order.setTitle("flyers");
         order.setOrderId("3255");
         order.setAddress("musvej 3");
