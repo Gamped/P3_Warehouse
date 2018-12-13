@@ -35,6 +35,8 @@ import UserOrderHistory from "./components/pages/User/UserProfile/UserOrderHisto
 import UserOrder from "./components/pages/User/UserOrder/UserOrder";
 import Pushback from "./components/pages/Admin/AdminUsers/pushback"
 import UserOrderCart from "./components/pages/User/UserOrder/UserOrderCart";
+import UserOrderConfirmed from "./components/pages/User/UserOrder/UserOrderConfirmed";
+import UserOrderFailed from "./components/pages/User/UserOrder/UserOrderFailed";
 import UserCartConfirm from "./components/pages/User/UserOrder/UserCartConfirm";
 import Menues from "./components/Menues/Menues";
 import Home from "./mainPages/landingPage";
@@ -78,6 +80,8 @@ ReactDOM.render(
             <Route exact path="/User/Order" component={UserOrder}/>
             <Route exact path="/User/Order/Cart" component={UserOrderCart}/>
             <Route exact path="/User/Order/Cart/Confirm" component={UserCartConfirm}/>
+            <Route exact path="/User/Order/Confirmed" component={UserOrderConfirmed}/>
+            <Route exact path="/User/Order/Failed" component={UserOrderFailed}/>
             <Route exact path="/User/Stock" component={UserStock}/>
             <Route exact path="/User/Profile" component={UserProfile}/>
             <Route exact path="/User/Profile/Edit/" component={UserProfileEdit}/>
