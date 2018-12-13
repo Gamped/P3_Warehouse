@@ -26,7 +26,7 @@ import PublisherRequestClientChange from "./components/pages/User/PublisherClien
 import UserStock from "./components/pages/User/UserStock/UserStock";
 import UserProfile from "./components/pages/User/UserProfile/UserProfile";
 import UserProfileEdit from "./components/pages/User/UserProfile/UserProfileEdit";
-import Order from "./components/MenuComponents/Orders/OrderSelect";
+import OrderSelect from "./components/MenuComponents/Orders/OrderSelect";
 import Pushback from "./components/pages/Admin/AdminUsers/pushback"
 import OrderCart from "./components/MenuComponents/Orders/OrderCart";
 import CartConfirm from "./components/MenuComponents/Orders/CartConfirm";
@@ -49,7 +49,7 @@ ReactDOM.render(
             <Route path="/Admin" component={Menues}/>
             <Route exact path="/Admin/*" component={adminMain}/>
             <Route exact path="/Admin/Orders" component={AdminOrders}/>
-            <Route exact path="/Admin/Orders/New" component={Order}/>
+            <Route exact path="/Admin/Orders/New" component={OrderSelect}/>
             <Route exact path="/Admin/Orders/Edit/:id" component={EditOrder}/>
             <Route exact path="/Admin/Orders/Edit/OrderAddress/:id" component={EditOrderAddress}/>
             <Route exact path="/Admin/Orders/Edit/OrderContent/:id" component={EditOrderContent}/>
@@ -73,7 +73,7 @@ ReactDOM.render(
 
             <Route path="/User" component={Menues}/>
             <Route exact path="/User/*" component={userMain}/>
-            <Route exact path="/User/Order" component={Order}/>
+            <Route exact path="/User/Order" component={OrderSelect}/>
             <Route exact path="/User/Order/Cart" component={OrderCart}/>
             <Route exact path="/User/Order/Cart/Confirm" component={CartConfirm}/>
             <Route exact path="/User/Order/Success" component={OrderSuccess}/>
