@@ -4,11 +4,8 @@ import {BrowserRouter,Route} from "react-router-dom";
 import './style.css';
 import {Provider} from "react-redux";
 import redux from "./redux/Redux";
-import NewOrder from './components/pages/Admin/AdminOrders/NewOrder';
 import EditOrder from './components/pages/Admin/AdminOrders/EditOrder';
 import AdminOrder from './components/pages/Admin/AdminOrders/EditOrder';
-import AdminOrderCart from './components/pages/Admin/AdminOrders/AdminOrderCart';
-import AdminCartConfirm from './components/pages/Admin/AdminOrders/AdminCartConfirm';
 import EditOrderAddress from './components/pages/Admin/AdminOrders/EditOrderAddress';
 import EditOrderContent from './components/pages/Admin/AdminOrders/EditOrderContent';
 import loginMain from "./mainPages/loginMain";
@@ -29,10 +26,10 @@ import PublisherRequestClientChange from "./components/pages/User/PublisherClien
 import UserStock from "./components/pages/User/UserStock/UserStock";
 import UserProfile from "./components/pages/User/UserProfile/UserProfile";
 import UserProfileEdit from "./components/pages/User/UserProfile/UserProfileEdit";
-import UserOrder from "./components/pages/User/UserOrder/UserOrder";
+import Order from "./components/MenuComponents/Orders/OrderSelect";
 import Pushback from "./components/pages/Admin/AdminUsers/pushback"
-import UserOrderCart from "./components/pages/User/UserOrder/UserOrderCart";
-import UserCartConfirm from "./components/pages/User/UserOrder/UserCartConfirm";
+import OrderCart from "./components/MenuComponents/Orders/OrderCart";
+import CartConfirm from "./components/MenuComponents/Orders/CartConfirm";
 import Menues from "./components/Menues/Menues";
 import Home from "./mainPages/landingPage";
 import CreateUser from "./components/pages/Admin/AdminUsers/CreateUser";
@@ -43,12 +40,14 @@ ReactDOM.render(
 
         <div>
             <Route exact path="/" component={loginMain}/>
+            
             <Route path="/Home" component={Menues}/>
-            <Route exact path="/Home" component={Home}/>     
+            <Route exact path="/Home" component={Home}/>
+
             <Route path="/Admin" component={Menues}/>
             <Route exact path="/Admin/*" component={adminMain}/>
             <Route exact path="/Admin/Orders" component={AdminOrders}/>
-            <Route exact path="/Admin/Orders/New" component={NewOrder}/>
+            <Route exact path="/Admin/Orders/New" component={Order}/>
             <Route exact path="/Admin/Orders/Edit/:id" component={EditOrder}/>
             <Route exact path="/Admin/Orders/Edit/OrderAddress/:id" component={EditOrderAddress}/>
             <Route exact path="/Admin/Orders/Edit/OrderContent/:id" component={EditOrderContent}/>
@@ -64,13 +63,14 @@ ReactDOM.render(
             <Route exact path="/Admin/Users/Create" component={CreateUser}/>
             <Route exact path="/Admin/Users/Push" component={Pushback}/>
             <Route exact path="/Admin/Order" component={AdminOrder}/>
-            <Route exact path="/Admin/Order/Cart" component={AdminOrderCart}/>
-            <Route exact path="/Admin/Order/Cart/Confirm" component={AdminCartConfirm}/>
+            <Route exact path="/Admin/Order/Cart" component={OrderCart}/>
+            <Route exact path="/Admin/Order/Cart/Confirm" component={CartConfirm}/>
+
             <Route path="/User" component={Menues}/>
             <Route exact path="/User/*" component={userMain}/>
-            <Route exact path="/User/Order" component={UserOrder}/>
-            <Route exact path="/User/Order/Cart" component={UserOrderCart}/>
-            <Route exact path="/User/Order/Cart/Confirm" component={UserCartConfirm}/>
+            <Route exact path="/User/Order" component={Order}/>
+            <Route exact path="/User/Order/Cart" component={OrderCart}/>
+            <Route exact path="/User/Order/Cart/Confirm" component={CartConfirm}/>
             <Route exact path="/User/Stock" component={UserStock}/>
             <Route exact path="/User/Profile" component={UserProfile}/>
             <Route exact path="/User/Profile/Edit/" component={UserProfileEdit}/>
