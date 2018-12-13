@@ -1,3 +1,4 @@
+import {makeDateString} from './utils';
 
 export function makeProductsData(productStream) {
    
@@ -106,9 +107,7 @@ export function addOrder(order, owner, ownerHexId) {
     return orderObject;
 }
 
-export function makeDateString(date) {
-    return new Date(date).toString();
-}
+
 
 export function makeOwnersData(data) {
     this.setState({rawOwnerData: data});
