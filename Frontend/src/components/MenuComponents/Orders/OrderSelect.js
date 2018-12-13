@@ -143,16 +143,8 @@ class UserOrder extends React.Component {
         );
       };
 
-    render(){
-        const data = this.state.products;
-        const columns = getColumnsFromArray([
-            "Product Id", 
-            "Product Name", 
-            "Amount", 
-            "Quantity", 
-            "Owner Name"]);
-        columns[2].Cell = this.renderEditable;
 
+    createNavBar = () =>{
         let navbar = null;
         if(this.props.userType==="EMPLOYEE"){
             navbar = (
@@ -173,12 +165,29 @@ class UserOrder extends React.Component {
                 )
         }
 
+        return navbar;
+    }
+
+    setSelectedUser = (e) =>{
+        
+    }
+
+    render(){
+        const data = this.state.products;
+        const columns = getColumnsFromArray([
+            "Product Id", 
+            "Product Name", 
+            "Amount", 
+            "Quantity", 
+            "Owner Name"]);
+        columns[2].Cell = this.renderEditable;
+
         return(
             <div className="PageStyle rounded">
             <nav class="navbar navbar-light bg-light"> 
                 <h2 className=" text-center "> Order:</h2>
             </nav>   
-                {navbar}        
+                {this.createNavBar()}        
                 
                 <div className="table">
                     <div className="SideBar col rounded bg-secondary">
