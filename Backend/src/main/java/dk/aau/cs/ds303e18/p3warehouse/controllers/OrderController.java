@@ -10,6 +10,7 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
+import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
@@ -64,8 +65,10 @@ public class OrderController {
         Collection<OrderLine> updatedOrderLines = new HashSet<>();
         try {
             for (OrderLine x : order.getOrderLines()) {
-                if (x.getProduct().getQuantity() >= x.getQuantity()) {
-                    x.getProduct().subtract(x.getQuantity());
+                Product dbProduct = productRepository.findById(x.getProduct().getId()).orElse(null);
+                if (dbProduct.getQuantity() >= x.getQuantity()){
+                    dbProduct.subtract(x.getQuantity());
+                    x.setProduct(dbProduct);
                     updatedOrderLines.add(x);
                 } else {
                     throw new InvalidQuantityException(x.getProduct().getProductName());
