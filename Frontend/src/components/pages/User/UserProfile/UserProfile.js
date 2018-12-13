@@ -61,20 +61,22 @@ class UserProfile extends React.Component{
 
     render(){
         return(
-            <div className="PageStyle rounded">
-                <h1 className="text-center">Profile information</h1>
-                <div className="row">
-                    <div className="Container col-md-4 offset-md-4">
-                        <h5 className="text-justify my-2">Username: {this.state.userName}</h5>
-                        <h5 className="text-justify my-2">Name: {this.state.name}</h5>
-                        <h5 className="text-justify my-2">Email: {this.state.email}</h5>
-                        <h5 className="text-justify my-2">Phone number: {this.state.phoneNumber}</h5>
-                        <h5 className="text-justify my-2">Address: {this.state.address}</h5>
-                        <h5 className="text-justify my-2">City: {this.state.city}</h5>
-                        <h5 className="text-justify my-2">Zip: {this.state.zip}</h5>
-                        <h5 className="text-justify my-2">Country: {this.state.country}</h5>
+            <div className="PageStyle customText_b">
+                <div className="frameBordering">
+                    <h1 className="text-center">Profile information</h1>
+                    <div className="row">
+                        <div className="Container col-md-4 offset-md-4">
+                            <h5 className="text-justify my-2">USERNAME: {this.state.userName}</h5>
+                            <h5 className="text-justify my-2">NAME: {this.state.name}</h5>
+                            <h5 className="text-justify my-2">EMAIL: {this.state.email}</h5>
+                            <h5 className="text-justify my-2">PHONE NUMBER: {this.state.phoneNumber}</h5>
+                            <h5 className="text-justify my-2">ADDRESS: {this.state.address}</h5>
+                            <h5 className="text-justify my-2">CITY: {this.state.city}</h5>
+                            <h5 className="text-justify my-2">ZIP: {this.state.zip}</h5>
+                            <h5 className="text-justify my-2">COUNTRY: {this.state.country}</h5>
 
-                        <button onClick={this.prepForEdit} className="btn-lg btn-block btn-warning my-2k btn">Edit</button>
+                            <button onClick={this.prepForEdit} className="btn-lg btn-block std_BTN my-2k btn">Edit</button>
+                        </div>
                     </div>
                 </div>
             </div>
