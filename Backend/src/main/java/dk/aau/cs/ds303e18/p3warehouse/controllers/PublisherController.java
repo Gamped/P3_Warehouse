@@ -2,8 +2,6 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
-import dk.aau.cs.ds303e18.p3warehouse.repositories.OrderRepository;
-import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
@@ -16,6 +14,14 @@ import java.util.Optional;
 @CrossOrigin
 @RestController
 public class PublisherController {
+
+    //TODO: Publisher kan slette en client.
+    //TODO: Publisher kan slettes ordentligt. Klienter under publisher skal også slettes.
+    //TODO: Publisher kan se deres ordrer
+    //TODO: Publisher kan requeste klientændringer. En besked der kan sende en mail til 4n
+    //TODO: Lige nu er findPublisherInfoById() en meget ikke optimal loesning.
+    //      Den skal returnere alle produkter, der hører under en publisher og dens tilhørende klienter
+
 
     @Autowired
     PublisherRepository publisherRepository;
@@ -66,9 +72,8 @@ public class PublisherController {
         publisherRepository.deleteById(id);
     }
 
-    @GetMapping("/publishers/products/{userType}/{hexId}")
-    Optional<Publisher> findAllProductsOnPublisher(@PathVariable("userType") String userType,
-                                                   @PathVariable("hexId") String hexId) {
+    @GetMapping("/publishers/{hexId}/products")
+    Optional<Publisher> findPublisherInfoById(@PathVariable("hexId") String hexId) {
 
         ObjectId objectId = new ObjectId(hexId);
         return publisherRepository.findById(objectId);

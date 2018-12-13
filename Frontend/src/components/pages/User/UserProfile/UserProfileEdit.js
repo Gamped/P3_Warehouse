@@ -2,42 +2,76 @@ import React from 'react';
 import "../../Pages.css";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { put } from "./../../../../handlers/requestHandlers"
 
 class UserProfileEdit extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            userID: props.ID,
-            userName: "",
-            name: "",
-            email: "",
-            phoneNumber: "",
-            address: "",
-            passwordNewRepeat: "",
-            passwordNew: "",
-            cvr: "",
-            city:"",
-            zip:"",
-            country:"",
+            userId: this.props.userId,
+            userName: this.props.user.userName,
+            nickName: this.props.user.nickName,
+            email: this.props.user.email,
+            phoneNumber: this.props.user.phoneNumber,
+            address: this.props.user.address,
+            city:this.props.user.city,
+            zipCode:this.props.user.zipCode,
+            country:this.props.user.country,
+            changed:{passwordNew:"",passwordNewRepeat:""}
         };
     }
 
     onChangeHandler = (event) => {
+        console.log(this.state)
         this.setState({
-            [event.target.name]: event.target.value,
-        });
+            changed:{[event.target.name]: event.target.value},
+        })
     }
 
     confirmed = (event) =>{
         event.preventDefault();
-        if (this.state.passwordNew===this.passwordNewRepeat
-            || (this.state.passwordNew.length===0 && this.state.passwordNewRepeat.length===0)){
-            //Todo: Insert axios der skriver nyt information til serveren. Bruger id er this.props.userID
-            this.props.history.push("/User/Profile")
+        if (this.state.changed.passwordNew == this.state.changed.passwordNewRepeat){
+
+            const usertype= this.props.userType
+
+            let newState = {};
+                const changedState = {...this.state.changed}
+                Object.keys(changedState).forEach((key,index)=>{
+                    if(changedState[key] !=="" && changedState[key] !==null){
+                        newState[key] = changedState[key]
+                    }
+                })
+
+                newState={...this.state,...newState}
+                const body = {
+                    userName:newState.userName,
+                    password:newState.password,
+                    userType:newState.userType,
+                    contactInformation:{
+                        nickName:newState.nickName,
+                        email:newState.email,
+                        phoneNumber:newState.phoneNumber,
+                        city: newState.city,
+                        address: newState.address,
+                        zipCode: newState.zipCode,
+                        country: newState.country
+                    }
+                }
+
+            if(usertype==="PUBLISHER"){
+                put("publishers/"+this.props.userId,body,(respondse)=>{
+                    this.props.history.push("/User/Profile")
+                })
+            }else if(usertype==="CLIENT"){
+                put("clients/"+this.props.userId,body,(respondse)=>{
+                    this.props.history.push("/User/Profile")
+                })
+            }
         }else{
             alert("Password has not been repeated correctly.")
         }
     }
+
 
     render(){
         return(
@@ -50,67 +84,61 @@ class UserProfileEdit extends React.Component {
                                 name="userName" 
                                 type="text" 
                                 className="my-2 form-control" 
-                                onChange={this.handleUName}
-                                placeholder="User name"/>
+                                onChange={this.onChangeHandler}
+                                defaultValue={this.props.user.userName}/>
                             <input 
-                                name="name"
+                                name="nickName"
                                 type="text" 
                                 className="my-2 form-control" 
-                                onChange={this.handleName}
-                                placeholder="Name"/>
+                                onChange={this.onChangeHandler}
+                                defaultValue={this.props.user.nickName}/>
                             <input
                                 name="email" 
                                 type="email" 
                                 className="my-2 form-control" 
-                                onChange={this.handleEmail}
-                                placeholder="Email"/>
+                                onChange={this.onChangeHandler}
+                                defaultValue={this.props.user.email}/>
                             <input
                                 name="phoneNumber" 
-                                type="number" 
+                                type="text" 
                                 className="my-2 form-control" 
-                                onChange={this.handlePhoneNumber}
-                                placeholder="Phone Number"/>
+                                onChange={this.onChangeHandler}
+                                defaultValue={this.props.user.phoneNumber}/>
                             <input
                                 name="address" 
                                 type="text" 
                                 className="my-2 form-control" 
-                                onChange={this.handleAddress}
-                                placeholder="Address"/>
+                                onChange={this.onChangeHandler}
+                                defaultValue={this.props.user.address}/>
                             <input
                                 name="city" 
                                 type="text" 
                                 className="my-2 form-control" 
-                                onChange={this.handleAddress}
-                                placeholder="City"/>
+                                onChange={this.onChangeHandler}
+                                defaultValue={this.props.user.city}/>
                             <input
-                                name="zip" 
-                                type="number" 
+                                name="zipCode" 
+                                type="text" 
                                 className="my-2 form-control" 
-                                onChange={this.handleAddress}
-                                placeholder="Zip"/>
+                                onChange={this.onChangeHandler}
+                                defaultValue={this.props.user.zipCode}/>
                             <input
                                 name="country" 
                                 type="text" 
                                 className="my-2 form-control" 
-                                onChange={this.handleAddress}
-                                placeholder="Country"/>
-                            <input 
-                                name="cvr"
-                                type="text" 
-                                className="my-2 form-control" 
-                                onChange={this.handleCVR}
-                                placeholder="CVR"/>
+                                onChange={this.onChangeHandler}
+                                defaultValue={this.props.user.country}/>
                             <input
                                 name="passwordNew"
                                 type="test" 
                                 className="my-2 form-control" 
-                                onChange={this.handleCurPass}
+                                onChange={this.onChangeHandler}
                                 placeholder="New password"/>
                             <input
                                 name="passwordNewRepeat" 
                                 type="password" 
                                 className="my-2 form-control" 
-                                onChange={this.handleNewPass}
+                                onChange={this.onChangeHandler}
                                 placeholder="New password repeat"/>
                         </form>
                         
@@ -129,7 +157,9 @@ class UserProfileEdit extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        userID: state.loginReducer.userId
+        user: state.profileReducer,
+        userId: state.loginReducer.userId,
+        userType: state.loginReducer.userType,
     }
 }
 

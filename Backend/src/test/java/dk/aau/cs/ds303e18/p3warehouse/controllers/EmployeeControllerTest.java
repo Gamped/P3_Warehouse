@@ -43,9 +43,6 @@ public class EmployeeControllerTest {
     @Mock
     UserRepository userRepository;
 
-    @Mock
-    OrderRepository orderRepository;
-
     @Test
     public void employeeControllerLoads() throws Exception {
         assertThat(employeeController).isNotNull();
@@ -74,29 +71,9 @@ public class EmployeeControllerTest {
                 String.valueOf(publisher.getUserType()), restProductModel);
 
         verify(publisherRepository).findById(publisher.getId());
+        verify(publisherRepository).save(publisher);
 
         assertEquals("Created!", createdString);
-    }
-
-    @Test
-    public void testEmployeeCreateClientProduct() {
-        ObjectId customerId = new ObjectId();
-        Client client = new Client(customerId);
-
-        RestProductModel restProductModel = new RestProductModel();
-        restProductModel.setProductName("Car magazine");
-        restProductModel.setQuantity(200);
-        restProductModel.setProductId("32525411414525");
-        client.setUserType(UserType.CLIENT);
-
-        when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
-
-        String createdClientProduct = employeeController.createProduct(client.getHexId(),
-                String.valueOf(client.getUserType()), restProductModel);
-
-        verify(clientRepository).findById(client.getId());
-
-        assertEquals("Created!", createdClientProduct);
     }
 
     @Test
@@ -360,7 +337,6 @@ public class EmployeeControllerTest {
         assertEquals("Updated user: " + user.getUserName(), updatedUser);
     }
 
-/*
     @Test
     public void testDeleteEmployeeById() {
         ObjectId id = new ObjectId();
@@ -370,13 +346,13 @@ public class EmployeeControllerTest {
 
         when(employeeRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
 
-        String deletedEmployee = employeeController.deleteEmployeeById(String.valueOf(employee.getId()),
-                employee.getNickname(), employee.getPassword());
+        employeeController.deleteEmployeeById(String.valueOf(employee.getId()));
 
-        verify(employeeRepository).existsById(employee.getId());
+        verify(employeeRepository).deleteById(employee.getId());
 
-        assertEquals("Deletion Success", deletedEmployee);
-    }*/
+        assertEquals(0, employeeRepository.findAll().size());
+    }
+
 
     @Test
     public void testEmployeeDeleteProductById() {

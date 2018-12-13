@@ -5,10 +5,9 @@ const initialState ={
     address:"", 
     zip:"",
     city:"",
-    cvr:"",
     country:""};
 
-    const loginReducer = (state = initialState, action) => {
+    const addressReducer = (state = initialState, action) => {
         switch(action.type){
             case "SET_COMPANY":
             case "SET_CONTACTPERSON":
@@ -16,7 +15,6 @@ const initialState ={
             case "SET_ADDRESS":
             case "SET_ZIP":
             case "SET_CITY":
-            case "SET_CVR":
             case "SET_COUNTRY":
                 state = {...state, ...action.payload}                
                 break;
@@ -28,4 +26,4 @@ const initialState ={
         return state
     }
     
-    export default loginReducer;
+    export default addressReducer;

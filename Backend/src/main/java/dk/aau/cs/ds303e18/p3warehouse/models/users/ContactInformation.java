@@ -1,5 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.users;
 
+import java.util.Objects;
+
 public class ContactInformation {
     private String email;
     private String phoneNumber;
@@ -7,6 +9,7 @@ public class ContactInformation {
     private String zipCode;
     private String nickName;
     private String city;
+    private String country;
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -52,6 +55,14 @@ public class ContactInformation {
         return city;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     public void setCity(String city) {
         this.city = city;
     }
@@ -59,5 +70,22 @@ public class ContactInformation {
     @Override
     public String toString(){
         return email + " " + phoneNumber + " " + address + " " + zipCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContactInformation that = (ContactInformation) o;
+        return Objects.equals(email, that.email) &&
+                Objects.equals(phoneNumber, that.phoneNumber) &&
+                Objects.equals(address, that.address) &&
+                Objects.equals(zipCode, that.zipCode) &&
+                Objects.equals(nickName, that.nickName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email, phoneNumber, address, zipCode, nickName);
     }
 }

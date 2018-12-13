@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.BeanUtils;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -81,15 +80,11 @@ public class PublisherControllerTest {
 
     @Test
     public void testNewPublisher() {
-        ObjectId id = new ObjectId();
-        Publisher publisher = new Publisher(id);
         RestPublisherModel restPublisherModel = new RestPublisherModel();
-        restPublisherModel.setUserName("publisher");
+        restPublisherModel.setUserName("GoMore");
 
-        BeanUtils.copyProperties(restPublisherModel, publisher);
-        Publisher createdPublisher = publisherController.newPublisher(restPublisherModel);
-        verify(publisherRepository).save(publisher);
-        assertEquals(publisher.getUserName(), createdPublisher.getUserName());
+
+        publisherController.newPublisher(restPublisherModel);
     }
 
     @Test
@@ -131,8 +126,8 @@ public class PublisherControllerTest {
 
         when(publisherRepository.findById(publisher.getId())).thenReturn(Optional.of(publisher));
 
-        Optional<Publisher> optPublisher = publisherController.findAllProductsOnPublisher(
-                String.valueOf(publisher.getUserType()), publisher.getHexId());
+        Optional<Publisher> optPublisher = publisherController.findPublisherInfoById(
+               publisher.getHexId());
         Publisher retrievedPublisher = optPublisher.get();
 
         verify(publisherRepository).findById(publisher.getId());

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import static org.junit.Assert.assertEquals;
+
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class UserRepositoryTest {
@@ -106,6 +108,47 @@ public class UserRepositoryTest {
        // userRepository.delete(user);
        // clientRepository.delete(client);
    */
+    }
+
+    public User makeUser() {
+        ObjectId id = new ObjectId();
+        User user = new User(id);
+        user.setUserType(UserType.PUBLISHER);
+        user.setUserName("user");
+        user.setPassword("214235245");
+
+        return user;
+    }
+
+    @Test
+    public void testUserFindById() {
+        ObjectId id = new ObjectId();
+        User user = new User(id);
+
+        userRepository.save(user);
+
+        User retrievedUser = userRepository.findById(id).orElse(null);
+
+        assertEquals(id, retrievedUser.getId());
+    }
+
+    @Test
+    public void testUserFindInformation() {
+        User user = makeUser();
+
+        userRepository.save(user);
+
+        User retrievedUser = userRepository.findById(user.getId()).orElse(null);
+
+        assertEquals(user.getUserType(), retrievedUser.getUserType());
+        assertEquals(user.getUserName(), retrievedUser.getUserName());
+        assertEquals(user.getPassword(), retrievedUser.getPassword());
+
+    }
+
+    @Test
+    public void testDeleteAllUsers() {
+        userRepository.deleteAll();
     }
 
 }

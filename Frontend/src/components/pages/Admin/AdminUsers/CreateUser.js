@@ -6,6 +6,7 @@ class CreateUser extends React.Component{
     constructor(props){
         super(props);
         this.state={
+            ShowMe:false,
             userType:"CLIENT",
             userName:"",
             password:"",
@@ -18,17 +19,13 @@ class CreateUser extends React.Component{
         }
     }
 
-    toggleUserType=()=>{
-        if(this.state.userType==="CLIENT"){
-            this.setState({userType:"PUBLISHER"})
-        }else{
-            this.setState({userType:"CLIENT"})
-        }
-        console.log(this.state.userType)
-    }
-
     onChange = (e) => {
         this.setState({[e.target.name]:e.target.value});
+    }
+    showclient(boolean){
+        this.setState({
+            ShowMe:boolean
+        })
     }
 
     submit=(e)=>{
@@ -44,7 +41,7 @@ class CreateUser extends React.Component{
                         }
                     }
         if(this.state.password===this.state.repeatPass){
-            if(this.state.userType==="CLIENT"){
+            if(this.state.ShowMe===true){
                 post("employee/clients", body, (response)=>{
                     this.props.history.push("/Admin/Users/")
                     });
@@ -102,13 +99,16 @@ class CreateUser extends React.Component{
                                 <label className="input-group-text" htmlFor="phone">Phonenumber:</label>
                             </div>
                             <input type="number" className="form-control" id="phone" name="phoneNumber" onChange={this.onChange} required/>
-                        </div>        
-                        <div className="input-group my-3">
-                            <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="publisherToggle">Publisher:</label>
-                            </div>
-                            <input type="checkbox" className="form-control" id="publisherToggle" onChange={this.toggleUserType}/>
                         </div>
+                             <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showclient(false)} >Make Publisher</button> 
+                             <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showclient(true)}>Client</button>
+                        {    
+                            this.state.ShowMe?
+                            <div>
+                                please client table her 
+                            </div>
+                            :null
+                        }
                         <div className="row">
                             <div className="col my-3 mx-4">
                                 <button className="btn btn-success btn-block" onClick={this.submit}>Create User</button>

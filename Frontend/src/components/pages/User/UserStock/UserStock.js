@@ -1,16 +1,18 @@
 import React from 'react';
 import ReactTable from 'react-table';
-import axios from 'axios';
 import {connect} from "react-redux"
 
 import "../../Pages.css";
 import "./UserStock.css"
+import {get} from './../../../../handlers/requestHandlers.js';
+import {makeProductsData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
+import { getColumnsFromArray } from '../../../../handlers/columnsHandlers';
 
 class UserStock extends React.Component {
+    
     constructor(props) {
         super(props);
         this.state = {
-            userID: props.ID,
             quarry: "",
             products: [],
             selected: null,
@@ -19,41 +21,28 @@ class UserStock extends React.Component {
     }
 
     componentDidMount(){
-        axios.get('http://localhost:8080/api/clients/' + this.state.userID + '/products')
-            .then((response) => {
-                const products = this.makeRow(response);
-                this.setState({ products: products });
-            })
+       
+        this.getStock();           
     }
 
-    makeRow(response){
-        var products = [];
-        response.data.forEach((product) => {
-            products.push({
-                productId: product.productId,
-                productName: product.productName,
-                quantity: product.quantity,
-                hexId: product.hexId
-            })
-        });
-        return products;
-    }
+    getStock() {
+        
+        const userType = this.props.userType.toLowerCase();
+        const id = this.props.userId;
+        
+        get(userType + 's/' + id + '/products', (data) => {
+            let products = [];
+            
+            userType === 'publisher' ? products = makeCustomerProductsData(data) : products = makeProductsData(data);
 
-    /*
-    * SOME FUNCTION TO RETRIEVE & SEND INFO FROM DB
-    */
-
-    handleQuarry = (event) => {
-        this.setState({
-            quarry: event.target.value,
-        });
+            this.setState({ products: products });
+    });
     }
 
     render(){
-        const columns=[
-            {Header: "Product", accessor: "productName"},
-            {Header: "Quantity", accessor: "quantity"}
-        ]
+
+        const columns = getColumnsFromArray(["Product Id", "Product Name", "Quantity", "Owner Name"]);
+        
         return(
             <div className="PageStyle rounded">
              <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -67,27 +56,7 @@ class UserStock extends React.Component {
                                 data={this.state.products}
                                 showPagination={false} 
                                 className="-striped -highlight"
-                                getTrProps={(state, rowInfo) => {
-                                    if (rowInfo && rowInfo.row) {
-                                        return {
-                                        onClick: (e) => {
-                                            
-                                            this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-                                            console.log(rowInfo.original)
-                                        },
-                                        style: {
-                                            background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                            color: rowInfo.index === this.state.selected ? 'white' : 'black'
-                                        }
-                                        }
-                                    }else{
-                                        return {}
-                                    }
-                                    
-                                }}
-                                     // This will force the table body to overflow and scroll, 
-                                    // since there is not enough room
-                                    defaultPageSize={25}
+                                defaultPageSize={25}
                                     style={{
                                         height: "400px"                                      
                                      }}
@@ -103,7 +72,8 @@ class UserStock extends React.Component {
 
 const mapStateToProps = (state) =>{
     return{
-        userId: state.loginReducer.userId
+        userId: state.loginReducer.userId,
+        userType: state.loginReducer.userType
     }
 }
 
