@@ -27,7 +27,9 @@ class UserOrder extends React.Component {
             selected: null,
             selectedId: "",
             orderLines: [],
-            customers:[]
+            customers:[],
+            userSelectedId:"",
+            userSelectedType:"",
         };
 
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
@@ -152,7 +154,7 @@ class UserOrder extends React.Component {
                     <form class = "form-inline">
                                 <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
                     </form>       
-                        <Dropdown actors={this.state.customers} action={()=>{}}/>
+                        <Dropdown actors={this.state.customers} action={this.setSelectedUser}/>
                 </nav> 
                 )
         }else{
@@ -169,7 +171,9 @@ class UserOrder extends React.Component {
     }
 
     setSelectedUser = (e) =>{
-        
+        this.setState({userSelectedId:e.target.value},()=>{
+            this.setState({userSelectedType:this.state.customers.find(x=>x.hexId===this.state.userSelectedId).userType})
+        })
     }
 
     render(){
