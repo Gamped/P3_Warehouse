@@ -1,11 +1,9 @@
 /*const initialState ={loggedIn:"False",
 userType:"",
 userName:"",
-userId:"",};
-*/
+userId:"",};*/
 
 const devState ={loggedIn:"True",
-
 userType:"EMPLOYEE",
 nickName:"Kev The Machine",
 userId:"5c10d67a8e2f371ff81fa7d6",};

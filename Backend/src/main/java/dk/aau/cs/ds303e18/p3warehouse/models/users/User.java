@@ -26,6 +26,13 @@ public class User {
         return this;
     }
 
+    public boolean isValid(){
+        if(userName.equals(null) || password.equals(null)){
+            return false;
+        }
+        else return true;
+    }
+
     public void setUserName(String userName) {
         this.userName = userName;
     }

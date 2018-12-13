@@ -5,7 +5,6 @@ import dk.aau.cs.ds303e18.p3warehouse.MailService.OrderInfoMail;
 import dk.aau.cs.ds303e18.p3warehouse.managers.OrderManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
-import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestOrderLineModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestOrderModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
-import java.security.acl.Owner;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -30,6 +28,10 @@ import java.util.stream.Collectors;
 @RequestMapping("/api")
 @RestController
 public class OrderController {
+
+    //TODO: Delete order virker ikke
+    //TODO: Create order queurier kun efter en publisher og er ikke optimalt. SKal de opdateres flere steder eller blot i orderRepo?
+    //TODO: De andre virker heller ikke og er nødt til at blive testet med data.
 
     @Autowired
     ProductRepository productRepository;
@@ -104,7 +106,8 @@ public class OrderController {
     String finishOrder(@PathVariable String hexId) {
         orderRepository.deleteById(new ObjectId(hexId));
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
-        return "Succesfully deleted order with id: " + hexId;
+        confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
+        orderRepository.deleteById(new ObjectId(hexId));
     }
 }
 
