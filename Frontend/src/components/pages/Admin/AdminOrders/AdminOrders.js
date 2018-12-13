@@ -6,7 +6,7 @@ import axios from "axios";
 import "../../Pages.css";
 import "./AdminOrders.css";
 import {allProductsNotPackedWarning} from "./../../../../handlers/exceptions.js";
-import {makePublisherAndClientOrdersData} from "./../../../../handlers/dataHandlers.js"
+import {makePublisherAndClientOrdersData, makeClientOrdersData} from "./../../../../handlers/dataHandlers.js"
 import {get, del} from "./../../../../handlers/requestHandlers.js"
 import {packListPDF, orderNotePDF} from "./../../../../handlers/pdfHandlers.js"
 import {getColumnsFromArray} from "./../../../../handlers/columnsHandlers.js"
@@ -34,8 +34,8 @@ export default class AdminOrders extends Component {
     }
 
     componentDidMount() {
-
-       this.getPublishers();
+        this.getIndependentClients();
+        this.getPublishers();
     }
 
     getPublishers() {
@@ -45,12 +45,19 @@ export default class AdminOrders extends Component {
             console.log("ORDERS " + orders)
             this.setState({ 
                 data: data,
-                orders: orders
+                orders: this.state.orders.concat(orders)
             });
         })
-        
-            
-        
+    }
+
+    getIndependentClients(){
+        get("clients/independent", (data)=> {
+            const orders = makeClientOrdersData(data);
+            this.setState({
+                data: data,
+                orders: this.state.orders.concat(orders)
+            })
+        })
     }
 
     setStateAsSelected = (rowInfo) => {

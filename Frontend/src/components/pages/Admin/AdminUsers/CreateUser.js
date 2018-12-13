@@ -1,6 +1,8 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {post} from "../../../../handlers/requestHandlers";
+import {get, post} from "../../../../handlers/requestHandlers";
+import Dropdown from "../../../MenuComponents/Dropdown/Dropdown";
+import {makeCustomerData} from './../../../../handlers/dataHandlers.js';
 
 class CreateUser extends React.Component{
     constructor(props){
@@ -15,8 +17,18 @@ class CreateUser extends React.Component{
                 email: "",
                 phoneNumber: "",
                 nickName: ""
-            }
+            },
+            publishers: [],
+            selectedActorHexId: "DEFAULT",
+            selectedActorUserType: "DEFAULT"
         }
+    }
+
+    componentDidMount(){
+        get('employee/publishers', (data) => {
+            const publishers = makeCustomerData(data);
+            this.setState({ publishers: publishers});
+       });
     }
 
     onChange = (e) => {
@@ -56,6 +68,13 @@ class CreateUser extends React.Component{
         
         console.log(body)
         
+    }
+
+    setSelected = (e) =>{
+        this.setState({
+            selectedActorHexId:e.target.value,
+            selectedActorUserType:this.state.Actors.find(x=>x.hexId===e.target.value).userType.toUpperCase()
+        })
     }
 
     render(){
@@ -105,7 +124,7 @@ class CreateUser extends React.Component{
                         {    
                             this.state.ShowMe?
                             <div>
-                                please client table her 
+                                <Dropdown actors = {this.state.publishers} action={this.setSelected}/>
                             </div>
                             :null
                         }

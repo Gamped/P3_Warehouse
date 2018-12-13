@@ -60,6 +60,15 @@ class AdminProfile extends React.Component {
         } 
     }
 
+    sendToEdit = () =>{
+        if(this.state.selectedId === ""){
+            window.alert("Please choose a profile to edit.")
+        }else{
+            this.props.history.push(`/Admin/Profile/Edit/${this.state.selectedId}`)
+        }
+        
+    }
+
     render() {
 
         const employees = this.state.employees;
@@ -69,7 +78,9 @@ class AdminProfile extends React.Component {
             <div className="PageStyle customText_b"> 
                     <h1 className="title customText_b_big">Profile information</h1>
                     <div className="informationBox">
+
                         <h1 className="lead"><strong>Other employees: {this.state.userName}</strong></h1>
+
                         <ReactTable
                             data={employees} 
                             columns={columns} 
@@ -95,9 +106,11 @@ class AdminProfile extends React.Component {
                             style={{height: "50vh"}}
                         />
                    
+
                         <Link to="/Admin/Profile/AddEmployee" className="std_BTN btn my-2 mx-2">Add employee</Link>
-                        <Link to={`/Admin/Profile/Edit/${this.state.selectedId}`} className="std_BTN btn my-2 mx-2">Edit employee</Link>
+                        <button onClick={this.sendToEdit} className="btn-warning btn my-2 mx-2">Edit employee</button>
                         <div className="red_BTN btn my-2 mx-2" onClick={this.deleteEmployee}>Remove employee</div>
+
                 </div>
             </div>
         );
