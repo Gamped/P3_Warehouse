@@ -1,13 +1,8 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.orders;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import java.util.Objects;
 
 public class OrderLine {
@@ -19,6 +14,7 @@ public class OrderLine {
         this.product = product;
         this.quantity = quantity;
     }
+    public OrderLine(){}
 
     public Product getProduct() {
         return product;
