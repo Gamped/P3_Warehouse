@@ -108,6 +108,7 @@ public class OrderController {
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
         confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
         orderRepository.deleteById(new ObjectId(hexId));
+        return "";
     }
 }
 

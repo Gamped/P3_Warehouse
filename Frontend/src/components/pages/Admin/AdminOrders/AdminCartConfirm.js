@@ -11,6 +11,7 @@ import {Link} from "react-router-dom";
             userID: props.ID,
             quarry: "",
             products: props.productList,
+            order: this.props.order
         };
     }
 
@@ -30,7 +31,8 @@ import {Link} from "react-router-dom";
         //Some imidiate logic before rendering. 
         //Store Redux state adress and the redux order in a varibale. 
         //Next we go through through the orders and assign them some code our html can understand
-        let lines = this.props.order
+        let lines = [];
+        lines.concat(this.state.order);
         console.log(lines)
         lines = lines.map((line)=>{return(
                 <tr key={line.productId}>
@@ -76,7 +78,7 @@ import {Link} from "react-router-dom";
                         <label className="font-weight-normal">{this.props.adress.phoneNumber.phoneNumber}</label>
                         <br/>
                         <label className="font-weight-bold">CVR: </label>
-                        <label className="font-weight-normal">{this.props.adress.cvr.cvr}</label>
+                        <label className="font-weight-normal">{this.props.adress.cvr}</label>
                         <br/>
                         <label className="font-weight-bold">Address: </label>
                         <label className="font-weight-normal">{this.props.adress.address.address}</label>
