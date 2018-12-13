@@ -94,7 +94,7 @@ export function addOrder(order, owner, ownerHexId) {
     orderObject.ownerHexId = ownerHexId;
     orderObject.owner = owner;
     orderObject.orderId = order.orderId;
-    orderObject.data = order.date;
+    orderObject.date = makeDateString(order.date);
     orderObject.hexId = order.hexId;
     orderObject.orderLines = order.orderLines.map((orderLine) => {
         return {
@@ -104,6 +104,10 @@ export function addOrder(order, owner, ownerHexId) {
         }
     })
     return orderObject;
+}
+
+export function makeDateString(date) {
+    return new Date(date).toString();
 }
 
 export function makeOwnersData(data) {
