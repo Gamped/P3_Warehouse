@@ -80,9 +80,9 @@ class CreateUser extends React.Component{
 
     render(){
         return(
-            <div className="PageStyle rounded">
+            <div className="PageStyle customText_b">
+                <h1 className="customText_b_big text-center">Create a new user</h1>
                 <div className="col-md-4 offset-md-4">
-                    <h1 className="text-center">Create a user</h1>
                     <form>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
@@ -120,8 +120,8 @@ class CreateUser extends React.Component{
                             </div>
                             <input type="number" className="form-control" id="phone" name="phoneNumber" onChange={this.onChange} required/>
                         </div>
-                             <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showclient(false)} >Make Publisher</button> 
-                             <button type="button" class="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showclient(true)}>Client</button>
+                             <button type="button" class="btn green_BTN adminUserBtn" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showclient(false)} >Make Publisher</button> 
+                             <button type="button" class="btn green_BTN adminUserBtn" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showclient(true)}>Client</button>
                         {    
                             this.state.ShowMe?
                             <div>
@@ -131,10 +131,10 @@ class CreateUser extends React.Component{
                         }
                         <div className="row">
                             <div className="col my-3 mx-4">
-                                <button className="btn btn-success btn-block" onClick={this.submit}>Create User</button>
+                                <button className="btn green_BTN btn-block adminUserBtn" onClick={this.submit}>Create User</button>
                             </div>
                             <div className="col my-3 mx-4">
-                                <Link to="/Admin/Users/" className="btn btn-danger btn-block">Go Back</Link>
+                                <Link to="/Admin/Users/" className="btn adminUserBtn std_BTN btn-block">Go Back</Link>
                             </div>
                         </div>
                     </form>
