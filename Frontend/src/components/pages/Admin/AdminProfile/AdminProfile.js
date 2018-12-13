@@ -69,7 +69,6 @@ class AdminProfile extends React.Component {
             <div className="PageStyle rounded"> 
                     <h1 className="title customText_b_big">Profile information</h1>
                     <div className="informationBox">
-                        <h1 className="lead"><strong>User name: {this.state.userName}</strong></h1>
                         <ReactTable
                             data={employees} 
                             columns={columns} 

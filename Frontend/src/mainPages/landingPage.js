@@ -30,7 +30,7 @@ class Home extends React.Component{
         ]}
     
         return ( 
-            <div className="PageStyle rounded">
+            <div className="PageStyle">
                 <LandingPage buttons={landingPageButtons} name={this.props.name}/>
             </div>
         )

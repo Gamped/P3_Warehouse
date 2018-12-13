@@ -101,7 +101,7 @@ class NewWare extends Component {
                         defaultValue={currentProduct.quantity}
                         onChange={this.onChange}
                         placeholder="Quantity"/>
-                    <Dropdown owners={this.state.owners} action={this.setSelected}/>
+                    <Dropdown actors={this.state.owners} action={this.setSelected}/>
                      
                 </form>
 
