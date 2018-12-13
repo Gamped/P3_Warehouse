@@ -15,7 +15,7 @@ class UserOrderCart extends React.Component {
            cvr:"",
            contact:"",
            phone:null,
-           zip:null,
+           zip:"",
            city:"",
            country:""
 

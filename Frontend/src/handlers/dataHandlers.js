@@ -163,6 +163,26 @@ export const makeCustomerData = (data) =>{
     return customers;
 }
 
+export function makeClientDetails(publisher) {
+    let clients = [];
+    if (clientsExist(publisher)) {
+        publisher.clientStream.forEach((client) => {
+            let cci = client.contactInformation;
+            if (cci) {
+
+                let address = cci.address + " " + cci.city + " " + cci.zipCode;
+                clients.push({
+                    address: address,
+                    phoneNumber: cci.phoneNumber,
+                    client: cci.nickName,
+                    email: cci.email
+            });
+            }
+        });
+    }
+    return clients;
+}
+
 export function makeCustomerProductsData(customer) {
     let products = [];
     console.log("Customer: " + customer)
