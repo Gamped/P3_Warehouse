@@ -62,6 +62,24 @@ export function makeProductsData(productStream) {
         return orders;
 }
 
+export function makeClientOrdersData(data){
+    var orders = [];
+    let owner, ownerHexId = "";
+
+    data.forEach((client)=>{
+        if(ordersExist(client)){
+            owner = client.contactInformation.nickName;
+                ownerHexId = client.hexId;
+
+                client.orderStream.forEach((order) => {
+                    orders.push(addOrder(order, owner, ownerHexId));
+                }); 
+        }
+    })
+
+    return orders;
+}
+
 
 export function ordersExist(customer) {
     return customer.orderStream != null && customer.orderStream != undefined;

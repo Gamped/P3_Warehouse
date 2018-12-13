@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface ClientRepository extends MongoRepository<Client, ObjectId> {
 
 
-    public Publisher findByPublisherId(@PathVariable ObjectId publisherId);
+    Iterable<Client> findByPublisherId(@PathVariable ObjectId publisherId);
 
     Client findById(@PathVariable String hexId);
 
