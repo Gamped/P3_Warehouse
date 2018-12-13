@@ -44,13 +44,14 @@ public class OrderController {
     @PostMapping("/orders/{userHexId}/{userType}")
     String createOrder(@PathVariable("userHexId") String userHexId, @PathVariable("userType") String userType,
                        @RequestBody RestOrderModel order) {
-
+        userType = userType.toUpperCase();
         Customer owner = null;
 
         try{
             switch(UserType.valueOf(userType)){
                 case CLIENT: owner = clientRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
                 case PUBLISHER: owner = publisherRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
+                default: return "Bad usertype";
             }
         }
         catch(Exception e){
@@ -59,16 +60,15 @@ public class OrderController {
         Order newOrder = new Order(new ObjectId());
         BeanUtils.copyProperties(order, newOrder);
 
-
         owner.addOrder(newOrder);
         newOrder.setOwner(owner);
         Collection<OrderLine> updatedOrderLines = new HashSet<>();
         try {
             for (OrderLine x : order.getOrderLines()) {
-                Product dbProduct = productRepository.findById(x.getProduct().getId()).orElse(null);
-                if (dbProduct.getQuantity() >= x.getQuantity()){
-                    dbProduct.subtract(x.getQuantity());
-                    x.setProduct(dbProduct);
+                Product orderLineProduct = productRepository.findById(new ObjectId(x.getProduct().getHexId())).orElse(null);
+                if (orderLineProduct.getQuantity() >= x.getQuantity()) {
+                    orderLineProduct.subtract(x.getQuantity());
+                    x.setProduct(orderLineProduct);
                     updatedOrderLines.add(x);
                 } else {
                     throw new InvalidQuantityException(x.getProduct().getProductName());
@@ -79,9 +79,13 @@ public class OrderController {
         }
 
         productRepository.saveAll(updatedOrderLines.stream().map(x -> x.getProduct()).collect(Collectors.toSet()));
-        switch (owner.getUserType()){
-            case CLIENT: clientRepository.save((Client)owner); break;
-            case PUBLISHER: publisherRepository.save((Publisher)owner); break;
+        switch (owner.getUserType()) {
+            case CLIENT:
+                clientRepository.save((Client) owner);
+                break;
+            case PUBLISHER:
+                publisherRepository.save((Publisher) owner);
+                break;
         }
         orderRepository.save(newOrder);
         return "Created!";
