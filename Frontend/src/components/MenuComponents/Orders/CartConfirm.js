@@ -1,8 +1,8 @@
 import React from 'react';
 import "./Order.css";
 import "./Cart.css";
-import { connect } from "react-redux"
-import {Link} from "react-router-dom";
+import { connect } from "react-redux";
+import {makeOrderBodyFromData} from "../../../handlers/dataHandlers";
 import { post } from '../../../handlers/requestHandlers';
 
  class UserCartConfirm extends React.Component {
@@ -17,16 +17,27 @@ import { post } from '../../../handlers/requestHandlers';
     }
 
     confirmed = (event) => {
-        window.confirm("Your order has been confirmed. If you wish to make any edit from now, please contact 4N");
-        console.log("THIS")
-        console.log(this.props.address)
-        console.log(this.props.orderLines)
-        console.log(this.props.userId)
-        console.log(this.props.userType)
-        post('/orders/'+this.props.userId+'/'+this.props.userType, {}, (response) => {
+        const {userId,userType,orderLines} = this.props;
+        const data = {...this.props.address}
+        const body = makeOrderBodyFromData(data,orderLines)
+        console.log("Data: ", data)
+        console.log("Body: ", body)
+        /*
+        const body = {
 
+        }
 
-        });
+        if(userType === "EMPLOYEE"){
+
+        }else{
+            post('orders/'+userId+'/'+userType, {body}, (response) => {
+                if(response === null){
+                    this.props.history.push("/User/Order/Failed")
+                }else{
+                    this.props.history.push("/User/Order/Success")
+                }
+            });
+        }*/
     }
  
     goBack = () =>{
