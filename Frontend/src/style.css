@@ -6,21 +6,21 @@ body {
 .customText_w{
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
-    font-size: 25px;
+    font-size: 2vh;
     color: rgb(255, 255, 255);
 }
 
 .customText_w_medium{
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
-    font-size: 25px;
+    font-size: 3vh;
     color: rgb(255, 255, 255);
 }
 
 .customText_b{
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
-    font-size: 25px;
+    font-size: 2vh;
     color: rgb(0, 0, 0);
 }
 
@@ -28,7 +28,7 @@ body {
     font-family: 'Trebuchet MS', Tahoma, Arial;
     text-align: center;
     width: 100%;
-    font-size: 35px;
+    font-size: 4vh;
     color: rgb(0, 0, 0);
 }
 

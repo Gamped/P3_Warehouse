@@ -169,15 +169,15 @@ export default class AdminOrders extends Component {
             orderLineColumns.push(this.getCheckBoxColumn());
 
         return (
-            <div className="PageStyle rounded">
-                <div className="container row">
-                    <div className="SideBar col sidebar border border-dark rounded bg-secondary">
-                        <div className="OrderList">
+            <div className="PageStyle AdminOrderFontMinimize customText_b">
+                <div className="frameBordering">
+                    <div className="AdminOrderLeft">
+                        <div className="leftReactTableAdminOrder OrderList ">
                             <ReactTable 
                             data={orders}
                             columns={orderColumns} 
                             showPagination={false} 
-                            className="-striped -highlight"
+                            className="leftReactTableAdminOrder -striped -highlight darkenReactTable"
                             getTrProps={(state, rowInfo) => {
                                 if (rowInfo && rowInfo.row) {
                                   return {
@@ -198,12 +198,14 @@ export default class AdminOrders extends Component {
                              />
                         </div>
                         <div className=" md-2 my-2">
-                                <button type= "button" className="btn btn-success mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>                           
-                                <Link className="btn btn-warning mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order </Link>
-                                <button type= "button" className="btn btn-danger mx-2"  onClick={()=>this.deleteOrder()}>Delete order</button>
+                                <button type= "button" className="AdinOrderButtonSizer btn green_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>                           
+                                <Link className="AdinOrderButtonSizer btn std_BTN mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order </Link>
+                                <button type= "button" className="AdinOrderButtonSizer btn red_BTN mx-2"  onClick={()=>this.deleteOrder()}>Delete order</button>
                         </div>
                     </div>
-                    <div className=" col-7">
+
+                    
+                    <div className="AdminOrderRight">
                         <div className="Table">
                                 <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns} showPagination={false} 
                                 className="-striped -highlight"/>
@@ -211,11 +213,11 @@ export default class AdminOrders extends Component {
                                 </div>
                        </div> 
                        <div className="btn-group">
-                             <button type= "button mx-2" className="btn btn-info mx-2" >Export Order</button> 
-                             <button type= "button " className="btn btn-dark mx-5"onClick={()=>this.finishOrder()}>Finish Order</button> 
+                             <button type= "button mx-2" className="AdinOrderButtonSizer btn std_BTN mx-2  " >Export Order</button> 
+                             <button type= "button " className="AdinOrderButtonSizer btn blue_BTN mx-5 "onClick={()=>this.finishOrder()}>Finish Order</button> 
                        </div>
                     </div>    
-                 </div>    
+                </div>    
             </div>
         )
     }
