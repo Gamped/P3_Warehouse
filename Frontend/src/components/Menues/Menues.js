@@ -2,6 +2,7 @@ import React from 'react';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import ButtonList from "../MenuComponents/ButtonList/ButtonList"
+import "./Menues.css";
 
 // The header component
 class Header extends React.Component {
@@ -54,22 +55,21 @@ class Header extends React.Component {
         //This is what we actually render.
         return(
             <div>
+                <nav className="navbar bg-dark navbar-dark" style={{height: "100vh"}} >
+                    <div className=" placeNavBarTop sidebar-sticky">
+                        <ButtonList buttons={buttons} link={true}/>
+                        <img 
+                            src={require('../../resources/4n_logo_mini.jpg')} 
+                                className=" placeNavBarTop navbar-icon justify-content-end" 
+                                alt="The logo of 4N" />
+                    </div>
+                </nav>
 
-            <nav className="navbar bg-dark navbar-dark" style={{height: "100vh"}} >
-            <div className="sidebar-sticky">
-                <ButtonList buttons={buttons} link={true}/>
-                <img 
-                    src={require('../../resources/4n_logo_mini.jpg')} 
-                        className="navbar-icon justify-content-end" 
-                        alt="The logo of 4N" />
-            </div>
-        </nav>
-
-                <nav className="flex-row navbar navbar-expand navbar-dark bg-dark fixed-top">
-                    <div className="container">  
-                        <h5 className="navbar-text justify-content-start">{title}</h5>
+                <nav className="header flex-row navbar navbar-expand navbar-dark fixed-top">
+                    <div className="container customText_w">  
+                        <h5 className="customText_w_medium titleText justify-content-start ">{title}</h5>
                         <form className="float-right justify-content-end">
-                        <button onClick={this.exitHandler} className="float-right btn btn-sm btn-secondary">Log Out</button>
+                            <button onClick={this.exitHandler} className="logoutPlacer dark_BTN float-right btn btn-sm btn-secondary">Log Out</button>
                         </form>
                     </div>
                 </nav>
