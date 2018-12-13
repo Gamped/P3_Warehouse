@@ -48,6 +48,14 @@ body {
     border-color: rgb(65, 65, 65); 
 }
 
+.yellow_BTN{
+    font-family: 'Trebuchet MS', Tahoma, Arial;
+    color: white;
+    background-color: rgb(209, 157, 43);
+    border-style: solid;
+    border-color: rgb(94, 94, 94); 
+}
+
 .green_BTN{
     font-family: 'Trebuchet MS', Tahoma, Arial;
     color: white;

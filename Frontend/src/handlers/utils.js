@@ -5,3 +5,9 @@ export function variableNameToString(objectWithField) {
     return varnameWithCapitalLetter;
 }
 
+export function makeDateString(date) {
+
+    const dateObject = new Date(date);
+    const dateString = dateObject.toString()
+    return dateString;
+}

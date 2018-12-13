@@ -4,6 +4,9 @@ import "../../Pages.css";
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 import {get, put} from './../../../../handlers/requestHandlers.js';
 import {makeOrderLinesData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
+import {amountIsNotANumberWarning, amountExceedingQuantityWarning} from './../../../../handlers/exceptions.js';
+import "./EditOrder.css";
+
 
 export default class EditOrder extends Component{
     constructor(props){
@@ -83,22 +86,31 @@ export default class EditOrder extends Component{
           <div
             style={{ backgroundColor: "#fafafa" }}
             contentEditable
-            suppressContentEditableWarning
+            type="number"
+            onClick={(e) => {e.target.innerHTML = ""}}
             onBlur={e => {
-                var typedValue = e.target.innerHTML;
-                
+              
+                var typedAmount = e.target.innerHTML ? e.target.innerHTML : "0";
+                if (!typedAmount.match(/^\d+$/)) { amountIsNotANumberWarning() }
                 this.state.orderLines
                 .filter(orderLine => orderLine.hexId === cellInfo.original.hexId)
-                .map(orderLine => 
-                    orderLine.amount = typedValue);
-                    
-                    cellInfo.original[e.target.name] = typedValue;
-    
+                .map(orderLine => {
+                    if (typedAmount <= orderLine.quantity) { 
+                        orderLine.amount = typedAmount;
+                    } else { 
+                        amountExceedingQuantityWarning();
+                        typedAmount = "0";
+                    }
+                         
+                })
+                   cellInfo.original.amount = typedAmount;
+                   e.target.innerHTML = typedAmount;
+                   
             }}
             dangerouslySetInnerHTML={{
               __html: this.state.orderLines[cellInfo.index][cellInfo.column.id]
             }}
-          />
+          required/>
         );
       }
     }
@@ -123,58 +135,45 @@ export default class EditOrder extends Component{
         let stock = this.state.stock;
 
         return (
-            <div className="PageStyle rounded">
-                <div className="Contents row ">
-                     <div className="col col-4">
-                        <nav className="navbar navbar-light bg-light">
-                                <h className="navnbar" >Order</h>
-                        </nav>
+            <div className="PageStyle customText_b">
+                <div className="frameBordering">
+
+                    <div className="EditOrderLeft">
                         <ReactTable 
                             data={orderLines}
                             columns={orderLineColumns}
                             showPagination={false}
-                            className="OrderLines -striped -highlight"
+                            className="editOrderColor -striped -highlight"
                             getTrProps={(state, rowInfo) => {
                                 if (rowInfo && rowInfo.row) {
                                     return {
-                                    onClick: (e) => {
-                                        
+                                    onClick: (e) => {    
                                         this.setState({selectedOrderLine: rowInfo.index})
                                         console.log(this.state.selectedOrderLine)
                                     },
                                     style: {
                                         background: rowInfo.index === this.state.selectedOrderLine ? '#00afec' : 'white',
-                                        color: rowInfo.index === this.state.selectedOrderLine ? 'white' : 'black'
+                                        
                                     }
                                 }
                                 }else{
                                     return {}
                                 }
                             }}
-                            style={{height: "75vh"}}
+                            style={{height: "70vh"}}
                         />
-                     </div>
-                    
-                        <div className="col col-2">
-                        <div className="h-25"></div>   
-                             <div className="btn-group-vertical">
-                                <div className="row my-5">
-                                    <button className=" addButton btn btn-success  mx-1 " onClick={this.addOrderLine}> Add Product </button>
-                                    <button className=" removeButton btn btn-danger mx-1 my-5" onClick={this.removeOrderLine}>Remove Product</button>
-                                </div>  
-                             </div>
-                        </div>
-                        
-                        <div className=" col col-5">
-                            <nav className="navbar navbar-light bg-light">
-                                <h className="navnbar" >Publisher stock</h>
-                            </nav>
-                            <ReactTable 
+                        <button className="AdinOrderButtonSizer green_BTN btn mx-1 " onClick={this.addOrderLine}> Add Product </button>
+                        <button className="AdinOrderButtonSizer red_BTN btn mx-1 my-5" onClick={this.removeOrderLine}>Remove Product</button>
+                    </div>
+
+
+                    <div className="EditOrderRight">
+                        <ReactTable 
                                 data={stock}
                                 columns={stockColumns}
                                 className="Products"
                                 showPagination={false} 
-                                className="productTable -striped -highlight"
+                                className=" -striped -highlight"
                                 getTrProps={(state, rowInfo) => {
                                     if (rowInfo && rowInfo.row) {
                                         return {
@@ -188,23 +187,17 @@ export default class EditOrder extends Component{
                                         }
                                     }else{
                                         return {}
-                                    }
-                                    
+                                    }      
                                 }}
-                                style={{height: "75vh"}}
+                                style={{height: "70vh"}}
                             />
-                    <div className="Buttons container row my-2">
-                        <button className="btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+ this.props.match.params.id)}>Edit Address</button>        
-                        <button className="col  btn btn-success mx-2" onClick={this.updateOrder}>Save Content</button>
-                        <button className="col btn btn-info mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>                       
+                            <button className="btn AdinOrderButtonSizer std_BTN btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+ this.props.match.params.id)}>Edit Address</button>        
+                            <button className="col btn AdinOrderButtonSizer blue_BTN mx-2" onClick={this.updateOrder}>Save Content</button>
+                            <button className="col btn AdinOrderButtonSizer dark_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>                       
                     </div>
-                </div>
-                </div>
-            </div>
+
+                </div>       
+            </div>                        
         )
     }
-
-    
-    
-
 }

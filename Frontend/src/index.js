@@ -7,7 +7,6 @@ import redux from "./redux/Redux";
 import EditOrder from './components/pages/Admin/AdminOrders/EditOrder';
 import AdminOrder from './components/pages/Admin/AdminOrders/EditOrder';
 import EditOrderAddress from './components/pages/Admin/AdminOrders/EditOrderAddress';
-import EditOrderContent from './components/pages/Admin/AdminOrders/EditOrderContent';
 import loginMain from "./mainPages/loginMain";
 import adminMain from "./mainPages/adminMain";
 import userMain from "./mainPages/userMain";
@@ -51,7 +50,6 @@ ReactDOM.render(
             <Route exact path="/Admin/Orders/New" component={Order}/>
             <Route exact path="/Admin/Orders/Edit/:id" component={EditOrder}/>
             <Route exact path="/Admin/Orders/Edit/OrderAddress/:id" component={EditOrderAddress}/>
-            <Route exact path="/Admin/Orders/Edit/OrderContent/:id" component={EditOrderContent}/>
             <Route exact path="/Admin/Order" component={AdminOrder}/>
             <Route exact path="/Admin/Order/Cart" component={OrderCart}/>
             <Route exact path="/Admin/Order/Cart/Confirm" component={CartConfirm}/>
@@ -71,6 +69,7 @@ ReactDOM.render(
             <Route path="/User" component={Menues}/>
             <Route exact path="/User/*" component={userMain}/>
             <Route exact path="/User/Order" component={UserOrder}/>
+            <Route exact path="/User/Order/Select" component={Order}/>
             <Route exact path="/User/Order/Cart" component={OrderCart}/>
             <Route exact path="/User/Order/Cart/Confirm" component={CartConfirm}/>
             <Route exact path="/User/Order/Success" component={OrderSuccess}/>

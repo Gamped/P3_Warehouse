@@ -88,7 +88,8 @@ class UserProfileEdit extends React.Component {
                 <h1 className="text-center">Edit profile:</h1>
                 <div className="row">
                     <div className ="col-md-4 offset-md-4">
-                        <form>
+                        <form onSubmit={this.confirmed}>
+                            
                             <div className="input-group mb-2">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-addon10">User Name</span>
@@ -98,7 +99,7 @@ class UserProfileEdit extends React.Component {
                                     type="text" 
                                     className="form-control" 
                                     onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.userName}/>
+                                    defaultValue={this.props.user.userName} required/>
                             </div>
 
                             <div className="input-group mb-2">
@@ -110,7 +111,7 @@ class UserProfileEdit extends React.Component {
                                     type="text" 
                                     className="form-control" 
                                     onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.nickName}/>
+                                    defaultValue={this.props.user.nickName} required/>
                             </div>
 
                             <div className="input-group mb-2">
@@ -122,7 +123,7 @@ class UserProfileEdit extends React.Component {
                                     type="email" 
                                     className="form-control" 
                                     onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.email}/>
+                                    defaultValue={this.props.user.email} required/>
                             </div>
                             
                             <div className="input-group mb-2">
@@ -134,7 +135,7 @@ class UserProfileEdit extends React.Component {
                                 type="tel" 
                                 className="my-2 form-control" 
                                 onChange={this.onChangeHandler}
-                                defaultValue={this.props.user.phoneNumber}/>
+                                defaultValue={this.props.user.phoneNumber} required/>
                             </div>
 
                             <div className="input-group mb-2">
@@ -146,7 +147,7 @@ class UserProfileEdit extends React.Component {
                                 type="text" 
                                 className="form-control" 
                                 onChange={this.onChangeHandler}
-                                defaultValue={this.props.user.address}/>
+                                defaultValue={this.props.user.address} required/>
                             </div>
 
                             <div className="input-group mb-2">
@@ -158,7 +159,7 @@ class UserProfileEdit extends React.Component {
                                     type="text" 
                                     className="form-control" 
                                     onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.city}/>
+                                    defaultValue={this.props.user.city} required/>
                             </div>
                             
                             <div className="input-group mb-2">
@@ -170,30 +171,30 @@ class UserProfileEdit extends React.Component {
                                 type="text" 
                                 className="form-control" 
                                 onChange={this.onChangeHandler}
-                                defaultValue={this.props.user.zipCode}/>
+                                defaultValue={this.props.user.zipCode} required/>
                             <input
                                 name="country" 
                                 type="text" 
                                 className="my-2 form-control" 
                                 onChange={this.onChangeHandler}
-                                defaultValue={this.props.user.country}/>
+                                defaultValue={this.props.user.country} required/>
                             <input
                                 name="passwordNew"
                                 type="password" 
                                 className="my-2 form-control" 
                                 onChange={this.onChangeHandler}
-                                placeholder="New password"/>
+                                placeholder="New password" required/>
                             <input
                                 name="passwordNewRepeat" 
                                 type="password" 
                                 className="my-2 form-control" 
                                 onChange={this.onChangeHandler}
-                                placeholder="New password repeat"/>
+                                placeholder="New password repeat" required/>
                         
-                       </div> </form> 
-                        <form className="newForm stockForm">
-                            <button className="btn btn-block btn-warning my-2" onClick={this.confirmed}>Edit profile</button>
-                        </form>
+                       </div>
+                       
+                            <button className="btn btn-block btn-warning my-2" type="submit">Edit profile</button>
+                       </form> 
                         
                         <Link to="/User/Profile" className="btn-info btn btn-block btn my-2">Back</Link>
                         

@@ -70,7 +70,7 @@ class UserOrderCart extends React.Component {
 
         }
 
-        
+
         
         return(
             <div className="PageStyle rounded">
@@ -97,7 +97,7 @@ class UserOrderCart extends React.Component {
                         <div className="col container">
                             <h4 className="text-center my-2">Where to send the order:</h4>
 
-                            <form className="">
+                            <form onSubmit={this.confirmed}>
                                 <input type="text" className="input-group mb-3" name="company" onChange={this.onChange} placeholder="Company"/>
                                 <input type="text" className="input-group mb-3" name="cvr" onChange={this.onChange} placeholder="CVR"/>
                                 <input type="text" className="input-group mb-3" name="contact" onChange={this.onChange} placeholder="Contact Person" required/>
@@ -107,11 +107,9 @@ class UserOrderCart extends React.Component {
                                 <input type="text" className="input-group mb-3" name="city" onChange={this.onChange} placeholder="City" required/>
                                 <input type="text" className="input-group mb-3" name="country" onChange={this.onChange} placeholder="Country" required/>
                                 
-                                <button className=" btn-success btn btn-block my-3" onClick={this.confirmed} type="submit">Send order</button>
-                                <button className=" btn-danger btn btn-block" onClick={this.back}>Cancel order</button>
-            
+                                <button className=" btn-success btn btn-block mt-5 mb-2" type="submit">Send order</button>
                             </form>
-                    
+                            <button className=" btn-danger btn btn-block" onClick={this.back}>Cancel order</button>
                         </div>
                     </div>        
                 </div>
