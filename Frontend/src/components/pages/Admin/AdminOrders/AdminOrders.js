@@ -166,7 +166,7 @@ export default class AdminOrders extends Component {
   
         const orderColumns = getColumnsFromArray(["Owner", "Date", "Order Id"]);
 
-        let orderLineColumns = getColumnsFromArray(["Product Name", "Amount"]);
+        let orderLineColumns = getColumnsFromArray(["Product Id", "Product Name", "Amount"]);
         
             orderLineColumns.push(this.getCheckBoxColumn());
 
