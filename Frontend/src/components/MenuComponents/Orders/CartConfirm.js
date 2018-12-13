@@ -10,18 +10,23 @@ import { post } from '../../../handlers/requestHandlers';
         super(props);
 
         this.state = {
-            userID: this.props.userId,
+            userId: this.props.userId,
+            userType: this.props.userType,
             products: props.productList,
             address: {}
         };
     }
 
     confirmed = (event) => {
-        const {userId,userType,orderLines} = this.props;
+        const {userId,userType,orderLines} = this.state;
         const data = {...this.props.address}
         const body = makeOrderBodyFromData(data,orderLines)
         console.log("Data: ", data)
         console.log("Body: ", body)
+
+        console.log(this.state.userId);
+        console.log(this.state.userType);
+        post("orders/" + userId + "/" + userType, {body})
         /*
         const body = {
 
