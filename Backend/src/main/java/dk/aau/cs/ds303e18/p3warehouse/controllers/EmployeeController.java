@@ -313,9 +313,11 @@ public class EmployeeController {
         ObjectId id = new ObjectId(hexId);
         Publisher publisher = publisherRepository.findById(id).orElse(null);
         publisher.getClientStream().map(x -> x.unassignAllProducts().map(product -> productRepository.save(product)));
-        publisher.getClientStream().map(x -> x.unassignAllOrders()).reduce((x, y) -> Stream.concat(x, y)).get().forEach(orderRepository::delete);
+        publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(orderStream -> orderStream.forEach(orderRepository::delete));
         publisher.unassignAllOrders().forEach(orderRepository::delete);
         publisher.unassignAllProducts().map(product -> productRepository.save(product));
+        publisher.getClientStream().forEach(clientRepository::delete);
+        publisher.getClientStream().forEach(userRepository::delete);
         publisherRepository.delete(publisher);
         User user = userRepository.findById(publisher.getId()).orElse(null);
         userRepository.delete(user);

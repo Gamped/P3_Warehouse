@@ -57,7 +57,7 @@ public class PublisherController {
 
         return publisher;
     }
-    @GetMapping("/publishers/{hexId}")
+    @GetMapping("/publishers/{hexId}/orders")
     Stream<Order> getAllPublisherOrders(@PathVariable String hexId){
         Publisher publisher = publisherRepository.findById(new ObjectId(hexId)).orElse(null);
         return publisher.getOrderStream();
@@ -89,12 +89,12 @@ public class PublisherController {
         return "Publisher updated! \n" + publisherToSave.getUserName() + "\n" + publisherToSave.getHexId();
     }
 
-    @DeleteMapping("/publishers/{id}")
+    @DeleteMapping("/publishers/{hexId}")
     void delete(@PathVariable String hexId) {
         ObjectId id = new ObjectId(hexId);
         Publisher publisher = publisherRepository.findById(id).orElse(null);
         publisher.getClientStream().map(x -> x.unassignAllProducts().map(product -> productRepository.save(product)));
-        publisher.getClientStream().map(x -> x.unassignAllOrders()).reduce((x, y) -> Stream.concat(x, y)).get().forEach(orderRepository::delete);
+        publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(orderStream -> orderStream.forEach(orderRepository::delete));
         publisher.unassignAllOrders().forEach(orderRepository::delete);
         publisher.unassignAllProducts().map(product -> productRepository.save(product));
         publisherRepository.delete(publisher);
