@@ -16,17 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.is;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -40,11 +32,6 @@ public class OrderRepositoryTest {
     @Autowired
     PublisherRepository publisherRepository;
 
-    @Test
-    public void testFindAllOrders() {
-        List<Order> orders = orderRepository.findAll();
-        assertThat(orders.size(), is(greaterThanOrEqualTo(0)));
-    }
 
     @Test
     public void findByIdTest(){
@@ -145,6 +132,7 @@ public class OrderRepositoryTest {
         orderRepository.deleteAll();
         productRepository.deleteAll();
         clientRepository.deleteAll();
+        publisherRepository.deleteAll();
     }
 
     @Test
@@ -244,6 +232,14 @@ public class OrderRepositoryTest {
         return order;
     }
 
+    @Test
+    public void testFindOrderById() {
+        Order order = makeOrder();
+
+        orderRepository.save(order);
+        Order retrievedOrder = orderRepository.findById(order.getId()).orElse(null);
+        assertEquals(order.getId(), retrievedOrder.getId());
+    }
 
     @Test
     public void testFindInformationOnOrder() {
@@ -267,13 +263,61 @@ public class OrderRepositoryTest {
     }
 
     @Test
+    public void testOrderOwner() {
+        Order order = makeOrder();
+        ObjectId id = new ObjectId();
+        Publisher publisher = new Publisher(id);
+        publisher.setUserType(UserType.PUBLISHER);
+        publisher.setUserName("publisher");
+        publisher.setPassword("123");
+        ContactInformation contactInformation = new ContactInformation();
+        contactInformation.setEmail("publisher@ff.cc");
+        publisher.setContactInformation(contactInformation);
+        order.setOwner(publisher);
+
+        publisherRepository.save(publisher);
+        orderRepository.save(order);
+
+        Order retrieveddOrder = orderRepository.findById(order.getId()).orElse(null);
+        assertEquals(publisher, retrieveddOrder.getOwner());
+    }
+
+    @Test
+    public void testFindAllByOwner() {
+        Order order = makeOrder();
+        Order secondOrder = makeOrder();
+        Order thirdOrder = makeOrder();
+        ObjectId id = new ObjectId();
+        Client client = new Client(id);
+
+        client.addOrder(order);
+        client.addOrder(secondOrder);
+        client.addOrder(thirdOrder);
+        order.setOwner(client);
+        secondOrder.setOwner(client);
+        thirdOrder.setOwner(client);
+
+        clientRepository.save(client);
+        orderRepository.save(order);
+        orderRepository.save(secondOrder);
+        orderRepository.save(thirdOrder);
+
+        Collection<Order> retrievedOrders = orderRepository.findAllByOwner();
+        System.out.println(retrievedOrders);
+    }
+
+    @Test
     public void testFindOrderLine() {
         Product product = makeProduct();
 
         OrderLine orderLine = new OrderLine(product, 25);
+        OrderLine secondOrderLine = new OrderLine(product, 250);
 
         Order order = makeOrder();
-        order.setOrderLines(Collections.singleton(orderLine));
+        List<OrderLine> orderLines = new LinkedList<>();
+        orderLines.add(orderLine);
+        orderLines.add(secondOrderLine);
+        order.setOrderLines(orderLines);
 
         orderRepository.save(order);
 
@@ -281,7 +325,7 @@ public class OrderRepositoryTest {
         Order retrievedOrder = optOrder.get();
 
         assertNotNull(retrievedOrder.getOrderLines());
-        assertEquals(1, retrievedOrder.getOrderLines().size());
+        assertEquals(2, retrievedOrder.getOrderLines().size());
     }
 
     @Test
@@ -314,7 +358,90 @@ public class OrderRepositoryTest {
     }
 
     @Test
+    public void testFindAllOrders() {
+        Order order =  makeOrder();
+        Product product = makeProduct();
+        ObjectId id = new ObjectId();
+        Order secondOrder = new Order(id);
+
+        secondOrder.setTitle("order");
+        secondOrder.setDate(new Date());
+        secondOrder.setAddress("mour 4");
+        secondOrder.setOrderId("35223645654ddd");
+        secondOrder.setCity("Serene");
+        secondOrder.setPhoneNumber("66498726");
+        secondOrder.setZipCode("5979");
+        secondOrder.setCountry("Denmark");
+        secondOrder.setCompany("sports shop");
+        secondOrder.setContactPerson("Molly");
+
+        ObjectId productId = new ObjectId();
+        Product secondProduct = new Product(productId);
+
+        secondProduct.setProductName("music");
+        secondProduct.setQuantity(26);
+        secondProduct.setProductId("35264564765765");
+
+        OrderLine orderLine = new OrderLine(product, 250);
+        OrderLine secondOrderLine = new OrderLine(secondProduct, 20);
+
+        order.setOrderLines(Collections.singleton(orderLine));
+        secondOrder.setOrderLines(Collections.singleton(secondOrderLine));
+
+        ObjectId publisherId = new ObjectId();
+        ObjectId clientId = new ObjectId();
+        Publisher publisher = new Publisher(publisherId);
+        Client client = new Client(clientId);
+        ContactInformation publisherContact = new ContactInformation();
+        ContactInformation clientContact = new ContactInformation();
+        publisherContact.setNickName("Gyldendal");
+        publisherContact.setEmail("123@123.com");
+        clientContact.setEmail("123@123 .com");
+        publisherContact.setPhoneNumber("12345678");
+        clientContact.setPhoneNumber("12345678");
+        clientContact.setNickName("Aalborg Zoo");
+
+        publisher.setContactInformation(publisherContact);
+        client.setContactInformation(clientContact);
+        publisher.addOrder(order);
+        publisher.addProduct(product);
+        client.addProduct(secondProduct);
+        client.addOrder(secondOrder);
+
+        orderRepository.save(order);
+        orderRepository.save(secondOrder);
+        productRepository.save(product);
+        productRepository.save(secondProduct);
+        publisherRepository.save(publisher);
+        clientRepository.save(client);
+
+        Collection<Order> orders = orderRepository.findAll();
+        assertEquals(2, orders.size());
+    }
+
+    @Test
+    public void testDeleteOrder() {
+        Order order = makeOrder();
+        Product product = makeProduct();
+        ObjectId id = new ObjectId();
+        Client client = new Client(id);
+        client.addOrder(order);
+
+        OrderLine orderLine = new OrderLine(product, 250);
+        order.setOrderLines(Collections.singleton(orderLine));
+        order.setOwner(client);
+
+        orderRepository.save(order);
+        clientRepository.save(client);
+        orderRepository.delete(order);
+
+        assertFalse(orderRepository.existsById(order.getId()));
+    }
+
+    @Test
     public void deleteAllOrders() {
         orderRepository.deleteAll();
+
+        assertEquals(0, orderRepository.findAll().size());
     }
 }

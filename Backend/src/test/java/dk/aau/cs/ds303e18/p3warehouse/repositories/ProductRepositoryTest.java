@@ -6,20 +6,18 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -80,11 +78,13 @@ public class ProductRepositoryTest {
         return publisher;
     }
 
-    @Test
-    public void testFindAllProducts() {
-        List<Product> products = repository.findAll();
-        assertThat(products.size(), is(greaterThanOrEqualTo(0)));
+    @Before
+    public void deleteAll() {
+        repository.deleteAll();
+        publisherRepository.deleteAll();
+        clientRepository.deleteAll();
     }
+
     @Test
     public void findByIdTest(){
         ObjectId objectId = new ObjectId();
@@ -157,10 +157,84 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void deleteProductTest(){
+    public void testFindAllProducts() {
+        Product product = makeProduct();
+        ObjectId id = new ObjectId();
+        ObjectId productId = new ObjectId();
+        ObjectId secondProductId = new ObjectId();
+
+        Product secondProduct = new Product(id);
+        secondProduct.setProductName("ship");
+        secondProduct.setQuantity(65);
+        secondProduct.setProductId("3243354654");
+
+        Product thirdProduct = new Product(secondProductId);
+        thirdProduct.setProductName("bus");
+        thirdProduct.setQuantity(66);
+        thirdProduct.setProductId("3r23543645765");
+
+        Product fourthProduct = new Product(productId);
+        fourthProduct.setProductName("music");
+        fourthProduct.setQuantity(26);
+        fourthProduct.setProductId("35264564765765");
+
+        repository.save(product);
+        repository.save(secondProduct);
+        repository.save(thirdProduct);
+        repository.save(fourthProduct);
+
+        Collection<Product> productCollection  = repository.findAll();
+        assertEquals(4, productCollection.size());
+
+
+    }
+
+    @Test
+    public void testDeleteProductById() {
+        Product product = makeProduct();
+
+        repository.save(product);
+        repository.deleteById(product.getId());
+
+        assertNull(repository.findById(product.getId()).orElse(null));
+    }
+
+    @Test
+    public void testDeleteProduct() {
+        Product product = makeProduct();
+        ObjectId id = new ObjectId();
+        ObjectId productId = new ObjectId();
+        ObjectId secondProductId = new ObjectId();
+
+        Product secondProduct = new Product(id);
+        secondProduct.setProductName("ship");
+        secondProduct.setQuantity(65);
+        secondProduct.setProductId("3243354654");
+
+        Product thirdProduct = new Product(secondProductId);
+        thirdProduct.setProductName("bus");
+        thirdProduct.setQuantity(66);
+        thirdProduct.setProductId("3r23543645765");
+
+        Product fourthProduct = new Product(productId);
+        fourthProduct.setProductName("music");
+        fourthProduct.setQuantity(26);
+        fourthProduct.setProductId("35264564765765");
+
+        repository.save(product);
+        repository.save(secondProduct);
+        repository.save(thirdProduct);
+        repository.save(fourthProduct);
+
+        repository.delete(product);
+        Collection<Product> productCollection = repository.findAll();
+        assertEquals(3, productCollection.size());
+    }
+
+    @Test
+    public void deleteAllProductTest(){
         repository.deleteAll();
 
-        List<Product> productList = new ArrayList<>();
-        assertEquals(productList, repository.findAll());
+        assertEquals(0, repository.findAll().size());
     }
 }

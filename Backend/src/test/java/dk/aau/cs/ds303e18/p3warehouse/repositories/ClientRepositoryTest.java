@@ -2,30 +2,22 @@ package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.ContactInformation;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -39,6 +31,8 @@ public class ClientRepositoryTest {
     OrderRepository orderRepository;
     @Autowired
     PublisherRepository publisherRepository;
+    @Autowired
+    UserRepository userRepository;
 
     public Client makeClient() {
         ObjectId id = new ObjectId();
@@ -100,10 +94,13 @@ public class ClientRepositoryTest {
         return publisher;
     }
 
-    @Test
-    public void testFindAllClients() {
-        List<Client> clients = clientRepository.findAll();
-        assertThat(clients.size(), is(greaterThanOrEqualTo(0)));
+    @Before
+    public void deleteAll() {
+        productRepository.deleteAll();
+        publisherRepository.deleteAll();
+        clientRepository.deleteAll();
+        orderRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -137,6 +134,8 @@ public class ClientRepositoryTest {
         Client client = makeClient();
         client.addProduct(product);
         client.addProduct(secondProduct);
+        product.setOwner(client);
+        secondProduct.setOwner(client);
 
         productRepository.save(product);
         productRepository.save(secondProduct);
@@ -155,6 +154,7 @@ public class ClientRepositoryTest {
         Client client = makeClient();
         Publisher publisher = makePublisher();
         client.setPublisher(publisher);
+        publisher.addClient(client);
 
         clientRepository.save(client);
         publisherRepository.save(publisher);
@@ -172,10 +172,27 @@ public class ClientRepositoryTest {
     @Test
     public void testClientOrder() {
         Product product = makeProduct();
-        Product secondProduct = makeProduct();
+        ObjectId productId = new ObjectId();
         Order order = makeOrder();
-        Order secondOrder = makeOrder();
+        ObjectId id = new ObjectId();
         Client client = makeClient();
+
+        Product secondProduct = new Product(productId);
+        secondProduct.setProductName("Running news");
+        secondProduct.setProductId("sefe5684646");
+        secondProduct.setQuantity(20);
+
+        Order secondOrder = new Order(id);
+        secondOrder.setTitle("secondorder");
+        secondOrder.setDate(new Date());
+        secondOrder.setAddress("mour 4");
+        secondOrder.setOrderId("35223645654ddd");
+        secondOrder.setCity("Serene");
+        secondOrder.setPhoneNumber("66498726");
+        secondOrder.setZipCode("5979");
+        secondOrder.setCountry("Denmark");
+        secondOrder.setCompany("sports shop");
+        secondOrder.setContactPerson("Molly");
 
         OrderLine orderLine = new OrderLine(product, 250);
         OrderLine secondOrderLine = new OrderLine(secondProduct, 222);
@@ -184,6 +201,8 @@ public class ClientRepositoryTest {
 
         client.addOrder(order);
         client.addOrder(secondOrder);
+        client.addProduct(product);
+        client.addProduct(secondProduct);
 
         productRepository.save(product);
         productRepository.save(secondProduct);
@@ -216,10 +235,96 @@ public class ClientRepositoryTest {
     }
 
     @Test
+    public void testFindClientByUserId() {
+        Client client = makeClient();
+        User user = new User(client.getId());
+        BeanUtils.copyProperties(client, user);
+
+        clientRepository.save(client);
+        userRepository.save(user);
+
+        User retrievedUser = userRepository.findById(user.getId()).orElse(null);
+        Client retrievedClient = clientRepository.findById(retrievedUser.getId()).orElse(null);
+
+        assertEquals(client, retrievedClient);
+    }
+
+    @Test
+    public void testFindAllClients() {
+        Client client = makeClient();
+        ObjectId id = new ObjectId();
+        Client secondClient = new Client(id);
+
+        ObjectId secondId = new ObjectId();
+        Client thirdClient = new Client(secondId);
+        ContactInformation contactInformation = new ContactInformation();
+
+        contactInformation.setNickName("Karen");
+        contactInformation.setEmail("client@kare.rr");
+        contactInformation.setAddress("fffavej 2");
+        contactInformation.setPhoneNumber("298522654");
+        contactInformation.setZipCode("9825");
+        contactInformation.setCity("Hadsten");
+
+        thirdClient.setContactInformation(contactInformation);
+        thirdClient.setUserType(UserType.CLIENT);
+        thirdClient.setUserName("secondclient");
+        thirdClient.setPassword("esfesgrs");
+
+        ContactInformation secondContactInformation = new ContactInformation();
+
+        secondContactInformation.setNickName("Gose");
+        secondContactInformation.setEmail("publisher@fef.rr");
+        secondContactInformation.setAddress("revej 4");
+        secondContactInformation.setPhoneNumber("1568433546");
+        secondContactInformation.setZipCode("5979");
+        secondContactInformation.setCity("Rye");
+        secondClient.setUserType(UserType.CLIENT);
+        secondClient.setUserName("thirdclient");
+        secondClient.setPassword("fesgr4546");
+        secondClient.setContactInformation(secondContactInformation);
+
+        clientRepository.save(client);
+        clientRepository.save(secondClient);
+        clientRepository.save(thirdClient);
+
+        Collection<Client> clients = clientRepository.findAll();
+        Client savedClient = ((List<Client>) clients).get(1);
+        System.out.println(savedClient.getContactInformation());
+        assertEquals(3, clients.size());
+        assertTrue(clients.contains(client));
+        assertTrue(clients.contains(secondClient));
+        assertTrue(clients.contains(thirdClient));
+    }
+
+    @Test
+    public void testDeleteClientById() {
+        Client client = makeClient();
+        Product product = makeProduct();
+        Order order = makeOrder();
+
+        client.addOrder(order);
+        client.addProduct(product);
+        product.setOwner(client);
+        order.setOwner(client);
+
+        User user = new User(client.getId());
+        BeanUtils.copyProperties(client, user);
+
+        userRepository.save(user);
+        productRepository.save(product);
+        orderRepository.save(order);
+        clientRepository.save(client);
+
+        clientRepository.deleteById(client.getId());
+
+        assertNull(clientRepository.findById(client.getHexId()));
+    }
+
+    @Test
     public void testDeleteAllClient(){
         clientRepository.deleteAll();
 
-        List<Client> clientList = new ArrayList<>();
-        assertEquals(clientList, clientRepository.findAll());
+        assertEquals(0, clientRepository.findAll().size());
     }
 }

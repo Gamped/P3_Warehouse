@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -26,6 +27,8 @@ public class UserRepositoryTest {
     PublisherRepository publisherRepository;
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     @Before
     public void deleteAll() {
@@ -148,6 +151,36 @@ public class UserRepositoryTest {
     }
 
     @Test
+    public void testFindBy() {
+        ObjectId secondId = new ObjectId();
+        Client thirdClient = new Client(secondId);
+        ContactInformation contactInformation = new ContactInformation();
+
+        contactInformation.setNickName("Karen");
+        contactInformation.setEmail("client@kare.rr");
+        contactInformation.setAddress("fffavej 2");
+        contactInformation.setPhoneNumber("298522654");
+        contactInformation.setZipCode("9825");
+        contactInformation.setCity("Hadsten");
+
+        thirdClient.setContactInformation(contactInformation);
+        thirdClient.setUserType(UserType.CLIENT);
+        thirdClient.setUserName("secondclient");
+        thirdClient.setPassword("esfesgrs");
+
+        User user = new User(thirdClient.getId());
+        user.copyFrom(thirdClient);
+
+        clientRepository.save(thirdClient);
+        userRepository.save(user);
+
+        User retrievedUser = userRepository.findById(user.getId()).orElse(null);
+        User secondRetrievedUser = userRepository.findById(thirdClient.getId()).orElse(null);
+
+        assertEquals(retrievedUser, secondRetrievedUser);
+
+    }
+    @Test
     public void testUserCopyFrom() {
         ObjectId id = new ObjectId();
         Client client = new Client(id);
@@ -157,14 +190,37 @@ public class UserRepositoryTest {
         User user = new User(client.getId());
         user.copyFrom(client);
 
-        clientRepository.save(client);
+        assertEquals(client.getId(), user.getId());
+        assertEquals(client.getUserName(), user.getUserName());
+    }
+
+    @Test
+    public void testFindUserByPublisherId() {
+        ObjectId id = new ObjectId();
+        Publisher publisher = new Publisher(id);
+        ContactInformation contactInformation = new ContactInformation();
+
+        contactInformation.setNickName("music store");
+        contactInformation.setEmail("thirdPublisher@ff.cc");
+        contactInformation.setPhoneNumber("87525632");
+        contactInformation.setAddress("gyldenvej 4");
+        contactInformation.setZipCode("2796");
+        contactInformation.setCity("Padborg");
+
+        publisher.setUserType(UserType.PUBLISHER);
+        publisher.setUserName("thirdpublisher");
+        publisher.setPassword("r43tdhytf");
+        publisher.setContactInformation(contactInformation);
+
+        User user = new User(publisher.getId());
+        user.copyFrom(publisher);
+
+        publisherRepository.save(publisher);
         userRepository.save(user);
 
-        Client retrievedClient = clientRepository.findById(client.getId()).orElse(null);
-        User retrievedUser = userRepository.findById(retrievedClient.getId()).orElse(null);
-
+        User retrievedUser = userRepository.findById(publisher.getId()).orElse(null);
         assertNotNull(retrievedUser);
-        assertEquals(retrievedClient.getUserName(), retrievedUser.getUserName());
+        assertEquals(publisher.getUserName(), retrievedUser.getUserName());
     }
 
     @Test
@@ -180,11 +236,118 @@ public class UserRepositoryTest {
         Publisher retrievedPublisher = publisherRepository.findById(retrievedUser.getId()).orElse(null);
 
         assertNotNull(retrievedPublisher);
+        assertEquals(publisher.getId(), retrievedPublisher.getId());
+    }
+
+    @Test
+    public void testFindByUserName() {
+        Employee emp = new Employee(new ObjectId());
+        emp.setNickname("Jane");
+        emp.setUserType(UserType.EMPLOYEE);
+        emp.setPassword("123");
+        emp.setUserName("jane");
+
+        User user = new User(emp.getId());
+        user.copyFrom(emp);
+
+        userRepository.save(user);
+        employeeRepository.save(emp);
+
+        User retrievedUser = userRepository.findByUserName(emp.getUserName()).orElse(null);
+        assertEquals(emp.getUserName(), retrievedUser.getUserName());
+    }
+
+    @Test
+    public void testFindUserByPassWord() {
+        ObjectId id = new ObjectId();
+        Publisher publisher = new Publisher(id);
+        ContactInformation contactInformation = new ContactInformation();
+
+        contactInformation.setNickName("music store");
+        contactInformation.setEmail("thirdPublisher@ff.cc");
+        contactInformation.setPhoneNumber("87525632");
+        contactInformation.setAddress("gyldenvej 4");
+        contactInformation.setZipCode("2796");
+        contactInformation.setCity("Padborg");
+
+        publisher.setUserType(UserType.PUBLISHER);
+        publisher.setUserName("thirdpublisher");
+        publisher.setPassword("r43tdhytf");
+        publisher.setContactInformation(contactInformation);
+
+        User user = new User(publisher.getId());
+        user.copyFrom(publisher);
+
+        publisherRepository.save(publisher);
+        userRepository.save(user);
+
+        User retrievedUser = userRepository.findByPassword(publisher.getPassword()).orElse(null);
+        assertEquals(publisher.getId(), retrievedUser.getId());
+        assertEquals(publisher.getPassword(), retrievedUser.getPassword());
+    }
+
+    @Test
+    public void testFindUserByUserType() {
+        ObjectId secondId = new ObjectId();
+        Client thirdClient = new Client(secondId);
+        ContactInformation contactInformation = new ContactInformation();
+
+        contactInformation.setNickName("Karen");
+        contactInformation.setEmail("client@kare.rr");
+        contactInformation.setAddress("fffavej 2");
+        contactInformation.setPhoneNumber("298522654");
+        contactInformation.setZipCode("9825");
+        contactInformation.setCity("Hadsten");
+
+        thirdClient.setContactInformation(contactInformation);
+        thirdClient.setUserType(UserType.CLIENT);
+        thirdClient.setUserName("secondclient");
+        thirdClient.setPassword("esfesgrs");
+
+        User user = new User(thirdClient.getId());
+        user.copyFrom(thirdClient);
+
+        userRepository.save(user);
+        clientRepository.save(thirdClient);
+
+        User retrievedUsesr = userRepository.findByUserType(thirdClient.getUserType()).orElse(null);
+        assertEquals(thirdClient.getId(), retrievedUsesr.getId());
+        assertEquals(thirdClient.getUserType(), retrievedUsesr.getUserType());
+    }
+
+    @Test
+    public void deleteUserById() {
+        ObjectId id = new ObjectId();
+        Publisher publisher = new Publisher(id);
+        ContactInformation contactInformation = new ContactInformation();
+
+        contactInformation.setNickName("music store");
+        contactInformation.setEmail("thirdPublisher@ff.cc");
+        contactInformation.setPhoneNumber("87525632");
+        contactInformation.setAddress("gyldenvej 4");
+        contactInformation.setZipCode("2796");
+        contactInformation.setCity("Padborg");
+
+        publisher.setUserType(UserType.PUBLISHER);
+        publisher.setUserName("thirdpublisher");
+        publisher.setPassword("r43tdhytf");
+        publisher.setContactInformation(contactInformation);
+
+        User user = new User(publisher.getId());
+        user.copyFrom(publisher);
+
+        publisherRepository.save(publisher);
+        userRepository.save(user);
+
+        userRepository.deleteById(user.getId());
+
+        assertNull(userRepository.findById(publisher.getId()).orElse(null));
     }
 
     @Test
     public void testDeleteAllUsers() {
         userRepository.deleteAll();
+        assertEquals(0, userRepository.findAll().size());
     }
 
 }
