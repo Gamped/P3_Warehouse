@@ -2,6 +2,8 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import ReactTable from 'react-table';
 import "./UserOrder.css";
+import {connect} from "react-redux";
+import {get} from "./../../../../handlers/requestHandlers";
 
 class UserOrder extends React.Component {
     constructor(props) {
@@ -11,6 +13,25 @@ class UserOrder extends React.Component {
             columns: [],
         };
     }
+    
+    componentDidMount(){
+        this.getOrders();
+    }
+
+    getOrders = () =>{
+        const {userId,userType} = this.props;
+        if(userType==="CLIENT"){
+            get("clients/"+userId+"/orders",(data)=>this.setDataToState(data))
+        }else if(userType === "PUBLISHER"){
+            get("publishers/"+userId+"/orders",(data)=>this.setDataToState(data))
+        }
+    }
+
+    setDataToState = (data) =>{
+        
+    }
+
+    //TODO: Fix react-table.
 
     render() {
         return(
@@ -23,7 +44,7 @@ class UserOrder extends React.Component {
                             />
                     </div>
                     <div className="UserOrderRight">
-                        <Link to="/Home" className="btn green_BTN btn-block">Create new order</Link>
+                        <Link to="/User/Order/Select" className="btn green_BTN btn-block">Create new order</Link>
                         <Link to="/Home" className="btn red_BTN btn-block">Remove order</Link>
                     </div>
                 </div>
@@ -32,4 +53,11 @@ class UserOrder extends React.Component {
     }
 }
 
-export default UserOrder;
+const mapStateToProps = (state) =>{
+    return {
+        userId: state.loginReducer.userId,
+        userType: state.loginReducer.userType
+    }
+}
+
+export default connect(mapStateToProps)(UserOrder);

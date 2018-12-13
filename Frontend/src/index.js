@@ -71,6 +71,7 @@ ReactDOM.render(
             <Route path="/User" component={Menues}/>
             <Route exact path="/User/*" component={userMain}/>
             <Route exact path="/User/Order" component={UserOrder}/>
+            <Route exact path="/User/Order/Select" component={Order}/>
             <Route exact path="/User/Order/Cart" component={OrderCart}/>
             <Route exact path="/User/Order/Cart/Confirm" component={CartConfirm}/>
             <Route exact path="/User/Order/Success" component={OrderSuccess}/>
