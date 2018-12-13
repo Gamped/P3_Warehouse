@@ -14,12 +14,10 @@ import userMain from "./mainPages/userMain";
 import AdminOrders from "./components/pages/Admin/AdminOrders/AdminOrders";
 import AdminProfile from "./components/pages/Admin/AdminProfile/AdminProfile";
 import AdminAdd from "./components/pages/Admin/AdminProfile/AdminAdd";
-import AdminRemove from "./components/pages/Admin/AdminProfile/AdminRemove";
 import AdminProfileEdit from "./components/pages/Admin/AdminProfile/AdminProfileEdit";
 import AdminStock from "./components/pages/Admin/AdminStock/AdminStock";
 import NewWare from "./components/pages/Admin/AdminStock/NewWare";
 import Edit from "./components/pages/Admin/AdminStock/Edit";
-import RemoveWare from "./components/pages/Admin/AdminStock/RemoveWare";
 import AdminUsers from "./components/pages/Admin/AdminUsers/AdminUsers";
 import PublisherClient from "./components/pages/User/PublisherClients/PublisherClient";
 import PublisherRequestClientChange from "./components/pages/User/PublisherClients/PublisherRequestClientChange";
@@ -60,12 +58,10 @@ ReactDOM.render(
             <Route exact path="/Admin/Order/Failed" component={OrderFailed}/>
             <Route exact path="/Admin/Profile" component={AdminProfile}/>
             <Route exact path="/Admin/Profile/AddEmployee" component={AdminAdd}/>
-            <Route exact path="/Admin/Profile/RemoveEmployee" component={AdminRemove}/>
             <Route exact path="/Admin/Profile/Edit/:id" component={AdminProfileEdit}/>
             <Route exact path="/Admin/Stock" component={AdminStock}/>
             <Route exact path="/Admin/Stock/New" component={NewWare}/>
             <Route exact path="/Admin/Stock/Edit/:id" component={Edit}/>
-            <Route exact path="/Admin/Stock/Remove" component={RemoveWare}/>
             <Route exact path="/Admin/Users" component={AdminUsers}/>
             <Route exact path="/Admin/Users/Create" component={CreateUser}/>
             <Route exact path="/Admin/Users/Push" component={Pushback}/>

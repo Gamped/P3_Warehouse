@@ -33,10 +33,10 @@ class Edit extends Component {
     render(){
         return(
             
-            <div className="PageStyle rounded">
+            <div className="PageStyle adminReduceFontSize customText_b ">
                 <nav class="navbar navbar-light bg-light">
                     <h1 className="customText_b_big">Edit product:</h1>
-                    <h1 className="subTitle customText_b">{this.state.product.name} </h1>´
+                    <h1 className="subTitle customText_b">{this.state.product.name} </h1>
                 </nav>
                  <div className=" row">
                     <div className="col-md-4 offset-md-5 my-5">
@@ -44,7 +44,7 @@ class Edit extends Component {
                         <input
                             type="text"
                             name="productName"
-                            className="newForm"
+                            className="my-2 form-control "
                             defaultValue={this.state.product.name}
                             onChange={this.onChange}
                             placeholder="Product Name"/>
@@ -52,7 +52,7 @@ class Edit extends Component {
                         <div className="input-group-prepend my-2">
                         <input
                             type="text"
-                            className="newForm"
+                            className="my-2 form-control "
                             name="productId"
                             defaultValue={this.state.product.id}
                             onChange={this.onChange}
@@ -61,17 +61,16 @@ class Edit extends Component {
                         <div className="input-group-prepend my-2">
                         <input
                             type="text"
-                            className="newForm"
+                            className="my-2 form-control "
                             name="quantity"
                             defaultValue={this.state.product.quantity}
                             onChange={this.onChange}
                             placeholder="Quantity"/>
                             </div>
                     </div>
-                        <div class="w-100"></div>
                         <div className="col-md-6 offset-md-5">
-                                <button className="btn btn-warning" onClick={this.onSubmit} >Edit product</button>´
-                                <Link to="/Admin/Stock" className="btn btn-info">Back</Link>
+                            <button className="green_BTN btn-lg btn-block btn my-2" onClick={this.onSubmit} >Edit product</button>
+                            <Link to="/Admin/Stock" className="dark_BTN btn-lg btn-block btn my-2">Back</Link>
                         </div>
                     </div>
             </div>
