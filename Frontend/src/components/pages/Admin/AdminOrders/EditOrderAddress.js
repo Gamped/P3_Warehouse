@@ -51,21 +51,19 @@ export default class EditOrderAddress extends Component{
     
     render() {
         return(
-            <div className="PageStyle rounded">
+            <div className="PageStyle customText_b">
                     <div class="btn-group-vertical my-5 mx-5">
-                        <input type="text" name="company" defaultValue={this.state.order.company} className="newForm" onChange={this.onChange} placeholder="Company"/> 
-                        <input type="text" name="contactPerson" defaultValue={this.state.order.contactPerson} className="newForm" onChange={this.onChange} placeholder="Contact Person"/>
-                        <input type="text" name="phoneNumber" defaultValue={this.state.order.phoneNumber} className="newForm" onChange={this.onChange} placeholder="Phonenumber"/>
-                        <input type="text" name="address" defaultValue={this.state.order.address} className="newForm" onChange={this.onChange} placeholder="Address"/>
-                        <input type="text" name="zipCode" defaultValue={this.state.order.zipCode} className="newForm" onChange={this.onChange} placeholder="Zipcode"/>
-                        <input type="text" name="city" defaultValue={this.state.order.city} className="newForm" onChange={this.onChange} placeholder="City"/>
-                        <input type="text" name="country" defaultValue={this.state.order.country} className="newForm" onChange={this.onChange} placeholder="Country"/>
+                        <input type="text" name="company" defaultValue={this.state.order.company} className="my-2 form-control" onChange={this.onChange} placeholder="Company"/> 
+                        <input type="text" name="contactPerson" defaultValue={this.state.order.contactPerson} className="my-2 form-control" onChange={this.onChange} placeholder="Contact Person"/>
+                        <input type="text" name="phoneNumber" defaultValue={this.state.order.phoneNumber} className="my-2 form-control" onChange={this.onChange} placeholder="Phonenumber"/>
+                        <input type="text" name="address" defaultValue={this.state.order.address} className="my-2 form-control" onChange={this.onChange} placeholder="Address"/>
+                        <input type="text" name="zipCode" defaultValue={this.state.order.zipCode} className="my-2 form-control" onChange={this.onChange} placeholder="Zipcode"/>
+                        <input type="text" name="city" defaultValue={this.state.order.city} className="my-2 form-control" onChange={this.onChange} placeholder="City"/>
+                        <input type="text" name="country" defaultValue={this.state.order.country} className="my-2 form-control" onChange={this.onChange} placeholder="Country"/>
 
-                        <div className="btn-group my-2">
-                            <button className="col btn btn-succes mx-2" onClick={this.onSubmit}>Save Changes</button>
-                            <button className="col btn btn-warning mx-2">Discard Changes</button>
-                            <Link to="/Admin/Orders/Edit" className="col btn btn-info mx-2 " role=" button" >Back</Link>
-                         </div>
+                        <button className="EOA_BTN col btn green_BTN mx-2" onClick={this.onSubmit}>Save Changes</button>
+                        <button className="EOA_BTN col btn red_BTN mx-2">Discard Changes</button>
+                        <Link to="/Admin/Orders/Edit" className="EOA_BTN col btn std_BTN mx-2 " role=" button" >Back</Link>
                     </div>
                 </div>
         )
