@@ -27,16 +27,17 @@ import { post } from '../../../handlers/requestHandlers';
             let {userId,userType} = this.props.employeeUser;
             userType = userType.toLowerCase()
             post('orders/'+userId+'/'+userType, {body}, (response) => {
-                if(response === null){
+                console.log(response)
+                /*if(response !== "Created!"){
                     this.props.history.push("/Admin/Order/Failed")
                 }else{
                     this.props.history.push("/Admin/Order/Success")
-                }
+                }*/
             });
         }else{
             userType = userType.toLowerCase()
             post('orders/'+userId+'/'+userType, {body}, (response) => {
-                if(response === null){
+                if(response !== "Created!"){
                     this.props.history.push("/User/Order/Failed")
                 }else{
                     this.props.history.push("/User/Order/Success")
