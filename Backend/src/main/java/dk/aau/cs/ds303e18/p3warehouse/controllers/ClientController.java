@@ -49,9 +49,9 @@ public class ClientController {
     @GetMapping("/clients/independent")
     Iterable<Client> findAllIndependentClients(){ return clientRepository.findByPublisherId(null); }
 
-    @GetMapping("/clients/{id}")
-    Client findClientById(@PathVariable String id) {
-        return clientRepository.findById(new ObjectId(id)).orElse(null);
+    @GetMapping("/clients/{hexId}")
+    Client findClientById(@PathVariable String hexId) {
+        return clientRepository.findById(new ObjectId(hexId)).orElse(null);
     }
 
     @GetMapping("/clients/{hexId}/products")
@@ -60,16 +60,16 @@ public class ClientController {
         return client.getProductStream().collect(Collectors.toCollection(HashSet::new));
     }
 
-    @GetMapping("/clients/{hexId}/products")
+    @GetMapping("/clients/{hexId}/orders")
     private Collection<Order>findAllOrdersByClient(@PathVariable String hexId){
         Client client = clientRepository.findById(new ObjectId(hexId)).orElse(null);
         return client.getOrderStream().collect(Collectors.toCollection(HashSet::new));
     }
 
-    @GetMapping("/clients/products/{id}")
-    Product findProductById(@PathVariable String id) {
+    @GetMapping("/clients/products/{hexId}")
+    Product findProductById(@PathVariable String hexId) {
 
-        ObjectId objectId = new ObjectId(id);
+        ObjectId objectId = new ObjectId(hexId);
         return productRepository.findById(objectId).orElse(null);
     }
 
@@ -99,7 +99,7 @@ public class ClientController {
         return "Product updated! \n" + product.getProductName() + "\n" + product.getHexId();
     }
 
-    @DeleteMapping("/clients/{id}")
+    @DeleteMapping("/clients/{hexId}")
     void deleteClient(@PathVariable String hexId) {
         ObjectId id = new ObjectId(hexId);
         Client client = clientRepository.findById(id).orElse(null);

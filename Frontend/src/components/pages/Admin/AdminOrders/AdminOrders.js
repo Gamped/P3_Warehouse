@@ -6,7 +6,7 @@ import axios from "axios";
 import "../../Pages.css";
 import "./AdminOrders.css";
 import {allProductsNotPackedWarning} from "./../../../../handlers/exceptions.js";
-import {makePublisherAndClientOrdersData, makeClientOrdersData} from "./../../../../handlers/dataHandlers.js"
+import {makeAllPublishersAndClientsOrdersData, makeClientsOrdersData} from "./../../../../handlers/dataHandlers.js"
 import {get, del} from "./../../../../handlers/requestHandlers.js"
 import {packListPDF, orderNotePDF} from "./../../../../handlers/pdfHandlers.js"
 import {getColumnsFromArray} from "./../../../../handlers/columnsHandlers.js"
@@ -18,8 +18,7 @@ export default class AdminOrders extends Component {
         super(props);
         this.state = { 
             orders: [], 
-            orderLines: [], 
-            selectedOrder: [],
+            orderLines: [],
             selected: null, 
             selectedIndex: -1,
             selectedId: "",
@@ -41,7 +40,7 @@ export default class AdminOrders extends Component {
     getPublishers() {
         get("employee/publishers", (data)=> {
             console.log(data);
-            const orders = makePublisherAndClientOrdersData(data);
+            const orders = makeAllPublishersAndClientsOrdersData(data);
             console.log("ORDERS " + orders)
             this.setState({ 
                 data: data,
@@ -52,7 +51,8 @@ export default class AdminOrders extends Component {
 
     getIndependentClients(){
         get("clients/independent", (data)=> {
-            const orders = makeClientOrdersData(data);
+
+            const orders = makeClientsOrdersData(data);
             this.setState({
                 data: data,
                 orders: this.state.orders.concat(orders)
@@ -166,6 +166,7 @@ export default class AdminOrders extends Component {
         const orderColumns = getColumnsFromArray(["Owner", "Date", "Order Id"]);
 
         let orderLineColumns = getColumnsFromArray(["Product Name", "Amount"]);
+        
             orderLineColumns.push(this.getCheckBoxColumn());
 
         return (
@@ -208,7 +209,9 @@ export default class AdminOrders extends Component {
                     
                     <div className="AdminOrderRight">
                         <div className="Table rightReactTableAdminOrder">
-                                <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem} columns={orderLineColumns} showPagination={false} 
+                                <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem}
+                                 columns={orderLineColumns} 
+                                 showPagination={false} 
                                 className="-striped -highlight"
                                 style={{height: "100%"}}
                                 />
