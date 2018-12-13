@@ -6,6 +6,8 @@ import {makeProductsData, makeCustomerProductsData} from '../../../handlers/data
 import {itemPreviouslyAddedWarning} from '../../../handlers/exceptions.js';
 import { getColumnsFromArray } from '../../../handlers/columnsHandlers.js';
 import { get } from '../../../handlers/requestHandlers';
+import Dropdown from "../../MenuComponents/Dropdown/Dropdown";
+import {makeCustomerData} from "../../../handlers/dataHandlers";
 
 //TODO: Render warning in previouslyAddedWarning
 //TODO: Put items in cart notification symbol on cart button
@@ -24,7 +26,8 @@ class UserOrder extends React.Component {
             products: [],
             selected: null,
             selectedId: "",
-            orderLines: []
+            orderLines: [],
+            customers:[]
         };
 
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
@@ -34,9 +37,31 @@ class UserOrder extends React.Component {
     }
 
     componentDidMount(){
-       
+        this.getClients();
+        this.getPublishers();
         this.getStock();           
     }
+
+     getClients() {
+         get('employee/clients', (data) => {
+             const clients = makeCustomerData(data);
+             this.concatinateWithNewData(clients);
+         });
+     }
+ 
+     getPublishers() {
+        get('employee/publishers', (data) => {
+             const publishers = makeCustomerData(data);
+             this.concatinateWithNewData(publishers);
+         });
+     }
+ 
+     concatinateWithNewData(newData) {
+     
+         const customersCopy = this.state.customers;
+         let concatinatedData = customersCopy.concat(newData);
+         this.setState({ customers: concatinatedData });
+     }
 
     getStock() {
         
@@ -128,17 +153,32 @@ class UserOrder extends React.Component {
             "Owner Name"]);
         columns[2].Cell = this.renderEditable;
 
+        let navbar = null;
+        if(this.props.userType==="EMPLOYEE"){
+            navbar = (
+                <nav class="navbar navbar-light bg-light">                   
+                    <form class = "form-inline">
+                                <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
+                    </form>       
+                        <Dropdown actors={this.state.customers} action={()=>{}}/>
+                </nav> 
+                )
+        }else{
+            navbar = (
+                <nav class="navbar navbar-light bg-light">                   
+                    <form class = "form-inline">
+                                <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
+                    </form>       
+                </nav> 
+                )
+        }
+
         return(
             <div className="PageStyle rounded">
             <nav class="navbar navbar-light bg-light"> 
                 <h2 className=" text-center "> Order:</h2>
             </nav>   
-                <nav class="navbar navbar-light bg-light">                   
-                        <form class = "form-inline">
-                                    <button class="btn btn-outline-success my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
-                        </form>
-                              
-                </nav>         
+                {navbar}        
                 
                 <div className="table">
                     <div className="SideBar col rounded bg-secondary">
@@ -184,14 +224,7 @@ class UserOrder extends React.Component {
                         </div>
                     </nav>      
                 </div>
-                
-   
-                
-                
-
             </div>
-          
-            
             );
     }
 
