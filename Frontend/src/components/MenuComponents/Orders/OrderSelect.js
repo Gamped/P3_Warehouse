@@ -109,10 +109,18 @@ class UserOrder extends React.Component {
     }
 
     changeToCart = (event) => {
+        event.preventDefault()
         this.props.addItemToCart(this.state.orderLines)
         const userType = this.props.userType
+        const {selectedId} = this.state
         if(userType === "EMPLOYEE"){
-            this.props.history.push("/Admin/Order/Cart")
+            if(selectedId!==undefined&&selectedId!==null&&selectedId!==""){
+                console.log(this.state.selectedId)
+                this.props.history.push("/Admin/Order/Cart")
+            }else{
+                window.alert("Please select a customer you are ordering for.")
+            }
+            
         }else{
             this.props.history.push("/User/Order/Cart")
         }
@@ -172,7 +180,11 @@ class UserOrder extends React.Component {
 
     setSelectedUser = (e) =>{
         this.setState({userSelectedId:e.target.value},()=>{
-            this.setState({userSelectedType:this.state.customers.find(x=>x.hexId===this.state.userSelectedId).userType})
+            if(this.state.selectedId !== undefined){
+                this.setState({userSelectedType:this.state.customers.find(x=>x.hexId===this.state.userSelectedId).userType})
+            }else{
+                window.alert("This is not a valid user.")
+            }
         })
     }
 
