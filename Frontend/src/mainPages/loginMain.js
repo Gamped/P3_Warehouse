@@ -5,9 +5,9 @@ const loginMain = (props)=>{
 
     return(
         <div className="row">
-        <div className="col-sm"></div>
-            <SignInBox/>
-        <div className="col-sm"></div>
+            <div className="col-sm"></div>
+                  <SignInBox/>
+            <div className="col-sm"></div>
         </div>
     )
 }
