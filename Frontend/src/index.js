@@ -49,8 +49,6 @@ ReactDOM.render(
             <Route exact path="/Admin/Orders" component={AdminOrders}/>
             <Route exact path="/Admin/Orders/New" component={Order}/>
             <Route exact path="/Admin/Orders/Edit/:id" component={EditOrder}/>
-            <Route exact path="/Admin/Orders/Confirmed" component={AdminOrderConfirmed}/>
-            <Route exact path="/Admin/Orders/Failed" component={AdminOrderFailed}/>
             <Route exact path="/Admin/Orders/Edit/OrderAddress/:id" component={EditOrderAddress}/>
             <Route exact path="/Admin/Orders/Edit/OrderContent/:id" component={EditOrderContent}/>
             <Route exact path="/Admin/Profile" component={AdminProfile}/>
