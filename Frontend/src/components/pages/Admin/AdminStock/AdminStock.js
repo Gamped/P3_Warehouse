@@ -76,10 +76,10 @@ import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
         const columns = getColumnsFromArray(["Product Id", "Product Name", "Owner", "Quantity"]);
 
         return(
-            <div className="PageStyle rounded">
-                <div className="MainContainer container row">
+            <div className="PageStyle customText_b">
+                <div className="frameBordering MainContainer container row">
                     <div className="Table container col">
-                        <h1 className="Header">Stock</h1>
+                        <h1 className="customText_b_big">Stock</h1>
 
                     <ReactTable
                         data={this.state.products} 
@@ -108,18 +108,17 @@ import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
                         
                         <div className="CRUD container row">
                             <div className="">
-                                <button  className="btn-success btn-lg btn-block my-2" onClick={this.newStock}>New</button>
+                                <button  className="green_BTN stockBTNSizer btn my-2" onClick={this.newStock}>New</button>
                             </div>
                             <div action="/Admin/Stock/Edit" className="">
-                                <button  className="btn-lg btn-block btn-warning my-2" onClick={this.changeToEditPage} >Edit</button>
+                                <button  className="std_BTN stockBTNSizer btn my-2" onClick={this.changeToEditPage} >Edit</button>
                                 
                             </div>
                             <div action="/Admin/Stock/Remove" className="">
-                                <button  className="btn-lg btn-danger btn-block my-2" onClick={this.deleteProduct}
-                                >Remove</button>
+                                <button  className="red_BTN stockBTNSizer btn my-2" onClick={this.deleteProduct}>Remove</button>
                             </div>
                             <div>
-                                <button onClick={()=>entireStockPDF(this.state)} className="btn-lg btn-block btn-block my-2">Export</button>
+                                <button onClick={()=>entireStockPDF(this.state)} className="std_BTN stockBTNSizer btn my-2">Export</button>
                             </div>
                         </div>
                     </div>
