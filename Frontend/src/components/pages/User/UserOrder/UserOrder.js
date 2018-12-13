@@ -3,15 +3,16 @@ import {Link} from "react-router-dom";
 import ReactTable from 'react-table';
 import "./UserOrder.css";
 import {connect} from "react-redux";
-import {get} from "./../../../../handlers/requestHandlers";
+import {get} from "./../../../../handlers/requestHandlers.js";
+import {makeClientOrdersData, makePublisherAndClientOrdersData} from '../../../../handlers/dataHandlers.js';
+import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 
 class UserOrder extends React.Component {
+    
     constructor(props) {
         super(props);
-
-        this.state = {
-            columns: [],
-        };
+        this.state = { orders: [] };
+    
     }
     
     componentDidMount(){
@@ -19,28 +20,36 @@ class UserOrder extends React.Component {
     }
 
     getOrders = () =>{
+
         const {userId,userType} = this.props;
-        if(userType==="CLIENT"){
-            get("clients/"+userId+"/orders",(data)=>this.setDataToState(data))
-        }else if(userType === "PUBLISHER"){
-            get("publishers/"+userId+"/orders",(data)=>this.setDataToState(data))
-        }
+        get(userType.toLowerCase() + "s/" +userId + "/orders",(data)=>this.setDataToState(data, userType))
+       
     }
 
-    setDataToState = (data) =>{
-        
-    }
+    setDataToState = (data, userType) => {
+        console.log(data);
 
-    //TODO: Fix react-table.
+        let orders = [];
+      //  userType.toLowerCase() === "client" ? orders = makeClientOrdersData(data) : orders = makePublisherAndClientOrdersData(data);
+        this.setState({orders: orders});
+    }
 
     render() {
+        
+        const columns = getColumnsFromArray(["Order Id", "Placed By", "Date"]);
+        const orders = this.state.orders;
+
         return(
             <div className="PageStyle">
                 <div className="frameBordering">
                     <div className="UserOrderLeft">
                         <ReactTable 
+                                data={orders}
                                 className="productTable -striped -highlight"
-                                columns={this.state.columns}
+                                columns={columns}
+                                showPagination={false} 
+                                className=" -striped -highlight darkenReactTable"
+
                             />
                     </div>
                     <div className="UserOrderRight">
