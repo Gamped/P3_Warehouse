@@ -2,7 +2,7 @@ import React from 'react';
 import "./Order.css";
 import "./Cart.css";
 import { connect } from "react-redux";
-import {makeOrderBodyFromData} from "../../../handlers/dataHandlers";
+import {makeOrderBodyFromData} from "../../../handlers/bodyHandlers";
 import { post } from '../../../handlers/requestHandlers';
 
  class UserCartConfirm extends React.Component {
@@ -20,16 +20,21 @@ import { post } from '../../../handlers/requestHandlers';
         const {userId,userType,orderLines} = this.props;
         const data = {...this.props.address}
         const body = makeOrderBodyFromData(data,orderLines)
-        console.log("Data: ", data)
+        console.log("Data: ", data,"Orderlines: ", orderLines)
         console.log("Body: ", body)
-        /*
-        const body = {
-
-        }
 
         if(userType === "EMPLOYEE"){
-
+            let {userId,userType} = this.props.employeeUser;
+            userType = userType.toLowerCase()
+            post('orders/'+userId+'/'+userType, {body}, (response) => {
+                if(response === null){
+                    this.props.history.push("/Admin/Order/Failed")
+                }else{
+                    this.props.history.push("/Admin/Order/Success")
+                }
+            });
         }else{
+            userType = userType.toLowerCase()
             post('orders/'+userId+'/'+userType, {body}, (response) => {
                 if(response === null){
                     this.props.history.push("/User/Order/Failed")
@@ -37,7 +42,7 @@ import { post } from '../../../handlers/requestHandlers';
                     this.props.history.push("/User/Order/Success")
                 }
             });
-        }*/
+        }
     }
  
     goBack = () =>{
@@ -128,6 +133,7 @@ import { post } from '../../../handlers/requestHandlers';
 const mapStateToProps = (state)=>{
     return{
         orderLines: state.orderReducer.orderLines,
+        employeeUser:state.orderReducer.customer,
         address: state.addressReducer,
         userType: state.loginReducer.userType,
         userId: state.loginReducer.userId

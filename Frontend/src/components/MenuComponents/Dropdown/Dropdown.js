@@ -1,5 +1,4 @@
 import React from "react";
-import { SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION } from "constants";
 
 const Dropdown = (props) =>{
     const {action, actors} = props;
@@ -14,8 +13,8 @@ const Dropdown = (props) =>{
          )
     })
     return(
-        <select className="custom-select my-2" onChange={action}>
-            <option>Choose actor</option>
+        <select className="custom-select form-control" id="dropdown" onChange={action}>
+            <option>Choose Customer</option>
             {actorList}
         </select>  
     )
