@@ -124,81 +124,79 @@ export default class EditOrder extends Component{
 
         return (
             <div className="PageStyle rounded">
-                <div className="Contents row ">
-                     <div className="col col-4">
-                        <nav className="navbar navbar-light bg-light">
-                                <h className="navnbar" >Order</h>
-                        </nav>
-                        <ReactTable 
-                            data={orderLines}
-                            columns={orderLineColumns}
-                            showPagination={false}
-                            className="OrderLines -striped -highlight"
-                            getTrProps={(state, rowInfo) => {
-                                if (rowInfo && rowInfo.row) {
-                                    return {
-                                    onClick: (e) => {
-                                        
-                                        this.setState({selectedOrderLine: rowInfo.index})
-                                        console.log(this.state.selectedOrderLine)
-                                    },
-                                    style: {
-                                        background: rowInfo.index === this.state.selectedOrderLine ? '#00afec' : 'white',
-                                        color: rowInfo.index === this.state.selectedOrderLine ? 'white' : 'black'
-                                    }
-                                }
-                                }else{
-                                    return {}
-                                }
-                            }}
-                            style={{height: "75vh"}}
-                        />
-                     </div>
-                    
-                        <div className="col col-2">
-                        <div className="h-25"></div>   
-                             <div className="btn-group-vertical">
-                                <div className="row my-5">
-                                    <button className=" addButton btn btn-success  mx-1 " onClick={this.addOrderLine}> Add Product </button>
-                                    <button className=" removeButton btn btn-danger mx-1 my-5" onClick={this.removeOrderLine}>Remove Product</button>
-                                </div>  
-                             </div>
-                        </div>
-                        
-                        <div className=" col col-5">
-                            <nav className="navbar navbar-light bg-light">
-                                <h className="navnbar" >Publisher stock</h>
-                            </nav>
+                <div className="frameBordering">
+                    <div className="Contents row">
+                        <div className="col col-4">
                             <ReactTable 
-                                data={stock}
-                                columns={stockColumns}
-                                className="Products"
-                                showPagination={false} 
-                                className="productTable -striped -highlight"
+                                data={orderLines}
+                                columns={orderLineColumns}
+                                showPagination={false}
+                                className="OrderLines -striped -highlight"
                                 getTrProps={(state, rowInfo) => {
                                     if (rowInfo && rowInfo.row) {
                                         return {
-                                            onClick: (e) => {
-                                                this.setState({selectedProduct: rowInfo.index})
-                                            },
-                                            style: {
-                                                background: rowInfo.index === this.state.selectedProduct ? '#00afec' : 'white',
-                                                color: rowInfo.index === this.state.selectedProduct ? 'white' : 'black'
-                                            }
+                                        onClick: (e) => {    
+                                            this.setState({selectedOrderLine: rowInfo.index})
+                                            console.log(this.state.selectedOrderLine)
+                                        },
+                                        style: {
+                                            background: rowInfo.index === this.state.selectedOrderLine ? '#00afec' : 'white',
+                                            color: rowInfo.index === this.state.selectedOrderLine ? 'white' : 'black'
                                         }
+                                    }
                                     }else{
                                         return {}
                                     }
-                                    
                                 }}
                                 style={{height: "75vh"}}
                             />
-                    <div className="Buttons container row my-2">
-                        <button className="btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+ this.props.match.params.id)}>Edit Address</button>        
-                        <button className="col  btn btn-success mx-2" onClick={this.updateOrder}>Save Content</button>
-                        <button className="col btn btn-info mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>                       
+                            </div>
+                        
+                            <div className="col col-2">
+                                <div className="h-25"></div>   
+                                    <div className="btn-group-vertical">
+                                        <div className="row my-5">
+                                            <button className=" addButton btn btn-success  mx-1 " onClick={this.addOrderLine}> Add Product </button>
+                                            <button className=" removeButton btn btn-danger mx-1 my-5" onClick={this.removeOrderLine}>Remove Product</button>
+                                        </div>  
+                                    </div>
+                                </div>
+                            
+                                <div className=" col col-5">
+                                    <nav className="navbar navbar-light bg-light">
+                                        <h className="navnbar" >Publisher stock</h>
+                                    </nav>
+                                    <ReactTable 
+                                        data={stock}
+                                        columns={stockColumns}
+                                        className="Products"
+                                        showPagination={false} 
+                                        className="productTable -striped -highlight"
+                                        getTrProps={(state, rowInfo) => {
+                                            if (rowInfo && rowInfo.row) {
+                                                return {
+                                                    onClick: (e) => {
+                                                        this.setState({selectedProduct: rowInfo.index})
+                                                    },
+                                                    style: {
+                                                        background: rowInfo.index === this.state.selectedProduct ? '#00afec' : 'white',
+                                                        color: rowInfo.index === this.state.selectedProduct ? 'white' : 'black'
+                                                    }
+                                                }
+                                            }else{
+                                                return {}
+                                            }
+                                            
+                                        }}
+                                        style={{height: "75vh"}}
+                                    />
+                            <div className="Buttons container row my-2">
+                                <button className="btn btn-warning btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+ this.props.match.params.id)}>Edit Address</button>        
+                                <button className="col  btn btn-success mx-2" onClick={this.updateOrder}>Save Content</button>
+                                <button className="col btn btn-info mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>                       
+                            </div>
                     </div>
-                </div>
+                    </div>
                 </div>
             </div>
         )
