@@ -87,7 +87,7 @@ export default class EditOrder extends Component{
             style={{ backgroundColor: "#fafafa" }}
             contentEditable
             type="number"
-            onClick={(e) => {e.target.innerHTML = ""}}
+            
             onBlur={e => {
               
                 var typedAmount = e.target.innerHTML ? e.target.innerHTML : "0";
@@ -96,15 +96,15 @@ export default class EditOrder extends Component{
                 .filter(orderLine => orderLine.hexId === cellInfo.original.hexId)
                 .map(orderLine => {
                     if (typedAmount <= orderLine.quantity) { 
-                        orderLine.amount = typedAmount;
+                        typedAmount = orderLine.amount ;
                     } else { 
                         amountExceedingQuantityWarning();
                         typedAmount = "0";
                     }
                          
                 })
-                   cellInfo.original.amount = typedAmount;
-                   e.target.innerHTML = typedAmount;
+                    typedAmount = cellInfo.original.amount ;
+                    typedAmount =   e.target.innerHTML;
                    
             }}
             dangerouslySetInnerHTML={{
@@ -137,7 +137,6 @@ export default class EditOrder extends Component{
         return (
             <div className="PageStyle customText_b">
                 <div className="frameBordering">
-
                     <div className="EditOrderLeft">
                         <ReactTable 
                             data={orderLines}
