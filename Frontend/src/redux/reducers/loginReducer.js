@@ -4,7 +4,7 @@ userName:"",
 userId:"",};*/
 
 const devState ={loggedIn:"True",
-userType:"EMPLOYEE",
+userType:"CLIENT",
 nickName:"Kev The Machine",
 userId:"5c110f7c8e2f373cd81c1048",};
 
