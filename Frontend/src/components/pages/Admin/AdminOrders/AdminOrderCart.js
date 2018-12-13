@@ -19,12 +19,12 @@ class AdminOrderCart extends React.Component {
         };
     }
     
-    //On change we assign a state with a the input's name to the input's value  
+    //On change we assign a state with the input's name to the input's value  
     onChange = (e) => {
         this.setState({[e.target.name]:e.target.value})
     }
 
-    //When the user confirms the adress this adress is then saved in redux.
+    //When the user confirms the adress it is then saved in redux.
     confirmed = (event) =>{
         event.preventDefault();
         console.log(this.state)

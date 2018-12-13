@@ -288,11 +288,13 @@ public class EmployeeController {
 
     @DeleteMapping("/employee/clients/delete/{hexId}")
     private void deleteClientById(@PathVariable String hexId) {
+        userRepository.deleteById(new ObjectId(hexId));
         clientRepository.deleteById(new ObjectId(hexId));
     }
 
     @DeleteMapping("/employee/publishers/delete/{hexId}")
     private void deletePublisherById(@PathVariable String hexId) {
+        userRepository.deleteById(new ObjectId(hexId));
         publisherRepository.deleteById(new ObjectId(hexId));
     }
 
