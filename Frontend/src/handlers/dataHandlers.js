@@ -1,3 +1,4 @@
+import {makeDateString} from './utils';
 
 export function makeProductsData(productStream) {
    
@@ -94,7 +95,7 @@ export function addOrder(order, owner, ownerHexId) {
     orderObject.ownerHexId = ownerHexId;
     orderObject.owner = owner;
     orderObject.orderId = order.orderId;
-    orderObject.data = order.date;
+    orderObject.date = makeDateString(order.date);
     orderObject.hexId = order.hexId;
     orderObject.orderLines = order.orderLines.map((orderLine) => {
         return {
@@ -105,6 +106,8 @@ export function addOrder(order, owner, ownerHexId) {
     })
     return orderObject;
 }
+
+
 
 export function makeOwnersData(data) {
     this.setState({rawOwnerData: data});
