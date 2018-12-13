@@ -45,9 +45,12 @@ public class EmployeeController {
         ObjectId id = new ObjectId();
         Employee employee = new Employee(id);
         BeanUtils.copyProperties(restEmployeeModel, employee);
-        employee.setUserType(UserType.EMPLOYEE);
-        employeeRepository.save(employee);
-        return "created!";
+        if(employee.isValid()) {
+            employee.setUserType(UserType.EMPLOYEE);
+            employeeRepository.save(employee);
+            return "created!";
+        }
+        else return "Invalid User";
     }
 
     @PostMapping("/employee/products/assignTo={customerId}/withUserType={userType}")
@@ -87,10 +90,13 @@ public class EmployeeController {
         BeanUtils.copyProperties(restCustomerModel, user);
         publisher.setUserType(UserType.PUBLISHER);
         BeanUtils.copyProperties(restCustomerModel, publisher);
-        publisherRepository.save(publisher);
-        userRepository.save(user);
+        if(publisher.isValid()) {
+            publisherRepository.save(publisher);
+            userRepository.save(user);
 
-        return "Created!";
+            return "Created!";
+        }
+        else return "Invalid User";
     }
 
     @PostMapping("/employee/clients")
@@ -104,9 +110,12 @@ public class EmployeeController {
 
         client.setUserType(UserType.CLIENT);
         user.setUserType(UserType.CLIENT);
-        userRepository.save(user);
-        clientRepository.save(client);
-        return "Created!";
+        if(client.isValid()) {
+            userRepository.save(user);
+            clientRepository.save(client);
+            return "Created!";
+        }
+        else return "Invalid User";
     }
 
     //FIND ALL: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS

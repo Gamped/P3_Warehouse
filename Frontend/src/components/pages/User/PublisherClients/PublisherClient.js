@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import ReactTable from 'react-table';
-import {makeProductsData} from './../../../../handlers/dataHandlers.js';
+import {makeClientDetails} from './../../../../handlers/dataHandlers.js';
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 import {get} from './../../../../handlers/requestHandlers';
 
@@ -14,7 +14,6 @@ class PublisherClient extends React.Component {
         this.state = {
             userId: props.ID,
             clients: [],
-
             selected: null,
             selectedId: ""
         };
@@ -28,30 +27,29 @@ class PublisherClient extends React.Component {
 
     getPublisherProducts() {
 
-        get("publisher/" + this.state.userId + "/clients/products", (data) => {
-        
-            const products = makeProductsData(data.productStream);
-            this.setState({ products: products });
+        get("publishers/" + this.props.userId, (data) => {
+            
+            const clients = makeClientDetails(data);
+            this.setState({ clients: clients });
         })
            
     }
    
 
   render() {
-    //TODO: get a pdf back when sending the userID
-    
-        const columns = getColumnsFromArray(["Owner Name", "Product Name", "Quantity"]);  
-   
+
+        const columns = getColumnsFromArray(["Client", "Phone Number", "Email", "Address"]);  
+
         return(
             <div className="PageStyle rounded">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <a class="navbar-brand" href="#">All clients' stock</a>
+                    <a class="navbar-brand" href="#">Clients under {this.props.nickName}</a>
                 </nav>
                 <div className="container row">
                     <div className="col">
                         <ReactTable
                             columns={columns}
-                            data={this.state.products}
+                            data={this.state.clients}
                             showPagination={false} 
                             className="table -striped -highlight"
                             getTrProps={(state, rowInfo) => {
@@ -95,7 +93,8 @@ class PublisherClient extends React.Component {
 
 const mapStateToProps = (state) =>{
     return{
-        userId: state.loginReducer.userId
+        userId: state.loginReducer.userId,
+        nickName: state.loginReducer.nickName
     }
 }
   

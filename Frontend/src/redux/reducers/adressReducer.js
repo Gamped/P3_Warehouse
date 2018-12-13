@@ -5,7 +5,6 @@ const initialState ={
     address:"", 
     zip:"",
     city:"",
-    cvr:"",
     country:""};
 
     const addressReducer = (state = initialState, action) => {
@@ -16,7 +15,6 @@ const initialState ={
             case "SET_ADDRESS":
             case "SET_ZIP":
             case "SET_CITY":
-            case "SET_CVR":
             case "SET_COUNTRY":
                 state = {...state, ...action.payload}                
                 break;
