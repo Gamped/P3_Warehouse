@@ -20,6 +20,10 @@ export function amountIsNotANumberWarning() {
     window.alert("Typed amount is not a number")
 }
 
+export function itemNotChosenWarning() {
+    window.alert("Please choose something to add to the cart");
+}
+
 export function repeatedPasswordWarning() {
     window.alert("Passwords do not match");
 }

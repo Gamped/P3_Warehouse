@@ -3,7 +3,7 @@ import "./Order.css";
 import ReactTable from 'react-table';
 import { connect } from "react-redux";
 import {makeProductsData, makeCustomerProductsData} from '../../../handlers/dataHandlers.js';
-import {itemPreviouslyAddedWarning, amountIsNotANumberWarning, amountExceedingQuantityWarning} from '../../../handlers/exceptions.js';
+import {itemPreviouslyAddedWarning, amountIsNotANumberWarning, amountExceedingQuantityWarning, amountIsZeroWarning, itemNotChosenWarning} from '../../../handlers/exceptions.js';
 import { getColumnsFromArray } from '../../../handlers/columnsHandlers.js';
 import { get } from '../../../handlers/requestHandlers';
 import Dropdown from "../../MenuComponents/Dropdown/Dropdown";
@@ -94,10 +94,20 @@ class UserOrder extends React.Component {
 
     addSelectedToOrderLine = () => {
         if(this.state.selected!==null){
-            this.setState({orderLines: [...this.state.orderLines, this.state.products[this.state.selected]]}); 
-            console.log(this.state.orderLines)      
+            let newLine = this.state.products[this.state.selected];
+            if (this.state.orderLines.some(orderLine => orderLine.productId === newLine.productId)) {
+                itemPreviouslyAddedWarning();
+            } else {
+               if (newLine.amount != "0") {
+                
+                this.setState({orderLines: [...this.state.orderLines, newLine]}); 
+            } else {
+                
+                amountIsZeroWarning();
+               }
+            }
         }else{
-            window.alert("Please choose something to add to the cart")
+            itemNotChosenWarning();
         }
       }
 

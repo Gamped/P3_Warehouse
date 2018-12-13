@@ -91,18 +91,7 @@ export function makePublisherAndItsClientsOrdersData(publisher) {
     return orders;
 }
 
-export function makeClientsOrdersData(data){
-    var orders = [];
-    let owner, ownerHexId = "";
 
-    data.forEach((client)=>{
-        owner = client.contactInformation.nickName;
-        ownerHexId = client.hexId;
-       orders.concat(makeClientOrdersData(client, owner, ownerHexId));
-    })
-
-    return orders;
-}
 
 export function makeDataFromOrderList(data) {
     let orders = [];
@@ -117,13 +106,27 @@ export function makeDataFromOrderList(data) {
 }
 
 
+export function makeClientsOrdersData(data){
+    var orders = [];
+    let owner, ownerHexId = "";
+
+    data.forEach((client)=>{
+        owner = client.contactInformation.nickName;
+        ownerHexId = client.hexId;
+       orders.concat(makeClientOrdersData(client, owner, ownerHexId));
+    })
+
+    return orders;
+}
+
 export function makeClientOrdersData(client, owner, ownerHexId) {
     let orders = [];
-
+    console.log(client, owner, ownerHexId);
     if (ordersExist(client)) {
+
         client.orderStream.forEach((order) => {
             orders.push(addOrder(order, owner, ownerHexId));
-        })
+        });
     }
     return orders;
 }
@@ -131,7 +134,16 @@ export function makeClientOrdersData(client, owner, ownerHexId) {
 
 
 export function ordersExist(customer) {
-    return customer.orderStream != null && customer.orderStream != undefined;
+    if (customer.orderStream) {
+    if (customer.orderStream != null) {
+        if (customer.orderStream != undefined) {
+            if (customer.orderStream.length !== 0) {
+                return true;
+            }
+        }
+    }
+}
+    return false;
 }
 
 export function clientsExist(publisher) {

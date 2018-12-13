@@ -42,6 +42,7 @@ export default class AdminOrders extends Component {
             console.log(data);
             const orders = makeAllPublishersAndClientsOrdersData(data);
             console.log("ORDERS " + orders)
+            
             this.setState({ 
                 data: data,
                 orders: this.state.orders.concat(orders)
