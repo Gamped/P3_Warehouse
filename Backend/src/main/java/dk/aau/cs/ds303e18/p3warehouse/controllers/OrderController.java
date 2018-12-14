@@ -172,33 +172,43 @@ public class OrderController {
 
         System.out.println(queryedOrder.getHexId());
 
-        if(queryedOrder != null){
-            Customer owner = queryedOrder.getOwner();
-            System.out.println(owner.getHexId() + "Owner hex");
-            try {
-                owner.removeOrder(queryedOrder);
-            }
-            catch(Exception e){
-                return "order not found on owner";
-            }
             orderRepository.delete(queryedOrder);
+            Customer owner = null;
+            try {
+                switch (queryedOrder.getOwner().getUserType()) {
+                    case CLIENT:
+                        owner = clientRepository.findById(new ObjectId(queryedOrder.getOwner().getHexId())).orElseThrow(() -> new Exception());
+                        break;
+                    case PUBLISHER:
+                        owner = publisherRepository.findById(new ObjectId(queryedOrder.getOwner().getHexId())).orElseThrow(() -> new Exception());
+                        break;
+                    default:
+                        return "Bad usertype";
+                }
+            }catch (Exception e){
+                return "Customer not found on id: " + queryedOrder.getOwner().getHexId();
+            }
+
             try {
                 switch (owner.getUserType()) {
                     case CLIENT:
-                        clientRepository.save((Client) owner);
+                        owner.removeOrder(queryedOrder);
+                        clientRepository.save((Client)owner);
+                        Publisher publisher = ((Client) owner).getPublisher();
+                        System.out.println(publisher);
                         break;
                     case PUBLISHER:
-                        publisherRepository.save((Publisher) owner);
-                        break;
+                        owner.removeOrder(queryedOrder);
+                        publisherRepository.save((Publisher)owner);
                 }
+            } catch (Exception e) {
+                return "Could not remove order or save casted owner";
             }
-            catch(Exception e){
 
-            }
+
             orderRepository.deleteById(new ObjectId(hexId));
             return "Order deleted?";
-        }
-        return "Error: Failed Successfully";
+
     }
 }
 
