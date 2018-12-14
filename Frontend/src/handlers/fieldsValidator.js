@@ -1,6 +1,32 @@
 import {fieldInvalidWarning, passwordsDoNotMatchWarning, 
-        publisherNotSetOnClientProfileCreationWarning} from './exceptions.js';
+        publisherNotSetOnClientProfileCreationWarning, fieldIsNotSetWarning,
+        productIdIsNotValidWarning, quantityIsNotNumberWarning} from './exceptions.js';
 
+
+export function newProductIsValid(quantity, productId, productName) {
+   if (quantity !== undefined) {
+       if (productId !== undefined) {
+           if (productName !== undefined) {
+       
+
+    if (!quantity.match(/^\d+$/)) {
+        quantityIsNotNumberWarning(); 
+        return false;
+       }
+    
+   if (!productId.match(/^\d+$/)) {
+       productIdIsNotValidWarning();
+       return false;
+        }
+        
+        return true;
+    
+        } } } 
+            
+        fieldIsNotSetWarning();
+        return false;
+        
+    }
 
 export function customerProfileFieldsAreValidated(fields) {
 

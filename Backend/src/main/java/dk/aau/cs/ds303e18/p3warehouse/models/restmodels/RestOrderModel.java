@@ -3,12 +3,13 @@ package dk.aau.cs.ds303e18.p3warehouse.models.restmodels;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 
 public class RestOrderModel {
-    private Collection<OrderLine> orderLines;
+    private ArrayList<OrderLine> orderLines;
     private String orderId;
     private String title;
     private String address;
@@ -20,14 +21,14 @@ public class RestOrderModel {
     private String company;
 
     public RestOrderModel(){
-        this.orderLines = new HashSet<>();
+        this.orderLines = new ArrayList<>();
     }
 
-    public Collection<OrderLine> getOrderLines() {
+    public ArrayList<OrderLine> getOrderLines() {
         return orderLines;
     }
 
-    public void setOrderLines(Collection<OrderLine> orderLines) {
+    public void setOrderLines(ArrayList<OrderLine> orderLines) {
         this.orderLines = orderLines;
     }
 
