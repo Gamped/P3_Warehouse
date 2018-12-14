@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -89,6 +90,12 @@ public class MockDataCreator {
 
     @Test
     public void makeData() {
+        orderRepository.deleteAll();
+        publisherRepository.deleteAll();
+        productRepository.deleteAll();
+        clientRepository.deleteAll();
+        employeeRepository.deleteAll();
+        userRepository.deleteAll();
         independentClient();
         makeEmployees();
 
@@ -122,12 +129,13 @@ public class MockDataCreator {
         orderLines.add(secondOrderLine);
         orderLines.add(thirdOrderLine);
 
+
         order.setOrderLines(orderLines);
-        secondOrder.setOrderLines(Collections.singleton(fifthOrderLine));
-        thirdOrder.setOrderLines(Collections.singleton(fourthOrderLine));
-        fourthOrder.setOrderLines(Collections.singleton(sixthOrderLine));
-        fifthOrder.setOrderLines(Collections.singleton(seventhOrderLine));
-        sixthOrder.setOrderLines(Collections.singleton(eightOrderLine));
+       secondOrder.setOrderLines(orderLines);
+        thirdOrder.setOrderLines(orderLines);
+        fourthOrder.setOrderLines(orderLines);
+        fifthOrder.setOrderLines(orderLines);
+        sixthOrder.setOrderLines(orderLines);
 
         Client client = makeClient();
         client.addOrder(secondOrder);
@@ -240,7 +248,8 @@ public class MockDataCreator {
         orderLines.add(orderLine);
 
         clientOrder.setOrderLines(orderLines);
-        publisherOrder.setOrderLines(Collections.singleton(publisherOrderLine));
+        orderLines.add(publisherOrderLine);
+        publisherOrder.setOrderLines(orderLines);
 
         Publisher publisher = makePublisher();
         Client client = makeClient();
@@ -335,11 +344,23 @@ public class MockDataCreator {
         OrderLine fourthOrderLine = new OrderLine(fourthProduct, 6);
         OrderLine fifthOrderLine = new OrderLine(fifthProduct, 1);
 
-        order.setOrderLines(Collections.singleton(orderLine));
-        secondOrder.setOrderLines(Collections.singleton(secondOrderLine));
-        thirdOrder.setOrderLines(Collections.singleton(thirdOrderLine));
-        fourthOrder.setOrderLines(Collections.singleton(fourthOrderLine));
-        fifthOrder.setOrderLines(Collections.singleton(fifthOrderLine));
+        ArrayList<OrderLine> a = new ArrayList<>();
+        ArrayList<OrderLine> b = new ArrayList<>();
+        ArrayList<OrderLine> c = new ArrayList<>();
+        ArrayList<OrderLine> d = new ArrayList<>();
+        ArrayList<OrderLine> e = new ArrayList<>();
+
+        a.add(orderLine);
+        b.add(secondOrderLine);
+        c.add(thirdOrderLine);
+        d.add(fourthOrderLine);
+        e.add(fifthOrderLine);
+
+        order.setOrderLines(a);
+        secondOrder.setOrderLines(b);
+        thirdOrder.setOrderLines(c);
+        fourthOrder.setOrderLines(d);
+        fifthOrder.setOrderLines(e);
 
         Client client = makeExtraClient();
         client.addProduct(secondProduct);
@@ -468,7 +489,9 @@ public class MockDataCreator {
         Product product = makeExtraProduct();
 
         OrderLine orderLine = new OrderLine(product, 25);
-        order.setOrderLines(Collections.singleton(orderLine));
+        ArrayList<OrderLine> a = new ArrayList<>();
+        a.add(orderLine);
+        order.setOrderLines(a);
 
         Client client = makeExtraClient();
         client.addProduct(product);

@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
-public class ClientRepositoryTest {
+public class ClientRepositoryTest { }/*
 
     @Autowired
     ClientRepository clientRepository;
@@ -400,4 +400,4 @@ public class ClientRepositoryTest {
 
         assertEquals(0, clientRepository.findAll().size());
     }
-}
+} */
