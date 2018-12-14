@@ -91,7 +91,7 @@ class AdminProfileEdit extends React.Component {
                                 placeholder="Name"/>
                                
                             <input
-                                type="text" 
+                                type="password" 
                                 name="password"
                                 className="my-2 form-control"
                                 onChange={this.onChange}

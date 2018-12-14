@@ -1,0 +1,26 @@
+.EditOrderLeft{
+    position: absolute;
+    left: 0;
+    width: 40%;
+    height: 100%;
+
+}
+
+.EditOrderRight{
+    position: absolute;
+    right: 0;
+    width: 57%;
+    height: 100%;
+}
+
+.leftReactTableEditOrder{
+    height: 80%;
+}
+
+.rightReactTableEditOrder{
+    height: 85%;
+}
+
+.editOrderColor{
+    background-color: rgb(190, 190, 190);
+}

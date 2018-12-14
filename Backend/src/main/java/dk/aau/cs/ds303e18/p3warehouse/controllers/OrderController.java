@@ -6,20 +6,19 @@ import dk.aau.cs.ds303e18.p3warehouse.managers.OrderManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestOrderModel;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
 import org.bson.types.ObjectId;
-
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin
@@ -45,12 +44,14 @@ public class OrderController {
     @PostMapping("/orders/{userHexId}/{userType}")
     String createOrder(@PathVariable("userHexId") String userHexId, @PathVariable("userType") String userType,
                        @RequestBody RestOrderModel order) {
-
+        userType = userType.toUpperCase();
         Customer owner = null;
+
         try{
             switch(UserType.valueOf(userType)){
-                case CLIENT: clientRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
-                case PUBLISHER: publisherRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
+                case CLIENT: owner = clientRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
+                case PUBLISHER: owner = publisherRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
+                default: return "Bad usertype";
             }
         }
         catch(Exception e){
@@ -59,14 +60,15 @@ public class OrderController {
         Order newOrder = new Order(new ObjectId());
         BeanUtils.copyProperties(order, newOrder);
 
-
         owner.addOrder(newOrder);
         newOrder.setOwner(owner);
         Collection<OrderLine> updatedOrderLines = new HashSet<>();
         try {
             for (OrderLine x : order.getOrderLines()) {
-                if (x.getProduct().getQuantity() >= x.getQuantity()) {
-                    x.getProduct().subtract(x.getQuantity());
+                Product orderLineProduct = productRepository.findById(new ObjectId(x.getProduct().getHexId())).orElse(null);
+                if (orderLineProduct.getQuantity() >= x.getQuantity()) {
+                    orderLineProduct.subtract(x.getQuantity());
+                    x.setProduct(orderLineProduct);
                     updatedOrderLines.add(x);
                 } else {
                     throw new InvalidQuantityException(x.getProduct().getProductName());
@@ -77,12 +79,15 @@ public class OrderController {
         }
 
         productRepository.saveAll(updatedOrderLines.stream().map(x -> x.getProduct()).collect(Collectors.toSet()));
-        switch (owner.getUserType()){
-            case CLIENT: clientRepository.save((Client)owner); break;
-            case PUBLISHER: publisherRepository.save((Publisher)owner); break;
+        switch (owner.getUserType()) {
+            case CLIENT:
+                clientRepository.save((Client) owner);
+                break;
+            case PUBLISHER:
+                publisherRepository.save((Publisher) owner);
+                break;
         }
         orderRepository.save(newOrder);
-
         return "Created!";
     }
 
@@ -113,7 +118,6 @@ public class OrderController {
 
     @DeleteMapping("/orders/delete/{hexId}")
     String finishOrder(@PathVariable String hexId) {
-        orderRepository.deleteById(new ObjectId(hexId));
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
         confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
         Order queryedOrder = orderRepository.findById(new ObjectId(hexId)).orElse(null);
@@ -139,6 +143,7 @@ public class OrderController {
             catch(Exception e){
 
             }
+            orderRepository.deleteById(new ObjectId(hexId));
             return "Order deleted?";
         }
         return "Error: Failed Successfully";

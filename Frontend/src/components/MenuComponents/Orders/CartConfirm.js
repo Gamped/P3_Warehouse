@@ -2,7 +2,7 @@ import React from 'react';
 import "./Order.css";
 import "./Cart.css";
 import { connect } from "react-redux";
-import {makeOrderBodyFromData} from "../../../handlers/dataHandlers";
+import {makeOrderBodyFromData} from "../../../handlers/bodyHandlers";
 import { post } from '../../../handlers/requestHandlers';
 
  class UserCartConfirm extends React.Component {
@@ -20,24 +20,30 @@ import { post } from '../../../handlers/requestHandlers';
         const {userId,userType,orderLines} = this.props;
         const data = {...this.props.address}
         const body = makeOrderBodyFromData(data,orderLines)
-        console.log("Data: ", data)
+        console.log("Data: ", data,"Orderlines: ", orderLines)
         console.log("Body: ", body)
-        /*
-        const body = {
-
-        }
 
         if(userType === "EMPLOYEE"){
-
-        }else{
+            let {userId,userType} = this.props.employeeUser;
+            userType = userType.toLowerCase()
             post('orders/'+userId+'/'+userType, {body}, (response) => {
-                if(response === null){
+                console.log(response)
+                /*if(response !== "Created!"){
+                    this.props.history.push("/Admin/Order/Failed")
+                }else{
+                    this.props.history.push("/Admin/Order/Success")
+                }*/
+            });
+        }else{
+            userType = userType.toLowerCase()
+            post('orders/'+userId+'/'+userType, {body}, (response) => {
+                if(response !== "Created!"){
                     this.props.history.push("/User/Order/Failed")
                 }else{
                     this.props.history.push("/User/Order/Success")
                 }
             });
-        }*/
+        }
     }
  
     goBack = () =>{
@@ -64,13 +70,13 @@ import { post } from '../../../handlers/requestHandlers';
         }
 
         return(
-        <div className="PageStyle rounded">
-            <nav className="navbar navbar-dark bg-secondary"> <h2 className="text-center text-light">Cart:</h2></nav>
+        <div className="PageStyle customText_b">
+            <h2 className="customText_b_big">Cart:</h2>
             <div className="container">
                 <div className="row">
                     <div className="col">
                         <div className="container my-3">
-                            <table className="table table-dark">
+                            <table className="table orderCartTable">
                                 <thead>
                                     <tr key="header">
                                         <th scope="col">Product ID</th>
@@ -86,35 +92,34 @@ import { post } from '../../../handlers/requestHandlers';
                     </div>
 
                     <div className="col">
-                        <h4 className="display-4">Please verify:</h4>
+                        <h4 className="customText_b_big">Please verify:</h4>
                         <br/>
+                        <label className="customText_b_bold">Company name: </label>
+                        <label className="customText_b">{address.company}</label>
                         <br/>
-                        <label className="font-weight-bold">Company name: </label>
-                        <label className="font-weight-normal">{address.company}</label>
+                        <label className="customText_b_bold">Recipient: </label>
+                        <label className="customText_b">{address.contactPerson}</label>
                         <br/>
-                        <label className="font-weight-bold">Recipient: </label>
-                        <label className="font-weight-normal">{address.contactPerson}</label>
-                        <br/>
-                        <label className="font-weight-bold">Phone: </label>
-                        <label className="font-weight-normal">{address.phoneNumber}</label>
+                        <label className="customText_b_bold">Phone: </label>
+                        <label className="customText_b">{address.phoneNumber}</label>
                         <br/>
                        
                         <br/>
-                        <label className="font-weight-bold">Address: </label>
-                        <label className="font-weight-normal">{address.address}</label>
+                        <label className="customText_b_bold">Address: </label>
+                        <label className="customText_b">{address.address}</label>
                         <br/>
-                        <label className="font-weight-bold">Zip: </label>
-                        <label className="font-weight-normal">{address.zip}</label>
+                        <label className="customText_b_bold">Zip: </label>
+                        <label className="customText_b">{address.zip}</label>
                         <br/>
-                        <label className="font-weight-bold">City</label>
-                        <label className="font-wight-normal">{address.city}</label>
+                        <label className="customText_b_bold">City</label>
+                        <label className="customText_b">{address.city}</label>
                         <br/>
-                        <label className="font-weight-bold">Country: </label>
-                        <label className="font-weight-normal">{address.country}</label>
+                        <label className="customText_b_bold">Country: </label>
+                        <label className="customText_b">{address.country}</label>
                         
-                        <div onClick={this.confirmed} className="btn-success btn-block my-3 btn" role="button">Confirm order</div>
+                        <div onClick={this.confirmed} className="green_BTN btn-block my-3 btn" role="button">Confirm order</div>
                        
-                        <button className="btn-info btn btn-block my-3" onClick={this.goBack} role="button">Back</button>
+                        <button className="std_BTN btn btn-block my-3" onClick={this.goBack} role="button">Back</button>
                         
                     </div>
                     
@@ -128,6 +133,7 @@ import { post } from '../../../handlers/requestHandlers';
 const mapStateToProps = (state)=>{
     return{
         orderLines: state.orderReducer.orderLines,
+        employeeUser:state.orderReducer.customer,
         address: state.addressReducer,
         userType: state.loginReducer.userType,
         userId: state.loginReducer.userId
