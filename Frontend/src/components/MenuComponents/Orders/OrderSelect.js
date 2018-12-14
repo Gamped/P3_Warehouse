@@ -77,7 +77,7 @@ class UserOrder extends React.Component {
             get(userType + 's/' + id + '/products', (data) => {
                 let products = [];
 
-                userType === 'publisher' ? products = makeCustomerProductsData(data) : products = makeProductsData(data);
+                userType === 'PUBLISHER' ? products = makeCustomerProductsData(data) : products = makeProductsData(data);
 
                 this.setState({ products: products });
             });

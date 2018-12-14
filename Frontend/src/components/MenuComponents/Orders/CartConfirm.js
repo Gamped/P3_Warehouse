@@ -11,7 +11,7 @@ import { post } from '../../../handlers/requestHandlers';
 
         this.state = {
             userId: this.props.userId,
-            userType: this.props.userType,
+            userType: "PUBLISHER", //Change back to detecting users type
             products: props.productList,
             address: {}
         };
@@ -20,6 +20,7 @@ import { post } from '../../../handlers/requestHandlers';
     confirmed = (event) => {
         const {userId,userType,orderLines} = this.state;
         const data = {...this.props.address}
+        console.log(orderLines);
         const body = makeOrderBodyFromData(data,orderLines)
         console.log("Data: ", data)
         console.log("Body: ", body)

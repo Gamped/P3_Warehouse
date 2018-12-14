@@ -49,8 +49,9 @@ public class OrderController {
         Customer owner = null;
         try{
             switch(UserType.valueOf(userType)){
-                case CLIENT: clientRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
-                case PUBLISHER: publisherRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
+                case CLIENT: owner = clientRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
+                case PUBLISHER: owner = publisherRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
+                default: return "Bad Usertype";
             }
         }
         catch(Exception e){
