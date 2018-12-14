@@ -18,6 +18,8 @@ public interface PublisherRepository extends MongoRepository<Publisher, ObjectId
 
     Optional<Publisher> findById(@PathVariable String hexId);
 
+    Publisher findByUserName(@PathVariable String userName);
+
     void deleteById(String hexId);
 
 }

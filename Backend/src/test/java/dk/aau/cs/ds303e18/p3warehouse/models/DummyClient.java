@@ -17,7 +17,7 @@ public class DummyClient {
         contactInformation.setZipCode("zip " + i);
         contactInformation.setCity("city " + i);
 
-        client.setUserName("username " + i);
+        client.setUserName("cUsername " + i);
         client.setPassword("password" + i);
         client.setUserType(UserType.CLIENT);
         client.setContactInformation(contactInformation);
