@@ -6,20 +6,21 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.is;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockClientData.makeClient;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockProductData.*;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockPublisherData.makePublisher;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -31,60 +32,13 @@ public class ProductRepositoryTest {
     @Autowired
     PublisherRepository publisherRepository;
 
-    public Product makeProduct() {
-        ObjectId productId = new ObjectId();
-
-        Product product = new Product(productId);
-        product.setQuantity(400);
-        product.setProductName("cycling news");
-        product.setProductId("342525");
-
-        return product;
+    @Before
+    public void deleteAll() {
+        repository.deleteAll();
+        publisherRepository.deleteAll();
+        clientRepository.deleteAll();
     }
 
-    public Client makeClient() {
-        ObjectId id = new ObjectId();
-        Client client = new Client(id);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("Hans");
-        contactInformation.setEmail("fes@gr.gdr");
-        contactInformation.setPhoneNumber("15334888");
-        contactInformation.setAddress("møllevej 4");
-        contactInformation.setZipCode("5497");
-        contactInformation.setCity("Aalborg");
-
-        client.setUserName("Client");
-        client.setPassword("3wdgr4");
-        client.setUserType(UserType.CLIENT);
-        client.setContactInformation(contactInformation);
-
-        return client;
-    }
-
-    public Publisher makePublisher() {
-        ObjectId publisherId = new ObjectId();
-        Publisher publisher = new Publisher(publisherId);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("karen");
-        contactInformation.setEmail("cyc@fff.dd");
-        contactInformation.setPhoneNumber("2564866235");
-        contactInformation.setAddress("mosevej 54");
-        contactInformation.setZipCode("5495");
-        publisher.setUserName("Publisher");
-        publisher.setPassword("fee2224");
-        publisher.setUserType(UserType.PUBLISHER);
-        publisher.setContactInformation(contactInformation);
-
-        return publisher;
-    }
-
-    @Test
-    public void testFindAllProducts() {
-        List<Product> products = repository.findAll();
-        assertThat(products.size(), is(greaterThanOrEqualTo(0)));
-    }
     @Test
     public void findByIdTest(){
         ObjectId objectId = new ObjectId();
@@ -119,9 +73,7 @@ public class ProductRepositoryTest {
 
         Product retrievedProduct = repository.findById(product.getId()).orElse(null);
 
-        assertEquals(product.getHexId(), retrievedProduct.getHexId());
         assertEquals(product.getQuantity(), retrievedProduct.getQuantity());
-        assertEquals(product.getProductId(), retrievedProduct.getProductId());
     }
 
     @Test
@@ -130,6 +82,7 @@ public class ProductRepositoryTest {
         Client client = makeClient();
 
         product.setOwner(client);
+        client.addProduct(product);
 
         repository.save(product);
         clientRepository.save(client);
@@ -140,7 +93,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void testProductOwnerRef() {
+    public void testProductGetOwnerRepository() {
         Product product = makeProduct();
         Publisher publisher = makePublisher();
 
@@ -157,10 +110,52 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void deleteProductTest(){
+    public void testFindAllProducts() {
+        Product product = makeProduct();
+        Product secondProduct = makeSecondProduct();
+        Product thirdProduct = makeThirdProduct();
+        Product fourthProduct = makeFourthProduct();
+
+        repository.save(product);
+        repository.save(secondProduct);
+        repository.save(thirdProduct);
+        repository.save(fourthProduct);
+
+        Collection<Product> productCollection  = repository.findAll();
+        assertEquals(4, productCollection.size());
+    }
+
+    @Test
+    public void testDeleteProductById() {
+        Product product = makeProduct();
+
+        repository.save(product);
+        repository.deleteById(product.getId());
+
+        assertNull(repository.findById(product.getId()).orElse(null));
+    }
+
+    @Test
+    public void testDeleteProduct() {
+        Product product = makeProduct();
+        Product secondProduct = makeSecondProduct();
+        Product thirdProduct = makeThirdProduct();
+        Product fourthProduct = makeFourthProduct();
+
+        repository.save(product);
+        repository.save(secondProduct);
+        repository.save(thirdProduct);
+        repository.save(fourthProduct);
+
+        repository.delete(product);
+        Collection<Product> productCollection = repository.findAll();
+        assertEquals(3, productCollection.size());
+    }
+
+    @Test
+    public void deleteAllProductTest(){
         repository.deleteAll();
 
-        List<Product> productList = new ArrayList<>();
-        assertEquals(productList, repository.findAll());
+        assertEquals(0, repository.findAll().size());
     }
 }
