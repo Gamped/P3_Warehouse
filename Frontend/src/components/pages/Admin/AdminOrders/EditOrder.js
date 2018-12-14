@@ -92,6 +92,8 @@ class EditOrder extends Component{
      
     updateOrder = (e) => {
         e.preventDefault();
+
+        console.log(this.state,this.props.orderLine)
         
     }
 
