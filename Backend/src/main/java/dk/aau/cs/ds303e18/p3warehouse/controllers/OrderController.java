@@ -117,23 +117,46 @@ public class OrderController {
     }
 
     @PutMapping("/employee/orders/{hexId}")
-    private Order updateOrder(@PathVariable String hexId, @RequestBody RestOrderModel responseBody){
+    private String updateOrder(@PathVariable String hexId, @RequestBody RestOrderModel responseBody){
         Order order;
         try {
             order = orderRepository.findById(new ObjectId(hexId)).orElseThrow(() -> new Exception());
         }
         catch(Exception e){
-            return null;
+            return "Order not found on id: " + hexId;
         }
+
+        Customer owner = null;
+        try {
+            switch (order.getOwner().getUserType()) {
+                case CLIENT:
+                    owner = clientRepository.findById(new ObjectId(order.getOwner().getHexId())).orElseThrow(() -> new Exception());
+                    break;
+                case PUBLISHER:
+                    owner = publisherRepository.findById(new ObjectId(order.getOwner().getHexId())).orElseThrow(() -> new Exception());
+                    break;
+                default:
+                    return "Bad usertype";
+            }
+        }catch (Exception e){
+            return "Customer not found on id: " + order.getOwner().getHexId();
+        }
+        owner.removeOrder(order);
         try{
             order.addProductsBackToStock();
             BeanUtils.copyProperties(responseBody, order);
             order.subtractProductsFromStock();
         }
         catch (InvalidQuantityException e){
-            return null;
+            return "Bad stock in orderline";
         }
-        return OrderManager.saveOrderToDB(order);
+        owner.addOrder(order);
+        switch(order.getOwner().getUserType()){
+            case CLIENT: clientRepository.save((Client)owner);
+            case PUBLISHER: publisherRepository.save((Publisher)owner);
+        }
+        orderRepository.save(order);
+        return "Created order with id: " + order.getHexId();
     }
 
     @GetMapping("/employee/orders")
