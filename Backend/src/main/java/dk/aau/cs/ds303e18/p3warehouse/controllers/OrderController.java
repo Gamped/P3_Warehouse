@@ -145,6 +145,7 @@ public class OrderController {
         try{
             order.addProductsBackToStock();
             BeanUtils.copyProperties(responseBody, order);
+            System.out.println(order);
             order.subtractProductsFromStock();
         }
         catch (InvalidQuantityException e){
@@ -152,11 +153,11 @@ public class OrderController {
         }
         owner.addOrder(order);
         switch(order.getOwner().getUserType()){
-            case CLIENT: clientRepository.save((Client)owner);
-            case PUBLISHER: publisherRepository.save((Publisher)owner);
+            case CLIENT: clientRepository.save((Client)owner); break;
+            case PUBLISHER: publisherRepository.save((Publisher)owner); break;
         }
         orderRepository.save(order);
-        return "Created order with id: " + order.getHexId();
+        return "Updated order with id: " + order.getHexId();
     }
 
     @GetMapping("/employee/orders")

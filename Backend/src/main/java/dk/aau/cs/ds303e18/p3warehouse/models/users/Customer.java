@@ -24,10 +24,13 @@ public class Customer extends User {
         customerOrders = new HashSet<>();
         this.hexId = id.toHexString();
     }
+    //Only meant for deserializing
+    public Customer(){super(null);}
+
     public Stream<Product> unassignAllProducts() {
           return this.getProductStream().map(x -> {
             this.removeProduct(x);
-            x.setOwner(null);
+            x.setOwner((Customer)null);
             return x;
         });
     }
