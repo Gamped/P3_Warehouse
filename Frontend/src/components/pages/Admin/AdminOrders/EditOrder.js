@@ -140,9 +140,11 @@ class EditOrder extends Component{
                             }
                         }}
                         style={{height: "70vh"}}
-                    />                
-                        <button className="AdinOrderButtonSizer green_BTN btn mx-1 " onClick={this.addOrderLine}> Add Product </button>
-                        <button className="AdinOrderButtonSizer red_BTN btn mx-1 my-5" onClick={this.removeOrderLine}>Remove Product</button>
+                    />   
+                        <div className="EditOrderLeftBTNs">             
+                            <button className="AdinOrderButtonSizer green_BTN btn " onClick={this.addOrderLine}> Add Product </button>
+                            <button className="AdinOrderButtonSizer red_BTN btn" onClick={this.removeOrderLine}>Remove Product</button>
+                        </div>
                     </div>
 
 
@@ -177,14 +179,13 @@ class EditOrder extends Component{
                                     <label id="name" className="input-group-text" type="text"> {this.state.selectedOrderLine.quantity}</label>
                                 </div>
                             </div>
-                        </form>
-                        <div className="EditOrderRightBTNs">
-                            <button className="btn AdinOrderButtonSizer std_BTN btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+ this.props.match.params.id)}>Edit Address</button>        
-                            <button className="col btn AdinOrderButtonSizer blue_BTN mx-2" onClick={this.updateOrder}>Save Content</button>
-                            <button className="col btn AdinOrderButtonSizer dark_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>      
-                        </div>                 
+                            <div className="EditOrderRightBTNs">
+                                <button className="btn AdinOrderButtonSizer std_BTN btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+ this.props.match.params.id)}>Edit Address</button>        
+                                <button className="col btn AdinOrderButtonSizer blue_BTN mx-2" onClick={this.updateOrder}>Save Content</button>
+                                <button className="col btn AdinOrderButtonSizer dark_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>      
+                            </div>   
+                        </form>              
                     </div>
-
                 </div>       
             </div>                        
         )
