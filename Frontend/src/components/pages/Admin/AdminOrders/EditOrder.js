@@ -84,7 +84,7 @@ export default class EditOrder extends Component{
         
         return (
           <div
-            style={{ backgroundColor: "#fafafa" }}
+            style={{ backgroundColor: "#fafafa", color: 'black'}}
             contentEditable
             type="number"
             
@@ -151,7 +151,7 @@ export default class EditOrder extends Component{
                                         console.log(this.state.selectedOrderLine)
                                     },
                                     style: {
-                                        background: rowInfo.index === this.state.selectedOrderLine ? '#00afec' : 'white',
+                                        background: rowInfo.index === this.state.selectedOrderLine ? '#00afec' : 'white'
                                         
                                     }
                                 }

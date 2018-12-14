@@ -46,6 +46,7 @@ public class OrderController {
                        @RequestBody RestOrderModel order) {
         userType = userType.toUpperCase();
         Customer owner = null;
+        
 
         try{
             switch(UserType.valueOf(userType)){

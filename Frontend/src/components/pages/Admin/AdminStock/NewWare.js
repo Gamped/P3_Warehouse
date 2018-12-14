@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import {makeCustomerData} from './../../../../handlers/dataHandlers.js';
 import {get, post} from './../../../../handlers/requestHandlers.js';
 import Dropdown from "../../../MenuComponents/Dropdown/Dropdown";
+import {quantityIsNotNumberWarning} from './../../../../handlers/exceptions.js';
+import {newProductIsValid} from './../../../../handlers/fieldsValidator.js';
 
 class NewWare extends Component {
 
@@ -55,14 +57,22 @@ class NewWare extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        const {productName, productId, quantity} = this.state.product;
+        const productName = this.state.product.productName;
+        const productId = this.state.product.productId;
+        const quantity = this.state.product.quantity;
+
+        if (newProductIsValid(quantity, productId, productName)) {
+
+       
 
            post("employee/products/assignTo=" + this.state.selectedOwnerHexId 
                 + "/withUserType=" + this.state.selectedOwnerUserType,
                 {productName, productId, quantity}, () => {
-                   this.props.history.push("/Admin/Stock")
+                   this.props.history.push("/Admin/Stock");
                 }
             )
+
+        }
     }
     
     setSelected = (e) =>{
@@ -82,35 +92,35 @@ class NewWare extends Component {
                     <h1 className=" text-center">Add new product</h1>
                     <form>
                         <input
-                            type="text "
+                            type="text"
                             name="productName"
                             className="my-2 form-control  "
                             defaultValue={currentProduct.productName}
                             onChange={this.onChange}
-                            placeholder="Product Name"/>
+                            placeholder="Product Name" required/>
                         <input
-                            type="text"
+                            type="number"
                             name="productId"
                             className="my-2 form-control "
                             defaultValue={currentProduct.productId}
                             onChange={this.onChange}
-                            placeholder="Product Id"/>
+                            placeholder="Product Id" required/>
                         <input
-                            type="text"
+                            type="number"
                             name="quantity"
                             className="my-2 form-control"
                             defaultValue={currentProduct.quantity}
                             onChange={this.onChange}
-                            placeholder="Quantity"/>
+                            placeholder="Quantity" required/>
                         <Dropdown className="dropdownSmallSizeForNew" actors={this.state.owners} action={this.setSelected}/>
                         
-                    </form>
+                   
 
 
                     <div className="" action="/Admin/Stock">
-                        <button className="green_BTN btn-lg btn-block btn my-2" onClick={(hexID,userType)=>this.onSubmit(hexID,userType)}>Create product</button>
+                        <button className="green_BTN btn-lg btn-block btn my-2" type="submit" onClick={(hexID,userType)=>this.onSubmit(hexID,userType)}>Create product</button>
                     </div>
-                    
+                    </form>
                     <Link to="/Admin/Stock" className="std_BTN btn-lg btn-block btn my-2">Back</Link>
                     </div>
             </div>

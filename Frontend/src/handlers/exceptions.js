@@ -8,6 +8,10 @@ export function itemPreviouslyAddedWarning() {
     window.alert("Product already added! Please undo the selection and change amount if you wish");
     }
 
+export function quantityIsNotNumberWarning() {
+    window.alert("Quantity is not a valid number");
+}
+
 export function amountExceedingQuantityWarning() {
     window.alert("Amount exceeds the quantity currently in stock. Try setting a lower amount");
 }
@@ -40,4 +44,10 @@ export function publisherNotSetOnClientProfileCreationWarning() {
     window.alert("Attempted to create a client profile, but a publisher was not chosen. Please select a publisher");
 }
 
+export function productIdIsNotValidWarning() {
+    window.alert("Product is not set properly")
+}
 
+export function fieldIsNotSetWarning() {
+    window.alert("Some fields are not set");
+}
