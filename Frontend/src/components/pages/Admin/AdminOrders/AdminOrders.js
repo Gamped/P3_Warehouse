@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import {connect} from "react-redux";
 import ReactTable from "react-table";
-import axios from "axios";
 
 import "../../Pages.css";
 import "./AdminOrders.css";
@@ -11,17 +10,19 @@ import {get, del} from "./../../../../handlers/requestHandlers.js"
 import {packListPDF, orderNotePDF} from "./../../../../handlers/pdfHandlers.js"
 import {getColumnsFromArray} from "./../../../../handlers/columnsHandlers.js"
 
-export default class AdminOrders extends Component {
+class AdminOrders extends Component {
 
     //A constructor that contains our state.
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
+            pureOrders:[], 
             orders: [], 
             orderLines: [],
             selected: null, 
             selectedIndex: -1,
             selectedId: "",
+            selectedItem: null,
             packed: {},
             allPacked: 0
         }
@@ -35,6 +36,15 @@ export default class AdminOrders extends Component {
     componentDidMount() {
         this.getIndependentClients();
         this.getPublishers();
+        this.getOrders();
+    }
+
+    getOrders = () =>{
+        get("employee/orders", (data)=>{
+            this.setState({pureOrders:data},()=>{
+                console.log(this.state)
+            })
+        })
     }
 
     getPublishers() {
@@ -63,7 +73,7 @@ export default class AdminOrders extends Component {
 
     setStateAsSelected = (rowInfo) => {
 
-        this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId });
+        this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId, selectedItem: rowInfo.original });
     }
 
     showOrderLines = (rowInfo) => {
@@ -145,11 +155,23 @@ export default class AdminOrders extends Component {
             allProductsNotPackedWarning();
         }
     }
-    deleteOrder(){
+    deleteOrder = (e) =>{
+        
         console.log(this.state.selectedId)
         del("orders/delete/" + this.state.selectedId, (response) => {
             console.log(response);
         });
+    }
+
+    goToEdit = (event) =>{
+        event.preventDefault();
+        if(this.state.selectedItem !== null){
+            this.props.setSelectedOrder(this.state.pureOrders.find(x=>x.hexId===this.state.selectedId))
+            this.props.history.push("/Admin/Orders/Edit/")
+        }else{
+            window.alert("Please select an order to edit.")
+        }
+
     }
 
 
@@ -202,7 +224,7 @@ export default class AdminOrders extends Component {
                         </div>
                         <div className=" md-2 my-2">
                                 <button type= "button" className="AdinOrderButtonSizer btn green_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>                           
-                                <Link className="AdinOrderButtonSizer btn std_BTN mx-2" to={`/Admin/Orders/Edit/${this.state.selectedId}`}>Edit order </Link>
+                                <button className="AdinOrderButtonSizer btn std_BTN mx-2" onClick={this.goToEdit}>Edit order </button>
                                 <button type= "button" className="AdinOrderButtonSizer btn red_BTN mx-2"  onClick={()=>this.deleteOrder()}>Delete order</button>
                         </div>
                     </div>
@@ -227,3 +249,11 @@ export default class AdminOrders extends Component {
         )
     }
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return{
+        setSelectedOrder: (selectedOrder) => {dispatch({type: "SET_SELECTEDORDER",payload: {selectedOrder}})},
+    }
+}
+
+export default connect(null,mapDispatchToProps)(AdminOrders)

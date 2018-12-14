@@ -13,9 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 
 @Document(collection = "orders")
 public class Order extends RestOrderModel{
@@ -32,6 +30,8 @@ public class Order extends RestOrderModel{
         this.hexId = id.toString();
         this.date = new Date();
     }
+
+
 
 
     public Date getDate() {
