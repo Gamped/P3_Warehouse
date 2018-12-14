@@ -167,15 +167,19 @@ public class OrderController {
     @DeleteMapping("/orders/delete/{hexId}")
     String finishOrder(@PathVariable String hexId) {
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
-        confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
+        confimationSender.sendOrderMsg(hexId, "jesus@himlen.dk");
         Order queryedOrder = orderRepository.findById(new ObjectId(hexId)).orElse(null);
+
+        System.out.println(queryedOrder.getHexId());
+
         if(queryedOrder != null){
             Customer owner = queryedOrder.getOwner();
+            System.out.println(owner.getHexId() + "Owner hex");
             try {
                 owner.removeOrder(queryedOrder);
             }
             catch(Exception e){
-
+                return "order not found on owner";
             }
             orderRepository.delete(queryedOrder);
             try {
