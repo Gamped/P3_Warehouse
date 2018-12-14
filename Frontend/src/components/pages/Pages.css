@@ -46,8 +46,8 @@
 
 .frameBordering{
     position: absolute;
-    top: 20px;
-    left: 20px;
-    bottom: 20px;
-    right: 20px;
+    top: 3vh;
+    left: 3vh;
+    bottom: 3vh;
+    right: 3vh;
 }
