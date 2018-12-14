@@ -152,8 +152,12 @@ public class OrderController {
         }
         owner.addOrder(order);
         switch(order.getOwner().getUserType()){
-            case CLIENT: clientRepository.save((Client)owner);
-            case PUBLISHER: publisherRepository.save((Publisher)owner);
+            case CLIENT:
+                clientRepository.save((Client)owner);
+            break;
+            case PUBLISHER:
+                publisherRepository.save((Publisher)owner);
+            break;
         }
         orderRepository.save(order);
         return "Created order with id: " + order.getHexId();
@@ -163,6 +167,8 @@ public class OrderController {
     Collection<Order> findAllOrders() {
         return orderRepository.findAll();
     }
+
+
 
     @DeleteMapping("/orders/delete/{hexId}")
     String finishOrder(@PathVariable String hexId) {
@@ -196,5 +202,7 @@ public class OrderController {
         }
         return "Error: Failed Successfully";
     }
+
+
 }
 
