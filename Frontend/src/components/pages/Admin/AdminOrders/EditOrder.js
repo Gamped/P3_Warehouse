@@ -54,7 +54,7 @@ class EditOrder extends Component{
         
         return (
           <div
-            style={{ backgroundColor: "#fafafa" }}
+            style={{ backgroundColor: "#fafafa", color: 'black'}}
             contentEditable
             type="number"
             
@@ -104,17 +104,14 @@ class EditOrder extends Component{
             orderLines.forEach((orderLine) => {
                 orderLine.product.amount = orderLine.quantity;
             })
+            
         }
         
         console.log("orderlines:",orderLines)
 
-/*        let orderLineColumns = getColumnsFromArray(["Product Name", "Product Id", "Amount", "Quantity"]);
-        orderLineColumns[2].Cell = this.renderEditable;*/
+       let orderLineColumns = getColumnsFromArray(["Product Name", "Product Id", "Amount", "Quantity"]);
+        orderLineColumns[2].Cell = this.renderEditable;
         
-        /*
-        
-        */
-
         return (
              <div className="PageStyle customText_b">
                 <div className="frameBordering">

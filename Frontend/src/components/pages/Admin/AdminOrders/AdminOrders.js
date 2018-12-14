@@ -155,7 +155,8 @@ class AdminOrders extends Component {
             allProductsNotPackedWarning();
         }
     }
-    deleteOrder(){
+    deleteOrder = (e) =>{
+        
         console.log(this.state.selectedId)
         del("orders/delete/" + this.state.selectedId, (response) => {
             console.log(response);

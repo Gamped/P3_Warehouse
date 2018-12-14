@@ -17,8 +17,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin
@@ -47,6 +50,9 @@ public class OrderController {
         userType = userType.toUpperCase();
         Customer owner = null;
 
+        System.out.println("Kom ind i funktionen");
+        
+
         try{
             switch(UserType.valueOf(userType)){
                 case CLIENT: owner = clientRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
@@ -57,15 +63,34 @@ public class OrderController {
         catch(Exception e){
             return "User not found on id: " + userHexId;
         }
+
+        System.out.println(owner.getHexId());
+
+
         Order newOrder = new Order(new ObjectId());
         BeanUtils.copyProperties(order, newOrder);
 
         owner.addOrder(newOrder);
         newOrder.setOwner(owner);
-        Collection<OrderLine> updatedOrderLines = new HashSet<>();
+
+        System.out.println(newOrder.getId() + "ORDER ID");
+
+        ArrayList<OrderLine> updatedOrderLines = new ArrayList<>();
+        System.out.println(order.getOrderLines().size());
+        System.out.println();
         try {
             for (OrderLine x : order.getOrderLines()) {
-                Product orderLineProduct = productRepository.findById(new ObjectId(x.getProduct().getHexId())).orElse(null);
+
+                System.out.println("");
+
+                System.out.println("Når hertil ");
+                Optional<Product> optionalOrderLineProduct = productRepository.findById(new ObjectId(x.getProductHexId()));
+
+
+                Product orderLineProduct = optionalOrderLineProduct.get();
+                System.out.println("Når også her");
+                System.out.println("Quantity " + orderLineProduct.getQuantity());
+
                 if (orderLineProduct.getQuantity() >= x.getQuantity()) {
                     orderLineProduct.subtract(x.getQuantity());
                     x.setProduct(orderLineProduct);
@@ -88,27 +113,50 @@ public class OrderController {
                 break;
         }
         orderRepository.save(newOrder);
-        return "Created!";
+        return "Created! " + newOrder.getHexId();
     }
 
     @PutMapping("/employee/orders/{hexId}")
-    private Order updateOrder(@PathVariable String hexId, @RequestBody RestOrderModel responseBody){
+    private String updateOrder(@PathVariable String hexId, @RequestBody RestOrderModel responseBody){
         Order order;
         try {
             order = orderRepository.findById(new ObjectId(hexId)).orElseThrow(() -> new Exception());
         }
         catch(Exception e){
-            return null;
+            return "Order not found on id: " + hexId;
         }
+
+        Customer owner = null;
+        try {
+            switch (order.getOwner().getUserType()) {
+                case CLIENT:
+                    owner = clientRepository.findById(new ObjectId(order.getOwner().getHexId())).orElseThrow(() -> new Exception());
+                    break;
+                case PUBLISHER:
+                    owner = publisherRepository.findById(new ObjectId(order.getOwner().getHexId())).orElseThrow(() -> new Exception());
+                    break;
+                default:
+                    return "Bad usertype";
+            }
+        }catch (Exception e){
+            return "Customer not found on id: " + order.getOwner().getHexId();
+        }
+        owner.removeOrder(order);
         try{
             order.addProductsBackToStock();
             BeanUtils.copyProperties(responseBody, order);
             order.subtractProductsFromStock();
         }
         catch (InvalidQuantityException e){
-            return null;
+            return "Bad stock in orderline";
         }
-        return OrderManager.saveOrderToDB(order);
+        owner.addOrder(order);
+        switch(order.getOwner().getUserType()){
+            case CLIENT: clientRepository.save((Client)owner);
+            case PUBLISHER: publisherRepository.save((Publisher)owner);
+        }
+        orderRepository.save(order);
+        return "Created order with id: " + order.getHexId();
     }
 
     @GetMapping("/employee/orders")

@@ -9,12 +9,27 @@ public class OrderLine {
     @DBRef
     private Product product;
     private int quantity;
+    private String productHexId;
 
     public OrderLine(Product product, int quantity){
         this.product = product;
         this.quantity = quantity;
+        this.productHexId = product.getHexId();
+
     }
+
+
+
     public OrderLine(){}
+
+
+    public String getProductHexId() {
+        return productHexId;
+    }
+
+    public void setProductHexId(String productHexId) {
+        this.productHexId = productHexId;
+    }
 
     public Product getProduct() {
         return product;
