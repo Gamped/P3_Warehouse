@@ -16,11 +16,16 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
+
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockClientData.*;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockProductData.*;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockPublisherData.*;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockOrderData.*;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockEmployeeData.*;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
-public class EmployeeRoutes {
+public class MockDataCreator {
 
     @Autowired
     PublisherRepository publisherRepository;
@@ -51,48 +56,41 @@ public class EmployeeRoutes {
     }
 
     public void makeEmployees() {
-        Employee emp = new Employee(new ObjectId());
-        emp.setNickname("Jane");
-        emp.setUserType(UserType.EMPLOYEE);
-        emp.setPassword("123");
-        emp.setUserName("jane");
 
-        Employee emp2 = new Employee(new ObjectId());
-        emp2.setNickname("Casper");
-        emp2.setUserType(UserType.EMPLOYEE);
-        emp2.setPassword("123");
-        emp2.setUserName("casper");
+        Employee employee = makeEmployee();
+        Employee secondEmployee = makeSecondEmployee();
+        Employee thirdEmployee = makeThirdEmployee();
+        Employee fourthEmployee = makeFourthEmployee();
+        Employee fifthEmployee = makeFifthEmployee();
 
-        Employee emp3 = new Employee(new ObjectId());
-        emp3.setNickname("Steen");
-        emp3.setUserType(UserType.EMPLOYEE);
-        emp3.setPassword("123");
-        emp3.setUserName("steen");
+        User user = new User(thirdEmployee.getId());
+        User user2 = new User(fourthEmployee.getId());
+        User user3 = new User(fifthEmployee.getId());
+        User user4 = new User(employee.getId());
+        User user5 = new User(secondEmployee.getId());
+        BeanUtils.copyProperties(employee, user4);
+        BeanUtils.copyProperties(secondEmployee, user5);
+        BeanUtils.copyProperties(thirdEmployee, user);
+        BeanUtils.copyProperties(fourthEmployee, user2);
+        BeanUtils.copyProperties(fifthEmployee, user3);
 
-        employeeRepository.save(emp);
-        employeeRepository.save(emp2);
-        employeeRepository.save(emp3);
-
-
-
-        User user = new User(emp.getId());
-        User user2 = new User(emp2.getId());
-        User user3 = new User(emp3.getId());
-        BeanUtils.copyProperties(emp, user);
-        BeanUtils.copyProperties(emp2, user2);
-        BeanUtils.copyProperties(emp3, user3);
-
+        employeeRepository.save(employee);
+        employeeRepository.save(secondEmployee);
+        employeeRepository.save(thirdEmployee);
+        employeeRepository.save(fourthEmployee);
+        employeeRepository.save(fifthEmployee);
 
         userRepository.save(user);
         userRepository.save(user2);
         userRepository.save(user3);
-
+        userRepository.save(user4);
+        userRepository.save(user5);
     }
 
     @Test
     public void makeData() {
         independentClient();
-        addEmployeeToDb();
+        makeEmployees();
 
         Product product = makeProduct();
         Product secondProduct = makeSecondProduct();
@@ -195,8 +193,6 @@ public class EmployeeRoutes {
         orderRepository.save(fifthOrder);
         orderRepository.save(sixthOrder);
 
-        System.out.println(order.getCity() + "\n" + order.getPhoneNumber() + "\n" + order.getCountry() + "\n"
-        + order.getContactPerson() + "\n" + order.getCompany() + "\n" + order.getZipCode());
         clientRepository.save(client);
         clientRepository.save(secondClient);
         clientRepository.save(thirdClient);
@@ -235,7 +231,6 @@ public class EmployeeRoutes {
 
         Order clientOrder = makeOrder();
         Order publisherOrder = makeFifthOrder();
-
 
         OrderLine clientOrderLine = new OrderLine(product, 4);
         OrderLine orderLine = new OrderLine(clientProduct, 10);
@@ -276,34 +271,6 @@ public class EmployeeRoutes {
         User user2 = new User(publisher.getId());
         BeanUtils.copyProperties(client, user);
         BeanUtils.copyProperties(publisher, user2);
-
-        userRepository.save(user);
-        userRepository.save(user2);
-    }
-
-    public void addEmployeeToDb() {
-        ObjectId employeeId = new ObjectId();
-        ObjectId secondEmployeeId = new ObjectId();
-        Employee employee = new Employee(employeeId);
-        Employee secondEmployee = new Employee(secondEmployeeId);
-
-        employee.setUserType(UserType.EMPLOYEE);
-        employee.setUserName("Employee");
-        employee.setNickname("Mads");
-        employee.setPassword("fsef65686");
-
-        secondEmployee.setUserType(UserType.EMPLOYEE);
-        secondEmployee.setUserName("SecondEmployee");
-        secondEmployee.setNickname("Hans");
-        secondEmployee.setPassword("fsef5446f");
-
-        employeeRepository.save(secondEmployee);
-        employeeRepository.save(employee);
-
-        User user = new User(employee.getId());
-        User user2 = new User(secondEmployee.getId());
-        BeanUtils.copyProperties(employee, user);
-        BeanUtils.copyProperties(secondEmployee, user2);
 
         userRepository.save(user);
         userRepository.save(user2);
@@ -517,357 +484,5 @@ public class EmployeeRoutes {
         BeanUtils.copyProperties(client, user);
 
         userRepository.save(user);
-    }
-
-    private ObjectId newObjectId() {
-        ObjectId id = new ObjectId();
-
-
-        return id;
-    }
-
-    private Product makeProduct() {
-        Product product = new Product(newObjectId());
-
-        product.setProductName("move");
-        product.setQuantity(20);
-        product.setProductId("343253beb");
-
-
-        return product;
-    }
-
-
-    private Product makeSecondProduct() {
-        Product product = new Product(newObjectId());
-
-        product.setProductName("run");
-        product.setQuantity(20);
-        product.setProductId("42432b");
-
-        return product;
-    }
-
-    private Product makeThirdProduct() {
-        Product product = new Product(newObjectId());
-
-        product.setProductName("jump");
-        product.setQuantity(30);
-        product.setProductId("24325de");
-
-        return product;
-    }
-
-    private Product makeFourthProduct() {
-        Product product = new Product(newObjectId());
-
-        product.setProductName("bike");
-        product.setQuantity(60);
-        product.setProductId("353645765756");
-
-        return product;
-    }
-
-    private Product makeFifthProduct() {
-        Product product = new Product(newObjectId());
-
-        product.setProductName("car");
-        product.setQuantity(30);
-        product.setProductId("43256456457");
-
-        return product;
-    }
-
-    private Product makeSixthProduct() {
-        Product product = new Product(newObjectId());
-
-        product.setProductName("ship");
-        product.setQuantity(65);
-        product.setProductId("3243354654");
-
-        return product;
-    }
-
-    private Product makeSeventhProduct() {
-        Product product = new Product(newObjectId());
-
-        product.setProductName("bus");
-        product.setQuantity(66);
-        product.setProductId("3r23543645765");
-
-        return product;
-    }
-
-    private Product makeEigthProduct() {
-        Product product = new Product(newObjectId());
-
-        product.setProductName("music");
-        product.setQuantity(26);
-        product.setProductId("35264564765765");
-
-        return product;
-    }
-
-    private Client makeClient() {
-        Client client = new Client(newObjectId());
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("karin");
-        contactInformation.setEmail("secondclient@cc.ff");
-        contactInformation.setAddress("ryvej 5");
-        contactInformation.setPhoneNumber("26589542");
-        contactInformation.setZipCode("6599");
-        contactInformation.setCity("Bamse");
-
-        client.setContactInformation(contactInformation);
-        client.setUserType(UserType.CLIENT);
-        client.setUserName("client");
-        client.setPassword("24fsefsefrg");
-
-
-        return client;
-    }
-
-    private Publisher makePublisher() {
-        Publisher publisher = new Publisher(newObjectId());
-        ContactInformation contactInformation = new ContactInformation();
-        contactInformation.setNickName("Monste");
-        contactInformation.setEmail("publisher@cc.ff");
-        contactInformation.setAddress("luevej 4");
-        contactInformation.setPhoneNumber("29575236");
-        contactInformation.setZipCode("1694");
-        contactInformation.setCity("Århus");
-
-        publisher.setContactInformation(contactInformation);
-        publisher.setUserType(UserType.PUBLISHER);
-        publisher.setUserName("publisher");
-        publisher.setPassword("esfesfreg3");
-
-        return publisher;
-    }
-
-    private Client makeSecondClient() {
-        Client client = new Client(newObjectId());
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("Karen");
-        contactInformation.setEmail("client@kare.rr");
-        contactInformation.setAddress("fffavej 2");
-        contactInformation.setPhoneNumber("298522654");
-        contactInformation.setZipCode("9825");
-        contactInformation.setCity("Hadsten");
-
-        client.setContactInformation(contactInformation);
-        client.setUserType(UserType.CLIENT);
-        client.setUserName("secondclient");
-        client.setPassword("esfesgrs");
-
-        return client;
-    }
-
-    private Client makeThirdClient() {
-        Client client = new Client(newObjectId());
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("Gose");
-        contactInformation.setEmail("publisher@fef.rr");
-        contactInformation.setAddress("revej 4");
-        contactInformation.setPhoneNumber("1568433546");
-        contactInformation.setZipCode("5979");
-        contactInformation.setCity("Rye");
-
-        client.setUserType(UserType.CLIENT);
-        client.setUserName("thirdclient");
-        client.setPassword("fesgr4546");
-        client.setContactInformation(contactInformation);
-
-        return client;
-    }
-
-    private Publisher makeSecondPublisher() {
-        Publisher publisher = new Publisher(newObjectId());
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("lej og byg");
-        contactInformation.setEmail("secondPublisher@ff.cc");
-        contactInformation.setPhoneNumber("26546235");
-        contactInformation.setAddress("hale 34");
-        contactInformation.setZipCode("2695");
-        contactInformation.setCity("Hals");
-
-        publisher.setUserType(UserType.PUBLISHER);
-        publisher.setUserName("secondpublisher");
-        publisher.setPassword("erw3ret544");
-        publisher.setContactInformation(contactInformation);
-
-        return publisher;
-    }
-
-    private Publisher makeThirdPublisher() {
-        Publisher publisher = new Publisher(newObjectId());
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("music store");
-        contactInformation.setEmail("thirdPublisher@ff.cc");
-        contactInformation.setPhoneNumber("87525632");
-        contactInformation.setAddress("gyldenvej 4");
-        contactInformation.setZipCode("2796");
-        contactInformation.setCity("Padborg");
-
-        publisher.setUserType(UserType.PUBLISHER);
-        publisher.setUserName("thirdpublisher");
-        publisher.setPassword("r43tdhytf");
-        publisher.setContactInformation(contactInformation);
-
-        return publisher;
-    }
-
-    private Order makeOrder() {
-        Order order = new Order(newObjectId());
-
-        order.setTitle("order");
-        order.setDate(new Date());
-        order.setAddress("mour 4");
-        order.setOrderId("35223645654ddd");
-        order.setCity("Serene");
-        order.setPhoneNumber("66498726");
-        order.setZipCode("5979");
-        order.setCountry("Denmark");
-        order.setCompany("sports shop");
-        order.setContactPerson("Molly");
-
-        return order;
-    }
-
-    private Order makeSecondOrder() {
-        Order order = new Order(newObjectId());
-
-        order.setTitle("secondorder");
-        order.setDate(new Date());
-        order.setAddress("foul 23");
-        order.setOrderId("242543643678");
-        order.setCity("Moonlight");
-        order.setPhoneNumber("56846987");
-        order.setZipCode("9985");
-        order.setCountry("Denmark");
-        order.setCompany("music store");
-        order.setContactPerson("ole");
-
-        return order;
-    }
-
-
-    private Order makeThirdOrder() {
-        Order order = new Order(newObjectId());
-
-        order.setTitle("thirdorder");
-        order.setDate(new Date());
-        order.setAddress("doo 4");
-        order.setOrderId("325346436");
-        order.setCity("Stone");
-        order.setPhoneNumber("43599856");
-        order.setZipCode("5955");
-        order.setCountry("Denmark");
-        order.setCompany("book store");
-        order.setContactPerson("Hans");
-
-        return order;
-    }
-
-    private Order makeFourthOrder() {
-        Order order = new Order(newObjectId());
-
-        order.setTitle("fourthorder");
-        order.setDate(new Date());
-        order.setAddress("yellow 2");
-        order.setOrderId("3254368888");
-        order.setCity("Gesser");
-        order.setPhoneNumber("46488798");
-        order.setZipCode("1354");
-        order.setCountry("Denmark");
-        order.setCompany("Museum");
-        order.setContactPerson("Mogens");
-
-        return order;
-    }
-
-    private Order makeFifthOrder() {
-        Order order = new Order(newObjectId());
-
-        order.setTitle("fifthorder");
-        order.setDate(new Date());
-        order.setAddress("moon 90");
-        order.setOrderId("325378897430");
-        order.setCity("Smalling");
-        order.setPhoneNumber("15988526");
-        order.setZipCode("9335");
-        order.setCountry("Sweeden");
-        order.setCompany("car magazine maker");
-        order.setContactPerson("Maren");
-
-        return order;
-    }
-
-    private Order makeSixthOrder() {
-        Order order = new Order(newObjectId());
-
-        order.setTitle("sixthorder");
-        order.setDate(new Date());
-        order.setAddress("sun 33");
-        order.setOrderId("3536347568");
-        order.setCity("Kunsten");
-        order.setPhoneNumber("26885487");
-        order.setZipCode("9526");
-        order.setCountry("Denmark");
-        order.setCompany("general store");
-        order.setContactPerson("Mark");
-
-        return order;
-    }
-
-    public Client makeExtraClient() {
-        Client client = new Client(newObjectId());
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("Hans");
-        contactInformation.setEmail("fes@gr.gdr");
-        contactInformation.setPhoneNumber("15334888");
-        contactInformation.setAddress("møllevej 4");
-        contactInformation.setZipCode("5497");
-        contactInformation.setCity("Vice country");
-
-        client.setUserName("Client");
-        client.setPassword("3wdgr4");
-        client.setUserType(UserType.CLIENT);
-        client.setContactInformation(contactInformation);
-
-        return client;
-    }
-
-    public Product makeExtraProduct() {
-        Product product = new Product(newObjectId());
-
-        product.setQuantity(400);
-        product.setProductName("cycling news");
-        product.setProductId("342525");
-
-        return product;
-    }
-
-    public Order makeExtraOrder() {
-        Order order = new Order(newObjectId());
-
-        order.setTitle("flyers");
-        order.setOrderId("3255");
-        order.setAddress("musvej 3");
-        order.setDate(new Date());
-        order.setCity("Aalborg");
-        order.setPhoneNumber("99635485");
-        order.setZipCode("9523");
-        order.setCountry("Denmark");
-        order.setCompany("News company");
-        order.setContactPerson("Oliver");
-
-        return order;
     }
 }

@@ -282,29 +282,6 @@ public class OrderRepositoryTest {
         assertEquals(publisher, retrieveddOrder.getOwner());
     }
 
-    @Test
-    public void testFindAllByOwner() {
-        Order order = makeOrder();
-        Order secondOrder = makeOrder();
-        Order thirdOrder = makeOrder();
-        ObjectId id = new ObjectId();
-        Client client = new Client(id);
-
-        client.addOrder(order);
-        client.addOrder(secondOrder);
-        client.addOrder(thirdOrder);
-        order.setOwner(client);
-        secondOrder.setOwner(client);
-        thirdOrder.setOwner(client);
-
-        clientRepository.save(client);
-        orderRepository.save(order);
-        orderRepository.save(secondOrder);
-        orderRepository.save(thirdOrder);
-
-        Collection<Order> retrievedOrders = orderRepository.findAllByOwner();
-        System.out.println(retrievedOrders);
-    }
 
     @Test
     public void testFindOrderLine() {

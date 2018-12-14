@@ -341,73 +341,6 @@ public class PublisherRepositoryTest {
     }
 
     @Test
-    public void testPublisherFindClientsProducts() {
-        Publisher publisher = makePublisher();
-        Client client = makeClient();
-        ObjectId productId = new ObjectId();
-        ObjectId id = new ObjectId();
-        ObjectId secondProductId = new ObjectId();
-        ObjectId secondId = new ObjectId();
-
-        Product product = new Product(productId);
-        product.setQuantity(400);
-        product.setProductName("cycling news");
-        product.setProductId("342525");
-
-        Product secondProduct = new Product(id);
-        secondProduct.setProductName("ship");
-        secondProduct.setQuantity(65);
-        secondProduct.setProductId("3243354654");
-
-        Product thirdProduct = new Product(secondProductId);
-        thirdProduct.setProductName("bus");
-        thirdProduct.setQuantity(66);
-        thirdProduct.setProductId("3r23543645765");
-
-        Client thirdClient = new Client(secondId);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("Karen");
-        contactInformation.setEmail("client@kare.rr");
-        contactInformation.setAddress("fffavej 2");
-        contactInformation.setPhoneNumber("298522654");
-        contactInformation.setZipCode("9825");
-        contactInformation.setCity("Hadsten");
-
-        thirdClient.setContactInformation(contactInformation);
-        thirdClient.setUserType(UserType.CLIENT);
-        thirdClient.setUserName("secondclient");
-        thirdClient.setPassword("esfesgrs");
-
-        publisher.addClient(client);
-        publisher.addClient(thirdClient);
-        client.addProduct(product);
-        client.addProduct(secondProduct);
-        client.setPublisher(publisher);
-        thirdClient.addProduct(thirdProduct);
-        thirdClient.setPublisher(publisher);
-
-        publisherRepository.save(publisher);
-        productRepository.save(product);
-        productRepository.save(secondProduct);
-        productRepository.save(thirdProduct);
-        clientRepository.save(client);
-        clientRepository.save(thirdClient);
-
-        Publisher retrievedPublisher = publisherRepository.findById(publisher.getId()).orElse(null);
-        Stream<Client> clientStream = retrievedPublisher.getClientStream();
-        List<Client> clientList = clientStream.collect(Collectors.toList());
-        Stream<Product> productStream = null;
-        for (Client aClientList : clientList)
-            productStream = aClientList.getProductStream();
-
-        List<Product> productList = productStream.collect(Collectors.toList());
-
-        assertNotNull(productList);
-        assertEquals(3, productList.size());
-    }
-
-    @Test
     public void testFindPublisherByUserId() {
         Publisher publisher = makePublisher();
         User user = new User(publisher.getId());
@@ -468,20 +401,8 @@ public class PublisherRepositoryTest {
     @Test
     public void testDeletePublisherById() {
         Publisher publisher = makePublisher();
-        Client client = makeClient();
-        Product product = makeProduct();
-        Order order = makeOrder();
-        publisher.addClient(client);
-        publisher.addOrder(order);
-        publisher.addProduct(product);
-        product.setOwner(publisher);
-        client.setPublisher(publisher);
-        order.setOwner(publisher);
 
         publisherRepository.save(publisher);
-        productRepository.save(product);
-        orderRepository.save(order);
-        clientRepository.save(client);
 
         publisherRepository.deleteById(publisher.getHexId());
 

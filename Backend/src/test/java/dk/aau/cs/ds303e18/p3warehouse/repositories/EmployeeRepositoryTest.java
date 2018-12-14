@@ -131,7 +131,7 @@ public class EmployeeRepositoryTest {
 
         employeeRepository.save(emp2);
         employeeRepository.deleteById(emp2.getId());
-        assertNull(employeeRepository.findById(emp2.getId()));
+        assertNull(employeeRepository.findById(emp2.getId()).orElse(null));
     }
 
     @Test

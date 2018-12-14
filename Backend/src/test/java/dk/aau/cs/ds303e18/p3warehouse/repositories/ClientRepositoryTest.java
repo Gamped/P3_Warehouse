@@ -147,6 +147,8 @@ public class ClientRepositoryTest {
 
         assertNotNull(productList);
         assertEquals(2, productList.size());
+        assertTrue(productList.contains(product));
+        assertTrue(productList.contains(secondProduct));
     }
 
     @Test
@@ -195,7 +197,7 @@ public class ClientRepositoryTest {
         secondOrder.setContactPerson("Molly");
 
         OrderLine orderLine = new OrderLine(product, 250);
-        OrderLine secondOrderLine = new OrderLine(secondProduct, 222);
+        OrderLine secondOrderLine = new OrderLine(secondProduct, 15);
         order.setOrderLines(Collections.singleton(orderLine));
         secondOrder.setOrderLines(Collections.singleton(secondOrderLine));
 
@@ -250,6 +252,78 @@ public class ClientRepositoryTest {
     }
 
     @Test
+    public void testFindClientByPublisherId() {
+        Client client = makeClient();
+        Publisher publisher = makePublisher();
+
+        publisher.addClient(client);
+        client.setPublisher(publisher);
+
+        publisherRepository.save(publisher);
+        clientRepository.save(client);
+
+        Collection<Client> clients = (Collection<Client>) clientRepository.findByPublisherId(publisher.getId());
+        assertNotNull(clients);
+        assertEquals(1, clients.size());
+    }
+
+    @Test
+    public void testFindClientsByPublisherId() {
+        Publisher publisher = makePublisher();
+        Client client = makeClient();
+        ObjectId secondId = new ObjectId();
+        Client thirdClient = new Client(secondId);
+        ContactInformation contactInformation = new ContactInformation();
+
+        contactInformation.setNickName("Karen");
+        contactInformation.setEmail("client@kare.rr");
+        contactInformation.setAddress("fffavej 2");
+        contactInformation.setPhoneNumber("298522654");
+        contactInformation.setZipCode("9825");
+        contactInformation.setCity("Hadsten");
+
+        thirdClient.setContactInformation(contactInformation);
+        thirdClient.setUserType(UserType.CLIENT);
+        thirdClient.setUserName("secondclient");
+        thirdClient.setPassword("esfesgrs");
+
+        ObjectId id = new ObjectId();
+        Client secondClient = new Client(id);
+        ContactInformation secondContactInformation = new ContactInformation();
+
+        secondContactInformation.setNickName("Gose");
+        secondContactInformation.setEmail("publisher@fef.rr");
+        secondContactInformation.setAddress("revej 4");
+        secondContactInformation.setPhoneNumber("1568433546");
+        secondContactInformation.setZipCode("5979");
+        secondContactInformation.setCity("Rye");
+        secondClient.setUserType(UserType.CLIENT);
+        secondClient.setUserName("thirdclient");
+        secondClient.setPassword("fesgr4546");
+        secondClient.setContactInformation(secondContactInformation);
+
+        publisher.addClient(client);
+        publisher.addClient(thirdClient);
+        publisher.addClient(secondClient);
+        client.setPublisher(publisher);
+        thirdClient.setPublisher(publisher);
+        secondClient.setPublisher(publisher);
+
+        publisherRepository.save(publisher);
+        clientRepository.save(client);
+        clientRepository.save(thirdClient);
+        clientRepository.save(secondClient);
+
+        Collection<Client> clients = (Collection<Client>) clientRepository.findByPublisherId(publisher.getId());
+
+        assertEquals(3, clients.size());
+        assertTrue(clients.contains(client));
+        assertTrue(clients.contains(secondClient));
+        assertTrue(clients.contains(thirdClient));
+
+    }
+
+    @Test
     public void testFindAllClients() {
         Client client = makeClient();
         ObjectId id = new ObjectId();
@@ -289,8 +363,7 @@ public class ClientRepositoryTest {
         clientRepository.save(thirdClient);
 
         Collection<Client> clients = clientRepository.findAll();
-        Client savedClient = ((List<Client>) clients).get(1);
-        System.out.println(savedClient.getContactInformation());
+
         assertEquals(3, clients.size());
         assertTrue(clients.contains(client));
         assertTrue(clients.contains(secondClient));

@@ -130,6 +130,7 @@ public class ProductRepositoryTest {
         Client client = makeClient();
 
         product.setOwner(client);
+        client.addProduct(product);
 
         repository.save(product);
         clientRepository.save(client);
@@ -140,7 +141,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void testProductOwnerRef() {
+    public void testProductGetOwnerRepository() {
         Product product = makeProduct();
         Publisher publisher = makePublisher();
 
