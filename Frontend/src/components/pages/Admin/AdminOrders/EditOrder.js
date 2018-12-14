@@ -4,7 +4,6 @@ import "../../Pages.css";
 import {connect} from "react-redux";
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 import {put} from './../../../../handlers/requestHandlers.js';
-import {makeOrderLinesData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
 import {amountIsNotANumberWarning, amountExceedingQuantityWarning} from './../../../../handlers/exceptions.js';
 import "./EditOrder.css";
 
@@ -18,8 +17,14 @@ class EditOrder extends Component{
             userType: "",
             userHexId: "",
             selectedOrderLine: -1,
-            selectedOrderLine: {product:{quantity:"Nothing Chosen"}}
+            selectedOrderLine: {quantity:"Nothing Chosen"}
         }
+    }
+
+    onChangeHandler = (e) =>{
+        this.setState({[e.target.name]:e.target.value}, ()=>{
+            console.log(this.state)
+        })
     }
 
     addOrderLine = (e) => {
@@ -88,11 +93,9 @@ class EditOrder extends Component{
      
     updateOrder = (e) => {
         e.preventDefault();
-        put("orders/update/"+this.props.match.params.id, this.state.orderLines, (response) => {
-            console.log("response: ",response);
-        })
-        
 
+        console.log(this.state,this.props.orderLine)
+        
     }
 
     render() {
@@ -147,27 +150,27 @@ class EditOrder extends Component{
 
 
                     <div className="EditOrderRight">
-                        <form>
+                        <form onSubmit={this.updateOrder}>
                             <div className="EditOrderTextFields">        
                                 <div className="input-group my-2">
                                     <div className="input-group-prepend">
                                         <label className="input-group-text" htmlFor="name" id="Item">Name</label> 
                                     </div>
-                                    <input id="name" className="form-control" type="text" name="name" onChange={()=>{}} defaultValue={this.state.selectedOrderLine.productName} placeholder="Name"/>
+                                    <input id="name" className="form-control" type="text" name="name" onChange={this.onChangeHandler} defaultValue={this.state.selectedOrderLine.productName} placeholder="Name" required/>
                                 </div>
 
                                 <div className="input-group my-2">
                                     <div className="input-group-prepend">
                                         <label className="input-group-text" htmlFor="id" id="Item2">product Id</label> 
                                     </div>
-                                    <input id="id" className="form-control" type="text" name="id" onChange={()=>{}} defaultValue={this.state.selectedOrderLine.productId} placeholder="Product id"/>
+                                    <input id="id" className="form-control" type="text" name="id" onChange={this.onChangeHandler} defaultValue={this.state.selectedOrderLine.productId} placeholder="Product id" required/>
                                 </div>
 
                                 <div className="input-group my-2">
                                     <div className="input-group-prepend">
                                         <label className="input-group-text" htmlFor="amount" id="Item3">Amount</label> 
                                     </div>
-                                    <input id="amount" className="form-control" type="number" name="amount" onChange={()=>{}} defaultValue={this.state.selectedOrderLine.amount} placeholder="Amount ordered"/>
+                                    <input id="amount" className="form-control" type="number" name="amount" onChange={this.onChangeHandler} defaultValue={this.state.selectedOrderLine.amount} placeholder="Amount ordered" required/>
                                 </div>
 
                                 <div className="input-group my-2">
@@ -179,7 +182,7 @@ class EditOrder extends Component{
                             </div>
                             <div className="EditOrderRightBTNs">
                                 <button className="btn AdinOrderButtonSizer std_BTN btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+ this.props.match.params.id)}>Edit Address</button>        
-                                <button className="col btn AdinOrderButtonSizer blue_BTN mx-2" onClick={this.updateOrder}>Save Content</button>
+                                <button className="col btn AdinOrderButtonSizer blue_BTN mx-2" type="submit">Save Content</button>
                                 <button className="col btn AdinOrderButtonSizer dark_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>      
                             </div>   
                         </form>              

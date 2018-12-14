@@ -11,11 +11,18 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
+import static dk.aau.cs.ds303e18.p3warehouse.models.DummyClient.makeDummyClient;
+import static dk.aau.cs.ds303e18.p3warehouse.models.DummyEmployee.makeDummyEmployee;
+import static dk.aau.cs.ds303e18.p3warehouse.models.DummyProduct.makeDummyProduct;
+import static dk.aau.cs.ds303e18.p3warehouse.models.DummyPublisher.makeDummyPublisher;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
@@ -25,346 +32,291 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class EmployeeControllerTest {
 
-    @InjectMocks
+    @Autowired
     EmployeeController employeeController;
 
-    @Mock
+    @Autowired
     EmployeeRepository employeeRepository;
 
-    @Mock
+    @Autowired
     ProductRepository productRepository;
 
-    @Mock
+    @Autowired
     ClientRepository clientRepository;
 
-    @Mock
+    @Autowired
     PublisherRepository publisherRepository;
 
-    @Mock
+    @Autowired
     UserRepository userRepository;
-
-    @Test
-    public void employeeControllerLoads() throws Exception {
-        assertThat(employeeController).isNotNull();
-    }
 
     @Before
     public void start() {
-        MockitoAnnotations.initMocks(this);
+        userRepository.deleteAll();
+        employeeRepository.deleteAll();
+        publisherRepository.deleteAll();
+        clientRepository.deleteAll();
+        productRepository.deleteAll();
     }
 
     @Test
     public void testEmployeeCreatePublisherProduct() {
-        ObjectId customerId = new ObjectId();
-
-        Publisher publisher = new Publisher(customerId);
-
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        Product product = makeDummyProduct(0, publisher);
         RestProductModel restProductModel = new RestProductModel();
-        restProductModel.setProductName("Cycling news");
-        restProductModel.setQuantity(40);
-        restProductModel.setProductId("3246758222");
 
-        publisher.setUserType(UserType.PUBLISHER);
-        when(publisherRepository.findById(publisher.getId())).thenReturn(Optional.of(publisher));
+        BeanUtils.copyProperties(product, restProductModel);
+        publisher.addProduct(product);
 
-        String createdString = employeeController.createProduct(publisher.getHexId(),
-                String.valueOf(publisher.getUserType()), restProductModel);
+        publisherRepository.save(publisher);
+        employeeController.createProduct(publisher.getHexId(), publisher.getUserType().name(), restProductModel);
 
-        verify(publisherRepository).findById(publisher.getId());
-        verify(publisherRepository).save(publisher);
-
-        assertEquals("Created!", createdString);
+        assertTrue(publisherRepository.findById(publisher.getHexId()).get()
+                .getProductStream()
+                .anyMatch(x -> x.getProductName().equals(product.getProductName())));
     }
 
     @Test
-    public void employeeCreateProduct() {
-        ObjectId id = new ObjectId();
-        Publisher publisher = new Publisher(id);
+    public void testEmployeeCreateClientProduct() {
+        Client client = makeDummyClient(0);
+        Product product = makeDummyProduct(0, client);
         RestProductModel restProductModel = new RestProductModel();
 
-        String createdString = employeeController.createProduct(publisher.getHexId(),
-               "DEFAULT", restProductModel);
+        BeanUtils.copyProperties(product, restProductModel);
+        client.addProduct(product);
 
-        assertEquals("Could not create, customerId or userType is not set!", createdString);
+        clientRepository.save(client);
+        employeeController.createProduct(client.getHexId(), client.getUserType().name(), restProductModel);
 
+        assertTrue(clientRepository.findById(client.getHexId())
+                .getProductStream()
+                .anyMatch(x -> x.getProductName().equals(product.getProductName())));
     }
 
     @Test
     public void testEmployeeCreatePublisher() {
-        ObjectId id = new ObjectId();
-        Publisher publisher = new Publisher(id);
-        publisher.setUserType(UserType.PUBLISHER);
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
         RestPublisherModel restPublisherModel = new RestPublisherModel();
-        restPublisherModel.setUserName("bo");
+        BeanUtils.copyProperties(publisher, restPublisherModel);
 
-        String createdPublisher = employeeController.createPublisher(restPublisherModel);
-        System.out.println(createdPublisher);
-        assertNotNull(createdPublisher);
+        employeeController.createPublisher(restPublisherModel);
+
+        assertEquals(publisher.getContactInformation().getNickName(),
+                publisherRepository.findByUserName(publisher.getUserName())
+                        .getContactInformation().getNickName());
     }
 
     @Test
     public void testEmployeeCreateClient() {
-        ObjectId id = new ObjectId();
-        Client client = new Client(id);
-        client.setUserType(UserType.CLIENT);
-
-        ContactInformation contactInformation = new ContactInformation();
-        contactInformation.setNickName("karin");
-        contactInformation.setEmail("publisher@ff.cc");
-        contactInformation.setAddress("julegade 2");
-        contactInformation.setPhoneNumber("25789879");
-        contactInformation.setZipCode("8954");
-
+        Client client = makeDummyClient(0);
         RestClientModel restClientModel = new RestClientModel();
-        restClientModel.setUserName("publisher");
-        restClientModel.setPassword("21365876wefwefewf");
-        restClientModel.setContactInformation(contactInformation);
+        BeanUtils.copyProperties(client, restClientModel);
 
-        String createdClient = employeeController.createClient(restClientModel);
+        employeeController.createClient(restClientModel);
 
-        assertEquals("Created!", createdClient);
+        assertEquals(client.getContactInformation().getNickName(),
+                clientRepository.findByUserName(client.getUserName())
+                        .getContactInformation().getNickName());
     }
 
     @Test
     public void testEmployeeFindAllProducts() {
-        ObjectId productId = new ObjectId();
-        ObjectId secondProductId = new ObjectId();
-        ObjectId thirdProductId = new ObjectId();
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        publisherRepository.save(publisher);
+        for(int i = 0; i < 5; ++i){
+            productRepository.save(makeDummyProduct(i, publisher));
+        }
 
-        Product product = new Product(productId);
-        Product secondProduct = new Product(secondProductId);
-        Product thirdProduct = new Product(thirdProductId);
-
-        product.setProductId("234363464");
-        product.setQuantity(265);
-        product.setProductName("books about stuff");
-
-        secondProduct.setProductId("2425336536");
-        secondProduct.setQuantity(9000);
-        secondProduct.setProductName("promotional flyers");
-
-        thirdProduct.setProductId("6475876978970");
-        thirdProduct.setQuantity(644);
-        thirdProduct.setProductName("notes");
-
-        List<Product> productList = new ArrayList<>();
-        productList.add(product);
-        productList.add(secondProduct);
-        productList.add(thirdProduct);
-
-        when(productRepository.findAll()).thenReturn(productList);
-
-        Collection<Product> products = employeeController.findAllProducts();
-
-        verify(productRepository).findAll();
-
-        System.out.println(products);
-        assertEquals(productList, products);
-        assertEquals(3, products.size());
+        assertEquals(5, employeeController.findAllProducts().size());
     }
 
     @Test
     public void testEmployeeFindAllUsers() {
-        ObjectId clientId = new ObjectId();
-        ObjectId publisherId = new ObjectId();
-        ObjectId employeeId = new ObjectId();
+        for(int i = 0; i < 5 ; ++i){
+            Employee employee = makeDummyEmployee(i);
+            employeeRepository.save(employee);
+            userRepository.save(employee);
+        }
+        for(int i = 0; i < 5; ++i){
+            Publisher publisher = makeDummyPublisher(i, new ObjectId());
+            publisherRepository.save(publisher);
+            userRepository.save(publisher);
+        }
+        for(int i = 0; i < 5; ++i){
+            Client client = makeDummyClient(i);
+            clientRepository.save(client);
+            userRepository.save(client);
+        }
 
-        Client client = new Client(clientId);
-        Publisher publisher = new Publisher(publisherId);
-        Employee employee = new Employee(employeeId);
-
-        List<User> userList = new LinkedList<>();
-        userList.add(client);
-        userList.add(publisher);
-        userList.add(employee);
-
-        when(userRepository.findAll()).thenReturn(userList);
-
-        Collection<User> users = employeeController.findAllUsers();
-
-        verify(userRepository).findAll();
-
-        assertEquals(userList, users);
-        assertEquals(3, users.size());
+        assertEquals(15, employeeController.findAllUsers().size());
     }
 
     @Test
     public void testFindEmployeeById() {
-        ObjectId id = new ObjectId();
-        Employee employee = new Employee(id);
+        Employee employee = makeDummyEmployee(0);
+        employeeRepository.save(employee);
 
-        when(employeeRepository.findById(id)).thenReturn(Optional.of(employee));
-
-        Employee retrievedEmployee = employeeController.findEmployeeById(String.valueOf(id));
-        verify(employeeRepository).findById(id);
-        assertEquals(employee.getId(), retrievedEmployee.getId());
+        assertEquals(employee.getHexId(), employeeController.findEmployeeById(employee.getHexId()).getHexId());
     }
 
     @Test
     public void testEmployeeFindProductById() {
-        ObjectId id = new ObjectId();
-        Product product = new Product(id);
-        product.setQuantity(25);
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        Product product = makeDummyProduct(0, publisher);
+        publisher.addProduct(product);
 
-        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+        productRepository.save(product);
+        publisherRepository.save(publisher);
 
-        Optional<Product> optProduct = employeeController.findProductById(product.getHexId());
-        Product retrievedProduct = optProduct.get();
-
-        verify(productRepository).findById(product.getId());
-
-        assertEquals(product.getHexId(), retrievedProduct.getHexId());
-        assertEquals(product.getQuantity(), retrievedProduct.getQuantity());
+        assertEquals(0, employeeController.findProductById(product.getHexId()).get().getQuantity());
     }
 
     @Test
     public void testUpdateEmployee() {
-        ObjectId id = new ObjectId();
-        Employee employee = new Employee(id);
+        Employee employee = makeDummyEmployee(0);
         RestEmployeeModel restEmployeeModel = new RestEmployeeModel();
-        restEmployeeModel.setNickname("børge");
 
-        when(employeeRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
+        employeeRepository.save(employee);
+        userRepository.save(employee);
 
-        String updatedEmployee = employeeController.updateEmployee(String.valueOf(employee.getId()),
-                restEmployeeModel);
+        BeanUtils.copyProperties(employee, restEmployeeModel);
+        restEmployeeModel.setNickname("Bazanga");
 
-        verify(employeeRepository).findById(employee.getId());
+        employeeController.updateEmployee(employee.getHexId(), restEmployeeModel);
 
-        assertNotNull(employee.getNickname());
-        assertTrue(updatedEmployee.contains(employee.getNickname()));
-        assertEquals("børge", employee.getNickname());
+        assertTrue(employeeRepository.findByUserName(employee.getUserName())
+                .getNickname().equals(restEmployeeModel.getNickname()));
     }
 
     @Test
     public void testEmployeeUpdateProduct() {
-        ObjectId id = new ObjectId();
-        Product product = new Product(id);
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        Product product = makeDummyProduct(0, publisher);
+        publisher.addProduct(product);
+
+        publisherRepository.save(publisher);
+        productRepository.save(product);
+
         RestProductModel restProductModel = new RestProductModel();
+        BeanUtils.copyProperties(restProductModel, product);
+        restProductModel.setQuantity(999);
 
-        restProductModel.setProductId("242537222");
-        restProductModel.setQuantity(654);
-        restProductModel.setProductName("books");
+        employeeController.updateProduct(product.getHexId(), restProductModel);
 
-        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+        assertEquals(999, productRepository.findById(product.getId()).get().getQuantity());
+    }
 
-        String updatedProduct = employeeController.updateProduct(product.getHexId(), restProductModel);
+    @Test
+    public void testEmployeeUpdateProductInPublisher(){ //Same as above, except it checks if the product stored in publisher is also updated
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        Product product = makeDummyProduct(0, publisher);
+        publisher.addProduct(product);
 
-        verify(productRepository).findById(product.getId());
+        publisherRepository.save(publisher);
+        productRepository.save(product);
 
-        assertNotNull(product.getProductName());
-        assertTrue(updatedProduct.contains(product.toString()));
+        RestProductModel restProductModel = new RestProductModel();
+        BeanUtils.copyProperties(restProductModel, product);
+        restProductModel.setQuantity(999);
+
+        employeeController.updateProduct(product.getHexId(), restProductModel);
+        assertTrue(publisherRepository.findById(publisher.getHexId()).get()
+                .getProductStream()
+                .anyMatch(x -> x.getQuantity() == 999));
     }
 
     @Test
     public void testEmployeeUpdateClientContactInformation() {
-        ObjectId id = new ObjectId();
-        Client client = new Client(id);
+        Client client = makeDummyClient(0);
+        clientRepository.save(client);
+
         ContactInformation contactInformation = new ContactInformation();
-        ContactInformation clientContactInformation = new ContactInformation();
+        BeanUtils.copyProperties(client, contactInformation);
+        contactInformation.setNickName("rawass");
 
-        contactInformation.setNickName("newNickName");
-        contactInformation.setEmail("newEmail@ff.cc");
-        contactInformation.setPhoneNumber("26752369");
-        contactInformation.setAddress("newAddress 2");
-        contactInformation.setZipCode("6490");
+        employeeController.updateContactInformationOnClient(client.getHexId(), contactInformation);
 
-        clientContactInformation.setNickName("Haller");
-        clientContactInformation.setEmail("client@dev.ka");
-        clientContactInformation.setPhoneNumber("64979856");
-        clientContactInformation.setAddress("novema 2");
-        clientContactInformation.setZipCode("9009");
-        client.setContactInformation(clientContactInformation);
-
-        when(clientRepository.findById(client.getId())).thenReturn(Optional.of(client));
-
-        String updatedClient = employeeController.updateContactInformationOnClient(client.getHexId(),
-                contactInformation);
-
-        verify(clientRepository).findById(client.getId());
-
-        assertNotNull(updatedClient);
-        assertEquals("Updated Contact Information on Client: " + client.getUserName(), updatedClient);
+        assertTrue  (clientRepository.findById(client.getHexId()).getContactInformation().getNickName()
+                    .equals(contactInformation.getNickName()));
     }
 
     @Test
     public void testEmployeeUpdatePublisherContactInformation() {
-        ObjectId id = new ObjectId();
-        Publisher publisher = new Publisher(id);
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        publisherRepository.save(publisher);
+
         ContactInformation contactInformation = new ContactInformation();
-        ContactInformation publisherContactInformation = new ContactInformation();
+        BeanUtils.copyProperties(publisher, contactInformation);
+        contactInformation.setNickName("rawass");
 
-        contactInformation.setNickName("karin");
-        contactInformation.setEmail("newPublisherEmail@dav.ka");
-        contactInformation.setAddress("howl 2");
-        contactInformation.setPhoneNumber("22399755");
-        contactInformation.setZipCode("9755");
+        employeeController.updateContactInformationOnPublisher(publisher.getHexId(), contactInformation);
 
-        publisherContactInformation.setNickName("gyldeen");
-        publisherContactInformation.setEmail("publisher@ff.cc");
-        publisherContactInformation.setAddress("cola 5");
-        publisherContactInformation.setPhoneNumber("64998956");
-        publisherContactInformation.setZipCode("6269");
-        publisher.setContactInformation(publisherContactInformation);
-
-        when(publisherRepository.findById(publisher.getId())).thenReturn((Optional.of(publisher)));
-
-        String updatedPublisher = employeeController.updateContactInformationOnPublisher(publisher.getHexId(),
-                contactInformation);
-
-        verify(publisherRepository).findById(publisher.getId());
-
-        assertNotNull(updatedPublisher);
-        assertEquals("Updated Contact Information on Publisher: " + publisher.getUserName(), updatedPublisher);
-
+        assertTrue  (publisherRepository.findById(publisher.getHexId()).get().getContactInformation().getNickName()
+                .equals(contactInformation.getNickName()));
     }
 
     @Test
     public void testUpdateUserCredentials() {
-        ObjectId id = new ObjectId();
-        User user = new User(id);
-        user.setUserName("Haller123");
+        Employee employee = makeDummyEmployee(0);
+        employeeRepository.save(employee);
+        userRepository.save(employee);
+
         RestUserModel restUserModel = new RestUserModel();
-        restUserModel.setUserName("Miller658");
+        BeanUtils.copyProperties(employee, restUserModel);
+        restUserModel.setPassword("dankness");
 
-        when(userRepository.findById(user.getId())).thenReturn(Optional.of(user));
-
-        String updatedUser = employeeController.updateUserCredentials(String.valueOf(user.getId()), restUserModel);
-
-        verify(userRepository).findById(user.getId());
-
-        assertNotNull(updatedUser);
-        assertEquals("Updated user: " + user.getUserName(), updatedUser);
+        employeeController.updateUserCredentials(employee.getHexId(), restUserModel);
+        assertTrue(userRepository.findById(employee.getId()).get().getPassword().equals(restUserModel.getPassword()));
     }
 
     @Test
     public void testDeleteEmployeeById() {
-        ObjectId id = new ObjectId();
-        Employee employee = new Employee(id);
-        employee.setUserName("fred");
-        employee.setNickname("haller");
+        Employee employee = makeDummyEmployee(0);
+        employeeRepository.save(employee);
+        userRepository.save(employee);
 
-        when(employeeRepository.findById(employee.getId())).thenReturn(Optional.of(employee));
-
-        employeeController.deleteEmployeeById(String.valueOf(employee.getId()));
-
-        verify(employeeRepository).deleteById(employee.getId());
+        employeeController.deleteEmployeeById(employee.getHexId());
 
         assertEquals(0, employeeRepository.findAll().size());
     }
 
+    @Test
+    public void testDeleteEmployeeAndUserById() {
+        Employee employee = makeDummyEmployee(0);
+        employeeRepository.save(employee);
+        userRepository.save(employee);
+
+        employeeController.deleteEmployeeById(employee.getHexId());
+
+        assertEquals(0, userRepository.findAll().size());
+    }
 
     @Test
     public void testEmployeeDeleteProductById() {
-        ObjectId id = new ObjectId();
-        Product product = new Product(id);
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        Product product = makeDummyProduct(0, publisher);
+        publisher.addProduct(product);
 
-        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
+        publisherRepository.save(publisher);
+        productRepository.save(product);
 
         employeeController.deleteProductById(product.getHexId());
 
-        verify(productRepository).deleteById(product.getId());
-
         assertEquals(0, productRepository.findAll().size());
+    }
+
+    @Test
+    public void testEmployeeDeleteProductByIdFromPublisher() {
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        Product product = makeDummyProduct(0, publisher);
+        publisher.addProduct(product);
+
+        publisherRepository.save(publisher);
+        productRepository.save(product);
+
+        employeeController.deleteProductById(product.getHexId());
+
+        assertEquals(0, publisherRepository.findById(publisher.getHexId()).get()
+                .getProductStream().toArray().length);
     }
 }
