@@ -138,9 +138,11 @@ class EditOrder extends Component{
                             }
                         }}
                         style={{height: "70vh"}}
-                    />                
-                        <button className="AdinOrderButtonSizer green_BTN btn mx-1 " onClick={this.addOrderLine}> Add Product </button>
-                        <button className="AdinOrderButtonSizer red_BTN btn mx-1 my-5" onClick={this.removeOrderLine}>Remove Product</button>
+                    />   
+                        <div className="EditOrderLeftBTNs">             
+                            <button className="AdinOrderButtonSizer green_BTN btn " onClick={this.addOrderLine}> Add Product </button>
+                            <button className="AdinOrderButtonSizer red_BTN btn" onClick={this.removeOrderLine}>Remove Product</button>
+                        </div>
                     </div>
 
 
