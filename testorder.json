@@ -1,0 +1,53 @@
+{
+        "address": "GAMSE",
+        "city": "GAMSE",
+        "company": "GAMSE",
+        "contactPerson": "GAMSE",
+        "country": "GAMSE",
+        "date": 1544738128135,
+        "hexId": "5c12d550aaf38855bcb4cf73",
+        "id": {
+            "counter": 11849587,
+            "date": 1544738128000,
+            "machineIdentifier": 11203464,
+            "processIdentifier": 21948,
+            "time": 1544738128000,
+            "timeSecond": 1544738128,
+            "timestamp": 1544738128
+        },
+        "orderId": "3255",
+        "orderLines": [
+            {
+                "product": {
+                    "hexId": "5c12d550aaf38855bcb4cf74",
+                    "id": {
+                        "counter": 11849588,
+                        "date": 1544738128000,
+                        "machineIdentifier": 11203464,
+                        "processIdentifier": 21948,
+                        "time": 1544738128000,
+                        "timeSecond": 1544738128,
+                        "timestamp": 1544738128
+                    },
+                    "owner": {
+                        "nickName": "Hans",
+                        "userHexId": "5c12d550aaf38855bcb4cf75",
+                        "userType": "CLIENT"
+                    },
+                    "productId": "342525",
+                    "productName": "cycling news",
+                    "quantity": 400
+                },
+                "productHexId": null,
+                "quantity": 30
+            }
+        ],
+        "owner": {
+            "nickName": "Hans",
+            "userHexId": "5c12d550aaf38855bcb4cf75",
+            "userType": "CLIENT"
+        },
+        "phoneNumber": "99635485",
+        "title": "flyers",
+        "zipCode": "9523"
+    }
