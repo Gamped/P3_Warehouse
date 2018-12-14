@@ -152,8 +152,12 @@ public class OrderController {
         }
         owner.addOrder(order);
         switch(order.getOwner().getUserType()){
-            case CLIENT: clientRepository.save((Client)owner);
-            case PUBLISHER: publisherRepository.save((Publisher)owner);
+            case CLIENT:
+                clientRepository.save((Client)owner);
+            break;
+            case PUBLISHER:
+                publisherRepository.save((Publisher)owner);
+            break;
         }
         orderRepository.save(order);
         return "Created order with id: " + order.getHexId();
@@ -164,51 +168,41 @@ public class OrderController {
         return orderRepository.findAll();
     }
 
+
+
     @DeleteMapping("/orders/delete/{hexId}")
     String finishOrder(@PathVariable String hexId) {
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
-        confimationSender.sendOrderMsg(hexId, "jesus@himlen.dk");
+        confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
         Order queryedOrder = orderRepository.findById(new ObjectId(hexId)).orElse(null);
-
-        System.out.println(queryedOrder.getHexId());
-
-            orderRepository.delete(queryedOrder);
-            Customer owner = null;
+        if(queryedOrder != null){
+            Customer owner = queryedOrder.getOwner();
             try {
-                switch (queryedOrder.getOwner().getUserType()) {
-                    case CLIENT:
-                        owner = clientRepository.findById(new ObjectId(queryedOrder.getOwner().getHexId())).orElseThrow(() -> new Exception());
-                        break;
-                    case PUBLISHER:
-                        owner = publisherRepository.findById(new ObjectId(queryedOrder.getOwner().getHexId())).orElseThrow(() -> new Exception());
-                        break;
-                    default:
-                        return "Bad usertype";
-                }
-            }catch (Exception e){
-                return "Customer not found on id: " + queryedOrder.getOwner().getHexId();
+                owner.removeOrder(queryedOrder);
             }
+            catch(Exception e){
 
+            }
+            orderRepository.delete(queryedOrder);
             try {
                 switch (owner.getUserType()) {
                     case CLIENT:
-                        owner.removeOrder(queryedOrder);
-                        clientRepository.save((Client)owner);
-                        Publisher publisher = ((Client) owner).getPublisher();
-                        System.out.println(publisher);
+                        clientRepository.save((Client) owner);
                         break;
                     case PUBLISHER:
-                        owner.removeOrder(queryedOrder);
-                        publisherRepository.save((Publisher)owner);
+                        publisherRepository.save((Publisher) owner);
+                        break;
                 }
-            } catch (Exception e) {
-                return "Could not remove order or save casted owner";
             }
+            catch(Exception e){
 
-
+            }
             orderRepository.deleteById(new ObjectId(hexId));
             return "Order deleted?";
-
+        }
+        return "Error: Failed Successfully";
     }
+
+
 }
 
