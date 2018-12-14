@@ -18,8 +18,12 @@ class EditOrder extends Component{
             userType: "",
             userHexId: "",
             selectedOrderLine: -1,
-            selectedOrderLine: {product:{quantity:"Nothing Chosen"}}
+            selectedOrderLine: {quantity:"Nothing Chosen"}
         }
+    }
+
+    onChangeHandler = (e) =>{
+        
     }
 
     addOrderLine = (e) => {
@@ -88,11 +92,9 @@ class EditOrder extends Component{
      
     updateOrder = (e) => {
         e.preventDefault();
-        put("orders/update/"+this.props.match.params.id, this.state.orderLines, (response) => {
-            console.log("response: ",response);
-        })
-        
 
+        console.log(this.state,this.props.orderLine)
+        
     }
 
     render() {
