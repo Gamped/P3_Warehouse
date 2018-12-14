@@ -16,6 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Collection;
 import java.util.Optional;
 
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockClientData.makeClient;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockProductData.*;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockPublisherData.makePublisher;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -28,55 +31,6 @@ public class ProductRepositoryTest {
     ClientRepository clientRepository;
     @Autowired
     PublisherRepository publisherRepository;
-
-    public Product makeProduct() {
-        ObjectId productId = new ObjectId();
-
-        Product product = new Product(productId);
-        product.setQuantity(400);
-        product.setProductName("cycling news");
-        product.setProductId("342525");
-
-        return product;
-    }
-
-    public Client makeClient() {
-        ObjectId id = new ObjectId();
-        Client client = new Client(id);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("Hans");
-        contactInformation.setEmail("fes@gr.gdr");
-        contactInformation.setPhoneNumber("15334888");
-        contactInformation.setAddress("møllevej 4");
-        contactInformation.setZipCode("5497");
-        contactInformation.setCity("Aalborg");
-
-        client.setUserName("Client");
-        client.setPassword("3wdgr4");
-        client.setUserType(UserType.CLIENT);
-        client.setContactInformation(contactInformation);
-
-        return client;
-    }
-
-    public Publisher makePublisher() {
-        ObjectId publisherId = new ObjectId();
-        Publisher publisher = new Publisher(publisherId);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("karen");
-        contactInformation.setEmail("cyc@fff.dd");
-        contactInformation.setPhoneNumber("2564866235");
-        contactInformation.setAddress("mosevej 54");
-        contactInformation.setZipCode("5495");
-        publisher.setUserName("Publisher");
-        publisher.setPassword("fee2224");
-        publisher.setUserType(UserType.PUBLISHER);
-        publisher.setContactInformation(contactInformation);
-
-        return publisher;
-    }
 
     @Before
     public void deleteAll() {
@@ -119,9 +73,7 @@ public class ProductRepositoryTest {
 
         Product retrievedProduct = repository.findById(product.getId()).orElse(null);
 
-        assertEquals(product.getHexId(), retrievedProduct.getHexId());
         assertEquals(product.getQuantity(), retrievedProduct.getQuantity());
-        assertEquals(product.getProductId(), retrievedProduct.getProductId());
     }
 
     @Test
@@ -160,24 +112,9 @@ public class ProductRepositoryTest {
     @Test
     public void testFindAllProducts() {
         Product product = makeProduct();
-        ObjectId id = new ObjectId();
-        ObjectId productId = new ObjectId();
-        ObjectId secondProductId = new ObjectId();
-
-        Product secondProduct = new Product(id);
-        secondProduct.setProductName("ship");
-        secondProduct.setQuantity(65);
-        secondProduct.setProductId("3243354654");
-
-        Product thirdProduct = new Product(secondProductId);
-        thirdProduct.setProductName("bus");
-        thirdProduct.setQuantity(66);
-        thirdProduct.setProductId("3r23543645765");
-
-        Product fourthProduct = new Product(productId);
-        fourthProduct.setProductName("music");
-        fourthProduct.setQuantity(26);
-        fourthProduct.setProductId("35264564765765");
+        Product secondProduct = makeSecondProduct();
+        Product thirdProduct = makeThirdProduct();
+        Product fourthProduct = makeFourthProduct();
 
         repository.save(product);
         repository.save(secondProduct);
@@ -186,8 +123,6 @@ public class ProductRepositoryTest {
 
         Collection<Product> productCollection  = repository.findAll();
         assertEquals(4, productCollection.size());
-
-
     }
 
     @Test
@@ -203,24 +138,9 @@ public class ProductRepositoryTest {
     @Test
     public void testDeleteProduct() {
         Product product = makeProduct();
-        ObjectId id = new ObjectId();
-        ObjectId productId = new ObjectId();
-        ObjectId secondProductId = new ObjectId();
-
-        Product secondProduct = new Product(id);
-        secondProduct.setProductName("ship");
-        secondProduct.setQuantity(65);
-        secondProduct.setProductId("3243354654");
-
-        Product thirdProduct = new Product(secondProductId);
-        thirdProduct.setProductName("bus");
-        thirdProduct.setQuantity(66);
-        thirdProduct.setProductId("3r23543645765");
-
-        Product fourthProduct = new Product(productId);
-        fourthProduct.setProductName("music");
-        fourthProduct.setQuantity(26);
-        fourthProduct.setProductId("35264564765765");
+        Product secondProduct = makeSecondProduct();
+        Product thirdProduct = makeThirdProduct();
+        Product fourthProduct = makeFourthProduct();
 
         repository.save(product);
         repository.save(secondProduct);

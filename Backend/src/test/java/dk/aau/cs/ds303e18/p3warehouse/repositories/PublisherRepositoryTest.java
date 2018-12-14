@@ -13,12 +13,20 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockClientData.makeClient;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockOrderData.makeOrder;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockOrderData.makeSecondOrder;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockOrderData.makeThirdOrder;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockProductData.makeProduct;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockProductData.makeSecondProduct;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockPublisherData.makePublisher;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockPublisherData.makeSecondPublisher;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockPublisherData.makeThirdPublisher;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
@@ -36,65 +44,6 @@ public class PublisherRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
-    public Client makeClient() {
-        ObjectId id = new ObjectId();
-        Client client = new Client(id);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("Hans");
-        contactInformation.setEmail("fes@gr.gdr");
-        contactInformation.setPhoneNumber("15334888");
-        contactInformation.setAddress("møllevej 4");
-        contactInformation.setZipCode("5497");
-
-        client.setUserName("Client");
-        client.setPassword("3wdgr4");
-        client.setUserType(UserType.CLIENT);
-        client.setContactInformation(contactInformation);
-
-        return client;
-    }
-
-    public Product makeProduct() {
-        ObjectId productId = new ObjectId();
-
-        Product product = new Product(productId);
-        product.setQuantity(400);
-        product.setProductName("cycling news");
-        product.setProductId("342525");
-
-        return product;
-    }
-
-    public Order makeOrder() {
-        ObjectId orderId = new ObjectId();
-        Order order = new Order(orderId);
-        order.setTitle("flyers");
-        order.setOrderId("3255");
-        order.setAddress("musvej 3");
-        order.setDate(new Date());
-
-        return order;
-    }
-
-    public Publisher makePublisher() {
-        ObjectId publisherId = new ObjectId();
-        Publisher publisher = new Publisher(publisherId);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("karen");
-        contactInformation.setEmail("cyc@fff.dd");
-        contactInformation.setPhoneNumber("2564866235");
-        contactInformation.setAddress("mosevej 54");
-        contactInformation.setZipCode("5495");
-        publisher.setUserName("Publisher");
-        publisher.setPassword("fee2224");
-        publisher.setUserType(UserType.PUBLISHER);
-        publisher.setContactInformation(contactInformation);
-
-        return publisher;
-    }
-
     @Before
     public void deleteAll() {
         productRepository.deleteAll();
@@ -109,7 +58,6 @@ public class PublisherRepositoryTest {
     public void savePublisher(){
         Publisher publisher = makePublisher();
         publisherRepository.save(publisher);
-        System.out.println(publisher.getHexId());
         Optional<Publisher> optionalPublisher = publisherRepository.findById(publisher.getHexId());
         Publisher retrievedPublisher = optionalPublisher.get();
         assertEquals(publisher.getHexId(), retrievedPublisher.getHexId());
@@ -153,11 +101,7 @@ public class PublisherRepositoryTest {
     public void publisherProducts(){
         Publisher publisher = makePublisher();
         Product product = makeProduct();
-        ObjectId id = new ObjectId();
-        Product secondProduct = new Product(id);
-        secondProduct.setProductName("ship");
-        secondProduct.setQuantity(65);
-        secondProduct.setProductId("3243354654");
+        Product secondProduct = makeSecondProduct();
 
         publisher.addProduct(product);
         publisher.addProduct(secondProduct);
@@ -176,34 +120,11 @@ public class PublisherRepositoryTest {
 
     @Test
     public void testPublisherOrder(){
-        ObjectId id = new ObjectId();
-        ObjectId objectId = new ObjectId();
         Order order = makeOrder();
+        Order secondOrder = makeSecondOrder();
+        Order thirdOrder = makeThirdOrder();
         Publisher publisher = makePublisher();
-        Order thirdOrder = new Order(objectId);
 
-        thirdOrder.setTitle("thirdorder");
-        thirdOrder.setDate(new Date());
-        thirdOrder.setAddress("mour 4");
-        thirdOrder.setOrderId("35223645654ddd");
-        thirdOrder.setCity("Serene");
-        thirdOrder.setPhoneNumber("66498726");
-        thirdOrder.setZipCode("5979");
-        thirdOrder.setCountry("Denmark");
-        thirdOrder.setCompany("sports shop");
-        thirdOrder.setContactPerson("Molly");
-
-        Order secondOrder = new Order(id);
-        order.setTitle("secondorder");
-        order.setDate(new Date());
-        order.setAddress("foul 23");
-        order.setOrderId("242543643678");
-        order.setCity("Moonlight");
-        order.setPhoneNumber("56846987");
-        order.setZipCode("9985");
-        order.setCountry("Denmark");
-        order.setCompany("music store");
-        order.setContactPerson("ole");
 
         publisher.addOrder(order);
         publisher.addOrder(secondOrder);
@@ -227,35 +148,11 @@ public class PublisherRepositoryTest {
 
     @Test
     public void testPublisherClientOrders() {
-        ObjectId id = new ObjectId();
-        ObjectId objectId = new ObjectId();
+        Order secondOrder = makeSecondOrder();
         Order order = makeOrder();
+        Order thirdOrder = makeThirdOrder();
         Publisher publisher = makePublisher();
-        Order thirdOrder = new Order(objectId);
         Client client = makeClient();
-
-        thirdOrder.setTitle("thirdorder");
-        thirdOrder.setDate(new Date());
-        thirdOrder.setAddress("mour 4");
-        thirdOrder.setOrderId("35223645654ddd");
-        thirdOrder.setCity("Serene");
-        thirdOrder.setPhoneNumber("66498726");
-        thirdOrder.setZipCode("5979");
-        thirdOrder.setCountry("Denmark");
-        thirdOrder.setCompany("sports shop");
-        thirdOrder.setContactPerson("Molly");
-
-        Order secondOrder = new Order(id);
-        order.setTitle("secondorder");
-        order.setDate(new Date());
-        order.setAddress("foul 23");
-        order.setOrderId("242543643678");
-        order.setCity("Moonlight");
-        order.setPhoneNumber("56846987");
-        order.setZipCode("9985");
-        order.setCountry("Denmark");
-        order.setCompany("music store");
-        order.setContactPerson("ole");
 
         client.addOrder(order);
         client.addOrder(secondOrder);
@@ -282,7 +179,6 @@ public class PublisherRepositoryTest {
         }
 
         List<Order> orderList = orderStream.collect(Collectors.toList());
-        assertNotNull(orderList);
         assertEquals(3, orderList.size());
     }
 
@@ -294,28 +190,15 @@ public class PublisherRepositoryTest {
 
         Publisher retrievedPublisher = publisherRepository.findById(publisher.getHexId()).orElse(null);
 
-        assertEquals(publisher.getUserName(), retrievedPublisher.getUserName());
         assertEquals(publisher.getPassword(), retrievedPublisher.getPassword());
-        assertEquals(publisher.getContactInformation(), retrievedPublisher.getContactInformation());
-        assertEquals(publisher.getUserType(), retrievedPublisher.getUserType());
     }
 
     @Test
     public void testPublisherClientProducts() {
         Publisher publisher = makePublisher();
         Client client = makeClient();
-        ObjectId productId = new ObjectId();
-        ObjectId id = new ObjectId();
-
-        Product product = new Product(productId);
-        product.setQuantity(400);
-        product.setProductName("cycling news");
-        product.setProductId("342525");
-
-        Product secondProduct = new Product(id);
-        secondProduct.setProductName("ship");
-        secondProduct.setQuantity(65);
-        secondProduct.setProductId("3243354654");
+        Product product = makeProduct();
+        Product secondProduct = makeSecondProduct();
 
         publisher.addClient(client);
         client.addProduct(product);
@@ -336,7 +219,6 @@ public class PublisherRepositoryTest {
         }
         List<Product> productList = productStream.collect(Collectors.toList());
 
-        assertNotNull(productList);
         assertEquals(2, productList.size());
     }
 
@@ -351,50 +233,20 @@ public class PublisherRepositoryTest {
 
         Publisher retrievedPublisher = publisherRepository.findById(user.getId()).orElse(null);
         assertEquals(publisher, retrievedPublisher);
-
     }
 
     @Test
     public void testFindAllPublishers() {
         Publisher publisher = makePublisher();
-        ObjectId publisherId = new ObjectId();
-        ObjectId secondPublisherId = new ObjectId();
-        Publisher secondPublisher = new Publisher(publisherId);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("music store");
-        contactInformation.setEmail("thirdPublisher@ff.cc");
-        contactInformation.setPhoneNumber("87525632");
-        contactInformation.setAddress("gyldenvej 4");
-        contactInformation.setZipCode("2796");
-        contactInformation.setCity("Padborg");
-
-        secondPublisher.setUserType(UserType.PUBLISHER);
-        secondPublisher.setUserName("thirdpublisher");
-        secondPublisher.setPassword("r43tdhytf");
-        secondPublisher.setContactInformation(contactInformation);
-
-        Publisher thirdPublisher = new Publisher(secondPublisherId);
-        ContactInformation secondContactInformation = new ContactInformation();
-
-        secondContactInformation.setNickName("lej og byg");
-        secondContactInformation.setEmail("secondPublisher@ff.cc");
-        secondContactInformation.setPhoneNumber("26546235");
-        secondContactInformation.setAddress("hale 34");
-        secondContactInformation.setZipCode("2695");
-        secondContactInformation.setCity("Hals");
-
-        thirdPublisher.setUserType(UserType.PUBLISHER);
-        thirdPublisher.setUserName("secondpublisher");
-        thirdPublisher.setPassword("erw3ret544");
-        thirdPublisher.setContactInformation(secondContactInformation);
+        Publisher secondPublisher = makeSecondPublisher();
+        Publisher thirdPublisher = makeThirdPublisher();
 
         publisherRepository.save(publisher);
         publisherRepository.save(secondPublisher);
         publisherRepository.save(thirdPublisher);
 
         Collection<Publisher> publishers = publisherRepository.findAll();
-        assertNotNull(publishers);
+
         assertEquals(3, publishers.size());
     }
 

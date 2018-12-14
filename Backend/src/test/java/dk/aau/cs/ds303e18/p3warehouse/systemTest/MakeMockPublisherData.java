@@ -16,6 +16,7 @@ public class MakeMockPublisherData {
         contactInformation.setPhoneNumber("29575236");
         contactInformation.setZipCode("1694");
         contactInformation.setCity("Århus");
+        contactInformation.setCountry("Denmark");
 
         publisher.setContactInformation(contactInformation);
         publisher.setUserType(UserType.PUBLISHER);
@@ -34,6 +35,7 @@ public class MakeMockPublisherData {
         contactInformation.setAddress("hale 34");
         contactInformation.setZipCode("2695");
         contactInformation.setCity("Hals");
+        contactInformation.setCountry("Denmark");
 
         publisher.setUserType(UserType.PUBLISHER);
         publisher.setUserName("hals");
@@ -53,6 +55,7 @@ public class MakeMockPublisherData {
         contactInformation.setAddress("gyldenvej 4");
         contactInformation.setZipCode("2796");
         contactInformation.setCity("Padborg");
+        contactInformation.setCountry("Norway");
 
         publisher.setUserType(UserType.PUBLISHER);
         publisher.setUserName("music");

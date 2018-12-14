@@ -145,9 +145,6 @@ public class UserRepositoryTest {
         User retrievedUser = userRepository.findById(user.getId()).orElse(null);
 
         assertEquals(user.getUserType(), retrievedUser.getUserType());
-        assertEquals(user.getUserName(), retrievedUser.getUserName());
-        assertEquals(user.getPassword(), retrievedUser.getPassword());
-
     }
 
     @Test
@@ -190,7 +187,6 @@ public class UserRepositoryTest {
         User user = new User(client.getId());
         user.copyFrom(client);
 
-        assertEquals(client.getId(), user.getId());
         assertEquals(client.getUserName(), user.getUserName());
     }
 
@@ -219,7 +215,6 @@ public class UserRepositoryTest {
         userRepository.save(user);
 
         User retrievedUser = userRepository.findById(publisher.getId()).orElse(null);
-        assertNotNull(retrievedUser);
         assertEquals(publisher.getUserName(), retrievedUser.getUserName());
     }
 
@@ -235,7 +230,6 @@ public class UserRepositoryTest {
         User retrievedUser = userRepository.findById(user.getId()).orElse(null);
         Publisher retrievedPublisher = publisherRepository.findById(retrievedUser.getId()).orElse(null);
 
-        assertNotNull(retrievedPublisher);
         assertEquals(publisher.getId(), retrievedPublisher.getId());
     }
 
@@ -283,7 +277,6 @@ public class UserRepositoryTest {
 
         User retrievedUser = userRepository.findByPassword(publisher.getPassword()).orElse(null);
         assertEquals(publisher.getId(), retrievedUser.getId());
-        assertEquals(publisher.getPassword(), retrievedUser.getPassword());
     }
 
     @Test
@@ -312,7 +305,6 @@ public class UserRepositoryTest {
 
         User retrievedUsesr = userRepository.findByUserType(thirdClient.getUserType()).orElse(null);
         assertEquals(thirdClient.getId(), retrievedUsesr.getId());
-        assertEquals(thirdClient.getUserType(), retrievedUsesr.getUserType());
     }
 
     @Test

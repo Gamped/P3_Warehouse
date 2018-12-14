@@ -16,6 +16,7 @@ public class MakeMockClientData {
         contactInformation.setPhoneNumber("26589542");
         contactInformation.setZipCode("6599");
         contactInformation.setCity("Bamse");
+        contactInformation.setCountry("Finland");
 
         client.setContactInformation(contactInformation);
         client.setUserType(UserType.CLIENT);
@@ -35,6 +36,7 @@ public class MakeMockClientData {
         contactInformation.setPhoneNumber("298522654");
         contactInformation.setZipCode("9825");
         contactInformation.setCity("Hadsten");
+        contactInformation.setCountry("Denmark");
 
         client.setContactInformation(contactInformation);
         client.setUserType(UserType.CLIENT);
@@ -54,6 +56,7 @@ public class MakeMockClientData {
         contactInformation.setPhoneNumber("1568433546");
         contactInformation.setZipCode("5979");
         contactInformation.setCity("Rye");
+        contactInformation.setCountry("Sweeden");
 
         client.setUserType(UserType.CLIENT);
         client.setUserName("ryan");
@@ -73,6 +76,7 @@ public class MakeMockClientData {
         contactInformation.setAddress("møllevej 4");
         contactInformation.setZipCode("5497");
         contactInformation.setCity("Vice country");
+        contactInformation.setCountry("England");
 
         client.setUserName("hans");
         client.setPassword("3w4");

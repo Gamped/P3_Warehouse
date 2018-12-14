@@ -2,8 +2,6 @@ package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Employee;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
-import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +11,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockEmployeeData.makeEmployee;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockEmployeeData.makeSecondEmployee;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockEmployeeData.makeThirdEmployee;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -33,11 +34,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void testFindEmployeeById() {
-        Employee emp = new Employee(new ObjectId());
-        emp.setNickname("Jane");
-        emp.setUserType(UserType.EMPLOYEE);
-        emp.setPassword("123");
-        emp.setUserName("jane");
+        Employee emp = makeEmployee();
 
         employeeRepository.save(emp);
         Employee retrievedEmployee = employeeRepository.findById(emp.getId()).orElse(null);
@@ -46,27 +43,16 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void testFindInformation() {
-        Employee emp = new Employee(new ObjectId());
-        emp.setNickname("Jane");
-        emp.setUserType(UserType.EMPLOYEE);
-        emp.setPassword("123");
-        emp.setUserName("jane");
+        Employee emp = makeEmployee();
 
         employeeRepository.save(emp);
         Employee retrievedEmployee = employeeRepository.findById(emp.getId()).orElse(null);
         assertEquals(emp.getNickname(), retrievedEmployee.getNickname());
-        assertEquals(emp.getUserName(), retrievedEmployee.getUserName());
-        assertEquals(emp.getPassword(), retrievedEmployee.getPassword());
-        assertEquals(emp.getUserType(), retrievedEmployee.getUserType());
     }
 
     @Test
     public void testFindEmployeeByNickName() {
-        Employee emp = new Employee(new ObjectId());
-        emp.setNickname("Jane");
-        emp.setUserType(UserType.EMPLOYEE);
-        emp.setPassword("123");
-        emp.setUserName("jane");
+        Employee emp = makeEmployee();
 
         employeeRepository.save(emp);
         Employee retrievedEmployee = employeeRepository.findByNickname(emp.getNickname());
@@ -75,23 +61,9 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void findAllEmployees() {
-        Employee emp = new Employee(new ObjectId());
-        emp.setNickname("Jane");
-        emp.setUserType(UserType.EMPLOYEE);
-        emp.setPassword("123");
-        emp.setUserName("jane");
-
-        Employee emp2 = new Employee(new ObjectId());
-        emp2.setNickname("Casper");
-        emp2.setUserType(UserType.EMPLOYEE);
-        emp2.setPassword("123");
-        emp2.setUserName("casper");
-
-        Employee emp3 = new Employee(new ObjectId());
-        emp3.setNickname("Steen");
-        emp3.setUserType(UserType.EMPLOYEE);
-        emp3.setPassword("123");
-        emp3.setUserName("steen");
+        Employee emp = makeEmployee();
+        Employee emp2 = makeSecondEmployee();
+        Employee emp3 = makeThirdEmployee();
 
         employeeRepository.save(emp);
         employeeRepository.save(emp2);
@@ -104,11 +76,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void testFindEmployeeByUserId() {
-        Employee emp2 = new Employee(new ObjectId());
-        emp2.setNickname("Casper");
-        emp2.setUserType(UserType.EMPLOYEE);
-        emp2.setPassword("123");
-        emp2.setUserName("casper");
+        Employee emp2 = makeEmployee();
 
         User user = new User(emp2.getId());
         user.copyFrom(emp2);
@@ -123,11 +91,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void testDeleteEmployeeById() {
-        Employee emp2 = new Employee(new ObjectId());
-        emp2.setNickname("Casper");
-        emp2.setUserType(UserType.EMPLOYEE);
-        emp2.setPassword("123");
-        emp2.setUserName("casper");
+        Employee emp2 = makeEmployee();
 
         employeeRepository.save(emp2);
         employeeRepository.deleteById(emp2.getId());
@@ -136,17 +100,8 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void testDeleteAllEmployees() {
-        Employee emp2 = new Employee(new ObjectId());
-        emp2.setNickname("Casper");
-        emp2.setUserType(UserType.EMPLOYEE);
-        emp2.setPassword("123");
-        emp2.setUserName("casper");
-
-        Employee emp3 = new Employee(new ObjectId());
-        emp3.setNickname("Steen");
-        emp3.setUserType(UserType.EMPLOYEE);
-        emp3.setPassword("123");
-        emp3.setUserName("steen");
+        Employee emp2 = makeEmployee();
+        Employee emp3 = makeSecondEmployee();
 
         employeeRepository.save(emp2);
         employeeRepository.save(emp3);

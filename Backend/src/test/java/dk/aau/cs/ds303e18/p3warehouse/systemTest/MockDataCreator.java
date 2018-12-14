@@ -129,13 +129,24 @@ public class MockDataCreator {
         orderLines.add(secondOrderLine);
         orderLines.add(thirdOrderLine);
 
+        ArrayList<OrderLine> a = new ArrayList<>();
+        ArrayList<OrderLine> b = new ArrayList<>();
+        ArrayList<OrderLine> c = new ArrayList<>();
+        ArrayList<OrderLine> d = new ArrayList<>();
+        ArrayList<OrderLine> e = new ArrayList<>();
+
+        a.add(fourthOrderLine);
+        b.add(fifthOrderLine);
+        c.add(sixthOrderLine);
+        d.add(seventhOrderLine);
+        e.add(eightOrderLine);
 
         order.setOrderLines(orderLines);
-       secondOrder.setOrderLines(orderLines);
-        thirdOrder.setOrderLines(orderLines);
-        fourthOrder.setOrderLines(orderLines);
-        fifthOrder.setOrderLines(orderLines);
-        sixthOrder.setOrderLines(orderLines);
+        secondOrder.setOrderLines(a);
+        thirdOrder.setOrderLines(b);
+        fourthOrder.setOrderLines(c);
+        fifthOrder.setOrderLines(d);
+        sixthOrder.setOrderLines(e);
 
         Client client = makeClient();
         client.addOrder(secondOrder);
