@@ -52,7 +52,7 @@ export default class EditOrderAddress extends Component{
     render() {
         return(
             <div className="PageStyle customText_b">
-                    <div class="btn-group-vertical my-5 mx-5">
+                    <div class="col-md-4 offset-md-4 mt-4">
                         <input type="text" name="company" defaultValue={this.state.order.company} className="my-2 form-control" onChange={this.onChange} placeholder="Company"/> 
                         <input type="text" name="contactPerson" defaultValue={this.state.order.contactPerson} className="my-2 form-control" onChange={this.onChange} placeholder="Contact Person"/>
                         <input type="text" name="phoneNumber" defaultValue={this.state.order.phoneNumber} className="my-2 form-control" onChange={this.onChange} placeholder="Phonenumber"/>
@@ -61,9 +61,8 @@ export default class EditOrderAddress extends Component{
                         <input type="text" name="city" defaultValue={this.state.order.city} className="my-2 form-control" onChange={this.onChange} placeholder="City"/>
                         <input type="text" name="country" defaultValue={this.state.order.country} className="my-2 form-control" onChange={this.onChange} placeholder="Country"/>
 
-                        <button className="EOA_BTN col btn green_BTN mx-2" onClick={this.onSubmit}>Save Changes</button>
-                        <button className="EOA_BTN col btn red_BTN mx-2">Discard Changes</button>
-                        <Link to="/Admin/Orders/Edit" className="EOA_BTN col btn std_BTN mx-2 " role=" button" >Back</Link>
+                        <button className="EOA_BTN AdinOrderButtonSizer btn green_BTN mx-2" onClick={this.onSubmit}>Save Changes</button>
+                        <Link to="/Admin/Orders/Edit" className="EOA_BTN AdinOrderButtonSizer btn std_BTN mx-2 " role=" button" >Back</Link>
                     </div>
                 </div>
         )

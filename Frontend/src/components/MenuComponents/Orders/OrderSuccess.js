@@ -17,6 +17,7 @@ import { post } from '../../../handlers/requestHandlers';
     }
  
     goBack = () =>{
+        //TODO: DELETE REDUX HERE
         if(this.props.userType==="EMPLOYEE"){
             this.props.history.push("/Admin/Orders/New")
         }else{

@@ -1,14 +1,15 @@
 import React,{Component} from 'react';
 import ReactTable from 'react-table';
 import "../../Pages.css";
+import {connect} from "react-redux";
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
-import {get, put} from './../../../../handlers/requestHandlers.js';
+import {put} from './../../../../handlers/requestHandlers.js';
 import {makeOrderLinesData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
 import {amountIsNotANumberWarning, amountExceedingQuantityWarning} from './../../../../handlers/exceptions.js';
 import "./EditOrder.css";
 
 
-export default class EditOrder extends Component{
+class EditOrder extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -17,39 +18,8 @@ export default class EditOrder extends Component{
             userType: "",
             userHexId: "",
             selectedOrderLine: -1,
-            selectedProduct: -1
+            selectedOrderLine: {product:{quantity:"Nothing Chosen"}}
         }
-    }
-
-    componentDidMount() {
-        
-        this.getOrderLines();
-    }
-
-    getOrderLines() {
-        get("employee/order/"+this.props.match.params.id, (data)=> {
-            console.log("data")
-            const orderLines = makeOrderLinesData(data);
-            
-            this.setState({
-                orderLines: orderLines, 
-                owner: {userType: data.owner.userType,
-                        userHexId: data.owner.userHexId,
-                        nickName: data.owner.nickName }
-            });
-
-            this.getCustomerStock(data.owner.userType, data.owner.userHexId);
-        });
-    }
-
-
-
-    getCustomerStock(userType, userHexId) {
-
-        get("employee/"+userType.toLowerCase()+"/"+userHexId, (data) => {
-            const stock = makeCustomerProductsData(data);
-            this.setState({stock: stock});
-        });
     }
 
     addOrderLine = (e) => {
@@ -119,84 +89,112 @@ export default class EditOrder extends Component{
     updateOrder = (e) => {
         e.preventDefault();
         put("orders/update/"+this.props.match.params.id, this.state.orderLines, (response) => {
-            console.log(response);
+            console.log("response: ",response);
         })
         
 
     }
 
     render() {
+        console.log("State:",this.state)
         
-        let orderLineColumns = getColumnsFromArray(["Product Name", "Product Id", "Amount", "Quantity"]);
-        orderLineColumns[2].Cell = this.renderEditable;
-        let orderLines = this.state.orderLines;
+        let newLines = [];
+        let orderLines = this.props.orderLines
+        if(orderLines !== undefined){
+            orderLines.forEach((orderLine) => {
+                orderLine.product.amount = orderLine.quantity;
+            })
+            orderLines.forEach((orderLine) => {
+                newLines.push(orderLine.product)
+            })
+        }
+        
+        console.log("orderlines:",orderLines)
 
-        const stockColumns = getColumnsFromArray(["Product Name", "Quantity"]);
-        let stock = this.state.stock;
-
+       let orderLineColumns = getColumnsFromArray(["Product Name", "Product Id", "Amount", "Quantity"]);
+        
         return (
-            <div className="PageStyle customText_b">
+             <div className="PageStyle customText_b">
                 <div className="frameBordering">
                     <div className="EditOrderLeft">
-                        <ReactTable 
-                            data={orderLines}
-                            columns={orderLineColumns}
-                            showPagination={false}
-                            className="editOrderColor -striped -highlight"
-                            getTrProps={(state, rowInfo) => {
-                                if (rowInfo && rowInfo.row) {
-                                    return {
-                                    onClick: (e) => {    
-                                        this.setState({selectedOrderLine: rowInfo.index})
-                                        console.log(this.state.selectedOrderLine)
-                                    },
-                                    style: {
-                                        background: rowInfo.index === this.state.selectedOrderLine ? '#00afec' : 'white'
-                                        
-                                    }
+                    <ReactTable 
+                        data={newLines}
+                        columns={orderLineColumns}
+                        showPagination={false}
+                        className="editOrderColor -striped -highlight"
+                        getTrProps={(state, rowInfo) => {
+                            if (rowInfo && rowInfo.row) {
+                                return {
+                                onClick: (e) => {    
+                                    this.setState({selectedOrderLine: rowInfo.original, selectedOrderLineNumber:rowInfo.index}, ()=>{console.log("Selected Orderline:",this.state.selectedOrderLine)})
+                                },
+                                style: {
+                                    background: rowInfo.index === this.state.selectedOrderLine ? '#00afec' : 'white',
+                                    
                                 }
-                                }else{
-                                    return {}
-                                }
-                            }}
-                            style={{height: "70vh"}}
-                        />
-                        <button className="AdinOrderButtonSizer green_BTN btn mx-1 " onClick={this.addOrderLine}> Add Product </button>
-                        <button className="AdinOrderButtonSizer red_BTN btn mx-1 my-5" onClick={this.removeOrderLine}>Remove Product</button>
+                            }
+                            }else{
+                                return {}
+                            }
+                        }}
+                        style={{height: "70vh"}}
+                    />   
+                        <div className="EditOrderLeftBTNs">             
+                            <button className="AdinOrderButtonSizer green_BTN btn " onClick={this.addOrderLine}> Add Product </button>
+                            <button className="AdinOrderButtonSizer red_BTN btn" onClick={this.removeOrderLine}>Remove Product</button>
+                        </div>
                     </div>
 
 
                     <div className="EditOrderRight">
-                        <ReactTable 
-                                data={stock}
-                                columns={stockColumns}
-                                className="Products"
-                                showPagination={false} 
-                                className=" -striped -highlight"
-                                getTrProps={(state, rowInfo) => {
-                                    if (rowInfo && rowInfo.row) {
-                                        return {
-                                            onClick: (e) => {
-                                                this.setState({selectedProduct: rowInfo.index})
-                                            },
-                                            style: {
-                                                background: rowInfo.index === this.state.selectedProduct ? '#00afec' : 'white',
-                                                color: rowInfo.index === this.state.selectedProduct ? 'white' : 'black'
-                                            }
-                                        }
-                                    }else{
-                                        return {}
-                                    }      
-                                }}
-                                style={{height: "70vh"}}
-                            />
-                            <button className="btn AdinOrderButtonSizer std_BTN btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+ this.props.match.params.id)}>Edit Address</button>        
-                            <button className="col btn AdinOrderButtonSizer blue_BTN mx-2" onClick={this.updateOrder}>Save Content</button>
-                            <button className="col btn AdinOrderButtonSizer dark_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>                       
-                    </div>
+                        <form>
+                            <div className="EditOrderTextFields">        
+                                <div className="input-group my-2">
+                                    <div className="input-group-prepend">
+                                        <label className="input-group-text" htmlFor="name" id="Item">Name</label> 
+                                    </div>
+                                    <input id="name" className="form-control" type="text" name="name" onChange={()=>{}} defaultValue={this.state.selectedOrderLine.productName} placeholder="Name"/>
+                                </div>
 
+                                <div className="input-group my-2">
+                                    <div className="input-group-prepend">
+                                        <label className="input-group-text" htmlFor="id" id="Item2">product Id</label> 
+                                    </div>
+                                    <input id="id" className="form-control" type="text" name="id" onChange={()=>{}} defaultValue={this.state.selectedOrderLine.productId} placeholder="Product id"/>
+                                </div>
+
+                                <div className="input-group my-2">
+                                    <div className="input-group-prepend">
+                                        <label className="input-group-text" htmlFor="amount" id="Item3">Amount</label> 
+                                    </div>
+                                    <input id="amount" className="form-control" type="number" name="amount" onChange={()=>{}} defaultValue={this.state.selectedOrderLine.amount} placeholder="Amount ordered"/>
+                                </div>
+
+                                <div className="input-group my-2">
+                                    <div className="input-group-prepend">
+                                        <label className="input-group-text" htmlFor="name" id="Item">Quantity in Stock: </label> 
+                                    </div>
+                                    <label id="name" className="input-group-text" type="text"> {this.state.selectedOrderLine.quantity}</label>
+                                </div>
+                            </div>
+                            <div className="EditOrderRightBTNs">
+                                <button className="btn AdinOrderButtonSizer std_BTN btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+ this.props.match.params.id)}>Edit Address</button>        
+                                <button className="col btn AdinOrderButtonSizer blue_BTN mx-2" onClick={this.updateOrder}>Save Content</button>
+                                <button className="col btn AdinOrderButtonSizer dark_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>      
+                            </div>   
+                        </form>              
+                    </div>
                 </div>       
             </div>                        
         )
     }
 }
+
+const mapStateToProps = (state) =>{
+    return{
+        order: state.orderReducer.selectedOrder,
+        orderLines: state.orderReducer.selectedOrder.orderLines
+    }
+}
+
+export default connect(mapStateToProps)(EditOrder)

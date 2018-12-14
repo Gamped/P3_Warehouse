@@ -24,3 +24,21 @@
 .editOrderColor{
     background-color: rgb(190, 190, 190);
 }
+
+.EditOrderTextFields{
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+.EditOrderRightBTNs{
+    position: absolute;
+    bottom: 2vh;
+    width: 100%;
+}
+
+.EditOrderLeftBTNs{
+    position: absolute;
+    bottom: 2vh;
+    width: 100%;
+}
