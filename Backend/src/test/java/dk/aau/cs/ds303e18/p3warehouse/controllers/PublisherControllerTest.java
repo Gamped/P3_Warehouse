@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -27,42 +28,15 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class PublisherControllerTest {
 
-    @InjectMocks
+    @Autowired
     PublisherController publisherController;
 
-    @Mock
+    @Autowired
     PublisherRepository publisherRepository;
-
-    @Test
-    public void publisherControllerLoads() throws Exception {
-        assertThat(publisherController).isNotNull();
-    }
 
     @Before
     public void start() {
-        MockitoAnnotations.initMocks(this);
-    }
-
-    @Test
-    public void testFindAllPublishers() {
-        ObjectId id = new ObjectId();
-        ObjectId publisherId = new ObjectId();
-        Publisher publisher = new Publisher(id);
-        Publisher secondPublisher = new Publisher(publisherId);
-
-        publisher.setUserName("billy");
-        secondPublisher.setUserName("holly");
-
-        List<Publisher> publisherList = new LinkedList<>();
-        publisherList.add(publisher);
-        publisherList.add(secondPublisher);
-
-        when(publisherRepository.findAll()).thenReturn(publisherList);
-
-        Iterable<Publisher> publishers = publisherController.findAll();
-        verify(publisherRepository).findAll();
-
-        assertEquals(publisherList, publishers);
+        publisherRepository.deleteAll();
     }
 
     @Test

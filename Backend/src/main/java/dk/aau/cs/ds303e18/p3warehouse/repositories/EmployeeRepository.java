@@ -15,6 +15,8 @@ public interface EmployeeRepository extends MongoRepository<Employee, ObjectId> 
 
     Employee findById(@PathVariable String hexId);
 
+    Employee findByUserName(@PathVariable String userName);
+
     public void deleteById(@PathVariable ObjectId id);
 
 }

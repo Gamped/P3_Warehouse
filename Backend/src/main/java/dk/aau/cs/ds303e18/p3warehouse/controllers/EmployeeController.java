@@ -42,7 +42,7 @@ public class EmployeeController {
 
 
     @PostMapping("/employee/employees")
-    private String createEmployee(@RequestBody RestEmployeeModel restEmployeeModel){
+    String createEmployee(@RequestBody RestEmployeeModel restEmployeeModel){ //Can't test it if private. Deal with it.
         ObjectId id = new ObjectId();
         Employee employee = new Employee(id);
         BeanUtils.copyProperties(restEmployeeModel, employee);
