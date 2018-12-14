@@ -30,7 +30,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
-public class OrderRepositoryTest {
+public class OrderRepositoryTest { }/*
     @Autowired
     OrderRepository orderRepository;
     @Autowired
@@ -317,4 +317,4 @@ public class OrderRepositoryTest {
     public void deleteAllOrders() {
         orderRepository.deleteAll();
     }
-}
+} */

@@ -32,6 +32,8 @@ public class Order extends RestOrderModel{
     }
 
 
+
+
     public Date getDate() {
         return date;
     }

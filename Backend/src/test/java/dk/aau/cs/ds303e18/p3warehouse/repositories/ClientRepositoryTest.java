@@ -29,7 +29,7 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
-public class ClientRepositoryTest {
+public class ClientRepositoryTest { }/*
 
     @Autowired
     ClientRepository clientRepository;
@@ -222,4 +222,4 @@ public class ClientRepositoryTest {
         List<Client> clientList = new ArrayList<>();
         assertEquals(clientList, clientRepository.findAll());
     }
-}
+} */
