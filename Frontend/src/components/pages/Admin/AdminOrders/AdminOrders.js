@@ -5,7 +5,7 @@ import ReactTable from "react-table";
 import "../../Pages.css";
 import "./AdminOrders.css";
 import {allProductsNotPackedWarning} from "./../../../../handlers/exceptions.js";
-import {makeAllPublishersAndClientsOrdersData, makeClientsOrdersData} from "./../../../../handlers/dataHandlers.js"
+import {makeAllOrdersData} from  "./../../../../handlers/dataHandlers/adminOrderDataHandler";
 import {get, del} from "./../../../../handlers/requestHandlers.js"
 import {packListPDF, orderNotePDF} from "./../../../../handlers/pdfHandlers.js"
 import {getColumnsFromArray} from "./../../../../handlers/columnsHandlers.js"
@@ -34,40 +34,14 @@ class AdminOrders extends Component {
     }
 
     componentDidMount() {
-        this.getIndependentClients();
-        this.getPublishers();
         this.getOrders();
     }
 
     getOrders = () =>{
-        get("employee/orders", (data)=>{
-            this.setState({pureOrders:data},()=>{
-                console.log(this.state)
-            })
-        })
-    }
+        get("employee/orders", (data) => {
 
-    getPublishers() {
-        get("employee/publishers", (data)=> {
-            console.log(data);
-            const orders = makeAllPublishersAndClientsOrdersData(data);
-            console.log("ORDERS " + orders)
-            
-            this.setState({ 
-                data: data,
-                orders: this.state.orders.concat(orders)
-            });
-        })
-    }
-
-    getIndependentClients(){
-        get("clients/independent", (data)=> {
-
-            const orders = makeClientsOrdersData(data);
-            this.setState({
-                data: data,
-                orders: this.state.orders.concat(orders)
-            })
+            const orders = makeAllOrdersData(data);
+            this.setState({orders: orders});
         })
     }
 
@@ -147,7 +121,7 @@ class AdminOrders extends Component {
         this.props.history.push(address);
     }
 
-    finishOrder() {
+    finishOrder = (e) => {
         let allPacked = this.state.allPacked;
         if (allPacked == 1) {
             del("orders/delete/:id" + this.state.selectedId, () => {});
@@ -155,12 +129,14 @@ class AdminOrders extends Component {
             allProductsNotPackedWarning();
         }
     }
-    deleteOrder = (e) =>{
-        
-        console.log(this.state.selectedId)
+
+    deleteOrder = (e) => {
+
         del("orders/delete/" + this.state.selectedId, (response) => {
-            let newOrders = this.state.orders.filter(item=>item.hexId!==this.state.selectedId)
+            console.log(response);
+            window.location.reload();
             this.setState({selectedId:"",orders:newOrders})
+
         });
     }
 
@@ -178,20 +154,9 @@ class AdminOrders extends Component {
 
     render() {
       
-        const orders = this.state.orders;
-
-        let noSelectedOrderItem = [{
-            productName: "No selected order",
-            date: 0,
-            amount: 0,
-            packed: 0
-        }];
-  
         const orderColumns = getColumnsFromArray(["Owner", "Date", "Order Id"]);
-
         let orderLineColumns = getColumnsFromArray(["Product Id", "Product Name", "Amount"]);
-        
-            orderLineColumns.push(this.getCheckBoxColumn());
+        orderLineColumns.push(this.getCheckBoxColumn());
 
         return (
             <div className="PageStyle AdminOrderFontMinimize customText_b">
@@ -199,7 +164,7 @@ class AdminOrders extends Component {
                     <div className="AdminOrderLeft">
                         <div className="leftReactTableAdminOrder OrderList ">
                             <ReactTable 
-                            data={orders}
+                            data={this.state.orders}
                             columns={orderColumns} 
                             showPagination={false} 
                             className=" -striped -highlight darkenReactTable"
@@ -233,7 +198,7 @@ class AdminOrders extends Component {
                     
                     <div className="AdminOrderRight">
                         <div className="Table rightReactTableAdminOrder">
-                                <ReactTable data={this.state.orderLines ? this.state.orderLines : noSelectedOrderItem}
+                                <ReactTable data={this.state.orderLines}
                                  columns={orderLineColumns} 
                                  showPagination={false} 
                                 className="-striped -highlight"
@@ -243,7 +208,7 @@ class AdminOrders extends Component {
                                 </div>
                        </div> 
                              <button type= "button" className="AdinOrderButtonSizer btn std_BTN mx-2  " >Export Order</button> 
-                             <button type= "button" className="AdinOrderButtonSizer btn blue_BTN mx-2 "onClick={()=>this.finishOrder()}>Finish Order</button> 
+                             <button type= "button" className="AdinOrderButtonSizer btn blue_BTN mx-2 "onClick={this.finishOrder}>Finish Order</button> 
                     </div>    
                 </div>    
             </div>
