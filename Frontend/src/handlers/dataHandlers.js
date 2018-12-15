@@ -28,38 +28,6 @@ export function makeProductsData(productStream) {
     return product;
 }
 
-  export function makeAllPublishersAndClientsOrdersData(data) {
-        var orders = [];
-        let owner, ownerHexId = "";
-
-        data.forEach((publisher) => {
-            if (ordersExist(publisher)) {
-                owner = publisher.contactInformation.nickName;
-                ownerHexId = publisher.hexId;
-
-                publisher.orderStream.forEach((order) => {
-                    orders.push(addOrder(order, owner, ownerHexId));
-                }); 
-            }
-
-            if (clientsExist(publisher)) {
-                publisher.clientStream.forEach((client) => {
-                    
-                    if (ordersExist(client)) {
-                        owner = client.contactInformation.nickName;
-                        ownerHexId = client.hexId;
-    
-                        client.orderStream.forEach((order) => {
-                            orders.push(addOrder(order, owner, ownerHexId));
-                            
-                        });
-                    }
-                });
-            }
-        });
-
-        return orders;
-}
 
 export function makePublisherAndItsClientsOrdersData(publisher) {
     var orders = [];
@@ -150,22 +118,7 @@ export function clientsExist(publisher) {
     return publisher.numberOfClient != 0;
 }
 
-export function addOrder(order, owner, ownerHexId) {
-    let orderObject = {};
-    orderObject.ownerHexId = ownerHexId ? ownerHexId : order.owner.userHexId;
-    orderObject.owner = owner ? owner : order.owner.nickName;
-    orderObject.orderId = order.orderId;
-    orderObject.date = makeDateString(order.date);
-    orderObject.hexId = order.hexId;
-    orderObject.orderLines = order.orderLines.map((orderLine) => {
-        return {
-            productName: orderLine.product.productName,
-            amount: orderLine.quantity,
-            productId: orderLine.product.productId
-        }
-    })
-    return orderObject;
-}
+
 
 
 
@@ -208,19 +161,7 @@ export function makeEmployeeData(data) {
     return employees;
 }
 
-export function makeOrderLinesData(data) {
-    let orderLines = [];
 
-    data.orderLines.forEach((orderLine) => {
-        orderLines.push({
-            productName: orderLine.product.productName,
-            amount: orderLine.quantity,
-            quantity: orderLine.product.quantity,
-            productId: orderLine.product.productId
-        })
-    })
-    return orderLines;
-}
 
 export const makeCustomerData = (data) =>{
     var customers = [];
@@ -305,4 +246,54 @@ export function makeOrderAddressData(data) {
     order.city = data.city;
 
     return order;
+}
+
+
+export function makeAdminOrderData(orders) {
+    var orders = [];
+    let owner, ownerHexId = "";
+    if (orders) {
+ 
+    orders.forEach((order) => {
+       
+            owner = order.contactInformation.nickName;
+            ownerHexId = order.hexId;
+            orders.push(addOrder(order, owner, ownerHexId));
+         
+            })
+        }
+    return orders;
+}
+
+
+
+export function makeOrderLinesData(data) {
+    let orderLines = [];
+
+    data.orderLines.forEach((orderLine) => {
+        orderLines.push({
+            productName: orderLine.product.productName,
+            amount: orderLine.quantity,
+            quantity: orderLine.product.quantity,
+            productId: orderLine.product.productId
+        })
+    })
+    return orderLines;
+}
+
+export function addOrder(order, owner, ownerHexId) {
+    let orderObject = {};
+    orderObject.ownerHexId = ownerHexId ? ownerHexId : order.owner.userHexId;
+    orderObject.owner = owner ? owner : order.owner.nickName;
+    orderObject.orderId = order.orderId;
+    orderObject.date = makeDateString(order.date);
+    orderObject.hexId = order.hexId;
+    orderObject.orderLines = order.orderLines.map((orderLine) => {
+        return {
+            productName: orderLine.product.productName,
+            amount: orderLine.quantity,
+            productId: orderLine.product.productId
+        }
+    })
+    return orderObject;
 }
