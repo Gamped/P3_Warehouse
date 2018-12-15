@@ -44,7 +44,7 @@ public class PublisherRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
-    @Before
+    @Test
     public void deleteAll() {
         productRepository.deleteAll();
         publisherRepository.deleteAll();

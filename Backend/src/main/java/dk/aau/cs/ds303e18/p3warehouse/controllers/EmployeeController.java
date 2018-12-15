@@ -112,7 +112,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/employee/clients")
-    String createIndependentClient(@RequestBody RestCustomerModel restCustomerModel) {
+    String createClient(@RequestBody RestCustomerModel restCustomerModel) {
 
         Client client = new Client(new ObjectId());
         User user = new User(client.getId());
@@ -133,7 +133,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/employee/publishers/{publisherId}/clients")
-    String createClient(@RequestBody RestCustomerModel restCustomerModel, @PathVariable String publisherId) {
+    String createPublisherClient(@RequestBody RestCustomerModel restCustomerModel, @PathVariable String publisherId) {
 
         Client client = new Client(new ObjectId());
         User user = new User(client.getId());
