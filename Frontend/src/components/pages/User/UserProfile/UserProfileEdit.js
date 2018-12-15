@@ -167,32 +167,49 @@ class UserProfileEdit extends React.Component {
                                     <div className="input-group-prepend">
                                         <span className="input-group-text" id="basic-addon4">Zip Code</span>
                                     </div>
-                                <input
-                                    name="zipCode" 
-                                    type="text" 
-                                    className="form-control" 
-                                    onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.zipCode} required/>
-                                <input
-                                    name="country" 
-                                    type="text" 
-                                    className="my-2 form-control" 
-                                    onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.country} required/>
-                                <input
-                                    name="passwordNew"
-                                    type="password" 
-                                    className="my-2 form-control" 
-                                    onChange={this.onChangeHandler}
-                                    placeholder="New password" required/>
-                                <input
-                                    name="passwordNewRepeat" 
-                                    type="password" 
-                                    className="my-2 form-control" 
-                                    onChange={this.onChangeHandler}
-                                    placeholder="New password repeat" required/>
-                            
-                        </div>
+                                    <input
+                                        name="zipCode" 
+                                        type="text" 
+                                        className="form-control" 
+                                        onChange={this.onChangeHandler}
+                                        defaultValue={this.props.user.zipCode} required/>
+                                </div>
+
+                                <div className="input-group mb-2">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" id="basic-addon5">Country</span>
+                                    </div>
+                                    <input
+                                        name="country" 
+                                        type="text" 
+                                        className="form-control" 
+                                        onChange={this.onChangeHandler}
+                                        defaultValue={this.props.user.country} required/>
+                                </div>
+                                    
+                                <div className="input-group mb-2">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" id="basic-addon5">New password</span>
+                                    </div>
+                                    <input
+                                        name="passwordNew"
+                                        type="password" 
+                                        className="form-control" 
+                                        onChange={this.onChangeHandler}
+                                        placeholder="New password" />
+                                </div>
+
+                                <div className="input-group mb-2">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" id="basic-addon5">Repeat password</span>
+                                    </div>
+                                    <input
+                                        name="passwordNewRepeat" 
+                                        type="password" 
+                                        className="form-control" 
+                                        onChange={this.onChangeHandler}
+                                        placeholder="New password repeat" />
+                                    </div>
                             <form className="newForm stockForm">
                                 <button className="btn btn-block green_BTN my-2" onClick={this.confirmed}>Edit profile</button>
                             </form> </form> 

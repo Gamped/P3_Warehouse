@@ -10,7 +10,6 @@ class CreateUser extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            publisherTableShows:false,
             userType:"CLIENT",
             userName:"",
             password:"",
@@ -37,7 +36,8 @@ class CreateUser extends React.Component{
     getPublishers() {
         
         get('employee/publishers', (data) => {
-            const publishers = makeCustomerData(data);
+            let publishers = makeCustomerData(data);
+            publishers.push({nickName:"Independent client",userType:"Create",hexId:"IC"})
             this.setState({ publishers: publishers});
        });
     }
@@ -55,14 +55,19 @@ class CreateUser extends React.Component{
         })
     }
 
+    toggleUserType = () =>{
+        if(this.state.userType === "CLIENT"){
+            this.setState({userType:"PUBLISHER"},()=>{console.log(this.state)})
+        }else{
+            this.setState({userType:"CLIENT"},()=>{console.log(this.state)})
+        }
+    }
+
     onSubmit=(e)=>{
         e.preventDefault();
        
-        console.log(this.state.email)
         const fields = this.state;
-        console.log("Her")
         if (customerProfileFieldsAreValidated(fields)) {
-        console.log("I iffen")
         const body = {
                     userName:this.state.userName,
                     password:this.state.password,
@@ -70,11 +75,19 @@ class CreateUser extends React.Component{
                     contactInformation:{
                         nickName:this.state.nickName,
                         email:this.state.email,
-                        phoneNumber:this.state.phoneNumber
+                        phoneNumber:this.state.phoneNumber,
+                        address: this.state.address,
+                        city: this.state.city,
+                        zipCode:this.state.zip
                         }
                     }
                    
-            if(this.state.publisherTableShows===true){
+            if(this.state.userType==="CLIENT"){
+                if(this.state.selectedActorHexId === "IC"){
+
+                }else{
+                    
+                }
                 post("employee/clients", body, (response)=>{
                     this.props.history.push("/Admin/Users/")
                     });
@@ -94,12 +107,11 @@ class CreateUser extends React.Component{
             this.setState({
                 selectedActorHexId:e.target.value,
                 selectedActorUserType:this.state.publishers.find(x=>x.hexId===e.target.value).userType.toUpperCase()
-            })
+            },()=>{console.log(this.state)})
     
         } else {
             publisherNotSetOnClientProfileCreationWarning();
         }
-            console.log(this.state.selectedActorHexId);
     }
 
     render(){
@@ -107,12 +119,12 @@ class CreateUser extends React.Component{
             <div className="PageStyle customText_b">
                 <h1 className="customText_b_big text-center">Create a new user</h1>
                 <div className="col-md-4 offset-md-4">
-                    <form>
+                    <form onSubmit={this.onSubmit}>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="login">Login:</label>
                             </div>
-                            <input type="text" className="form-control" id="login" name="userName" placeholder="The username the company logs in with" onChange={this.onChange} required autoFocus/>
+                            <input type="text" className="form-control" id="login" name="userName" placeholder="Username for Login" onChange={this.onChange} required autoFocus/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
@@ -167,21 +179,21 @@ class CreateUser extends React.Component{
                             <input type="text" className="form-control" id="zipCode" name="zipCode" placeholder="Fx. 9000 (Optional)" onChange={this.onChange}/>
                         </div>
 
-
-                             <button type="button" className="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showPublisherDropdown(false)} >Make Publisher</button> 
-                             <button type="button" className="btn btn-success" data-toggle="button" aria-pressed="false" autocomplete="off" onClick ={()=> this.showPublisherDropdown(true)}>Client</button>
-
-                        {    
-                            this.state.publisherTableShows?
-                            <div>
-                                <Dropdown actors = {this.state.publishers} action={this.setSelected}/>
+                        <div className="input-group my-3">
+                            <div className="input-group-prepend">
+                                <label className="input-group-text" htmlFor="publisher?">Publisher?:</label>
                             </div>
-                            :null
-                        }
+                            <input type="checkbox" className="form-control"  onChange={this.toggleUserType}/>
+                        </div>
+
+                        <label className="input-group-text" htmlFor="dropdown">If Client, please choose publisher:</label>
+                        <Dropdown className="form-control" actors = {this.state.publishers} action={this.setSelected} id="dropdown"/>
+
+                             
                         <div className="row">
                             <div className="col my-3 mx-4">
 
-                                <button className="btn btn-success btn-block" onClick={this.onSubmit}>Create User</button>
+                                <button className="btn btn-success btn-block" type="submit">Create User</button>
 
                             </div>
                             <div className="col my-3 mx-4">
