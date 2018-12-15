@@ -34,11 +34,14 @@ export function makePublisherAndItsClientsOrdersData(publisher) {
     let owner, ownerHexId = "";
 
     if (ordersExist(publisher)) {
+        console.log("Orders exist")
+
         owner = publisher.contactInformation.nickName;
         ownerHexId = publisher.hexId;
 
         publisher.orderStream.forEach((order) => {
             orders.push(addOrder(order, owner, ownerHexId));
+            console.log(orders);
         }); 
     }
 
@@ -51,6 +54,7 @@ export function makePublisherAndItsClientsOrdersData(publisher) {
 
                 client.orderStream.forEach((order) => {
                     orders.push(addOrder(order, owner, ownerHexId));
+                    console.log("client orders ", orders)
                     
                 });
             }
@@ -103,8 +107,8 @@ export function makeClientOrdersData(client, owner, ownerHexId) {
 
 export function ordersExist(customer) {
     if (customer.orderStream) {
-    if (customer.orderStream != null) {
-        if (customer.orderStream != undefined) {
+    if (customer.orderStream !== null) {
+        if (customer.orderStream !== undefined) {
             if (customer.orderStream.length !== 0) {
                 return true;
             }
@@ -283,9 +287,12 @@ export function makeOrderLinesData(data) {
 
 export function addOrder(order, owner, ownerHexId) {
     let orderObject = {};
+    if (order !== null && order.orderId !== null) {
+        
+  
     orderObject.ownerHexId = ownerHexId ? ownerHexId : order.owner.userHexId;
     orderObject.owner = owner ? owner : order.owner.nickName;
-    orderObject.orderId = order.orderId;
+    orderObject.orderId = order.orderId !== null ? order.orderId : "No Order Id";
     orderObject.date = makeDateString(order.date);
     orderObject.hexId = order.hexId;
     orderObject.orderLines = order.orderLines.map((orderLine) => {
@@ -295,5 +302,6 @@ export function addOrder(order, owner, ownerHexId) {
             productId: orderLine.product.productId
         }
     })
+}
     return orderObject;
 }

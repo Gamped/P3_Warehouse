@@ -32,8 +32,9 @@ class UserStock extends React.Component {
         
         get(userType + 's/' + id + '/products', (data) => {
             let products = [];
+            console.log(data)
             
-            userType === 'publisher' ? products = makeCustomerProductsData(data) : products = makeProductsData(data);
+             products = makeProductsData(data);
 
             this.setState({ products: products });
     });
