@@ -112,7 +112,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/employee/clients")
-    String createClient(@RequestBody RestCustomerModel restCustomerModel) {
+    String createIndependentClient(@RequestBody RestCustomerModel restCustomerModel) {
 
         Client client = new Client(new ObjectId());
         User user = new User(client.getId());
@@ -127,6 +127,37 @@ public class EmployeeController {
                 userRepository.save(user);
                 clientRepository.save(client);
                 return "Created!";
+            } else return "Invalid User";
+        }
+        return "Username already taken";
+    }
+
+    @PostMapping("/employee/publishers/{publisherId}/clients")
+    String createClient(@RequestBody RestCustomerModel restCustomerModel, @PathVariable String publisherId) {
+
+        Client client = new Client(new ObjectId());
+        User user = new User(client.getId());
+        Publisher publisher = null;
+        try {
+            publisher = publisherRepository.findById(new ObjectId(publisherId)).orElseThrow(() -> new Exception(publisherId));
+        }
+        catch(Exception e){
+            return "Could not find publisher on id: " + publisherId;
+        }
+
+        BeanUtils.copyProperties(restCustomerModel, client);
+        BeanUtils.copyProperties(restCustomerModel, user);
+
+        client.setUserType(UserType.CLIENT);
+        user.setUserType(UserType.CLIENT);
+        client.setPublisher(publisher);
+        publisher.addClient(client);
+        if(clientRepository.findAll().stream().noneMatch(x -> x.getUserName().equals(client.getUserName()))) {
+            if (client.isValid()) {
+                userRepository.save(user);
+                clientRepository.save(client);
+                publisherRepository.save(publisher);
+                return "Created client: " + client.getHexId() + " with reference to publisher: " + publisher.getId();
             } else return "Invalid User";
         }
         return "Username already taken";
@@ -304,6 +335,11 @@ public class EmployeeController {
         client.unassignAllOrders().forEach(orderRepository::delete);
         client.unassignAllProducts().forEach(productRepository::save);
         User user = userRepository.findById(id).orElse(null);
+        if(client.getPublisher() != null){
+            Publisher publisher = publisherRepository.findById(client.getPublisher().getHexId()).orElse(null);
+            publisher.removeClient(client);
+            publisherRepository.save(publisher);
+        }
         clientRepository.delete(client);
         userRepository.delete(user);
     }
