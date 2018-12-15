@@ -1,0 +1,18 @@
+{
+        "address": "GAMSE",
+        "city": "GAMSE",
+        "company": "GAMSE",
+        "contactPerson": "GAMSE",
+        "country": "GAMSE",
+        "date": 1544738128135,
+        "orderId": "3255",
+        "orderLines": [
+            {
+                "productHexId": "5c14ef37aaf38814d7a09cd2",
+                "quantity": 10
+            }
+        ],
+        "phoneNumber": "99635485",
+        "title": "Order of satan",
+        "zipCode": "9523"
+    }

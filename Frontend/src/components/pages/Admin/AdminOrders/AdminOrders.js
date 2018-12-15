@@ -135,6 +135,8 @@ class AdminOrders extends Component {
         del("orders/delete/" + this.state.selectedId, (response) => {
             console.log(response);
             window.location.reload();
+            this.setState({selectedId:"",orders:newOrders})
+
         });
     }
 

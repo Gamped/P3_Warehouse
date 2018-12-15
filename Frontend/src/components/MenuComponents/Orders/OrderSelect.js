@@ -124,22 +124,27 @@ class UserOrder extends React.Component {
 
     changeToCart = (event) => {
         event.preventDefault()
-        this.props.setItemToCart(this.state.orderLines)
-        const userType = this.props.userType
-        const {userSelectedId} = this.state
-        if(userType === "EMPLOYEE"){
-            if(userSelectedId!==undefined&&userSelectedId!==null&&userSelectedId!==""){
-                this.props.setCustomerToCart({userType:this.state.userSelectedType,userId:this.state.userSelectedId})
-                console.log(this.state.selectedId)
-                this.props.history.push("/Admin/Order/Cart")
-            }else{
-                window.alert("Please select a customer you are ordering for.")
-            }
+        if(this.state.orderLines.length !== 0){
+            this.props.setItemToCart(this.state.orderLines)
+            const userType = this.props.userType
+            const {userSelectedId} = this.state
             
+            if(userType === "EMPLOYEE"){
+                if(userSelectedId!==undefined&&userSelectedId!==null&&userSelectedId!==""){
+                    this.props.setCustomerToCart({userType:this.state.userSelectedType,userId:this.state.userSelectedId})
+                    console.log(this.state.selectedId)
+                    this.props.history.push("/Admin/Order/Cart")
+                }else{
+                    window.alert("Please select a customer you are ordering for.")
+                }
+                
+            }else{
+                this.props.history.push("/User/Order/Cart")
+            }
+    
         }else{
-            this.props.history.push("/User/Order/Cart")
-        }
-        
+            window.alert("You need to add something to your cart")
+        }        
     }
 
     renderEditable = cellInfo => {
