@@ -46,9 +46,6 @@ public class ClientController {
         return clientRepository.findAll();
     }
 
-    @GetMapping("/clients/independent")
-    Iterable<Client> findAllIndependentClients(){ return clientRepository.findByPublisherId(null); }
-
     @GetMapping("/clients/{hexId}")
     Client findClientById(@PathVariable String hexId) {
         return clientRepository.findById(new ObjectId(hexId)).orElse(null);

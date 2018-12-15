@@ -19,5 +19,7 @@ public interface ClientRepository extends MongoRepository<Client, ObjectId> {
 
     Client findById(@PathVariable String hexId);
 
+    Client findByUserName(@PathVariable String userName);
+
 
 }

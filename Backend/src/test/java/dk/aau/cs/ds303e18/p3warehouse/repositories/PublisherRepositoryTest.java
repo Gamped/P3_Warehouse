@@ -1,30 +1,33 @@
 package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.ContactInformation;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Date;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.greaterThanOrEqualTo;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockClientData.makeClient;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockOrderData.makeOrder;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockOrderData.makeSecondOrder;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockOrderData.makeThirdOrder;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockProductData.makeProduct;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockProductData.makeSecondProduct;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockPublisherData.makePublisher;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockPublisherData.makeSecondPublisher;
+import static dk.aau.cs.ds303e18.p3warehouse.systemTest.MakeMockPublisherData.makeThirdPublisher;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
@@ -38,77 +41,23 @@ public class PublisherRepositoryTest {
     ProductRepository productRepository;
     @Autowired
     OrderRepository orderRepository;
+    @Autowired
+    UserRepository userRepository;
 
-    public Client makeClient() {
-        ObjectId id = new ObjectId();
-        Client client = new Client(id);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("Hans");
-        contactInformation.setEmail("fes@gr.gdr");
-        contactInformation.setPhoneNumber("15334888");
-        contactInformation.setAddress("møllevej 4");
-        contactInformation.setZipCode("5497");
-
-        client.setUserName("Client");
-        client.setPassword("3wdgr4");
-        client.setUserType(UserType.CLIENT);
-        client.setContactInformation(contactInformation);
-
-        return client;
+    @Before
+    public void deleteAll() {
+        productRepository.deleteAll();
+        publisherRepository.deleteAll();
+        clientRepository.deleteAll();
+        orderRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
-    public Product makeProduct() {
-        ObjectId productId = new ObjectId();
-
-        Product product = new Product(productId);
-        product.setQuantity(400);
-        product.setProductName("cycling news");
-        product.setProductId("342525");
-
-        return product;
-    }
-
-    public Order makeOrder() {
-        ObjectId orderId = new ObjectId();
-        Order order = new Order(orderId);
-        order.setTitle("flyers");
-        order.setOrderId("3255");
-        order.setAddress("musvej 3");
-        order.setDate(new Date());
-
-        return order;
-    }
-
-    public Publisher makePublisher() {
-        ObjectId publisherId = new ObjectId();
-        Publisher publisher = new Publisher(publisherId);
-        ContactInformation contactInformation = new ContactInformation();
-
-        contactInformation.setNickName("karen");
-        contactInformation.setEmail("cyc@fff.dd");
-        contactInformation.setPhoneNumber("2564866235");
-        contactInformation.setAddress("mosevej 54");
-        contactInformation.setZipCode("5495");
-        publisher.setUserName("Publisher");
-        publisher.setPassword("fee2224");
-        publisher.setUserType(UserType.PUBLISHER);
-        publisher.setContactInformation(contactInformation);
-
-        return publisher;
-    }
-
-    @Test
-    public void testFindAllPublishers(){
-        List<Publisher> publishers = publisherRepository.findAll();
-        assertThat(publishers.size(), is(greaterThanOrEqualTo(0)));
-    }
 
     @Test
     public void savePublisher(){
         Publisher publisher = makePublisher();
         publisherRepository.save(publisher);
-        System.out.println(publisher.getHexId());
         Optional<Publisher> optionalPublisher = publisherRepository.findById(publisher.getHexId());
         Publisher retrievedPublisher = optionalPublisher.get();
         assertEquals(publisher.getHexId(), retrievedPublisher.getHexId());
@@ -152,7 +101,7 @@ public class PublisherRepositoryTest {
     public void publisherProducts(){
         Publisher publisher = makePublisher();
         Product product = makeProduct();
-        Product secondProduct = makeProduct();
+        Product secondProduct = makeSecondProduct();
 
         publisher.addProduct(product);
         publisher.addProduct(secondProduct);
@@ -172,13 +121,17 @@ public class PublisherRepositoryTest {
     @Test
     public void testPublisherOrder(){
         Order order = makeOrder();
-        Order secondOrder = makeOrder();
-        Order thirdOrder = makeOrder();
+        Order secondOrder = makeSecondOrder();
+        Order thirdOrder = makeThirdOrder();
         Publisher publisher = makePublisher();
+
 
         publisher.addOrder(order);
         publisher.addOrder(secondOrder);
         publisher.addOrder(thirdOrder);
+        order.setOwner(publisher);
+        secondOrder.setOwner(publisher);
+        thirdOrder.setOwner(publisher);
 
         publisherRepository.save(publisher);
         orderRepository.save(order);
@@ -194,18 +147,107 @@ public class PublisherRepositoryTest {
     }
 
     @Test
+    public void testPublisherClientOrders() {
+        Order secondOrder = makeSecondOrder();
+        Order order = makeOrder();
+        Order thirdOrder = makeThirdOrder();
+        Publisher publisher = makePublisher();
+        Client client = makeClient();
+
+        client.addOrder(order);
+        client.addOrder(secondOrder);
+        client.addOrder(thirdOrder);
+        order.setOwner(client);
+        secondOrder.setOwner(client);
+        thirdOrder.setOwner(client);
+        publisher.addClient(client);
+        client.setPublisher(publisher);
+
+        publisherRepository.save(publisher);
+        orderRepository.save(order);
+        orderRepository.save(secondOrder);
+        orderRepository.save(thirdOrder);
+        clientRepository.save(client);
+
+        Publisher retrievedPublisher = publisherRepository.findById(publisher.getId()).orElse(null);
+        Stream<Client> clientStream = retrievedPublisher.getClientStream();
+        List<Client> clientList = clientStream.collect(Collectors.toList());
+
+        Stream<Order> orderStream = null;
+        for (Client aClient : clientList) {
+            orderStream = aClient.getOrderStream();
+        }
+
+        List<Order> orderList = orderStream.collect(Collectors.toList());
+        assertEquals(3, orderList.size());
+    }
+
+    @Test
     public void testFindInformation(){
         Publisher publisher = makePublisher();
 
         publisherRepository.save(publisher);
 
-        Optional<Publisher> optPublisher = publisherRepository.findById(publisher.getHexId());
-        Publisher retrievedPublisher = optPublisher.get();
+        Publisher retrievedPublisher = publisherRepository.findById(publisher.getHexId()).orElse(null);
 
-        assertEquals(publisher.getUserName(), retrievedPublisher.getUserName());
         assertEquals(publisher.getPassword(), retrievedPublisher.getPassword());
-        assertEquals(publisher.getContactInformation(), retrievedPublisher.getContactInformation());
-        assertEquals(publisher.getUserType(), retrievedPublisher.getUserType());
+    }
+
+    @Test
+    public void testPublisherClientProducts() {
+        Publisher publisher = makePublisher();
+        Client client = makeClient();
+        Product product = makeProduct();
+        Product secondProduct = makeSecondProduct();
+
+        publisher.addClient(client);
+        client.addProduct(product);
+        client.addProduct(secondProduct);
+        client.setPublisher(publisher);
+
+        publisherRepository.save(publisher);
+        productRepository.save(product);
+        productRepository.save(secondProduct);
+        clientRepository.save(client);
+
+        Publisher retrievedPublisher = publisherRepository.findById(publisher.getId()).orElse(null);
+        Stream<Client> clientStream = retrievedPublisher.getClientStream();
+        List<Client> clientList = clientStream.collect(Collectors.toList());
+        Stream<Product> productStream = null;
+        for (Client aClientList : clientList) {
+            productStream = aClientList.getProductStream();
+        }
+        List<Product> productList = productStream.collect(Collectors.toList());
+
+        assertEquals(2, productList.size());
+    }
+
+    @Test
+    public void testFindPublisherByUserId() {
+        Publisher publisher = makePublisher();
+        User user = new User(publisher.getId());
+        user.copyFrom(publisher);
+
+        publisherRepository.save(publisher);
+        userRepository.save(user);
+
+        Publisher retrievedPublisher = publisherRepository.findById(user.getId()).orElse(null);
+        assertEquals(publisher, retrievedPublisher);
+    }
+
+    @Test
+    public void testFindAllPublishers() {
+        Publisher publisher = makePublisher();
+        Publisher secondPublisher = makeSecondPublisher();
+        Publisher thirdPublisher = makeThirdPublisher();
+
+        publisherRepository.save(publisher);
+        publisherRepository.save(secondPublisher);
+        publisherRepository.save(thirdPublisher);
+
+        Collection<Publisher> publishers = publisherRepository.findAll();
+
+        assertEquals(3, publishers.size());
     }
 
     @Test
@@ -213,6 +255,7 @@ public class PublisherRepositoryTest {
         Publisher publisher = makePublisher();
 
         publisherRepository.save(publisher);
+
         publisherRepository.deleteById(publisher.getHexId());
 
         Assert.assertNull( publisherRepository.findById(publisher.getId()).orElse(null));

@@ -102,7 +102,7 @@ public class PublisherController {
     }
 
 @GetMapping("/publishers/{hexId}/products")
-    Stream<Product> findPublisherInfoById(@PathVariable("hexId") String hexId) {
+    Stream<Product> findPublisherProducts(@PathVariable("hexId") String hexId) {
 
         ObjectId objectId = new ObjectId(hexId);
         return publisherRepository.findById(objectId).orElse(null).getProductStream();

@@ -145,6 +145,7 @@ public class OrderController {
         try{
             order.addProductsBackToStock();
             BeanUtils.copyProperties(responseBody, order);
+            System.out.println(order);
             order.subtractProductsFromStock();
         }
         catch (InvalidQuantityException e){
@@ -160,7 +161,7 @@ public class OrderController {
             break;
         }
         orderRepository.save(order);
-        return "Created order with id: " + order.getHexId();
+        return "Updated order with id: " + order.getHexId();
     }
 
     @GetMapping("/employee/orders")

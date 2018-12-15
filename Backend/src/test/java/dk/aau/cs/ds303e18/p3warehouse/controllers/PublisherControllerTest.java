@@ -2,15 +2,22 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
+import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
+import dk.aau.cs.ds303e18.p3warehouse.repositories.UserRepository;
 import org.bson.types.ObjectId;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -18,102 +25,89 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import static dk.aau.cs.ds303e18.p3warehouse.models.DummyProduct.makeDummyProduct;
+import static dk.aau.cs.ds303e18.p3warehouse.models.DummyPublisher.makeDummyPublisher;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PublisherControllerTest {
 
-    @InjectMocks
+    @Autowired
     PublisherController publisherController;
 
-    @Mock
+    @Autowired
     PublisherRepository publisherRepository;
-
-    @Test
-    public void publisherControllerLoads() throws Exception {
-        assertThat(publisherController).isNotNull();
-    }
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    ProductRepository productRepository;
 
     @Before
     public void start() {
-        MockitoAnnotations.initMocks(this);
-    }
-
-    @Test
-    public void testFindAllPublishers() {
-        ObjectId id = new ObjectId();
-        ObjectId publisherId = new ObjectId();
-        Publisher publisher = new Publisher(id);
-        Publisher secondPublisher = new Publisher(publisherId);
-
-        publisher.setUserName("billy");
-        secondPublisher.setUserName("holly");
-
-        List<Publisher> publisherList = new LinkedList<>();
-        publisherList.add(publisher);
-        publisherList.add(secondPublisher);
-
-        when(publisherRepository.findAll()).thenReturn(publisherList);
-
-        Iterable<Publisher> publishers = publisherController.findAll();
-        verify(publisherRepository).findAll();
-
-        assertEquals(publisherList, publishers);
+        publisherRepository.deleteAll();
+        userRepository.deleteAll();
+        productRepository.deleteAll();
     }
 
     @Test
     public void testFindPublisherById() {
-        ObjectId id = new ObjectId();
-        Publisher publisher = new Publisher(id);
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        publisherRepository.save(publisher);
 
-        when(publisherRepository.findById(publisher.getId())).thenReturn(Optional.of(publisher));
-
-        Optional<Publisher> optPublisher = publisherController.findById(String.valueOf(publisher.getHexId()));
-        Publisher retrievedPublisher = optPublisher.get();
-        verify(publisherRepository).findById(publisher.getId());
-        assertEquals(publisher.getId(), retrievedPublisher.getId());
+        assertEquals(publisher.getUserName(), publisherController.findById(publisher.getHexId()).get().getUserName());
     }
 
     @Test
     public void testNewPublisher() {
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
         RestPublisherModel restPublisherModel = new RestPublisherModel();
-        restPublisherModel.setUserName("GoMore");
 
+        BeanUtils.copyProperties(publisher, restPublisherModel);
         publisherController.newPublisher(restPublisherModel);
+
+        assertEquals(1, publisherRepository.findAll().size());
     }
 
     @Test
     public void testUpdatePublisher() {
-        ObjectId id = new ObjectId();
-        Publisher publisher = new Publisher(id);
-        RestPublisherModel restPublisher = new RestPublisherModel();
-        publisher.setUserName("sophia");
-        restPublisher.setUserName("kent");
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        RestPublisherModel restPublisherModel = new RestPublisherModel();
+        BeanUtils.copyProperties(publisher, restPublisherModel);
 
-        System.out.println(publisher);
-        when(publisherRepository.findById(publisher.getId())).thenReturn(Optional.of(publisher));
+        publisherRepository.save(publisher);
+        userRepository.save(publisher);
+        restPublisherModel.setUserName("Rho Aias");
+        publisherController.update(publisher.getHexId(), restPublisherModel);
 
-        String updatePublisher = publisherController.update(publisher.getHexId(), restPublisher);
-        verify(publisherRepository).findById(publisher.getId());
-
-        assertEquals("Publisher updated! \n" + publisher.getUserName() + "\n" + publisher.getHexId(),
-                updatePublisher);
+        Assert.assertTrue(restPublisherModel.getUserName().equals(
+                publisherRepository.findById(publisher.getHexId()).get().getUserName()));
     }
 
     @Test
     public void testDeletePublisherById() {
-        ObjectId id = new ObjectId();
-        Publisher publisher = new Publisher(id);
-
-        when(publisherRepository.findById(publisher.getId())).thenReturn(Optional.of(publisher));
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        publisherRepository.save(publisher);
+        userRepository.save(publisher);
 
         publisherController.delete(publisher.getHexId());
-        verify(publisherRepository).deleteById(publisher.getId());
-
         assertEquals(0, publisherRepository.findAll().size());
+    }
+
+    @Test
+    public void testFindPublishersProducts(){
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        for(int i = 0; i < 5; ++i){
+            Product product = makeDummyProduct(i, publisher);
+            publisher.addProduct(product);
+            productRepository.save(product);
+        }
+        publisherRepository.save(publisher);
+
+        assertEquals(5, publisherController.findPublisherProducts(publisher.getHexId()).toArray().length);
     }
 }
