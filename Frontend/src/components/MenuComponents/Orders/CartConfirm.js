@@ -28,19 +28,20 @@ import { post } from '../../../handlers/requestHandlers';
             userType = userType.toLowerCase()
             post('orders/'+userId+'/'+userType, {body}, (response) => {
                 console.log(response)
-                /*if(response !== "Created!"){
-                    this.props.history.push("/Admin/Order/Failed")
-                }else{
+                if(response.includes("Created!")){
                     this.props.history.push("/Admin/Order/Success")
-                }*/
+                }else{
+                    this.props.history.push("/Admin/Order/Failed")
+                }
             });
         }else{
-            userType = userType.toLowerCase()
-            post('orders/'+userId+'/'+userType, {body}, (response) => {
-                if(response !== "Created!"){
-                    this.props.history.push("/User/Order/Failed")
-                }else{
+            let type = userType.toLowerCase()
+            post('orders/'+userId+'/'+type, {body}, (response) => {
+                console.log(response)
+                if(response.includes("Created!")){
                     this.props.history.push("/User/Order/Success")
+                }else{
+                    this.props.history.push("/User/Order/Failed")
                 }
             });
         }

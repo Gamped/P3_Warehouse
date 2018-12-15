@@ -159,7 +159,8 @@ class AdminOrders extends Component {
         
         console.log(this.state.selectedId)
         del("orders/delete/" + this.state.selectedId, (response) => {
-            console.log(response);
+            let newOrders = this.state.orders.filter(item=>item.hexId!==this.state.selectedId)
+            this.setState({selectedId:"",orders:newOrders})
         });
     }
 
