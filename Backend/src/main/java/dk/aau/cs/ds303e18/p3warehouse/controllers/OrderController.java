@@ -50,9 +50,6 @@ public class OrderController {
         userType = userType.toUpperCase();
         Customer owner = null;
 
-        System.out.println("Kom ind i funktionen");
-        
-
         try{
             switch(UserType.valueOf(userType)){
                 case CLIENT: owner = clientRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
@@ -64,34 +61,22 @@ public class OrderController {
             return "User not found on id: " + userHexId;
         }
 
-        System.out.println(owner.getHexId());
-
-
         Order newOrder = new Order(new ObjectId());
         BeanUtils.copyProperties(order, newOrder);
-
         owner.addOrder(newOrder);
         newOrder.setOwner(owner);
-
-        System.out.println(newOrder.getId() + "ORDER ID");
-
         ArrayList<OrderLine> updatedOrderLines = new ArrayList<>();
-        System.out.println(order.getOrderLines().size());
-        System.out.println();
+
         try {
             for (OrderLine x : order.getOrderLines()) {
-
-                System.out.println("");
-
-                System.out.println("Når hertil ");
-                Optional<Product> optionalOrderLineProduct = productRepository.findById(new ObjectId(x.getProductHexId()));
-
-
-                Product orderLineProduct = optionalOrderLineProduct.get();
-                System.out.println("Når også her");
-                System.out.println("Quantity " + orderLineProduct.getQuantity());
-
-                if (orderLineProduct.getQuantity() >= x.getQuantity()) {
+                Product orderLineProduct = null;
+                try {
+                    orderLineProduct = productRepository.findById(new ObjectId(x.getProductHexId())).orElseThrow(() -> new Exception(x.getProductHexId()));
+                }
+                catch (Exception e){
+                    return "Could not find product with id: " + x.getProductHexId();
+                }
+                 if (orderLineProduct.getQuantity() >= x.getQuantity()) {
                     orderLineProduct.subtract(x.getQuantity());
                     x.setProduct(orderLineProduct);
                     updatedOrderLines.add(x);
@@ -103,7 +88,9 @@ public class OrderController {
             return "Cannot order more than stock in product: " + e.getMessage();
         }
 
-        productRepository.saveAll(updatedOrderLines.stream().map(x -> x.getProduct()).collect(Collectors.toSet()));
+        for (OrderLine l : updatedOrderLines){
+            productRepository.save(l.getProduct());
+        }
         switch (owner.getUserType()) {
             case CLIENT:
                 clientRepository.save((Client) owner);
@@ -178,8 +165,13 @@ public class OrderController {
         Order queryedOrder = orderRepository.findById(new ObjectId(hexId)).orElse(null);
         if(queryedOrder != null){
             Customer owner = queryedOrder.getOwner();
+            Collection<Product> updatedProducts = new ArrayList<>();
             try {
                 owner.removeOrder(queryedOrder);
+                updatedProducts = queryedOrder.getOrderLines().stream().map(x -> {
+                    x.getProduct().setQuantity(x.getProduct().getQuantity() + x.getQuantity());
+                    return x.getProduct();
+                }).collect(Collectors.toCollection(ArrayList::new));
             }
             catch(Exception e){
 
@@ -197,6 +189,9 @@ public class OrderController {
             }
             catch(Exception e){
 
+            }
+            for(Product p : updatedProducts){
+                productRepository.save(p);
             }
             orderRepository.deleteById(new ObjectId(hexId));
             return "Order deleted?";
