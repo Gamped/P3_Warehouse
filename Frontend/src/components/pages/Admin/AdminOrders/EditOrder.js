@@ -96,6 +96,7 @@ class EditOrder extends Component{
 
         console.log(this.state,this.props.orderLine)
         
+        
     }
 
     render() {
@@ -111,8 +112,6 @@ class EditOrder extends Component{
                 newLines.push(orderLine.product)
             })
         }
-        
-        console.log("orderlines:",orderLines)
 
        let orderLineColumns = getColumnsFromArray(["Product Name", "Product Id", "Amount", "Quantity"]);
         
@@ -182,7 +181,7 @@ class EditOrder extends Component{
                             </div>
                             <div className="EditOrderRightBTNs">
                                 <button className="btn AdinOrderButtonSizer std_BTN btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+ this.props.match.params.id)}>Edit Address</button>        
-                                <button className="col btn AdinOrderButtonSizer blue_BTN mx-2" type="submit">Save Content</button>
+                                <button className="col btn AdinOrderButtonSizer blue_BTN mx-2" type="submit" onClick={this.updateOrder}>Save Content</button>
                                 <button className="col btn AdinOrderButtonSizer dark_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>      
                             </div>   
                         </form>              
