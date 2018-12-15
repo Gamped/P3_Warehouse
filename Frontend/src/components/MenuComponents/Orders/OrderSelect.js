@@ -52,9 +52,9 @@ class UserOrder extends React.Component {
      }
  
      getPublishers() {
-        get('employee/publishers', (data) => {
-             const publishers = makeCustomerData(data);
-             this.concatinateWithNewData(publishers);
+        get('employee/publishers', (data) => { 
+            const publishers = makeCustomerData(data);
+            this.concatinateWithNewData(publishers);
          });
      }
  
@@ -78,9 +78,10 @@ class UserOrder extends React.Component {
         }else{
             get(userType + 's/' + id + '/products', (data) => {
                 let products = [];
-
-                userType === 'publisher' ? products = makeCustomerProductsData(data) : products = makeProductsData(data);
-
+                console.log(data)
+                
+                 products = makeProductsData(data);
+    
                 this.setState({ products: products });
             });
         }
