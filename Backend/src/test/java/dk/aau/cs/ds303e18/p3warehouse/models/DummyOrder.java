@@ -1,6 +1,7 @@
-package dk.aau.cs.ds303e18.p3warehouse.models.users;
+package dk.aau.cs.ds303e18.p3warehouse.models;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import org.bson.types.ObjectId;
 
 public class DummyOrder {

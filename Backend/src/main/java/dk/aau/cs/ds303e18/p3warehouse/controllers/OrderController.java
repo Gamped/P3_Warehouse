@@ -67,6 +67,10 @@ public class OrderController {
         newOrder.setOwner(owner);
         ArrayList<OrderLine> updatedOrderLines = new ArrayList<>();
 
+        if(!(order.getOrderLines().size() > 0)){
+            return "No orderlines";
+        }
+
         try {
             for (OrderLine x : order.getOrderLines()) {
                 Product orderLineProduct = null;
