@@ -104,7 +104,7 @@ public class ClientControllerTest {
         BeanUtils.copyProperties(client, restCustomerModel);
         employeeController.createClient(restCustomerModel);
 
-        clientController.deleteClient(client.getHexId());
+        clientController.deleteClient(clientRepository.findAll().get(0).getHexId());
 
         assertEquals(0, clientRepository.findAll().size());
     }
