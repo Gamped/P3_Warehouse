@@ -78,7 +78,7 @@ class UserOrder extends React.Component {
         }else{
             get(userType + 's/' + id + '/products', (data) => {
                 let products = [];
-                console.log(data)
+                console.log("DATA:",data)
                 
                  products = makeProductsData(data);
     
