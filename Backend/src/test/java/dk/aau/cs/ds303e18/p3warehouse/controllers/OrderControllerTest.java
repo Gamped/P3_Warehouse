@@ -4,7 +4,9 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 import com.fasterxml.jackson.databind.util.BeanUtil;
 import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
+import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestOrderModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
@@ -15,8 +17,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,6 +31,7 @@ import static dk.aau.cs.ds303e18.p3warehouse.models.DummyPublisher.makeDummyPubl
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,6 +42,8 @@ public class OrderControllerTest {
 
     @Autowired
     OrderController orderController;
+    @Autowired
+    PublisherController publisherController;
     @Autowired
     OrderRepository orderRepository;
     @Autowired
@@ -128,6 +135,48 @@ public class OrderControllerTest {
     }
 
     @Test
+    public void updateOrder(){
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        Order order = makeDummyOrder(0, publisher);
+        publisher.addOrder(order);
+
+        publisherRepository.save(publisher);
+        orderRepository.save(order);
+
+        RestOrderModel restOrderModel = new RestOrderModel();
+        restOrderModel.setCity("Lancelot");
+        orderController.updateOrder(order.getHexId(), restOrderModel);
+
+        assertEquals(restOrderModel.getCity(), orderRepository.findById(order.getId()).get().getCity());
+    }
+
+    @Test
+    public void updateOrderWithProduct(){
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        Order order = makeDummyOrder(0, publisher);
+        publisher.addOrder(order);
+
+        Product product = makeDummyProduct(10, publisher);
+        publisher.addProduct(product);
+        try {order.withNewOrderLine(product, 2);}
+        catch (InvalidQuantityException e) {e.printStackTrace();}
+
+        publisherRepository.save(publisher);
+        orderRepository.save(order);
+        productRepository.save(product);
+
+        RestOrderModel restOrderModel = new RestOrderModel();
+        ArrayList<OrderLine> orderLines = new ArrayList<>();
+        orderLines.add(new OrderLine(product, 9));
+        restOrderModel.setOrderLines(orderLines);
+        orderController.updateOrder(order.getHexId(), restOrderModel);
+
+        assertEquals(restOrderModel.getOrderLines().get(0).getQuantity(), orderRepository.findById(order.getId()).get().getOrderLines().get(0).getQuantity());
+    }
+
+    
+
+    @Test
     public void testFindAllOrders() {
         ObjectId id = new ObjectId();
         ObjectId objectId = new ObjectId();
@@ -151,6 +200,6 @@ public class OrderControllerTest {
         assertNotNull(orders);
         assertEquals(3, orders.size());
         assertEquals(orderList, orders);
-    }
+    } //To be rewritten.
 
 }

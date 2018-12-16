@@ -108,7 +108,7 @@ public class OrderController {
     }
 
     @PutMapping("/employee/orders/{hexId}")
-    private String updateOrder(@PathVariable String hexId, @RequestBody RestOrderModel responseBody){
+    String updateOrder(@PathVariable String hexId, @RequestBody RestOrderModel responseBody){ //privacy removed to allow unit testing.
         Order order;
         try {
             order = orderRepository.findById(new ObjectId(hexId)).orElseThrow(() -> new Exception());
