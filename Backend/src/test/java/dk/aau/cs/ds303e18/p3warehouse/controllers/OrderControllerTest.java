@@ -174,32 +174,30 @@ public class OrderControllerTest {
         assertEquals(restOrderModel.getOrderLines().get(0).getQuantity(), orderRepository.findById(order.getId()).get().getOrderLines().get(0).getQuantity());
     }
 
-    
-
     @Test
     public void testFindAllOrders() {
-        ObjectId id = new ObjectId();
-        ObjectId objectId = new ObjectId();
-        ObjectId orderId = new ObjectId();
+        for(int i = 0; i < 5; ++i){
+            Publisher publisher = makeDummyPublisher(0, new ObjectId());
+            Order order = makeDummyOrder(0, publisher);
+            publisher.addOrder(order);
+            publisherRepository.save(publisher);
+            orderRepository.save(order);
+        }
 
-        Order order = new Order(id);
-        Order secondOrder = new Order(objectId);
-        Order thirdOrder = new Order(orderId);
+        assertEquals(5, orderController.findAllOrders().size());
+    }
 
-        List<Order> orderList = new LinkedList<>();
-        orderList.add(order);
-        orderList.add(secondOrder);
-        orderList.add(thirdOrder);
+    @Test
+    public void testFinishOrder(){
+        Publisher publisher = makeDummyPublisher(0, new ObjectId());
+        Order order = makeDummyOrder(0, publisher);
+        publisher.addOrder(order);
+        publisherRepository.save(publisher);
+        orderRepository.save(order);
 
-        when(orderRepository.findAll()).thenReturn(orderList);
+        orderController.finishOrder(order.getHexId());
 
-        Collection<Order> orders = orderController.findAllOrders();
-
-        verify(orderRepository).findAll();
-
-        assertNotNull(orders);
-        assertEquals(3, orders.size());
-        assertEquals(orderList, orders);
-    } //To be rewritten.
+        assertEquals(0, orderRepository.findAll().size());
+    }
 
 }
