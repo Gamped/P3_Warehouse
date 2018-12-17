@@ -89,7 +89,7 @@ class UserProfileEdit extends React.Component {
                     <h1 className="customText_b_big">Edit profile:</h1>
                     <div className="row">
                         <div className ="col-md-4 offset-md-4">
-                            <form>
+                            <form onSubmit={this.confirmed}>
                                 <div className="input-group mb-2">
                                     <div className="input-group-prepend">
                                         <span className="input-group-text" id="basic-addon10">User Name</span>
@@ -210,9 +210,10 @@ class UserProfileEdit extends React.Component {
                                         onChange={this.onChangeHandler}
                                         placeholder="New password repeat" />
                                     </div>
-                            <form className="newForm stockForm">
-                                <button className="btn btn-block green_BTN my-2" onClick={this.confirmed}>Edit profile</button>
-                            </form> </form> 
+                                <div className="newForm stockForm">
+                                    <button className="btn btn-block green_BTN my-2" type="submit">Edit profile</button>
+                                </div> 
+                            </form> 
                             
                             <Link to="/User/Profile" className="std_BTN btn btn-block btn my-2">Back</Link>
                             
