@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import ReactTable from 'react-table';
 import "./UserOrder.css";
 import {connect} from "react-redux";
-import {get} from "./../../../../handlers/requestHandlers.js";
+import {get, del} from "./../../../../handlers/requestHandlers.js";
 import {makeDataFromOrderList, makePublisherAndItsClientsOrdersData} from '../../../../handlers/dataHandlers.js';
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 
@@ -68,6 +68,18 @@ class UserOrder extends React.Component {
         this.setState({seletedOrder: selectedOrder});
     }
 
+    deleteOrder = () =>{
+        if(this.state.selectedId !== ""){
+            del("orders/delete/"+this.state.selectedId,()=>{
+                let newOrders = this.state.orders.filter(x=>x.hexId!==this.state.selectedId)
+                this.setState({orders:newOrders})
+            })
+        }else{
+            window.alert("Please select something")
+        }
+
+    }
+
     render() {
 
         const orderColumns = getColumnsFromArray(["Order Id", "Owner", "Date"]);
@@ -105,7 +117,7 @@ class UserOrder extends React.Component {
                     </div>
                     <div className="UserOrderRight">
                         <Link to="/User/Order/Select" className="btn green_BTN btn-block">Create new order</Link>
-                        <Link to="/Home" className="btn red_BTN btn-block">Remove order</Link>
+                        <button onClick={this.deleteOrder} className="btn red_BTN btn-block">Remove order</button>
                   </div>
                 </div>
                        

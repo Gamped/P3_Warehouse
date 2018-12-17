@@ -67,6 +67,10 @@ public class OrderController {
         newOrder.setOwner(owner);
         ArrayList<OrderLine> updatedOrderLines = new ArrayList<>();
 
+        if(!(order.getOrderLines().size() > 0)){
+            return "No orderlines";
+        }
+
         try {
             for (OrderLine x : order.getOrderLines()) {
                 Product orderLineProduct = null;
@@ -104,7 +108,7 @@ public class OrderController {
     }
 
     @PutMapping("/employee/orders/{hexId}")
-    private String updateOrder(@PathVariable String hexId, @RequestBody RestOrderModel responseBody){
+    String updateOrder(@PathVariable String hexId, @RequestBody RestOrderModel responseBody){ //privacy removed to allow unit testing.
         Order order;
         try {
             order = orderRepository.findById(new ObjectId(hexId)).orElseThrow(() -> new Exception());
