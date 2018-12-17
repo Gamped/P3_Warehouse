@@ -160,23 +160,23 @@ class CreateUser extends React.Component{
 
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="nickName">Address:</label>
+                                <label className="input-group-text" htmlFor="address">Address:</label>
                             </div>
-                            <input type="text" className="form-control" id="address" name="address" placeholder="Fx. Industrivej 2 (Optional)" onChange={this.onChange}/>
+                            <input type="text" className="form-control" id="address" name="address" placeholder="Fx. Industrivej 2" onChange={this.onChange} required/>
                         </div>
 
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="nickName">City:</label>
+                                <label className="input-group-text" htmlFor="city">City:</label>
                             </div>
-                            <input type="text" className="form-control" id="city" name="city" placeholder="Fx. Aalborg (Optional)" onChange={this.onChange}/>
+                            <input type="text" className="form-control" id="city" name="city" placeholder="Fx. Aalborg" onChange={this.onChange} required/>
                         </div>
 
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="nickName">Zipcode:</label>
+                                <label className="input-group-text" htmlFor="zipCode">Zipcode:</label>
                             </div>
-                            <input type="text" className="form-control" id="zipCode" name="zipCode" placeholder="Fx. 9000 (Optional)" onChange={this.onChange}/>
+                            <input type="text" className="form-control" id="zipCode" name="zipCode" placeholder="Fx. 9000" onChange={this.onChange} required/>
                         </div>
 
                         <div className="input-group my-3">

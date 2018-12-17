@@ -24,7 +24,7 @@ public class UserController {
 
 
     @GetMapping("/users/login/{userName}/{password}")
-    private User authenticateUser(@PathVariable("userName") String userName, @PathVariable("password") String password){
+    User authenticateUser(@PathVariable("userName") String userName, @PathVariable("password") String password){ //Had to remove privacy to allow testing.
         User user = userRepository.findByUserName(userName).orElse(null);
 
         if(user != null && user.getPassword().equals(password)){
