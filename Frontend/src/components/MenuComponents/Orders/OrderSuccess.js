@@ -2,15 +2,12 @@ import React from 'react';
 import "./Order.css";
 import "./Cart.css";
 import { connect } from "react-redux";
-import {makeOrderBodyFromData} from "../../../handlers/bodyHandlers";
-import { post } from '../../../handlers/requestHandlers';
 
  class UserCartConfirm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            userID: this.props.userId,
             products: props.productList,
             address: {}
         };
@@ -19,7 +16,7 @@ import { post } from '../../../handlers/requestHandlers';
     goBack = () =>{
         //TODO: DELETE REDUX HERE
         if(this.props.userType==="EMPLOYEE"){
-            this.props.history.push("/Admin/Orders/New")
+            this.props.history.push("/Admin/Orders")
         }else{
             this.props.history.push("/User/Order")
         }

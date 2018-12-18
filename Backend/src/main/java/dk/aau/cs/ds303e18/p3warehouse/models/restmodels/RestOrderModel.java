@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import org.json.JSONArray;
 
 public class RestOrderModel {
+   // private JSONArray orderLines;
     private ArrayList<OrderLine> orderLines;
     private String orderId;
     private String title;
@@ -20,7 +22,9 @@ public class RestOrderModel {
     private String country;
     private String company;
 
-    public RestOrderModel(){
+
+    public RestOrderModel() {
+
         this.orderLines = new ArrayList<>();
     }
 
