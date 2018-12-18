@@ -7,6 +7,7 @@ import {amountIsNotANumberWarning, amountExceedingQuantityWarning} from './../..
 import "./EditOrder.css";
 import { connect } from 'react-redux';
 import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
+import OrderSelect from '../../../MenuComponents/Orders/OrderSelect';
 
 
 class EditOrder extends Component{
@@ -30,9 +31,12 @@ class EditOrder extends Component{
     }
 
     onChangeHandler = (e) =>{
-        this.setState({[e.target.name]:e.target.value}, ()=>{
-            console.log(this.state)
-        })
+        let orderLines = this.state.orderLines;
+        orderLines[this.state.selectedOrderLineNumber].amount = e.target.value;
+       
+        this.setState({orderLines: orderLines});
+
+
     }
 
     addOrderLine = (e) => {
@@ -101,16 +105,13 @@ class EditOrder extends Component{
      
     updateOrder = (e) => {
         e.preventDefault();
+
         const data = makeOrderBodyFromData(this.state.orderLines, this.state.order);
         
-        console.log("DATA ", data);
-        console.log("ORDER ", this.state.order)
-        
         del("orders/delete/"+this.props.match.params.id, (response) => {
-          
-                window.alert(response);
-                const userId = this.state.order.owner.userHexId;
-                const userType = this.state.order.owner.userType.toLowerCase();
+        
+                const userId = this.state.order.ownerHexId;
+                const userType = this.state.order.ownerType.toLowerCase();
 
                 post("orders/"+userId+"/"+userType, data, (response) => {
                         if (window.confirm("Address successfully updated!", response)) {
@@ -120,6 +121,7 @@ class EditOrder extends Component{
         });
         
     }
+
 
     onEditAddress = (e) => {
         e.preventDefault();     
@@ -146,7 +148,7 @@ class EditOrder extends Component{
                             if (rowInfo && rowInfo.row) {
                                 return {
                                 onClick: (e) => {    
-                                    this.setState({selectedOrderLine: rowInfo.original, selectedOrderLineNumber:rowInfo.index}, ()=>{console.log("Selected Orderline:",this.state.selectedOrderLine)})
+                                    this.setState({selectedOrderLine: rowInfo.original, selectedOrderLineNumber:rowInfo.index}, ()=>{console.log("Selected Orderline:",this.state.selectedOrderLine)});
                                 },
                                 style: {
                                     background: rowInfo.index === this.state.selectedOrderLineNumber ? '#00afec' : 'white',

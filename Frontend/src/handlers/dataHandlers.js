@@ -170,10 +170,17 @@ export function makeEmployeeData(data) {
 export const makeCustomerData = (data) =>{
     var customers = [];
     data.forEach((customer) => {
-        
+        let clients = [];
+
         let letter = customer.userType.slice(0,1);
         let userType = letter + customer.userType.slice(1,customer.userType.length).toLowerCase();
+        if (customer.userType.toLowerCase() === "publisher") {
+            if (customer.numberOfClients !== 0) {
+                clients = setClientsToTheirPublisher(customer.clientStream);
+            }   
+        }
         customers.push({
+            clients: clients ? clients : "none",
             userName: customer.userName,
             userType: userType,
             password: customer.password,
@@ -185,8 +192,21 @@ export const makeCustomerData = (data) =>{
             zipCode: customer.contactInformation.zipCode,
             city: customer.contactInformation.city              
         })
+        
     });
+
     return customers;
+}
+
+export function setClientsToTheirPublisher(clientStream) {
+    let clients = [];
+    clientStream.forEach((client) => {
+        clients.push({
+            nickName: client.contactInformation.nickName, 
+            hexId: client.hexId
+        })
+    })
+    return clients;
 }
 
 export function makeClientDetails(publisher) {

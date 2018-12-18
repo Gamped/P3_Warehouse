@@ -14,7 +14,9 @@ export function makeAllOrdersData(data) {
 
 export function makeOrderObject(order) {
     let orderObject = {};
+    
     orderObject.ownerHexId = order.owner.userHexId;
+    orderObject.ownerType = order.owner.userType;
     orderObject.owner = order.owner.nickName;
     orderObject.orderId = order.orderId;
     orderObject.date = makeDateString(order.date);

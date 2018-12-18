@@ -16,6 +16,7 @@ export const makeOrderBodyFromData = (orderLines, address) =>{
     orderToSend.orderLines = orderLinesToSend;
     orderToSend.zipCode = orderToSend.zip;
     orderToSend.title = "Order to " + orderToSend.city;
+    
     return orderToSend;   
 }
 
