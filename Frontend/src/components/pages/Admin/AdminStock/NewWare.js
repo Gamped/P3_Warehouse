@@ -57,21 +57,17 @@ class NewWare extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
-        const productName = this.state.product.productName;
-        const productId = this.state.product.productId;
-        const quantity = this.state.product.quantity;
 
-        if (newProductIsValid(quantity, productId, productName)) {
+        if (newProductIsValid(this.state.product)) {
+            
+            const {productName, productId, quantity} = this.state.product;
 
-       
-
-           post("employee/products/assignTo=" + this.state.selectedOwnerHexId 
+            post("employee/products/assignTo=" + this.state.selectedOwnerHexId 
                 + "/withUserType=" + this.state.selectedOwnerUserType,
                 {productName, productId, quantity}, () => {
+                    
                    this.props.history.push("/Admin/Stock");
-                }
-            )
-
+                });
         }
     }
     

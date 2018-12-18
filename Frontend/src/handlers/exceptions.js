@@ -51,3 +51,7 @@ export function productIdIsNotValidWarning() {
 export function fieldIsNotSetWarning() {
     window.alert("Some fields are not set");
 }
+
+export function customerIsNotSelectedWarning() {
+    window.alert("Please choose a customer to create an order for before choosing products");
+}

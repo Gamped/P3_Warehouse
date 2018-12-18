@@ -2,11 +2,13 @@ import React,{Component} from 'react';
 import { Link } from "react-router-dom";
 import "../../Pages.css"
 import "./EditOrderAddress.css"
-import { get, put } from './../../../../handlers/requestHandlers.js';
+import { get, post, del } from './../../../../handlers/requestHandlers.js';
 import {makeOrderAddressData, makeOrderLinesData} from './../../../../handlers/dataHandlers.js';
+import { connect } from 'react-redux';
+import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
 
 
-export default class EditOrderAddress extends Component{
+ class EditOrderAddress extends Component{
     constructor(props){
         super(props);
         
@@ -25,7 +27,7 @@ export default class EditOrderAddress extends Component{
             order.orderLines = orderLines;
             order.owner = data.owner;
 
-            console.log(JSON.stringify(order));
+            console.log(JSON.stringify(orderLines));
             this.setState({order: order})
             
         });
@@ -39,13 +41,22 @@ export default class EditOrderAddress extends Component{
 
     onSubmit = (e) => {
         e.preventDefault();
+        console.log("User id",this.props.userId);
 
-        const order = this.state.order;
-        put("employee/orders/"+this.props.match.params.id, order, () => {
-            if (window.confirm("Address successfully updated!")) {
-                this.props.history.push("/Admin/Orders")
-            }
-            })
+        const order = makeOrderBodyFromData(this.state.order.orderLines, this.state.order);
+        console.log("ORDER TO BE SENDED ", order);
+
+        del("orders/delete/"+this.props.match.params.id, (response) => {
+          
+            window.alert(response);
+
+                post("orders/"+order.owner.userHexId+"/"+order.owner.userType.toLowerCase(), order, (response) => {
+                    if (window.confirm("Address successfully updated!", response)) {
+                        this.props.history.push("/Admin/Orders")
+                    }
+                    })
+        
+        });
     }
 
     
@@ -68,3 +79,8 @@ export default class EditOrderAddress extends Component{
         )
     }
 }
+
+const mapStateToProps =(state) => {
+    return {userId: state.loginReducer.userId}
+}
+export default connect(mapStateToProps)(EditOrderAddress)

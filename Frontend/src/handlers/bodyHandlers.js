@@ -1,24 +1,22 @@
-export const makeOrderBodyFromData = (data, orderLines) =>{
+export const makeOrderBodyFromData = (orderLines, address) =>{
     
-    let body = {};
-
-    let orderList=[];
-    for(let key in orderLines) {
-        orderList.push({product:orderLines[key],
-                        quantity:orderLines[key].amount})
-      }
-    let order =[
-        {}
-
-    ]
+    let orderLinesToSend = [];     
+    let orderToSend = {...address};
     
-    body.orderLines = {...orderList};
-    body.address = data.address;
-    body.contactPerson = data.contactPerson;
-    body.phoneNumber = data.phoneNumber;
-    body.country = data.country;
-    body.company = data.company;
-    body.zipCode = data.zip;
-    console.info(body)
-    return body;
+
+    orderLines.forEach((orderLine) => {
+        orderLinesToSend.push({
+            productHexId: orderLine.hexId,
+            quantity: parseInt(orderLine.amount, 10)
+        });
+    });
+
+    orderToSend.date = Date.parse(new Date());
+
+    orderToSend.orderLines = orderLinesToSend;
+    orderToSend.zipCode = orderToSend.zip;
+    orderToSend.title = "Order to " + orderToSend.city;
+    
+    return orderToSend;   
 }
+
