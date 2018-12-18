@@ -109,7 +109,11 @@ class UserOrder extends React.Component {
       }
 
     undoOrderLine = () => {
-        this.setState({orderLines: this.state.orderLines.splice(-1, 1)})
+        if(this.state.numberOfItems===0){
+            alert("Cart is currently empty")
+        }else{
+            this.setState({orderLines: this.state.orderLines.splice(-1, 1),numberOfItems:this.state.numberOfItems-1})
+        }
       }
 
     //Not in use - should be in second if in addSelectedToOrderLine

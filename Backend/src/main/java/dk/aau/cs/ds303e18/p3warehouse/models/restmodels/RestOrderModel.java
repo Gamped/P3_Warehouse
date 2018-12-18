@@ -1,13 +1,9 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.restmodels;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import org.json.JSONArray;
+
 
 public class RestOrderModel {
    // private JSONArray orderLines;
