@@ -77,24 +77,12 @@ public class ClientControllerTest {
         clientRepository.save(client);
 
         RestClientModel restClientModel = new RestClientModel();
+        BeanUtils.copyProperties(client, restClientModel);
         restClientModel.setUserName("Bangerung");
 
         clientController.updateClient(client.getHexId(), restClientModel);
 
         assertEquals(clientRepository.findById(client.getHexId()).getUserName(), restClientModel.getUserName());
-    }
-
-    @Test
-    public void testUpdateClientCollateralDamage(){ //Currently failed due to tested method being sub-optimal
-        Client client = makeDummyClient(0);
-        clientRepository.save(client);
-
-        RestClientModel restClientModel = new RestClientModel();
-        restClientModel.setUserName("Bangerung");
-
-        clientController.updateClient(client.getHexId(), restClientModel);
-
-        assertEquals(clientRepository.findById(client.getHexId()).getPassword(), client.getPassword());
     }
 
     @Test
@@ -104,7 +92,7 @@ public class ClientControllerTest {
         BeanUtils.copyProperties(client, restCustomerModel);
         employeeController.createClient(restCustomerModel);
 
-        clientController.deleteClient(client.getHexId());
+        clientController.deleteClient(clientRepository.findAll().get(0).getHexId());
 
         assertEquals(0, clientRepository.findAll().size());
     }

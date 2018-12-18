@@ -32,11 +32,12 @@ class UserStock extends React.Component {
         
         get(userType + 's/' + id + '/products', (data) => {
             let products = [];
+            console.log(data)
             
-            userType === 'publisher' ? products = makeCustomerProductsData(data) : products = makeProductsData(data);
+             products = makeProductsData(data);
 
             this.setState({ products: products });
-    });
+        });
     }
 
     render(){
@@ -46,7 +47,7 @@ class UserStock extends React.Component {
         return(
             <div className="PageStyle customText_b">
                 <div className="frameBordering">
-                    <h className="customText_b_big">Your Stock</h>
+                    <h1 className="customText_b_big">Your Stock</h1>
                     <div className="row">
                         <div className="col">
                             <div className="">
