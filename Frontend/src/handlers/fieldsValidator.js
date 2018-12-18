@@ -3,30 +3,56 @@ import {fieldInvalidWarning, passwordsDoNotMatchWarning,
         productIdIsNotValidWarning, quantityIsNotNumberWarning} from './exceptions.js';
 
 
-export function newProductIsValid(quantity, productId, productName) {
-   if (quantity !== undefined) {
-       if (productId !== undefined) {
-           if (productName !== undefined) {
-       
-
-    if (!quantity.match(/^\d+$/)) {
-        quantityIsNotNumberWarning(); 
-        return false;
-       }
+export function newProductIsValid(product) {
     
-   if (!productId.match(/^\d+$/)) {
-       productIdIsNotValidWarning();
-       return false;
+    if (newProductFieldsAreNotUndefined(product)) {
+        if (quantityIsANumber(product.quantity)) {
+            if (productIdIsANumber(product.productId)) {
+                return true;
+            }
         }
-        
-        return true;
-    
-        } } } 
-            
+
+    } else {     
         fieldIsNotSetWarning();
         return false;
-        
     }
+ 
+}
+
+export function productIdIsANumber(productId) {
+
+    if (productId.match(/^\d+$/)) {
+        return true;
+    
+    } else {
+        productIdIsNotValidWarning();
+        return false;
+    }
+}
+
+export function quantityIsANumber(quantity) {
+    
+    if (quantity.match(/^\d+$/)) {    
+        return true;
+    
+    } else {
+        quantityIsNotNumberWarning(); 
+        return false;
+    }
+}
+
+export function newProductFieldsAreNotUndefined(product) {
+
+    if (product.quantity !== undefined) {
+        if (product.productId !== undefined) {
+            if (product.productName !== undefined) {
+                return true;
+            }
+        }
+    } 
+
+        return false;
+}
 
 export function customerProfileFieldsAreValidated(fields) {
 

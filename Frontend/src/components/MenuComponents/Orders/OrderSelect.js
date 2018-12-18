@@ -21,15 +21,14 @@ class UserOrder extends React.Component {
         super(props);
 
         this.state = {
-            userID: props.ID,
-            quarry: "",
+            userID: props.userId,
             products: [],
             selected: null,
             selectedId: "",
             orderLines: [],
             customers:[],
             userSelectedId:"",
-            userSelectedType:"",
+            userSelectedType:""
         };
 
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
@@ -85,12 +84,6 @@ class UserOrder extends React.Component {
                 this.setState({ products: products });
             });
         }
-    }
-
-    handleQuarry = (event) => {
-        this.setState({
-            quarry: event.target.value,
-        });
     }
 
     addSelectedToOrderLine = () => {
@@ -239,7 +232,7 @@ class UserOrder extends React.Component {
             "Product Name", 
             "Amount", 
             "Quantity", 
-            "Owner Name"]);
+            "Owner"]);
         columns[2].Cell = this.renderEditable;
 
         return(

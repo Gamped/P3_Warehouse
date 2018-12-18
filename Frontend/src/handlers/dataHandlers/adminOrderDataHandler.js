@@ -24,7 +24,8 @@ export function makeOrderObject(order) {
             productName: orderLine.product.productName,
             quantity: orderLine.product.quantity,
             amount: orderLine.quantity,
-            productId: orderLine.product.productId
+            productId: orderLine.product.productId,
+            hexId: orderLine.product.hexId
         }
     })
     return orderObject;

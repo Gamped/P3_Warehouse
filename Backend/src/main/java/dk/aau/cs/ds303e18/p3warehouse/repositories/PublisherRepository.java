@@ -22,4 +22,6 @@ public interface PublisherRepository extends MongoRepository<Publisher, ObjectId
 
     void deleteById(String hexId);
 
+    Publisher save(Publisher publisher);
+
 }
