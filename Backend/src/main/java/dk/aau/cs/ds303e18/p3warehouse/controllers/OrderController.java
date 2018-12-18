@@ -60,9 +60,14 @@ public class OrderController {
         catch(Exception e){
             return "User not found on id: " + userHexId;
         }
+        int highestOrderNumber = 0;
+        for(Order o : orderRepository.findAll()){
+            if(o.getOrderId() > highestOrderNumber) highestOrderNumber = o.getOrderId();
+        }
 
         Order newOrder = new Order(new ObjectId());
         BeanUtils.copyProperties(order, newOrder);
+        newOrder.setOrderId(highestOrderNumber + 1);
         owner.addOrder(newOrder);
         newOrder.setOwner(owner);
         ArrayList<OrderLine> updatedOrderLines = new ArrayList<>();

@@ -10,7 +10,7 @@ import java.util.HashSet;
 
 public class RestOrderModel {
     private ArrayList<OrderLine> orderLines;
-    private String orderId;
+    private int orderId;
     private String title;
     private String address;
     private String zipCode;
@@ -32,11 +32,11 @@ public class RestOrderModel {
         this.orderLines = orderLines;
     }
 
-    public String getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
