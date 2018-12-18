@@ -2,8 +2,10 @@ import React from 'react';
 import "./Order.css";
 import ReactTable from 'react-table';
 import { connect } from "react-redux";
-import {makeProductsData, makeCustomerProductsData} from '../../../handlers/dataHandlers.js';
-import {itemPreviouslyAddedWarning, amountIsNotANumberWarning, amountExceedingQuantityWarning, amountIsZeroWarning, itemNotChosenWarning} from '../../../handlers/exceptions.js';
+import {makeProductsData} from '../../../handlers/dataHandlers.js';
+import {itemPreviouslyAddedWarning, amountIsNotANumberWarning, 
+        amountExceedingQuantityWarning, amountIsZeroWarning, itemNotChosenWarning, 
+        customerIsNotSelectedWarning} from '../../../handlers/exceptions.js';
 import { getColumnsFromArray } from '../../../handlers/columnsHandlers.js';
 import { get } from '../../../handlers/requestHandlers';
 import Dropdown from "../../MenuComponents/Dropdown/Dropdown";
@@ -28,7 +30,8 @@ class UserOrder extends React.Component {
             orderLines: [],
             customers:[],
             userSelectedId:"",
-            userSelectedType:""
+            userSelectedType:"",
+            filteredStock: null
         };
 
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
@@ -53,6 +56,7 @@ class UserOrder extends React.Component {
      getPublishers() {
         get('employee/publishers', (data) => { 
             const publishers = makeCustomerData(data);
+            console.log(publishers, "PUBLISHERS")
             this.concatinateWithNewData(publishers);
          });
      }
@@ -88,7 +92,7 @@ class UserOrder extends React.Component {
 
     addSelectedToOrderLine = () => {
         if(this.state.selected!==null){
-            let newLine = this.state.products[this.state.selected];
+            let newLine = this.state.filteredStock[this.state.selected];
             if (this.state.orderLines.some(orderLine => orderLine.productId === newLine.productId)) {
                 itemPreviouslyAddedWarning();
             } else {
@@ -109,6 +113,7 @@ class UserOrder extends React.Component {
         this.setState({orderLines: this.state.orderLines.splice(-1, 1)})
       }
 
+    //Not in use - should be in second if in addSelectedToOrderLine
     checkIfPreviouslyAdded = (orderLine) => {
           
         if(this.state.orderLines.filter(line => orderLine.hexId === line.hexId)) {
@@ -217,6 +222,7 @@ class UserOrder extends React.Component {
                 console.log(this.state)
                 this.setState({userSelectedType:this.state.customers.find(x=>x.hexId===this.state.userSelectedId).userType},()=>{
                     console.log(this.state)
+                    this.filterStock();
                 })
             })
         }else{
@@ -224,6 +230,26 @@ class UserOrder extends React.Component {
         }
     }
 
+    filterStock() {
+        let hexId = this.state.userSelectedId;
+        let userType = this.state.userSelectedType.toLowerCase();
+        let filteredStock = this.state.products.filter(x=>x.ownerHexId===hexId);
+        const customer = this.state.customers.filter(x=>x.hexId===hexId)[0];
+
+        if (userType === 'publisher') {
+        
+            if (customer.clients !== 'none') {
+        
+                customer.clients.forEach((client) => {
+                   let clientsProducts = this.state.products.filter(x=>x.ownerHexId===client.hexId);                    
+                   filteredStock.push(...clientsProducts);
+
+                }) 
+            }
+        }
+
+        this.setState({filteredStock: filteredStock})
+    }
 
     render(){
         const data = this.state.products;
@@ -249,7 +275,7 @@ class UserOrder extends React.Component {
                             <div className="col-my-auto">
                                     <div className="OrderList">
                                         <ReactTable  
-                                        data={data} 
+                                        data={this.state.filteredStock ? this.state.filteredStock : data} 
                                         columns={columns} 
                                         showPagination={false} 
                                         className="-striped -highlight"
@@ -257,9 +283,13 @@ class UserOrder extends React.Component {
                                             if (rowInfo && rowInfo.row) {
                                             return {
                                                 onClick: () => {
-                                                    
-                                                    this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-                                                },
+                                                    if (!this.state.filteredStock) {
+                                                        customerIsNotSelectedWarning();
+                                                    } else {
+                                                        this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
+                                                    }
+                    
+                                                    },
                                                 style: {
                                                 background: rowInfo.index === this.state.selected ? '#00afec' : 'white'
                                                 }

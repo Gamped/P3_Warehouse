@@ -39,8 +39,9 @@ class AdminOrders extends Component {
 
     getOrders = () =>{
         get("employee/orders", (data) => {
-
+            console.log(data)
             const orders = makeAllOrdersData(data);
+            console.log(orders)
             this.setState({orders: orders});
         })
     }
