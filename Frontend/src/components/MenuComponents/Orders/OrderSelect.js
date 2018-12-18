@@ -30,6 +30,7 @@ class UserOrder extends React.Component {
             customers:[],
             userSelectedId:"",
             userSelectedType:"",
+            numberOfItems:0
         };
 
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
@@ -100,10 +101,8 @@ class UserOrder extends React.Component {
                 itemPreviouslyAddedWarning();
             } else {
                if (newLine.amount != "0") {
-                
-                this.setState({orderLines: [...this.state.orderLines, newLine]}); 
+                this.setState({orderLines: [...this.state.orderLines, newLine],numberOfItems:this.state.numberOfItems+1}); 
             } else {
-                
                 amountIsZeroWarning();
                }
             }
@@ -195,7 +194,7 @@ class UserOrder extends React.Component {
             navbar = (
                 <nav className="navbar navbar-light bg-light">                   
                     <form className = "form-inline">
-                        <button className="btn std_BTN my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
+                        <button className="btn std_BTN my-2 my-sm-0" onClick={this.changeToCart}>Go to cart <span class="badge badge-light">{this.state.numberOfItems}</span></button>
                     </form>
                     <div className="input-group mb-3">
                         <div className="input-group-prepend">
@@ -209,7 +208,7 @@ class UserOrder extends React.Component {
             navbar = (
                 <nav className="navbar navbar-light bg-light">                   
                     <form className = "form-inline">
-                        <button className="btn  std_BTN my-2 my-sm-0" onClick={this.changeToCart}>Go to cart</button>
+                        <button className="btn  std_BTN my-2 my-sm-0" onClick={this.changeToCart}>Go to cart <span class="badge badge-light">{this.state.numberOfItems}</span></button>
                     </form>       
                 </nav> 
                 )
