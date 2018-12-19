@@ -17,7 +17,6 @@ import { post } from '../../../handlers/requestHandlers';
     }
 
     confirmed = (event) => {
-
         let orderLines = this.props.orderLines;
         console.log(orderLines);   
         const data = makeOrderBodyFromData(orderLines, this.props.address);
@@ -25,11 +24,10 @@ import { post } from '../../../handlers/requestHandlers';
         console.log("Data: ", data);
         console.log("Props: ", this.props);
        
-       let userId = this.props.employeeUser.userId ? this.props.employeeUser.userId : "5c179cba3c7e9f0c6fbb93a7";
-       let userType = this.props.employeeUser.userType ? this.props.employeeUser.userType.toLowerCase() : "client";
+        let userId = this.props.employeeUser.userId ? this.props.employeeUser.userId : "5c179cba3c7e9f0c6fbb93a7";
+        let userType = this.props.employeeUser.userType ? this.props.employeeUser.userType.toLowerCase() : "client";
 
         if(this.props.userType === "EMPLOYEE"){
-            
             post('orders/'+userId+'/'+userType, data, (response) => {
                 console.log(response)
                 console.log(response)
@@ -39,7 +37,7 @@ import { post } from '../../../handlers/requestHandlers';
                     this.props.history.push("/Admin/Order/Failed")
                 }
             });
-        }else{
+        } else {
             let type = userType.toLowerCase()
             post('orders/'+userId+'/'+type, data, (response) => {
                 console.log(response)
@@ -55,7 +53,7 @@ import { post } from '../../../handlers/requestHandlers';
     goBack = () =>{
         if(this.props.userType==="EMPLOYEE"){
             this.props.history.push("/Admin/Order/Cart")
-        }else{
+        } else {
             this.props.history.push("/User/Order/Cart")
         }
     }
@@ -67,7 +65,6 @@ import { post } from '../../../handlers/requestHandlers';
         
         let lines = this.props.orderLines;
         
-
         if (lines !== undefined) {
         lines = lines.map((line, i)=>{return(
                 <tr key={i}>
@@ -79,62 +76,60 @@ import { post } from '../../../handlers/requestHandlers';
         }
 
         return(
-        <div className="PageStyle customText_b">
-            <h2 className="customText_b_big">Cart:</h2>
-            <div className="container">
-                <div className="row">
-                    <div className="col">
-                        <div className="container my-3">
-                            <table className="table orderCartTable">
-                                <thead>
-                                    <tr key="header">
-                                        <th scope="col">Product ID</th>
-                                        <th scope="col">Product name</th>
-                                        <th scope="col">Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {lines}                                 
-                                </tbody>
-                            </table>
+            <div className="PageStyle customText_b">
+                <h2 className="customText_b_big">Cart:</h2>
+                <div className="container">
+                    <div className="row">
+                        <div className="col">
+                            <div className="container my-3">
+                                <table className="table orderCartTable">
+                                    <thead>
+                                        <tr key="header">
+                                            <th scope="col">Product ID</th>
+                                            <th scope="col">Product name</th>
+                                            <th scope="col">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {lines}                                 
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="col">
-                        <h4 className="customText_b_big">Please verify:</h4>
-                        <br/>
-                        <label className="customText_b_bold">Company name: </label>
-                        <label className="customText_b">{address.company}</label>
-                        <br/>
-                        <label className="customText_b_bold">Recipient: </label>
-                        <label className="customText_b">{address.contactPerson}</label>
-                        <br/>
-                        <label className="customText_b_bold">Phone: </label>
-                        <label className="customText_b">{address.phoneNumber}</label>
-                        <br/>
-                       
-                        <br/>
-                        <label className="customText_b_bold">Address: </label>
-                        <label className="customText_b">{address.address}</label>
-                        <br/>
-                        <label className="customText_b_bold">Zip: </label>
-                        <label className="customText_b">{address.zip}</label>
-                        <br/>
-                        <label className="customText_b_bold">City</label>
-                        <label className="customText_b">{address.city}</label>
-                        <br/>
-                        <label className="customText_b_bold">Country: </label>
-                        <label className="customText_b">{address.country}</label>
+                        <div className="col">
+                            <h4 className="customText_b_big">Please verify:</h4>
+                            <br/>
+                            <label className="customText_b_bold">Company name: </label>
+                            <label className="customText_b">{address.company}</label>
+                            <br/>
+                            <label className="customText_b_bold">Recipient: </label>
+                            <label className="customText_b">{address.contactPerson}</label>
+                            <br/>
+                            <label className="customText_b_bold">Phone: </label>
+                            <label className="customText_b">{address.phoneNumber}</label>
+                            <br/>
                         
-                        <div onClick={this.confirmed} className="green_BTN btn-block my-3 btn" role="button">Confirm order</div>
-                       
-                        <button className="std_BTN btn btn-block my-3" onClick={this.goBack} role="button">Back</button>
+                            <br/>
+                            <label className="customText_b_bold">Address: </label>
+                            <label className="customText_b">{address.address}</label>
+                            <br/>
+                            <label className="customText_b_bold">Zip: </label>
+                            <label className="customText_b">{address.zip}</label>
+                            <br/>
+                            <label className="customText_b_bold">City</label>
+                            <label className="customText_b">{address.city}</label>
+                            <br/>
+                            <label className="customText_b_bold">Country: </label>
+                            <label className="customText_b">{address.country}</label>
+                            
+                            <div onClick={this.confirmed} className="green_BTN btn-block my-3 btn" role="button">Confirm order</div>
                         
+                            <button className="std_BTN btn btn-block my-3" onClick={this.goBack} role="button">Back</button>
+                        </div> 
                     </div>
-                    
-                </div>
-            </div>        
-        </div>
+                </div>        
+            </div>
         );
     }
 }
