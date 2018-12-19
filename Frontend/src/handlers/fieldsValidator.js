@@ -122,6 +122,32 @@ export function userProfileFieldsAreValidated(fields) {
     return false;
 }
 
+export function isOrderAddressValid(fields) {
+
+    if (isAddressValid(fields.address)) {
+        if (isCityValid(fields.city)) {
+            if (isZipCodeValid(fields.zipCode)) {
+                if (isPhoneValid(fields.phone)) {
+                    if (isCountryValid(fields.country)) {
+                        if (isContactPersonValid(fields.contact)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return false;
+} 
+
+export function isContactPersonValid(contact) {
+    if (contact.match(/\w+/)) {
+        return true;
+    } else {
+        fieldInvalidWarning({contact});
+        return false;
+    }
+}
 export function isAddressValid(address) {
     if (address.match(/[A-Za-z0-9\.\-\s\,\d]/)) {
         return true;

@@ -29,33 +29,23 @@ class UserOrder extends React.Component {
     }
 
     getPublisherData() {
-
+        console.log(this.props.userId)
         get("publishers/"+this.props.userId, (data) => {
-            console.log(data)
-            this.setDataToState(data)
+            console.log("data: \n",data)
+            const orders = makePublisherAndItsClientsOrdersData(data);
+            this.setState({orders: orders})
         });
     }
 
 
     getClientData() {
         get("clients/"+this.props.userId+"/orders", (data) => {
-            this.setDataToState(data)
-    
+            this.setDataToState(data);
+            const orders = makeDataFromOrderList(data);
+            this.setState({orders: orders})
         });
     }
 
-    setDataToState = (data) => {
-
-        let orders = [];
-        
-        if (this.props.userType.toLowerCase() === "client") {
-            orders = makeDataFromOrderList(data);
-        } else {
-            orders = makePublisherAndItsClientsOrdersData(data);
-        }
-
-        this.setState({orders: orders});
-    }
 
     setStateAsSelected = (rowInfo) => {
 
@@ -68,16 +58,19 @@ class UserOrder extends React.Component {
         this.setState({seletedOrder: selectedOrder});
     }
 
-    deleteOrder = () =>{
+    deleteOrder = (e) =>{
+        e.preventDefault();
+
         if(this.state.selectedId !== ""){
             del("orders/delete/"+this.state.selectedId,()=>{
                 let newOrders = this.state.orders.filter(x=>x.hexId!==this.state.selectedId)
                 this.setState({orders:newOrders})
+        
             })
-        }else{
-            window.alert("Please select something")
+        } else {
+         
+            window.alert("Please select something");
         }
-
     }
 
     render() {

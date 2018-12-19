@@ -3,7 +3,7 @@ const initialState ={
     contactPerson:"", 
     phoneNumber:"", 
     address:"", 
-    zip:"",
+    zipCode:"",
     city:"",
     country:""};
 
