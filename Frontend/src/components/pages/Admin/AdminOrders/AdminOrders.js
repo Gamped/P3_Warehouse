@@ -192,7 +192,7 @@ class AdminOrders extends Component {
                         </div>
                         <div className=" md-2 my-2">
                                 <button type= "button" className="AdinOrderButtonSizer btn green_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders/New")}>Create order</button>                           
-                                <button className="AdinOrderButtonSizer btn std_BTN mx-2" onClick={this.goToEdit}>Edit order </button>
+                                <button className="AdinOrderButtonSizer btn yellow_BTN mx-2" onClick={this.goToEdit}>Edit order </button>
                                 <button type= "button" className="AdinOrderButtonSizer btn red_BTN mx-2"  onClick={()=>this.deleteOrder()}>Delete order</button>
                         </div>
                     </div>
@@ -209,8 +209,8 @@ class AdminOrders extends Component {
                                  <div className="  px-1">
                                 </div>
                         </div> 
-                        <button type= "button" className="AdinOrderButtonSizer btn std_BTN mx-2" onClick={()=>packListPDF(this.state.selectedItem)} >Export Order</button> 
-                        <button type= "button" className="AdinOrderButtonSizer btn blue_BTN mx-2" onClick={this.finishOrder}>Finish Order</button> 
+                        <button type= "button" className="AdinOrderButtonSizer btn std_BTN mx-2" onClick={()=>packListPDF(this.state.selectedItem)} >Export order</button> 
+                        <button type= "button" className="AdinOrderButtonSizer btn blue_BTN mx-2" onClick={this.finishOrder}>Finish order</button> 
                     </div>    
                 </div>    
             </div>

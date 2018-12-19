@@ -214,7 +214,7 @@ class CreateUser extends React.Component{
    
                         <div className="row">
                             <div className="col my-3 mx-4">
-                                <button className="btn btn-success btn-block" type="submit">Create User</button>
+                                <button className="btn green_BTN btn-block" type="submit">Create User</button>
                             </div>
                             <div className="col my-3 mx-4">
                                 <Link to="/Admin/Users/" className="btn adminUserBtn std_BTN btn-block">Go Back</Link>

@@ -102,8 +102,8 @@ class AdminProfile extends React.Component {
                         style={{height: "50vh"}}
                     />
                    
-                    <Link to="/Admin/Profile/AddEmployee" className="std_BTN btn my-2 mx-2">Add employee</Link>
-                    <button onClick={this.sendToEdit} className="std_BTN btn my-2 mx-2">Edit employee</button>
+                    <Link to="/Admin/Profile/AddEmployee" className="green_BTN btn my-2 mx-2">Add employee</Link>
+                    <button onClick={this.sendToEdit} className="yellow_BTN btn my-2 mx-2">Edit employee</button>
                     <div className="red_BTN btn my-2 mx-2" onClick={this.deleteEmployee}>Remove employee</div>
                 </div>
             </div>
