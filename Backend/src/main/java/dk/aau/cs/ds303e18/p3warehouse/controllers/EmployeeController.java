@@ -333,7 +333,7 @@ public class EmployeeController {
         ObjectId id = new ObjectId(hexId);
         Client client = clientRepository.findById(id).orElse(null);
         client.unassignAllOrders().forEach(orderRepository::delete);
-        client.unassignAllProducts().forEach(productRepository::save);
+        client.unassignAllProducts().forEach(productRepository::delete);
         User user = userRepository.findById(id).orElse(null);
         if(client.getPublisher() != null){
             Publisher publisher = publisherRepository.findById(client.getPublisher().getHexId()).orElse(null);
@@ -348,10 +348,10 @@ public class EmployeeController {
     private void deletePublisherById(@PathVariable String hexId) {
         ObjectId id = new ObjectId(hexId);
         Publisher publisher = publisherRepository.findById(id).orElse(null);
-        publisher.getClientStream().map(x -> x.unassignAllProducts().map(product -> productRepository.save(product)));
-        publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(orderStream -> orderStream.forEach(orderRepository::delete));
+        publisher.getClientStream().map(x -> x.unassignAllProducts()).forEach(x -> x.forEach(productRepository::delete));
+        publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(x -> x.forEach(orderRepository::delete));
         publisher.unassignAllOrders().forEach(orderRepository::delete);
-        publisher.unassignAllProducts().map(product -> productRepository.save(product));
+        publisher.unassignAllProducts().forEach(productRepository::delete);
         publisher.getClientStream().forEach(clientRepository::delete);
         publisher.getClientStream().forEach(userRepository::delete);
         publisherRepository.delete(publisher);
