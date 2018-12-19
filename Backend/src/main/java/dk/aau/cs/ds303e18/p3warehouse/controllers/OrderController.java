@@ -39,6 +39,7 @@ public class OrderController {
     @PostMapping("/orders/{userHexId}/{userType}")
     String createOrder(@PathVariable("userHexId") String userHexId, @PathVariable("userType") String userType,
                        @RequestBody RestOrderModel order) {
+
         userType = userType.toUpperCase();
         Customer owner = null;
 
@@ -53,8 +54,7 @@ public class OrderController {
                 default:
                     return "Bad usertype";
             }
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             return "User not found on id: " + userHexId;
         }
         int highestOrderNumber = 0;
@@ -111,7 +111,8 @@ public class OrderController {
     }
 
     @PutMapping("/employee/orders/{hexId}")
-    String updateOrder(@PathVariable String hexId, @RequestBody RestOrderModel responseBody){ //privacy removed to allow unit testing.
+    String updateOrder(@PathVariable String hexId, @RequestBody RestOrderModel responseBody){
+
         Order order;
         try {
             order = orderRepository.findById(new ObjectId(hexId)).orElseThrow(() -> new Exception());
@@ -163,6 +164,7 @@ public class OrderController {
 
     @DeleteMapping("/orders/delete/{hexId}")
     String finishOrder(@PathVariable String hexId) {
+
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
         confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
 
