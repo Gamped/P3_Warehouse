@@ -6,6 +6,4 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Collection;
 
-public interface OrderRepository extends MongoRepository<Order, ObjectId> {
-    Collection<Order> findAllByOwner();
-}
+public interface OrderRepository extends MongoRepository<Order, ObjectId> {Collection<Order> findAllByOwner();}
