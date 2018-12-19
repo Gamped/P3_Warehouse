@@ -8,8 +8,10 @@ import Dropdown from "../../../MenuComponents/Dropdown/Dropdown";
 import {newProductIsValid} from './../../../../handlers/fieldsValidator.js';
 
 class NewWare extends Component {
+
     constructor(props) {
         super(props);
+        
         this.state = {
             currentProduct: this.props.product,
             product: {},
@@ -23,11 +25,13 @@ class NewWare extends Component {
     }
 
     componentDidMount() {
+
         this.getClients();
         this.getPublishers();
     }
 
     getClients() {
+
         get('employee/clients', (data) => {
             const clients = makeCustomerData(data);
             this.concatinateWithNewData(clients);
@@ -35,6 +39,7 @@ class NewWare extends Component {
     }
 
     getPublishers() {
+
         get('employee/publishers', (data) => {
              const publishers = makeCustomerData(data);
              this.concatinateWithNewData(publishers);
@@ -42,12 +47,14 @@ class NewWare extends Component {
      }
      
     concatinateWithNewData(newData) {
+
         const ownersCopy = this.state.owners;
         let concatinatedData = [...ownersCopy,...newData];
         this.setState({ owners: concatinatedData });
     }
 
     onChange = (e) => {
+
         this.setState({product:{...this.state.product,[e.target.name]:e.target.value}})
         console.log(this.state)
     }
@@ -68,6 +75,7 @@ class NewWare extends Component {
     }
     
     setSelected = (e) => {
+
         this.setState({
             selectedOwnerHexId:e.target.value,
             selectedOwnerUserType:this.state.owners.find(x=>x.hexId===e.target.value).userType.toUpperCase()
@@ -75,6 +83,7 @@ class NewWare extends Component {
     }
 
     render() {
+
         const currentProduct = this.state.product;
 
         return (

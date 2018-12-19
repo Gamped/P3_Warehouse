@@ -6,6 +6,7 @@ import {get, del, put} from "../../../../handlers/requestHandlers.js";
 import {makeCustomerData} from "../../../../handlers/dataHandlers";
 
 export default class AdminUsers extends Component {
+    
     constructor(props) {
         super(props);
 
@@ -19,11 +20,13 @@ export default class AdminUsers extends Component {
     }
 
     componentDidMount() {
+
        this.getClients();
        this.getPublishers();      
     }
 
     getClients() {
+
         get('employee/clients', (data) => {
             const clients = makeCustomerData(data);
             this.concatinateWithNewData(clients);
@@ -31,6 +34,7 @@ export default class AdminUsers extends Component {
     }
 
     getPublishers() {
+
        get('employee/publishers', (data) => {
             const publishers = makeCustomerData(data);
             this.concatinateWithNewData(publishers);
@@ -38,12 +42,14 @@ export default class AdminUsers extends Component {
     }
 
     concatinateWithNewData(newData) {
+
         const customersCopy = this.state.customers;
         let concatinatedData = customersCopy.concat(newData);
         this.setState({ customers: concatinatedData });
     }
     
     getColumns = () => {
+
         return [{
             Header: "Customer",
             accessor: "nickName"
@@ -51,11 +57,13 @@ export default class AdminUsers extends Component {
     }
 
     onChange = (e) => {
+
         this.setState({...this.state,changed:{...this.state.changed,[e.target.name]:e.target.value}});
         console.log(this.state)
     }
 
     onSubmit = () => {
+
         if(this.state.changed.password===this.state.changed.confirmedNewPassword){
             const usertype= this.state.selectedCustomer.userType
 
@@ -118,6 +126,7 @@ export default class AdminUsers extends Component {
     }
  
     onDelete = () => {
+
         const usertype= this.state.selectedCustomer.userType
         if(usertype ==="Publisher"){
             del("employee/publishers/delete/"+this.state.selectedCustomer.hexId,(res)=>{
@@ -141,6 +150,7 @@ export default class AdminUsers extends Component {
     }
 
     render(){
+
         let selectedCustomer = this.state.selectedCustomer;
         let columns = this.getColumns();
 

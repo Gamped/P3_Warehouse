@@ -6,8 +6,10 @@ import { put } from "./../../../../handlers/requestHandlers";
 import { userProfileFieldsAreValidated } from "./../../../../handlers/fieldsValidator";
 
 class UserProfileEdit extends React.Component {
+    
     constructor(props) {
         super(props);
+
         this.state = {
             userId: this.props.userId,
             userName: this.props.user.userName,
@@ -23,6 +25,7 @@ class UserProfileEdit extends React.Component {
     };
 
     onChangeHandler = (event) => {
+
         console.log(this.state)
         this.setState({[event.target.name]: event.target.value});
     }
@@ -49,6 +52,7 @@ class UserProfileEdit extends React.Component {
     }
 
     makeBodyFromChangedState() {
+
         let newState = {};
         const state = this.state;
         Object.keys(state).forEach((key) => {
@@ -77,6 +81,7 @@ class UserProfileEdit extends React.Component {
     }
 
     render() {
+
         return(
             <div className="PageStyle customText_b">
                 <div className="frameBordering">
@@ -219,6 +224,7 @@ class UserProfileEdit extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+
     return {
         user: state.profileReducer,
         userId: state.loginReducer.userId,

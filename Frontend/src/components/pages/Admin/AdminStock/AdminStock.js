@@ -9,15 +9,16 @@ import {get, del} from './../../../../handlers/requestHandlers.js';
 import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
 
  class AdminStock extends Component {
+
     constructor(props) {
         super(props);
         this.state = { products: [], selected: null, selectedId: "" };
-       
     }
 
     componentDidMount() {this.getProducts();}
 
     getProducts() {
+
         get('employee/products', (data) => {
             const products = makeProductsData(data);
             this.setState({ products: products });
@@ -27,6 +28,7 @@ import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
     sendToPage = (address) => {this.props.history.push(address);}
 
     changeToEditPage = () =>{
+
         if(this.state.selectedId !== ""){
             const item = this.state.products.find(x=>x.hexId===this.state.selectedId)
             this.props.setProductId(item.productId);
@@ -40,7 +42,9 @@ import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
     }
 
     deleteProduct = () => {
+
         let selectedId = this.state.selectedId;
+
         if(selectedId !== ""){ 
             if(window.confirm("You are deleting an item")){
                 del('employee/products/delete/'+this.state.selectedId, (res) => {
@@ -58,6 +62,7 @@ import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
     newStock = () => {this.props.history.push("/Admin/Stock/New")}
 
     render() {
+
         let selectedId = this.state.selectedId
         const columns = getColumnsFromArray(["Product Id", "Product Name", "Owner", "Quantity"]);
 
@@ -115,6 +120,7 @@ import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
 }
 
 const mapDispatchToProps = (dispatch) =>{
+
     return{
         setProductId: (id) => {dispatch({type: "SET_PRODUCT_ID",payload: {id}})},
         setProductQuantity: (quantity) => {dispatch({type: "SET_PRODCUT_QUANTITY",payload: {quantity}})},
