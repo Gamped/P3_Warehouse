@@ -1,7 +1,6 @@
 import React from 'react';
 import "../../Pages.css";
 import "./AdminProfile.css";
-import axios from "axios";
 import {Link} from "react-router-dom"
 import {post} from './../../../../handlers/requestHandlers.js';
 
@@ -20,16 +19,13 @@ export default class AdminAdd extends React.Component {
         const {userName, nickname, password} = this.state;
 
         post('employee/employees', {nickname, userName, password}, () => {
-                this.props.history.goBack();
-            });
+            this.props.history.goBack();
+        });
     }
 
-    onChange = (e) => {
-        this.setState({[e.target.name]: e.target.value});
-    }
+    onChange = (e) => {this.setState({[e.target.name]: e.target.value});}
 
     render() {
-
         return(
             <div className="PageStyle customText_b">
                 <div className="container col mb-3">

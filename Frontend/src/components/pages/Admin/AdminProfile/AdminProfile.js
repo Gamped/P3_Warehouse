@@ -24,10 +24,7 @@ class AdminProfile extends React.Component {
         };
     }
    
-    componentDidMount(){
-
-       this.getEmployees();
-    }
+    componentDidMount(){this.getEmployees();}
 
     setLoggedInUserData() {
         console.log(this.props.userId);
@@ -39,7 +36,6 @@ class AdminProfile extends React.Component {
     }
 
     getEmployees() {
-        
         get("employee/employees", (data) => {
             const employees = makeEmployeeData(data);
             this.setState({employees: employees});
@@ -63,31 +59,27 @@ class AdminProfile extends React.Component {
     sendToEdit = () =>{
         if(this.state.selectedId === ""){
             window.alert("Please choose a profile to edit.")
-        }else{
+        } else {
             this.props.history.push(`/Admin/Profile/Edit/${this.state.selectedId}`)
         }
-        
     }
 
     render() {
-
         const employees = this.state.employees;
         const columns = getColumnsFromArray(["User Name", "Nick name"]);
 
         return(
             <div className="PageStyle customText_b"> 
-                    <h1 className="title customText_b_big">Profile information</h1>
-                    <div className="informationBox">
-
-                        <h1 className="lead"><strong>Other employees: {this.state.userName}</strong></h1>
-
-                        <ReactTable
-                            data={employees} 
-                            columns={columns} 
-                            showPagination={false} 
-                            className="-striped -highlight"
-                            getTrProps={(state, rowInfo) => {
-                                if (rowInfo && rowInfo.row) {
+                <h1 className="title customText_b_big">Profile information</h1>
+                <div className="informationBox">
+                    <h1 className="lead"><strong>Other employees: {this.state.userName}</strong></h1>
+                    <ReactTable
+                        data={employees} 
+                        columns={columns} 
+                        showPagination={false} 
+                        className="-striped -highlight"
+                        getTrProps={(state, rowInfo) => {
+                            if (rowInfo && rowInfo.row) {
                                 return {
                                     onClick: (e) => {
                                         
@@ -103,21 +95,19 @@ class AdminProfile extends React.Component {
                                 return {}
                                 }
                             }}
-                            style={{height: "50vh"}}
-                        />
+                        style={{height: "50vh"}}
+                    />
                    
-
-                        <Link to="/Admin/Profile/AddEmployee" className="std_BTN btn my-2 mx-2">Add employee</Link>
-                        <button onClick={this.sendToEdit} className="std_BTN btn my-2 mx-2">Edit employee</button>
-                        <div className="red_BTN btn my-2 mx-2" onClick={this.deleteEmployee}>Remove employee</div>
-
+                    <Link to="/Admin/Profile/AddEmployee" className="std_BTN btn my-2 mx-2">Add employee</Link>
+                    <button onClick={this.sendToEdit} className="std_BTN btn my-2 mx-2">Edit employee</button>
+                    <div className="red_BTN btn my-2 mx-2" onClick={this.deleteEmployee}>Remove employee</div>
                 </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = (state)=>{
+const mapStateToProps = (state)=> {
     return{
         userType: state.loginReducer.userType,
         userId: state.loginReducer.userId

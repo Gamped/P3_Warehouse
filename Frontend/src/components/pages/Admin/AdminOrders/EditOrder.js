@@ -1,12 +1,12 @@
 import React,{Component} from 'react';
 import ReactTable from 'react-table';
 import "../../Pages.css";
-import {connect} from "react-redux";
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
-import {put} from './../../../../handlers/requestHandlers.js';
+import {post, del} from './../../../../handlers/requestHandlers.js';
 import {amountIsNotANumberWarning, amountExceedingQuantityWarning} from './../../../../handlers/exceptions.js';
 import "./EditOrder.css";
-
+import { connect } from 'react-redux';
+import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
 
 class EditOrder extends Component{
     constructor(props){
@@ -14,17 +14,24 @@ class EditOrder extends Component{
         this.state = {
             orderLines: [],
             stock: [],
+            order: {},
             userType: "",
             userHexId: "",
             selectedOrderLine: -1,
-            selectedOrderLine: {quantity:"Nothing Chosen"}
+            selectedOrderLine: {productName: "Nothing Chosen", productId: "Nothing Chosen",quantity:"Nothing Chosen"}
         }
     }
 
+    componentDidMount() {   
+        this.setState({order: this.props.order, orderLines: this.props.order.orderLines});
+        console.log("Props ",this.props)
+    }
+
     onChangeHandler = (e) =>{
-        this.setState({[e.target.name]:e.target.value}, ()=>{
-            console.log(this.state)
-        })
+        let orderLines = this.state.orderLines;
+        orderLines[this.state.selectedOrderLineNumber].amount = e.target.value;
+       
+        this.setState({orderLines: orderLines});
     }
 
     addOrderLine = (e) => {
@@ -47,106 +54,104 @@ class EditOrder extends Component{
 
     rowIsRemoved() {
         return this.state.orderLines[this.state.selectedOrderLine] ? false : true;
-      }
-
-    sendToPage = (address) => {
-        this.props.history.push(address);
     }
+
+    sendToPage = (address) => {this.props.history.push(address);}
 
     renderEditable = (cellInfo) => {
         //renderEditable complains if a row with a Cell property is being removed
-        if (!this.rowIsRemoved()) {
-        
-        return (
-          <div
-            style={{ backgroundColor: "#fafafa", color: 'black'}}
-            contentEditable
-            type="number"
-            
-            onBlur={e => {
-              
-                var typedAmount = e.target.innerHTML ? e.target.innerHTML : "0";
-                if (!typedAmount.match(/^\d+$/)) { amountIsNotANumberWarning() }
-                this.state.orderLines
-                .filter(orderLine => orderLine.hexId === cellInfo.original.hexId)
-                .map(orderLine => {
-                    if (typedAmount <= orderLine.quantity) { 
-                        typedAmount = orderLine.amount ;
-                    } else { 
-                        amountExceedingQuantityWarning();
-                        typedAmount = "0";
-                    }
-                         
-                })
-                    typedAmount = cellInfo.original.amount ;
-                    typedAmount =   e.target.innerHTML;
-                   
-            }}
-            dangerouslySetInnerHTML={{
-              __html: this.state.orderLines[cellInfo.index][cellInfo.column.id]
-            }}
-          required/>
-        );
-      }
+        if (!this.rowIsRemoved()) { 
+            return (
+                <div
+                    style={{ backgroundColor: "#fafafa", color: 'black'}}
+                    contentEditable
+                    type="number"
+                    
+                    onBlur={e => {
+                    
+                        var typedAmount = e.target.innerHTML ? e.target.innerHTML : "0";
+                        if (!typedAmount.match(/^\d+$/)) { amountIsNotANumberWarning() }
+                        this.state.orderLines
+                        .filter(orderLine => orderLine.hexId === cellInfo.original.hexId)
+                        .map(orderLine => {
+                            if (typedAmount <= orderLine.quantity) { 
+                                typedAmount = orderLine.amount ;
+                            } else { 
+                                amountExceedingQuantityWarning();
+                                typedAmount = "0";
+                            }
+                                
+                        })
+                            typedAmount = cellInfo.original.amount ;
+                            typedAmount =   e.target.innerHTML;
+                        
+                    }}
+                    dangerouslySetInnerHTML={{
+                        __html: this.state.orderLines[cellInfo.index][cellInfo.column.id]
+                    }}
+                required/>
+            );
+        } 
     }
 
      
     updateOrder = (e) => {
         e.preventDefault();
+        const data = makeOrderBodyFromData(this.state.orderLines, this.state.order);
+        
+        del("orders/delete/"+this.props.match.params.id, (response) => {
+        
+            const userId = this.state.order.ownerHexId;
+            const userType = this.state.order.ownerType.toLowerCase();
 
-        console.log(this.state,this.props.orderLine)
+            post("orders/"+userId+"/"+userType, data, (response) => {
+                if (window.confirm("Address successfully updated!", response)) {
+                    this.props.history.push("/Admin/Orders");
+                }
+            })
+        });
         
-        
+    }
+
+    onEditAddress = (e) => {
+        e.preventDefault();     
+        this.props.history.push("/Admin/Orders/Edit/OrderAddress/"+this.state.order.hexId);
     }
 
     render() {
         console.log("State:",this.state)
-        
-        let newLines = [];
-        let orderLines = this.props.orderLines
-        if(orderLines !== undefined){
-            orderLines.forEach((orderLine) => {
-                orderLine.product.amount = orderLine.quantity;
-            })
-            orderLines.forEach((orderLine) => {
-                newLines.push(orderLine.product)
-            })
-        }
+        console.log(this.props);
 
-       let orderLineColumns = getColumnsFromArray(["Product Name", "Product Id", "Amount", "Quantity"]);
+        let orderLineColumns = getColumnsFromArray(["Product Name", "Product Id", "Amount", "Quantity"]);
         
         return (
-             <div className="PageStyle customText_b">
+            <div className="PageStyle customText_b">
                 <div className="frameBordering">
                     <div className="EditOrderLeft">
-                    <ReactTable 
-                        data={newLines}
-                        columns={orderLineColumns}
-                        showPagination={false}
-                        className="editOrderColor -striped -highlight"
-                        getTrProps={(state, rowInfo) => {
-                            if (rowInfo && rowInfo.row) {
-                                return {
-                                onClick: (e) => {    
-                                    this.setState({selectedOrderLine: rowInfo.original, selectedOrderLineNumber:rowInfo.index}, ()=>{console.log("Selected Orderline:",this.state.selectedOrderLine)})
-                                },
-                                style: {
-                                    background: rowInfo.index === this.state.selectedOrderLine ? '#00afec' : 'white',
+                        <ReactTable 
+                            data={this.state.order.orderLines}
+                            columns={orderLineColumns}
+                            showPagination={false}
+                            className="editOrderColor -striped -highlight"
+                            getTrProps={(state, rowInfo) => {
+                                if (rowInfo && rowInfo.row) {
+                                    return {
+                                    onClick: (e) => {    
+                                        this.setState({selectedOrderLine: rowInfo.original, selectedOrderLineNumber:rowInfo.index}, ()=>{console.log("Selected Orderline:",this.state.selectedOrderLine)});
+                                    },
+                                    style: {
+                                        background: rowInfo.index === this.state.selectedOrderLineNumber ? '#00afec' : 'white',
                                     
+                                        
+                                    }
                                 }
-                            }
-                            }else{
-                                return {}
-                            }
-                        }}
-                        style={{height: "70vh"}}
-                    />   
-                        <div className="EditOrderLeftBTNs">             
-                            <button className="AdinOrderButtonSizer green_BTN btn " onClick={this.addOrderLine}> Add Product </button>
-                            <button className="AdinOrderButtonSizer red_BTN btn" onClick={this.removeOrderLine}>Remove Product</button>
-                        </div>
+                                }else{
+                                    return {}
+                                }
+                            }}
+                            style={{height: "70vh"}}
+                        />   
                     </div>
-
 
                     <div className="EditOrderRight">
                         <form onSubmit={this.updateOrder}>
@@ -155,14 +160,14 @@ class EditOrder extends Component{
                                     <div className="input-group-prepend">
                                         <label className="input-group-text" htmlFor="name" id="Item">Name</label> 
                                     </div>
-                                    <input id="name" className="form-control" type="text" name="name" onChange={this.onChangeHandler} defaultValue={this.state.selectedOrderLine.productName} placeholder="Name" required/>
+                                    <label id="name" className="input-group-text" type="text" name="name">{this.state.selectedOrderLine.productName} </label>
                                 </div>
 
                                 <div className="input-group my-2">
                                     <div className="input-group-prepend">
-                                        <label className="input-group-text" htmlFor="id" id="Item2">product Id</label> 
+                                        <label className="input-group-text" htmlFor="id" id="Item2">Product Id</label> 
                                     </div>
-                                    <input id="id" className="form-control" type="text" name="id" onChange={this.onChangeHandler} defaultValue={this.state.selectedOrderLine.productId} placeholder="Product id" required/>
+                                    <label id="id" className="input-group-text" type="text" name="id" >{this.state.selectedOrderLine.productId} </label>
                                 </div>
 
                                 <div className="input-group my-2">
@@ -180,7 +185,7 @@ class EditOrder extends Component{
                                 </div>
                             </div>
                             <div className="EditOrderRightBTNs">
-                                <button className="btn AdinOrderButtonSizer std_BTN btn-lg mx-2" onClick={()=>this.sendToPage("/Admin/Orders/Edit/OrderAddress/"+ this.props.match.params.id)}>Edit Address</button>        
+                                <button className="btn AdinOrderButtonSizer std_BTN btn-lg mx-2" onClick={this.onEditAddress}>Edit Address</button>        
                                 <button className="col btn AdinOrderButtonSizer blue_BTN mx-2" type="submit" onClick={this.updateOrder}>Save Content</button>
                                 <button className="col btn AdinOrderButtonSizer dark_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>      
                             </div>   
@@ -192,11 +197,8 @@ class EditOrder extends Component{
     }
 }
 
-const mapStateToProps = (state) =>{
-    return{
-        order: state.orderReducer.selectedOrder,
-        orderLines: state.orderReducer.selectedOrder.orderLines
-    }
+const mapStateToProps = (state) => {
+    return  {order: state.orderReducer.selectedOrder }
+    
 }
-
 export default connect(mapStateToProps)(EditOrder)

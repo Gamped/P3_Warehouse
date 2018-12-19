@@ -1,12 +1,10 @@
 import React from 'react';
-import "./Login.css";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {get} from "./../../../handlers/requestHandlers"
 
 // The box for sign-in to the system
 class SignInBox extends React.Component {
-
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
@@ -66,16 +64,13 @@ class SignInBox extends React.Component {
                             </div>
 
                             <button onClick={this.loginHandler} className="std_BTN btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                    
                         </form>
                     </div>
-                </div>
-                
+                </div>     
             </div>
         );
     }
 }
-
 
 const mapStateToProps = (state)=>{
     return {

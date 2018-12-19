@@ -28,13 +28,9 @@ class CreateUser extends React.Component{
         }
     }
 
-    componentDidMount(){
-        
-        this.getPublishers();
-    }
+    componentDidMount(){this.getPublishers();}
 
     getPublishers() {
-        
         get('employee/publishers', (data) => {
             let publishers = makeCustomerData(data);
             publishers.push({nickName:"Independent client",userType:"Create",hexId:"IC"})
@@ -42,14 +38,10 @@ class CreateUser extends React.Component{
        });
     }
 
-    onChange = (e) => {
-        this.setState({[e.target.name]:e.target.value});
-        
-    }
+    onChange = (e) => {this.setState({[e.target.name]:e.target.value});}
 
 
     showPublisherDropdown(flag){
-
         this.setState({
             publisherTableShows: flag
         })
@@ -58,7 +50,7 @@ class CreateUser extends React.Component{
     toggleUserType = () =>{
         if(this.state.userType === "CLIENT"){
             this.setState({userType:"PUBLISHER"},()=>{console.log(this.state)})
-        }else{
+        } else {
             this.setState({userType:"CLIENT"},()=>{console.log(this.state)})
         }
     }
@@ -68,47 +60,39 @@ class CreateUser extends React.Component{
        
         const fields = this.state;
         if (customerProfileFieldsAreValidated(fields)) {
-        const body = {
-                    userName:this.state.userName,
-                    password:this.state.password,
-                    userType:this.state.userType,
-                    contactInformation:{
-                        nickName:this.state.nickName,
-                        email:this.state.email,
-                        phoneNumber:this.state.phoneNumber,
-                        address: this.state.address,
-                        city: this.state.city,
-                        zipCode:this.state.zip
-                        }
-                    }
+            const body = {
+                userName:this.state.userName,
+                password:this.state.password,
+                userType:this.state.userType,
+                contactInformation:{
+                    nickName:this.state.nickName,
+                    email:this.state.email,
+                    phoneNumber:this.state.phoneNumber,
+                    address: this.state.address,
+                    city: this.state.city,
+                    zipCode:this.state.zip
+                }
+            }
                    
             if(this.state.userType==="CLIENT"){
-                if(this.state.selectedActorHexId === "IC"){
-
-                }else{
-                    
-                }
                 post("employee/clients", body, (response)=>{
                     this.props.history.push("/Admin/Users/")
-                    });
+                });
             } else {
                 post("employee/publishers", body, (response)=>{
                     this.props.history.push("/Admin/Users/")
-                    });
+                });
             }
-        
+        }
     }
-}
 
 
     setSelected = (e) =>{
         if (e.target.value.toLowerCase() !== 'choose customer') {
-            
             this.setState({
                 selectedActorHexId:e.target.value,
                 selectedActorUserType:this.state.publishers.find(x=>x.hexId===e.target.value).userType.toUpperCase()
             },()=>{console.log(this.state)})
-    
         } else {
             publisherNotSetOnClientProfileCreationWarning();
         }
@@ -157,7 +141,6 @@ class CreateUser extends React.Component{
                             <input type="number" className="form-control" id="phone" name="phoneNumber" placeholder="12345678" onChange={this.onChange} required/>
                         </div>
 
-
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="address">Address:</label>
@@ -188,23 +171,20 @@ class CreateUser extends React.Component{
 
                         <label className="input-group-text" htmlFor="dropdown">If Client, please choose publisher:</label>
                         <Dropdown className="form-control" actors = {this.state.publishers} action={this.setSelected} id="dropdown"/>
-
-                             
+   
                         <div className="row">
                             <div className="col my-3 mx-4">
-
                                 <button className="btn btn-success btn-block" type="submit">Create User</button>
-
                             </div>
                             <div className="col my-3 mx-4">
                                 <Link to="/Admin/Users/" className="btn adminUserBtn std_BTN btn-block">Go Back</Link>
                             </div>
                         </div>
-                    </form>
-                   
+                    </form>  
                 </div>
             </div>
         )
     }
 }
+
 export default CreateUser

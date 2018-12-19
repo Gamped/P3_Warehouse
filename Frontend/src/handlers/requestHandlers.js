@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-export function api(){
-    return "http://localhost:8080/api/";
-}
+export function api(){return "http://localhost:8080/api/";}
 
 export function get(path, callback) {
     axios.get(api() + path).then((response) => {
@@ -10,7 +8,6 @@ export function get(path, callback) {
     }).catch(err => {
         handleRequestError(err);
     });
-    
 }
 
 export function post(path, body, callback) {
@@ -19,7 +16,6 @@ export function post(path, body, callback) {
     }).catch(err => {
         handleRequestError(err);
     });
-    
 }
 
 export function del(path, callback) {

@@ -2,15 +2,12 @@ import React from 'react';
 import "./Order.css";
 import "./Cart.css";
 import { connect } from "react-redux";
-import {makeOrderBodyFromData} from "../../../handlers/bodyHandlers";
-import { post } from '../../../handlers/requestHandlers';
 
  class UserCartConfirm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            userID: this.props.userId,
             products: props.productList,
             address: {}
         };
@@ -19,8 +16,8 @@ import { post } from '../../../handlers/requestHandlers';
     goBack = () =>{
         //TODO: DELETE REDUX HERE
         if(this.props.userType==="EMPLOYEE"){
-            this.props.history.push("/Admin/Orders/New")
-        }else{
+            this.props.history.push("/Admin/Orders")
+        } else {
             this.props.history.push("/User/Order")
         }
     }
@@ -41,60 +38,59 @@ import { post } from '../../../handlers/requestHandlers';
         }
 
         return(
-        <div className="PageStyle rounded">
-            <div className="container">
-                <div className="row">
-                    <div className="col">
-                        <div className="container my-3">
-                            <table className="table table-dark">
-                                <thead>
-                                    <tr key="header">
-                                        <th scope="col">Product ID</th>
-                                        <th scope="col">Product name</th>
-                                        <th scope="col">Amount</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {lines}                                 
-                                </tbody>
-                            </table>
+            <div className="PageStyle rounded">
+                <div className="container">
+                    <div className="row">
+                        <div className="col">
+                            <div className="container my-3">
+                                <table className="table table-dark">
+                                    <thead>
+                                        <tr key="header">
+                                            <th scope="col">Product ID</th>
+                                            <th scope="col">Product name</th>
+                                            <th scope="col">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {lines}                                 
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div className="col bg-secondary">
+                            <h4 className="display-4">Success!</h4>
+                            <br/>
+                            <br/>
+                            <label className="font-weight-bold">Company name: </label>
+                            <label className="font-weight-normal">{address.company}</label>
+                            <br/>
+                            <label className="font-weight-bold">Recipient: </label>
+                            <label className="font-weight-normal">{address.contactPerson}</label>
+                            <br/>
+                            <label className="font-weight-bold">Phone: </label>
+                            <label className="font-weight-normal">{address.phoneNumber}</label>
+                            <br/>
+                        
+                            <br/>
+                            <label className="font-weight-bold">Address: </label>
+                            <label className="font-weight-normal">{address.address}</label>
+                            <br/>
+                            <label className="font-weight-bold">Zip: </label>
+                            <label className="font-weight-normal">{address.zip}</label>
+                            <br/>
+                            <label className="font-weight-bold">City</label>
+                            <label className="font-wight-normal">{address.city}</label>
+                            <br/>
+                            <label className="font-weight-bold">Country: </label>
+                            <label className="font-weight-normal">{address.country}</label>
+                        
+                            <button className="btn-dark btn btn-block my-3" onClick={this.goBack} role="button">Back</button>
+                            
                         </div>
                     </div>
-
-                    <div className="col bg-secondary">
-                        <h4 className="display-4">Success!</h4>
-                        <br/>
-                        <br/>
-                        <label className="font-weight-bold">Company name: </label>
-                        <label className="font-weight-normal">{address.company}</label>
-                        <br/>
-                        <label className="font-weight-bold">Recipient: </label>
-                        <label className="font-weight-normal">{address.contactPerson}</label>
-                        <br/>
-                        <label className="font-weight-bold">Phone: </label>
-                        <label className="font-weight-normal">{address.phoneNumber}</label>
-                        <br/>
-                       
-                        <br/>
-                        <label className="font-weight-bold">Address: </label>
-                        <label className="font-weight-normal">{address.address}</label>
-                        <br/>
-                        <label className="font-weight-bold">Zip: </label>
-                        <label className="font-weight-normal">{address.zip}</label>
-                        <br/>
-                        <label className="font-weight-bold">City</label>
-                        <label className="font-wight-normal">{address.city}</label>
-                        <br/>
-                        <label className="font-weight-bold">Country: </label>
-                        <label className="font-weight-normal">{address.country}</label>
-                       
-                        <button className="btn-dark btn btn-block my-3" onClick={this.goBack} role="button">Back</button>
-                        
-                    </div>
-                    
-                </div>
-            </div>        
-        </div>
+                </div>        
+            </div>
         );
     }
 }

@@ -4,17 +4,18 @@ export function makeAllOrdersData(data) {
     var orders = [];
 
     if (orders) {
- 
-    data.forEach((order) => {
+        data.forEach((order) => {
             orders.push(makeOrderObject(order));
-            });
-        }
+        });
+    }
     return orders;
 }
 
 export function makeOrderObject(order) {
     let orderObject = {};
+    
     orderObject.ownerHexId = order.owner.userHexId;
+    orderObject.ownerType = order.owner.userType;
     orderObject.owner = order.owner.nickName;
     orderObject.orderId = order.orderId;
     orderObject.date = makeDateString(order.date);
@@ -24,7 +25,8 @@ export function makeOrderObject(order) {
             productName: orderLine.product.productName,
             quantity: orderLine.product.quantity,
             amount: orderLine.quantity,
-            productId: orderLine.product.productId
+            productId: orderLine.product.productId,
+            hexId: orderLine.product.hexId
         }
     })
     return orderObject;
