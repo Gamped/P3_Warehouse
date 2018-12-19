@@ -59,7 +59,7 @@ public class PublisherControllerTest {
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         publisherRepository.save(publisher);
 
-        assertEquals(publisher.getUserName(), publisherController.findById(publisher.getHexId()).get().getUserName());
+        assertEquals(publisher.getUserName(), publisherController.findById(publisher.getHexId()).getUserName());
     }
 
     @Test

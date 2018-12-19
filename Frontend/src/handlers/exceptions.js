@@ -55,3 +55,7 @@ export function fieldIsNotSetWarning() {
 export function customerIsNotSelectedWarning() {
     window.alert("Please choose a customer to create an order for before choosing products");
 }
+
+export function userNotFoundWarning() {
+    window.alert("User not found in database. Try logging in again");
+}
