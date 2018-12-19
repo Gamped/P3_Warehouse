@@ -2,7 +2,6 @@ import React from "react";
 import "./mainPages.css";
 
 const adminMain = (props) => {
-
     return(
         <div>
             <div className="ErrorBox">

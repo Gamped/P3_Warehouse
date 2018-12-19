@@ -1,7 +1,6 @@
 import {makeDateString} from './utils';
 
 export function makeProductsData(productStream) {
-   
     var products = [];
     productStream.forEach((product) => {
       products.push({
@@ -18,16 +17,14 @@ export function makeProductsData(productStream) {
   }
 
   export function setProductProps(data) {
-
     let product = {
-    productName: data.productName,
-    productId: data.productId,
-    owner: data.owner.nickName,
-    quantity: data.quantity
+        productName: data.productName,
+        productId: data.productId,
+        owner: data.owner.nickName,
+        quantity: data.quantity
     }
     return product;
 }
-
 
 export function makePublisherAndItsClientsOrdersData(publisher) {
     var orders = [];
@@ -55,7 +52,6 @@ export function makePublisherAndItsClientsOrdersData(publisher) {
                 client.orderStream.forEach((order) => {
                     orders.push(addOrder(order, owner, ownerHexId));
                     console.log("client orders ", orders)
-                    
                 });
             }
         });
@@ -87,7 +83,6 @@ export function makeClientsOrdersData(data){
         ownerHexId = client.hexId;
        orders.concat(makeClientOrdersData(client, owner, ownerHexId));
     })
-
     return orders;
 }
 
@@ -95,7 +90,6 @@ export function makeClientOrdersData(client, owner, ownerHexId) {
     let orders = [];
     console.log(client, owner, ownerHexId);
     if (ordersExist(client)) {
-
         client.orderStream.forEach((order) => {
             orders.push(addOrder(order, owner, ownerHexId));
         });
@@ -103,28 +97,22 @@ export function makeClientOrdersData(client, owner, ownerHexId) {
     return orders;
 }
 
-
-
 export function ordersExist(customer) {
     if (customer.orderStream) {
-    if (customer.orderStream !== null) {
-        if (customer.orderStream !== undefined) {
-            if (customer.orderStream.length !== 0) {
-                return true;
+        if (customer.orderStream !== null) {
+            if (customer.orderStream !== undefined) {
+                if (customer.orderStream.length !== 0) {
+                    return true;
+                }
             }
         }
     }
-}
     return false;
 }
 
 export function clientsExist(publisher) {
     return publisher.numberOfClient != 0;
 }
-
-
-
-
 
 export function makeOwnersData(data) {
     this.setState({rawOwnerData: data});
@@ -137,8 +125,7 @@ export function makeOwnersData(data) {
             userType: publisher.userType
         })
         
-        if (publisher.numberOfClients !== 0) {
-            
+        if (publisher.numberOfClients !== 0) { 
             publisher.clientStream.forEach((client) => {
                 owners.push({
                     ownerName: client.contactInformation.nickName,
@@ -148,24 +135,20 @@ export function makeOwnersData(data) {
             })      
         }
     })
-    
     return owners;
 }
 
 export function makeEmployeeData(data) {
     let employees = [];
     data.forEach((employee) => {
-    employees.push({
-        userName: employee.userName,
-        nickname: employee.nickname,
-        hexId: employee.hexId
-        })
+        employees.push({
+            userName: employee.userName,
+            nickname: employee.nickname,
+            hexId: employee.hexId
+            })
     })
-
     return employees;
 }
-
-
 
 export const makeCustomerData = (data) =>{
     var customers = [];
@@ -192,9 +175,7 @@ export const makeCustomerData = (data) =>{
             zipCode: customer.contactInformation.zipCode,
             city: customer.contactInformation.city              
         })
-        
     });
-
     return customers;
 }
 
@@ -215,7 +196,6 @@ export function makeClientDetails(publisher) {
         publisher.clientStream.forEach((client) => {
             let cci = client.contactInformation;
             if (cci) {
-
                 let address = cci.address + " " + cci.city + " " + cci.zipCode;
                 clients.push({
                     address: address,
@@ -245,7 +225,6 @@ export function makeCustomerProductsData(customer) {
             });
         }
     }
-
     return products;
 }
 
@@ -255,7 +234,6 @@ export function productsExist(owner) {
 
 export function isPublisher(owner) {
     return owner.userType == "PUBLISHER";
-
 }
 
 export function makeOrderAddressData(data) {
@@ -272,24 +250,19 @@ export function makeOrderAddressData(data) {
     return order;
 }
 
-
 export function makeAdminOrderData(orders) {
     var orders = [];
     let owner, ownerHexId = "";
     if (orders) {
- 
-    orders.forEach((order) => {
-       
+        orders.forEach((order) => {     
             owner = order.contactInformation.nickName;
             ownerHexId = order.hexId;
             orders.push(addOrder(order, owner, ownerHexId));
-         
-            })
-        }
+            
+        })
+    }
     return orders;
 }
-
-
 
 export function makeOrderLinesData(data) {
     let orderLines = [];
@@ -309,7 +282,6 @@ export function makeOrderLinesData(data) {
 export function addOrder(order, owner, ownerHexId) {
     let orderObject = {};
     if (order !== null) {
-        
 
     orderObject.ownerHexId = ownerHexId ? ownerHexId : order.owner.userHexId;
     orderObject.owner = owner ? owner : order.owner.nickName;
@@ -324,5 +296,6 @@ export function addOrder(order, owner, ownerHexId) {
         }
     })
 }
+
     return orderObject;
 }

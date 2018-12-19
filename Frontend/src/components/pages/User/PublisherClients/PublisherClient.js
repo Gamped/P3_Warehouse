@@ -5,7 +5,6 @@ import ReactTable from 'react-table';
 import {makeClientDetails} from './../../../../handlers/dataHandlers.js';
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 import {get} from './../../../../handlers/requestHandlers';
-
 import "../../Pages.css";
 
 class PublisherClient extends React.Component {
@@ -18,26 +17,17 @@ class PublisherClient extends React.Component {
             selectedId: ""
         };
     }
-   
 
-    componentDidMount(){
-
-       this.getPublisherProducts();
-    }
+    componentDidMount(){this.getPublisherProducts();}
 
     getPublisherProducts() {
-
         get("publishers/" + this.props.userId, (data) => {
-            
             const clients = makeClientDetails(data);
             this.setState({ clients: clients });
-        })
-           
+        })  
     }
    
-
-  render() {
-
+    render() {
         const columns = getColumnsFromArray(["Client", "Phone Number", "Email", "Address"]);  
 
         return(
@@ -64,19 +54,21 @@ class PublisherClient extends React.Component {
                                             color: rowInfo.index === this.state.selected ? 'white' : 'black'
                                         }
                                         }
-                                    }else{
+                                    } else {
                                         return {}
                                     } 
                                 }}
-                                        // This will force the table body to overflow and scroll, 
-                                        // since there is not enough room
-                                        defaultPageSize={25}
-                                        style={{
-                                            height: "400px"                                      
-                                        }}
+                                // This will force the table body to overflow and scroll, 
+                                // since there is not enough room
+                                defaultPageSize={25}
+                                style={{
+                                    height: "400px"                                      
+                                }}
                             />
                         </div>
+
                         <div class="w-100"></div>
+                        
                         <div className="col md-auto">    
                             <div className="button-group my-2">
                                 <button type="button" className="btn std_BTN mx-2">Export shown stock</button>

@@ -11,13 +11,10 @@ import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin
@@ -37,12 +34,10 @@ public class EmployeeController {
     @Autowired
     OrderRepository orderRepository;
 
-
-    //CREATE: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
-
+    // CREATE: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
     @PostMapping("/employee/employees")
-    String createEmployee(@RequestBody RestEmployeeModel restEmployeeModel){ //Can't test it if private. Deal with it.
+    String createEmployee(@RequestBody RestEmployeeModel restEmployeeModel){
         ObjectId id = new ObjectId();
         Employee employee = new Employee(id);
         BeanUtils.copyProperties(restEmployeeModel, employee);
@@ -55,9 +50,7 @@ public class EmployeeController {
                 userRepository.save(user);
                 return "created!";
             }
-            else{
-                return "Username already taken";
-            }
+            else{return "Username already taken";}
         }
         else return "Invalid User";
     }
@@ -65,7 +58,6 @@ public class EmployeeController {
     @PostMapping("/employee/products/assignTo={customerId}/withUserType={userType}")
     String createProduct(@PathVariable("customerId") String customerId, @PathVariable("userType") String userType,
                          @RequestBody RestProductModel restProduct) {
-
         if (userType.equals("DEFAULT") || customerId.equals("DEFAULT")) {
             return "Could not create, customerId or userType is not set!";
         }
@@ -79,7 +71,7 @@ public class EmployeeController {
             publisher.addProduct(product);
             product.setOwner(publisher);
             publisherRepository.save(publisher);
-        }else if(UserType.valueOf(userType).equals(UserType.CLIENT)){
+        } else if(UserType.valueOf(userType).equals(UserType.CLIENT)) {
             Client client = clientRepository.findById(customerId);
             client.addProduct(product);
             product.setOwner(client);
@@ -87,33 +79,31 @@ public class EmployeeController {
         }
 
         productRepository.save(product);
-
         return "Created!";
     }
 
     @PostMapping("/employee/publishers")
     String createPublisher(@RequestBody RestCustomerModel restCustomerModel) {
-
         Publisher publisher = new Publisher(new ObjectId());
         User user = new User(publisher.getId());
+
         BeanUtils.copyProperties(restCustomerModel, user);
         publisher.setUserType(UserType.PUBLISHER);
         BeanUtils.copyProperties(restCustomerModel, publisher);
-        if(publisherRepository.findAll().stream().noneMatch(x -> x.getUserName().equals(publisher.getUserName()))) {
+
+        if (publisherRepository.findAll().stream().noneMatch(x -> x.getUserName().equals(publisher.getUserName()))) {
             if (publisher.isValid()) {
                 publisherRepository.save(publisher);
                 userRepository.save(user);
 
                 return "Created!";
-            }
-               else return "Invalid User";
+            } else return "Invalid User";
         }
         return "Username already taken";
     }
 
     @PostMapping("/employee/clients")
     String createClient(@RequestBody RestCustomerModel restCustomerModel) {
-
         Client client = new Client(new ObjectId());
         User user = new User(client.getId());
 
@@ -134,14 +124,13 @@ public class EmployeeController {
 
     @PostMapping("/employee/publishers/{publisherId}/clients")
     String createPublisherClient(@RequestBody RestCustomerModel restCustomerModel, @PathVariable String publisherId) {
-
         Client client = new Client(new ObjectId());
         User user = new User(client.getId());
         Publisher publisher = null;
+
         try {
             publisher = publisherRepository.findById(new ObjectId(publisherId)).orElseThrow(() -> new Exception(publisherId));
-        }
-        catch(Exception e){
+        } catch(Exception e) {
             return "Could not find publisher on id: " + publisherId;
         }
 
@@ -152,6 +141,7 @@ public class EmployeeController {
         user.setUserType(UserType.CLIENT);
         client.setPublisher(publisher);
         publisher.addClient(client);
+
         if(clientRepository.findAll().stream().noneMatch(x -> x.getUserName().equals(client.getUserName()))) {
             if (client.isValid()) {
                 userRepository.save(user);
@@ -166,31 +156,19 @@ public class EmployeeController {
     //FIND ALL: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
     @GetMapping("/employee/employees")
-    private Collection<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
-    }
+    private Collection<Employee> getAllEmployees() {return employeeRepository.findAll();}
 
     @GetMapping("/employee/products")
-    Collection<Product> findAllProducts() {
-        return productRepository.findAll();
-    }
-
+    Collection<Product> findAllProducts() {return productRepository.findAll();}
 
     @GetMapping("/employee/clients")
-    private Collection<Client> findAllClients() {
-        return clientRepository.findAll();
-    }
+    private Collection<Client> findAllClients() {return clientRepository.findAll();}
 
     @GetMapping("/employee/publishers")
-    private Collection<Publisher> findAllPublishers() {
-        return publisherRepository.findAll();
-    }
-
+    private Collection<Publisher> findAllPublishers() {return publisherRepository.findAll();}
 
     @GetMapping("/employee/users")
-    Collection<User> findAllUsers() {
-        return userRepository.findAll();
-    }
+    Collection<User> findAllUsers() {return userRepository.findAll();}
 
     //FIND BY ID: EMPLOYEE, PRODUCTS, CLIENTS, PUBLISHERS, USERS
 
@@ -207,13 +185,11 @@ public class EmployeeController {
     @GetMapping("/employee/publisher/{hexId}")
     private Optional<Publisher> findPublisherById(@PathVariable String hexId) {
         return publisherRepository.findById(new ObjectId(hexId));
-
     }
 
     @GetMapping("/employee/client/{hexId}")
     private Optional<Client> findClientById(@PathVariable String hexId) {
         return clientRepository.findById(new ObjectId(hexId));
-
     }
 
     @GetMapping("employee/order/{hexId}")
@@ -225,7 +201,6 @@ public class EmployeeController {
 
     @PutMapping("/employee/edit/{hexId}")
     String updateEmployee(@PathVariable("hexId") String hexId, @RequestBody RestEmployeeModel restEmployeeModel) {
-
         Optional<Employee> optionalEmployee = employeeRepository.findById(new ObjectId(hexId));
         Employee employee = optionalEmployee.get();
 
@@ -240,31 +215,25 @@ public class EmployeeController {
         return "Updated Employee with nickName ";
     }
 
-
     @PutMapping("/employee/product/edit/{hexId}")
     String updateProduct(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
-
         ObjectId id = new ObjectId(hexId);
-
         Optional<Product> optProduct = productRepository.findById(id);
-
         Product product = optProduct.get();
 
         BeanUtils.copyProperties(restProduct, product);
-
         productRepository.save(product);
 
         return "Updated Product: " + product.toString();
-
     }
 
     @PutMapping("/employee/client/contactInformation/edit/{hexId}")
     String updateContactInformationOnClient(@PathVariable String hexId, @RequestBody ContactInformation contactInformation) {
-
         ObjectId id = new ObjectId(hexId);
         Optional<Client> optClient = clientRepository.findById(id);
         Client client = optClient.get();
         ContactInformation oldContactInformation = client.getContactInformation();
+
         BeanUtils.copyProperties(contactInformation, oldContactInformation);
         clientRepository.save(client);
 
@@ -273,11 +242,11 @@ public class EmployeeController {
 
     @PutMapping("/employee/publisher/contactInformation/edit/{hexId}")
     String updateContactInformationOnPublisher(@PathVariable String hexId, @RequestBody ContactInformation contactInformation) {
-
         ObjectId id = new ObjectId(hexId);
         Optional<Publisher> optPublisher = publisherRepository.findById(id);
         Publisher publisher = optPublisher.get();
         ContactInformation oldContactInformation = publisher.getContactInformation();
+
         BeanUtils.copyProperties(contactInformation, oldContactInformation);
         publisherRepository.save(publisher);
 
@@ -286,11 +255,10 @@ public class EmployeeController {
 
     @PutMapping("/employee/user/edit/{hexId}")
     String updateUserCredentials(@PathVariable String hexId, @RequestBody RestUserModel restUserModel) {
-
         ObjectId id = new ObjectId(hexId);
-
         Optional<User> optionalUser = userRepository.findById(id);
         User user = optionalUser.get();
+
         BeanUtils.copyProperties(restUserModel, user);
         userRepository.save(user);
 
@@ -304,16 +272,17 @@ public class EmployeeController {
         Product product = productRepository.findById(new ObjectId(hexId)).get();
         if(product.getOwner().getUserType().equals(UserType.CLIENT)){
             Client client = clientRepository.findById(product.getOwner().getHexId());
+
             client.removeProduct(product);
             clientRepository.save(client);
-        }else if(product.getOwner().getUserType().equals(UserType.PUBLISHER)){
+        } else if(product.getOwner().getUserType().equals(UserType.PUBLISHER)) {
             Publisher publisher = publisherRepository.findById(product.getOwner().getHexId()).get();
+
             publisher.removeProduct(product);
             publisherRepository.save(publisher);
         }
         productRepository.deleteById(new ObjectId(hexId));
     }
-
 
     @DeleteMapping("/employee/delete/{hexId}")
     public String deleteEmployeeById(@PathVariable String hexId) {
@@ -327,15 +296,15 @@ public class EmployeeController {
         return "Deletion Success";
     }
 
-
     @DeleteMapping("/employee/clients/delete/{hexId}")
     private void deleteClientById(@PathVariable String hexId) {
         ObjectId id = new ObjectId(hexId);
         Client client = clientRepository.findById(id).orElse(null);
+
         client.unassignAllOrders().forEach(orderRepository::delete);
         client.unassignAllProducts().forEach(productRepository::save);
         User user = userRepository.findById(id).orElse(null);
-        if(client.getPublisher() != null){
+        if (client.getPublisher() != null) {
             Publisher publisher = publisherRepository.findById(client.getPublisher().getHexId()).orElse(null);
             publisher.removeClient(client);
             publisherRepository.save(publisher);
@@ -347,6 +316,7 @@ public class EmployeeController {
     @DeleteMapping("/employee/publishers/delete/{hexId}")
     private void deletePublisherById(@PathVariable String hexId) {
         ObjectId id = new ObjectId(hexId);
+
         Publisher publisher = publisherRepository.findById(id).orElse(null);
         publisher.getClientStream().map(x -> x.unassignAllProducts().map(product -> productRepository.save(product)));
         publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(orderStream -> orderStream.forEach(orderRepository::delete));
@@ -360,21 +330,18 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/employee/users/delete/{hexId")
-    private void deleteUserById(@PathVariable String hexId) {
-        userRepository.deleteById(new ObjectId(hexId));
-    }
-
+    private void deleteUserById(@PathVariable String hexId) {userRepository.deleteById(new ObjectId(hexId));}
 
     //CLIENT PUBLISHER ROUTES
 
     @PostMapping("/employee/publishers/addClient={clientHexId}/toPublisher={publisherHexId}")
     private String addClientToPublisher(@PathVariable("clientHexId") String clientHexId,
                                         @PathVariable("publisherHexId") String publisherHexId) {
-
         Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(publisherHexId));
         Optional<Client> optionalClient = clientRepository.findById(new ObjectId(clientHexId));
         Publisher publisher = optionalPublisher.get();
         Client client = optionalClient.get();
+
         publisher.addClient(client);
         publisherRepository.save(publisher);
         return "Client " + client.getUserName() + " Added to publisher " + publisher.getUserName();
@@ -383,15 +350,14 @@ public class EmployeeController {
     @PostMapping("/employee/publishers/removeClient={clientHexId}/fromPublisher={publisherHexId}")
     private String removeClientToPublisher(@PathVariable("clientHexId") String clientHexId,
                                         @PathVariable("publisherHexId") String publisherHexId) {
-
         Optional<Publisher> optionalPublisher = publisherRepository.findById(new ObjectId(publisherHexId));
         Optional<Client> optionalClient = clientRepository.findById(new ObjectId(clientHexId));
         Publisher publisher = optionalPublisher.get();
         Client client = optionalClient.get();
+
         publisher.removeClient(client);
         publisherRepository.save(publisher);
         return "Client " + client.getUserName() + " Added to publisher " + publisher.getUserName();
     }
-
 }
 
