@@ -1,9 +1,11 @@
 import {makeDateString} from './../../handlers/utils.js';
 
 export function makeAllOrdersData(data) {
+    
     var orders = [];
 
     if (orders) {
+
         data.forEach((order) => {
             orders.push(makeOrderObject(order));
         });
@@ -12,6 +14,7 @@ export function makeAllOrdersData(data) {
 }
 
 export function makeOrderObject(order) {
+
     let orderObject = {};
     
     orderObject.ownerHexId = order.owner.userHexId;

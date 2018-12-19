@@ -4,6 +4,7 @@ import {fieldInvalidWarning, passwordsDoNotMatchWarning,
 
 
 export function newProductIsValid(product) {
+
     if (newProductFieldsAreNotUndefined(product)) {
         if (quantityIsANumber(product.quantity)) {
             if (productIdIsANumber(product.productId)) {
@@ -17,6 +18,7 @@ export function newProductIsValid(product) {
 }
 
 export function productIdIsANumber(productId) {
+
     if (productId.match(/^\d+$/)) {
         return true;
     } else {
@@ -26,6 +28,7 @@ export function productIdIsANumber(productId) {
 }
 
 export function quantityIsANumber(quantity) { 
+
     if (quantity.match(/^\d+$/)) {    
         return true;
     } else {
@@ -35,6 +38,7 @@ export function quantityIsANumber(quantity) {
 }
 
 export function newProductFieldsAreNotUndefined(product) {
+
     if (product.quantity !== undefined) {
         if (product.productId !== undefined) {
             if (product.productName !== undefined) {
@@ -69,6 +73,7 @@ export function customerProfileFieldsAreValidated(fields) {
 }
 
 export function employeeProfileFieldsAreValidated(fields) {
+
     if (isUserNameValid(fields.userName)) {
         if (isNickNameValid(fields.nickName)) {
             if (fields.password && fields.passwordRepeat) {
@@ -84,6 +89,7 @@ export function employeeProfileFieldsAreValidated(fields) {
 }
 
 export function userProfileFieldsAreValidated(fields) {
+
     if (isAddressValid(fields.address)) {
         if (isCityValid(fields.city)) {
             if (isZipCodeValid(fields.zipCode)) {
@@ -129,6 +135,7 @@ export function isOrderAddressValid(fields) {
 } 
 
 export function isContactPersonValid(contact) {
+
     if (contact.match(/\w+/)) {
         return true;
     } else {
@@ -137,6 +144,7 @@ export function isContactPersonValid(contact) {
     }
 }
 export function isAddressValid(address) {
+
     if (address.match(/[A-Za-z0-9\.\-\s\,\d]/)) {
         return true;
     } else {
@@ -146,6 +154,7 @@ export function isAddressValid(address) {
 }
 
 export function isCityValid(city) {
+
     if (city.match(/\w*/)) {
         return true;
     } else {
@@ -155,6 +164,7 @@ export function isCityValid(city) {
 }
 
 export function isZipCodeValid(zip) {
+
     if (zip.match(/\d{4,5}/)) {
         return true;
     } else {
@@ -164,6 +174,7 @@ export function isZipCodeValid(zip) {
 }
 
 export function isUserNameValid(userName) {
+
     if (userName.match(/[\w\d]/)) {
         return true;
     } else {
@@ -173,6 +184,7 @@ export function isUserNameValid(userName) {
 }
 
 export function isNickNameValid(nickName) {
+
     if (nickName.match(/.*/)) {
         return true;
     } else {
@@ -182,6 +194,7 @@ export function isNickNameValid(nickName) {
 }
 
 export function isEmailValid(email) {
+
     if (email.match(/.+@.+\.\w+/)) {
         return true;
     } else {
@@ -191,6 +204,7 @@ export function isEmailValid(email) {
 }
 
 export function isPhoneValid(phone) {
+
     if (phone.match(/\+?\d+/)) {
         return true;
     } else {
@@ -200,6 +214,7 @@ export function isPhoneValid(phone) {
 }
 
 export function isCountryValid(country) {
+
     if (country.match(/\w*/)) {
         return true;
     } else {
@@ -209,6 +224,7 @@ export function isCountryValid(country) {
 }
 
 export function isPasswordValid(password, retypedPassword) {
+
     if (password === retypedPassword) {
     if (password.match(/[\S]/)) {
         return true;
@@ -221,8 +237,8 @@ export function isPasswordValid(password, retypedPassword) {
     }
 }
 
-
 export function isPublisherChosen(userType, pubHex) {
+    
     if (userType.toLowerCase() == 'client' && pubHex.toLowerCase() == 'default') {
         publisherNotSetOnClientProfileCreationWarning();
         return false;
