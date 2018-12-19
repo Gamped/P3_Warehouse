@@ -89,9 +89,9 @@ public class EmployeeController {
         Publisher publisher = new Publisher(new ObjectId());
         User user = new User(publisher.getId());
 
-        BeanUtils.copyProperties(restCustomerModel, user);
         publisher.setUserType(UserType.PUBLISHER);
         BeanUtils.copyProperties(restCustomerModel, publisher);
+        BeanUtils.copyProperties(publisher, user);
 
         if (publisherRepository.findAll().stream().noneMatch(x -> x.getUserName().equals(publisher.getUserName()))) {
             if (publisher.isValid()) {
