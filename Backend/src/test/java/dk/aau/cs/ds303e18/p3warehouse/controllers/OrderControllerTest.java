@@ -1,12 +1,10 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
-import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
+import dk.aau.cs.ds303e18.p3warehouse.exceptions.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestOrderModel;
-import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.*;
@@ -17,29 +15,20 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyOrder.makeDummyOrder;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyProduct.makeDummyProduct;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyPublisher.makeDummyPublisher;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OrderControllerTest {
-
     @Autowired
     OrderController orderController;
     @Autowired
@@ -199,5 +188,4 @@ public class OrderControllerTest {
 
         assertEquals(0, orderRepository.findAll().size());
     }
-
 }

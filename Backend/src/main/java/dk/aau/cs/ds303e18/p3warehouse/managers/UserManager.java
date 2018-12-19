@@ -1,12 +1,10 @@
 package dk.aau.cs.ds303e18.p3warehouse.managers;
 
-import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ClientRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.EmployeeRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
-import dk.aau.cs.ds303e18.p3warehouse.repositories.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 

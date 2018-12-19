@@ -21,7 +21,6 @@ public class ClientProductRepositTest {
     @Autowired
     ProductRepository productRepository;
 
-
     @Test
     public void ProductChekID(){
 
@@ -35,6 +34,7 @@ public class ClientProductRepositTest {
         clientRepository.delete(testClient);
         productRepository.delete(testProduct);
     }
+
     @Test
     public void Clientsave(){
         ObjectId clientId = new ObjectId();
@@ -49,6 +49,7 @@ public class ClientProductRepositTest {
         clientRepository.delete(testClient);
         productRepository.delete(testProduct);
     }
+
     @Test
     public void productSave(){
         ObjectId clientId = new ObjectId();
@@ -63,5 +64,4 @@ public class ClientProductRepositTest {
         clientRepository.delete(testClient);
         productRepository.delete(testProduct);
     }
-
 }

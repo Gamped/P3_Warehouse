@@ -10,7 +10,7 @@ import java.util.Properties;
 public abstract class SendMail {
     private final String name = "4N Mailhouse";
     private String emailID, password;
-    private Session session = null;
+    private Session session;
     private boolean loginError = false;
 
     public SendMail(){

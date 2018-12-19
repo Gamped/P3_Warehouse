@@ -1,8 +1,10 @@
 import React from "react";
 
 const Dropdown = (props) =>{
+    
     const {action, actors} = props;
     const actorList = actors.map((actor)=>{
+
         return(
             <option 
             key={actor.hexId}

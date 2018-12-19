@@ -8,30 +8,20 @@ import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.*;
 
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyClient.makeDummyClient;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyEmployee.makeDummyEmployee;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyProduct.makeDummyProduct;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyPublisher.makeDummyPublisher;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EmployeeControllerTest {
-
     @Autowired
     EmployeeController employeeController;
 

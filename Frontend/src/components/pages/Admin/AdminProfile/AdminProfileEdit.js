@@ -25,7 +25,7 @@ class AdminProfileEdit extends React.Component {
     getEmployeeData() {
         get("employee/employee/" + this.props.match.params.id, (data) => {
             this.setState({
-                nickName: data.nickName,
+                nickName: data.nickname,
                 userName: data.userName });
         });
     }

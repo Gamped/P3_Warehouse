@@ -3,7 +3,7 @@ import "./Order.css";
 import ReactTable from 'react-table';
 import { connect } from "react-redux";
 import {makeProductsData} from '../../../handlers/dataHandlers.js';
-import {itemPreviouslyAddedWarning, amountIsNotANumberWarning, 
+import {itemPreviouslyAddedWarning, userNotFoundWarning, amountIsNotANumberWarning, 
         amountExceedingQuantityWarning, amountIsZeroWarning, itemNotChosenWarning, 
         customerIsNotSelectedWarning} from '../../../handlers/exceptions.js';
 import { getColumnsFromArray } from '../../../handlers/columnsHandlers.js';
@@ -18,11 +18,13 @@ import {makeCustomerData} from "../../../handlers/dataHandlers";
 //TODO: Properly pass orderLines in state as props to UserOrderCart child
 
 class UserOrder extends React.Component {
+
     constructor(props) {
         super(props);
 
         this.state = {
             userID: props.userId,
+            userType: props.userType,
             products: [],
             selected: null,
             selectedId: "",
@@ -40,12 +42,14 @@ class UserOrder extends React.Component {
     }
 
     componentDidMount() {
+
         this.getClients();
         this.getPublishers();
         this.getStock();           
     }
 
      getClients() {
+
          get('employee/clients', (data) => {
              const clients = makeCustomerData(data);
              this.concatinateWithNewData(clients);
@@ -53,6 +57,7 @@ class UserOrder extends React.Component {
      }
  
      getPublishers() {
+
         get('employee/publishers', (data) => { 
             const publishers = makeCustomerData(data);
             console.log(publishers, "PUBLISHERS")
@@ -61,12 +66,14 @@ class UserOrder extends React.Component {
      }
  
      concatinateWithNewData(newData) {
+
          const customersCopy = this.state.customers;
          let concatinatedData = customersCopy.concat(newData);
          this.setState({ customers: concatinatedData });
      }
 
     getStock() {
+
         const userType = this.props.userType.toLowerCase();
         const id = this.props.userId;
 
@@ -75,21 +82,29 @@ class UserOrder extends React.Component {
                 const products = makeProductsData(data);
                 this.setState({products: products})
             })
-        } else { 
+
+        } else {
+
             get(userType + 's/' + id + '/products', (data) => {
                 let products = [];
-                console.log("DATA:",data)
-                
-                 products = makeProductsData(data);
-    
-                this.setState({ products: products });
+                if (data == null) {
+                    userNotFoundWarning();
+                } else {
+                    products = makeProductsData(data);
+                    this.setState({ products: products });
+                }
             });
         }
     }
 
     addSelectedToOrderLine = () => {
+
         if(this.state.selected!==null){
-            let newLine = this.state.filteredStock[this.state.selected];
+            let newLine = {}
+            let userType = this.state.userType.toLowerCase();
+
+            userType == 'employee' ? newLine = this.state.filteredStock[this.state.selected] : newLine = this.state.products[this.state.selected];
+
             if (this.state.orderLines.some(orderLine => orderLine.productId === newLine.productId)) {
                 itemPreviouslyAddedWarning();
             } else {
@@ -105,6 +120,7 @@ class UserOrder extends React.Component {
       }
 
     undoOrderLine = () => {
+
         if(this.state.numberOfItems===0){
             alert("Cart is currently empty")
         } else {
@@ -114,6 +130,7 @@ class UserOrder extends React.Component {
 
     //Not in use - should be in second if in addSelectedToOrderLine
     checkIfPreviouslyAdded = (orderLine) => {
+
         if(this.state.orderLines.filter(line => orderLine.hexId === line.hexId)) {
             itemPreviouslyAddedWarning(); 
         }
@@ -121,6 +138,7 @@ class UserOrder extends React.Component {
 
     changeToCart = (event) => {
         event.preventDefault();
+
         if(this.state.orderLines.length !== 0){
             this.props.setItemToCart(this.state.orderLines)
             const userType = this.props.userType
@@ -143,6 +161,7 @@ class UserOrder extends React.Component {
     }
 
     renderEditable = cellInfo => {
+
         return (
             <div
                 style={{ backgroundColor: "#fafafa" }}
@@ -182,6 +201,7 @@ class UserOrder extends React.Component {
 
 
     createNavBar = () =>{
+
         let navbar = null;
         if(this.props.userType==="EMPLOYEE"){
             navbar = (
@@ -211,10 +231,11 @@ class UserOrder extends React.Component {
     }
 
     setSelectedUser = (e) => {
+
         if(e.target.value.toLowerCase()!=="choose customer"){    
             this.setState({userSelectedId:e.target.value},()=>{
                 console.log(this.state)
-                this.setState({userSelectedType:this.state.customers.find(x=>x.hexId===this.state.userSelectedId).userType},()=>{
+                this.setState({userSelectedType:this.state.customers.find(x=>x.hexId===this.state.userSelectedId).userType},() => {
                     console.log(this.state)
                     this.filterStock();
                 })
@@ -225,6 +246,7 @@ class UserOrder extends React.Component {
     }
 
     filterStock() {
+
         let hexId = this.state.userSelectedId;
         let userType = this.state.userSelectedType.toLowerCase();
         let filteredStock = this.state.products.filter(x=>x.ownerHexId===hexId);
@@ -243,6 +265,7 @@ class UserOrder extends React.Component {
     }
 
     render(){
+
         const data = this.state.products;
         const columns = getColumnsFromArray([
             "Product Id", 
@@ -274,7 +297,7 @@ class UserOrder extends React.Component {
                                             if (rowInfo && rowInfo.row) {
                                             return {
                                                 onClick: () => {
-                                                    if (!this.state.filteredStock) {
+                                                    if (!this.state.filteredStock && this.state.userType.toLowerCase() == 'employee') {
                                                         customerIsNotSelectedWarning();
                                                     } else {
                                                         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
@@ -315,6 +338,7 @@ class UserOrder extends React.Component {
 }
 
 const mapStateToProps = (state)=>{
+
     return{
         userType: state.loginReducer.userType, 
         userId: state.loginReducer.userId
@@ -322,6 +346,7 @@ const mapStateToProps = (state)=>{
 }
 
 const mapDispatchToProps = (dispatch) =>{
+
     return {
         setItemToCart: (orderLines) => {dispatch({type: "SET_ORDERLINES",payload: {orderLines}})},
         setCustomerToCart: (customer) =>{dispatch({type:"SET_CUSTOMER", payload:{customer}})}

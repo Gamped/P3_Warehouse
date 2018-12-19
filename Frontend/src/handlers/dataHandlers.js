@@ -281,20 +281,21 @@ export function makeOrderLinesData(data) {
 
 export function addOrder(order, owner, ownerHexId) {
     let orderObject = {};
-    if (order !== null && order.orderId !== null) {
-        
-        orderObject.ownerHexId = ownerHexId ? ownerHexId : order.owner.userHexId;
-        orderObject.owner = owner ? owner : order.owner.nickName;
-        orderObject.orderId = order.orderId !== null ? order.orderId : "No Order Id";
-        orderObject.date = makeDateString(order.date);
-        orderObject.hexId = order.hexId;
-        orderObject.orderLines = order.orderLines.map((orderLine) => {
-            return {
-                productName: orderLine.product.productName,
-                amount: orderLine.quantity,
-                productId: orderLine.product.productId
-            }
-        })
-    }
+    if (order !== null) {
+
+    orderObject.ownerHexId = ownerHexId ? ownerHexId : order.owner.userHexId;
+    orderObject.owner = owner ? owner : order.owner.nickName;
+    orderObject.orderId = order.orderId !== null ? order.orderId : "No Order Id";
+    orderObject.date = makeDateString(order.date);
+    orderObject.hexId = order.hexId;
+    orderObject.orderLines = order.orderLines.map((orderLine) => {
+        return {
+            productName: orderLine.product.productName,
+            amount: orderLine.quantity,
+            productId: orderLine.product.productId
+        }
+    })
+}
+
     return orderObject;
 }
