@@ -18,7 +18,6 @@ const Dropdown = (props) =>{
             {actorList}
         </select>  
     )
-
 }
 
 export default Dropdown

@@ -18,7 +18,6 @@ import {makeCustomerData} from "../../../handlers/dataHandlers";
 //TODO: Properly pass orderLines in state as props to UserOrderCart child
 
 class UserOrder extends React.Component {
-    
     constructor(props) {
         super(props);
 
@@ -38,10 +37,9 @@ class UserOrder extends React.Component {
         this.addSelectedToOrderLine = this.addSelectedToOrderLine.bind(this);
         this.undoOrderLine = this.undoOrderLine.bind(this);
         this.renderEditable = this.renderEditable.bind(this);
-       
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getClients();
         this.getPublishers();
         this.getStock();           
@@ -63,14 +61,12 @@ class UserOrder extends React.Component {
      }
  
      concatinateWithNewData(newData) {
-     
          const customersCopy = this.state.customers;
          let concatinatedData = customersCopy.concat(newData);
          this.setState({ customers: concatinatedData });
      }
 
     getStock() {
-        
         const userType = this.props.userType.toLowerCase();
         const id = this.props.userId;
 
@@ -79,7 +75,7 @@ class UserOrder extends React.Component {
                 const products = makeProductsData(data);
                 this.setState({products: products})
             })
-        }else{
+        } else { 
             get(userType + 's/' + id + '/products', (data) => {
                 let products = [];
                 console.log("DATA:",data)
@@ -97,13 +93,13 @@ class UserOrder extends React.Component {
             if (this.state.orderLines.some(orderLine => orderLine.productId === newLine.productId)) {
                 itemPreviouslyAddedWarning();
             } else {
-               if (newLine.amount != "0") {
+                if (newLine.amount != "0") {
                 this.setState({orderLines: [...this.state.orderLines, newLine],numberOfItems:this.state.numberOfItems+1}); 
             } else {
                 amountIsZeroWarning();
                }
             }
-        }else{
+        } else {
             itemNotChosenWarning();
         }
       }
@@ -111,21 +107,20 @@ class UserOrder extends React.Component {
     undoOrderLine = () => {
         if(this.state.numberOfItems===0){
             alert("Cart is currently empty")
-        }else{
+        } else {
             this.setState({orderLines: this.state.orderLines.splice(-1, 1),numberOfItems:this.state.numberOfItems-1})
         }
       }
 
     //Not in use - should be in second if in addSelectedToOrderLine
     checkIfPreviouslyAdded = (orderLine) => {
-          
         if(this.state.orderLines.filter(line => orderLine.hexId === line.hexId)) {
             itemPreviouslyAddedWarning(); 
         }
     }
 
     changeToCart = (event) => {
-        event.preventDefault()
+        event.preventDefault();
         if(this.state.orderLines.length !== 0){
             this.props.setItemToCart(this.state.orderLines)
             const userType = this.props.userType
@@ -136,58 +131,54 @@ class UserOrder extends React.Component {
                     this.props.setCustomerToCart({userType:this.state.userSelectedType,userId:this.state.userSelectedId})
                     console.log(this.state.selectedId)
                     this.props.history.push("/Admin/Order/Cart")
-                }else{
+                } else {
                     window.alert("Please select a customer you are ordering for.")
                 }
-                
-            }else{
+            } else {
                 this.props.history.push("/User/Order/Cart")
             }
-    
-        }else{
+        } else { 
             window.alert("You need to add something to your cart")
         }        
     }
 
     renderEditable = cellInfo => {
         return (
-    
             <div
-            style={{ backgroundColor: "#fafafa" }}
-            contentEditable
-            onClick={(e) => {e.target.innerHTML = ""}}
-            suppressContentEditableWarning
-            type="number"
-            onBlur={e => {
+                style={{ backgroundColor: "#fafafa" }}
+                contentEditable
+                onClick={(e) => {e.target.innerHTML = ""}}
+                suppressContentEditableWarning
+                type="number"
+                onBlur={e => {
 
-                var typedAmount = e.target.innerHTML ? e.target.innerHTML : "0";
-                if (!typedAmount.match(/^\d+$/)) { amountIsNotANumberWarning(); }
-                
-                
-                this.state.products
-                .filter(product => 
-                    product.hexId === cellInfo.original.hexId)
-                .map(product => {
-                   
-                    if (typedAmount <= product.quantity) { 
-                        product.amount = typedAmount;
-                    } else { 
-                        amountExceedingQuantityWarning();
-                        typedAmount = "0";
-                    }
+                    var typedAmount = e.target.innerHTML ? e.target.innerHTML : "0";
+                    if (!typedAmount.match(/^\d+$/)) { amountIsNotANumberWarning(); }
+                    
+                    this.state.products
+                    .filter(product => 
+                        product.hexId === cellInfo.original.hexId)
+                    .map(product => {
+                    
+                        if (typedAmount <= product.quantity) { 
+                            product.amount = typedAmount;
+                        } else { 
+                            amountExceedingQuantityWarning();
+                            typedAmount = "0";
+                        }
 
-                })
-                    
-                    cellInfo.original.amount = typedAmount;
-                    e.target.innerHTML = typedAmount;
-                    
-            }}
-            dangerouslySetInnerHTML={{
-              __html: this.state.products[cellInfo.index][cellInfo.column.id]
-            }}
+                    })
+                        
+                        cellInfo.original.amount = typedAmount;
+                        e.target.innerHTML = typedAmount;
+                        
+                }}
+                dangerouslySetInnerHTML={{
+                __html: this.state.products[cellInfo.index][cellInfo.column.id]
+                }}
             required/>
         );
-      };
+    };
 
 
     createNavBar = () =>{
@@ -206,20 +197,20 @@ class UserOrder extends React.Component {
                     </div>
                 </nav> 
                 )
-        }else{
+        } else {
             navbar = (
                 <nav className="navbar navbar-light bg-light">                   
                     <form className = "form-inline">
                         <button className="btn  std_BTN my-2 my-sm-0" onClick={this.changeToCart}>Go to cart <span class="badge badge-light">{this.state.numberOfItems}</span></button>
                     </form>       
                 </nav> 
-                )
+            )
         }
 
         return navbar;
     }
 
-    setSelectedUser = (e) =>{
+    setSelectedUser = (e) => {
         if(e.target.value.toLowerCase()!=="choose customer"){    
             this.setState({userSelectedId:e.target.value},()=>{
                 console.log(this.state)
@@ -228,7 +219,7 @@ class UserOrder extends React.Component {
                     this.filterStock();
                 })
             })
-        }else{
+        } else {
             window.alert("That is not a valid user")
         }
     }
@@ -240,13 +231,10 @@ class UserOrder extends React.Component {
         const customer = this.state.customers.filter(x=>x.hexId===hexId)[0];
 
         if (userType === 'publisher') {
-        
             if (customer.clients !== 'none') {
-        
                 customer.clients.forEach((client) => {
                    let clientsProducts = this.state.products.filter(x=>x.ownerHexId===client.hexId);                    
                    filteredStock.push(...clientsProducts);
-
                 }) 
             }
         }
@@ -322,9 +310,8 @@ class UserOrder extends React.Component {
                     </div>
                 </div>
             </div>
-            );
+        );
     }
-
 }
 
 const mapStateToProps = (state)=>{

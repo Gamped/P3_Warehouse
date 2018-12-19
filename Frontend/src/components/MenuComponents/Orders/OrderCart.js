@@ -39,13 +39,13 @@ class UserOrderCart extends React.Component {
         const userType = this.props.userType
         if(userType==="EMPLOYEE"){
             this.props.history.push("/Admin/Order/Cart/Confirm")
-        }else{
+        } else {
             this.props.history.push("/User/Order/Cart/Confirm")
         }
         
     }
 
-    back = (event)=>{
+    back = (event) => {
         event.preventDefault();
         const userType = this.props.userType
         if(userType==="EMPLOYEE"){
@@ -67,11 +67,8 @@ class UserOrderCart extends React.Component {
                     <td>{line.amount}</td>
                 </tr>
             )})
-
         }
 
-
-        
         return(
             <div className="PageStyle customText_b">
                 <h2 className="customText_b_big">Cart:</h2>
@@ -127,7 +124,6 @@ const mapStateToProps = (state)=>{
 
 const mapDispatchToProps = (dispatch) =>{
     return{
-        
         setCompany: (company) => {dispatch({type: "SET_COMPANY",payload: {company}})},
         setContactPerson: (contactPerson) => {dispatch({type: "SET_CONTACTPERSON",payload: {contactPerson}})},
         setPhoneNumber: (phoneNumber) => {dispatch({type: "SET_PHONENUMBER",payload: {phoneNumber}})},
@@ -136,7 +132,6 @@ const mapDispatchToProps = (dispatch) =>{
         setCity: (city) => {dispatch({type: "SET_CITY",payload: {city}})},
         setCVR: (cvr) => {dispatch({type:"SET_CVR", payload:{cvr}})},
         setCountry: (country) => {dispatch({type:"SET_COUNTRY", payload:{country}})}
-
     }
 }
 

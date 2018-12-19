@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import ReactTable from "react-table";
-
 import "../../Pages.css";
 import "./AdminOrders.css";
 import {allProductsNotPackedWarning} from "./../../../../handlers/exceptions.js";
@@ -11,8 +10,6 @@ import {packListPDF, orderNotePDF} from "./../../../../handlers/pdfHandlers.js"
 import {getColumnsFromArray} from "./../../../../handlers/columnsHandlers.js"
 
 class AdminOrders extends Component {
-
-    //A constructor that contains our state.
     constructor(props) {
         super(props);
         this.state = {
@@ -33,9 +30,7 @@ class AdminOrders extends Component {
         this.finishOrder = this.finishOrder.bind(this);
     }
 
-    componentDidMount() {
-        this.getOrders();
-    }
+    componentDidMount() {this.getOrders();}
 
     getOrders = () =>{
         get("employee/orders", (data) => {
@@ -47,19 +42,16 @@ class AdminOrders extends Component {
     }
 
     setStateAsSelected = (rowInfo) => {
-        
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId, selectedItem: rowInfo.original });
         console.log(this.state.orders[this.state.selected]);
     }
 
     showOrderLines = (rowInfo) => {
-
         const selectedOrder = this.state.orders[rowInfo.index].orderLines;
         this.setState({orderLines: selectedOrder});
     }
 
     toggleRow(productName) {
-
 		const packedItem = Object.assign({}, this.state.packed);
 		packedItem[productName] = !this.state.packed[productName];
         this.setState({
@@ -87,41 +79,38 @@ class AdminOrders extends Component {
 
     getCheckBoxColumn() {
        const checkBoxColumn = {
-        id: "checkbox",
-        accessor: "",
-        Cell: ({ original }) => {
-            return (
-                <input
-                    type="checkbox"
-                    className="checkbox"
-                    checked={this.state.packed[original.productName] === true}
-                    onChange={() => this.toggleRow(original.productName)}
-                />
-            );
-        },
-        Header: x => {
-            return (
-                <input
-                    type="checkbox"
-                    className="checkbox"
-                    checked={this.state.selectAll === 1}
-                    ref={input => {
-                        if (input) {
-                            input.indeterminate = this.state.selectAll === 2;
-                        }
-                    }}
-                    onChange={() => this.toggleSelectAll()}
-                />
-            );
+            id: "checkbox",
+            accessor: "",
+            Cell: ({ original }) => {
+                return (
+                    <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={this.state.packed[original.productName] === true}
+                        onChange={() => this.toggleRow(original.productName)}
+                    />
+                );
+            },
+            Header: x => {
+                return (
+                    <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={this.state.selectAll === 1}
+                        ref={input => {
+                            if (input) {
+                                input.indeterminate = this.state.selectAll === 2;
+                            }
+                        }}
+                        onChange={() => this.toggleSelectAll()}
+                    />
+                );
+            }
         }
-    }
         return checkBoxColumn;
-
     }
 
-    sendToPage = (address) => {
-        this.props.history.push(address);
-    }
+    sendToPage = (address) => {this.props.history.push(address);}
 
     finishOrder = (e) => {
         let allPacked = this.state.allPacked;
@@ -137,7 +126,6 @@ class AdminOrders extends Component {
     }
 
     deleteOrder = (e) => {
-
         del("orders/delete/" + this.state.selectedId, (response) => {
             let newOrders = this.state.orders.filter(item=>item.hexId!==this.state.selectedId)
             this.setState({selectedId:"",orders:newOrders})
@@ -150,15 +138,13 @@ class AdminOrders extends Component {
             console.log(this.state.orders[this.state.selected])
             this.props.setSelectedOrder(this.state.orders[this.state.selected]);
             this.props.history.push("/Admin/Orders/Edit/"+this.state.selectedId)
-        }else{
+        } else {
             window.alert("Please select an order to edit.")
         }
-
     }
 
 
     render() {
-      
         const orderColumns = getColumnsFromArray(["Owner", "Date", "Order Id"]);
         let orderLineColumns = getColumnsFromArray(["Product Id", "Product Name", "Amount"]);
         orderLineColumns.push(this.getCheckBoxColumn());
@@ -186,7 +172,7 @@ class AdminOrders extends Component {
                                     }
                                   }
                                 }else{
-                                  return {}
+                                    return {}
                                 }
                                }
                             }
@@ -211,9 +197,9 @@ class AdminOrders extends Component {
                                 />
                                  <div className="  px-1">
                                 </div>
-                       </div> 
-                             <button type= "button" className="AdinOrderButtonSizer btn std_BTN mx-2" onClick={()=>packListPDF(this.state.selectedItem)} >Export Order</button> 
-                             <button type= "button" className="AdinOrderButtonSizer btn blue_BTN mx-2" onClick={this.finishOrder}>Finish Order</button> 
+                        </div> 
+                        <button type= "button" className="AdinOrderButtonSizer btn std_BTN mx-2" onClick={()=>packListPDF(this.state.selectedItem)} >Export Order</button> 
+                        <button type= "button" className="AdinOrderButtonSizer btn blue_BTN mx-2" onClick={this.finishOrder}>Finish Order</button> 
                     </div>    
                 </div>    
             </div>

@@ -99,8 +99,8 @@ public class OrderRepositoryTest {
 
         clientOrder.setTitle("clientorder");
         publisherOrder.setTitle("publisherorder");
-        clientOrder.setOrderId("100");
-        publisherOrder.setOrderId("123");
+        clientOrder.setOrderId(100);
+        publisherOrder.setOrderId(123);
         clientOrder.setDate(new Date());
         publisherOrder.setDate(new Date());
 
