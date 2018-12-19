@@ -5,8 +5,8 @@ userId:"",};*/
 
 const devState ={loggedIn:"True",
 nickName:"Kev The Machine",
-userId:"5c1a3cbc3c7e9f30b331da2b",
-userType: "EMPLOYEE"};
+userId:"5c1a619f3c7e9f377a08b7fe",
+userType: "PUBLISHER"};
 
 const loginReducer = (state = devState, action) => {
     
