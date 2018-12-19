@@ -103,12 +103,13 @@ class UserOrder extends React.Component {
             let newLine = {}
             let userType = this.state.userType.toLowerCase();
 
-            userType == 'employee' ? newLine = this.state.filteredStock[this.state.selected] : newLine = this.state.products[this.state.selected];
+            userType === 'employee' ? newLine = this.state.filteredStock[this.state.selected] : newLine = this.state.products[this.state.selected];
 
             if (this.state.orderLines.some(orderLine => orderLine.productId === newLine.productId)) {
                 itemPreviouslyAddedWarning();
             } else {
-                if (newLine.amount != "0") {
+                if (newLine.amount !== 0) {
+                    console.log("Din mor ;)");
                 this.setState({orderLines: [...this.state.orderLines, newLine],numberOfItems:this.state.numberOfItems+1}); 
             } else {
                 amountIsZeroWarning();
@@ -297,7 +298,7 @@ class UserOrder extends React.Component {
                                             if (rowInfo && rowInfo.row) {
                                             return {
                                                 onClick: () => {
-                                                    if (!this.state.filteredStock && this.state.userType.toLowerCase() == 'employee') {
+                                                    if (!this.state.filteredStock && this.state.userType.toLowerCase() === 'employee') {
                                                         customerIsNotSelectedWarning();
                                                     } else {
                                                         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })

@@ -119,7 +119,7 @@ public class EmployeeController {
             if (client.isValid()) {
                 userRepository.save(user);
                 clientRepository.save(client);
-                return "Created!";
+                return client.getHexId();
             } else return "Invalid User";
         }
         return "Username already taken";
@@ -336,10 +336,10 @@ public class EmployeeController {
         ObjectId id = new ObjectId(hexId);
 
         Publisher publisher = publisherRepository.findById(id).orElse(null);
-        publisher.getClientStream().map(x -> x.unassignAllProducts().map(product -> productRepository.save(product)));
-        publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(orderStream -> orderStream.forEach(orderRepository::delete));
+        publisher.getClientStream().map(x -> x.unassignAllProducts()).forEach(x -> x.forEach(productRepository::delete));
+        publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(x -> x.forEach(orderRepository::delete));
         publisher.unassignAllOrders().forEach(orderRepository::delete);
-        publisher.unassignAllProducts().map(product -> productRepository.save(product));
+        publisher.unassignAllProducts().forEach(productRepository::delete);
         publisher.getClientStream().forEach(clientRepository::delete);
         publisher.getClientStream().forEach(userRepository::delete);
         publisherRepository.delete(publisher);
@@ -352,7 +352,7 @@ public class EmployeeController {
 
     //CLIENT PUBLISHER ROUTES
 
-    @PostMapping("/employee/publishers/addClient={clientHexId}/toPublisher={publisherHexId}")
+    @GetMapping("/employee/publishers/addClient={clientHexId}/toPublisher={publisherHexId}")
     private String addClientToPublisher(@PathVariable("clientHexId") String clientHexId,
                                         @PathVariable("publisherHexId") String publisherHexId) {
 
@@ -360,7 +360,7 @@ public class EmployeeController {
         Optional<Client> optionalClient = clientRepository.findById(new ObjectId(clientHexId));
         Publisher publisher = optionalPublisher.get();
         Client client = optionalClient.get();
-
+        client.setPublisher(publisher);
         publisher.addClient(client);
         publisherRepository.save(publisher);
         return "Client " + client.getUserName() + " Added to publisher " + publisher.getUserName();
@@ -380,4 +380,3 @@ public class EmployeeController {
         return "Client " + client.getUserName() + " Added to publisher " + publisher.getUserName();
     }
 }
-

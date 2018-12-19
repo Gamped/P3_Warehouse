@@ -121,7 +121,7 @@ export function ordersExist(customer) {
     return false;
 }
 
-export function clientsExist(publisher) {return publisher.numberOfClient != 0;}
+export function clientsExist(publisher) {return publisher.numberOfClient !== 0;}
 
 export function makeOwnersData(data) {
 
@@ -254,9 +254,9 @@ export function makeCustomerProductsData(customer) {
     return products;
 }
 
-export function productsExist(owner) {return owner.productStream.length != 0;}
+export function productsExist(owner) {return owner.productStream.length !== 0;}
 
-export function isPublisher(owner) {return owner.userType == "PUBLISHER";}
+export function isPublisher(owner) {return owner.userType === "PUBLISHER";}
 
 export function makeOrderAddressData(data) {
 
