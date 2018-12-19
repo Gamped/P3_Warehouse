@@ -2,6 +2,7 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
+import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
@@ -14,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import java.util.stream.Collectors;
@@ -44,23 +46,19 @@ public class PublisherController {
 
     @GetMapping("/publishers/{id}")
     Publisher findById(@PathVariable String id) {
-
+      
         ObjectId objectId = new ObjectId(id);
-        Publisher publisher = publisherRepository.findById(objectId).orElse(null);
-
-        return publisher;
+        return publisherRepository.findById(objectId).get();
     }
 
     @GetMapping("/publishers/{hexId}/orders")
     Stream<Order> getAllPublisherOrders(@PathVariable String hexId){
-
         Publisher publisher = publisherRepository.findById(new ObjectId(hexId)).orElse(null);
         return publisher.getOrderStream();
     }
 
     @PostMapping("/publishers")
     Publisher newPublisher(@RequestBody RestPublisherModel restPublisher) {
-
         ObjectId id = new ObjectId();
         Publisher newPublisher = new Publisher(id);
         BeanUtils.copyProperties(restPublisher, newPublisher);
@@ -70,7 +68,6 @@ public class PublisherController {
 
     @PutMapping("/publishers/{hexId}")
     String update(@PathVariable("hexId") String hexId, @RequestBody RestPublisherModel restPublisher) {
-
         ObjectId id = new ObjectId(hexId);
         Optional<Publisher> optPublisher = publisherRepository.findById(id);
         Publisher publisherToSave = optPublisher.get();
@@ -86,7 +83,6 @@ public class PublisherController {
 
     @DeleteMapping("/publishers/{hexId}")
     void delete(@PathVariable String hexId) {
-
         ObjectId id = new ObjectId(hexId);
         Publisher publisher = publisherRepository.findById(id).orElse(null);
 
@@ -100,9 +96,44 @@ public class PublisherController {
     }
 
     @GetMapping("/publishers/{hexId}/products")
-    Stream<Product> findPublisherProducts(@PathVariable("hexId") String hexId) {
+    ArrayList<Product> findPublisherProducts(@PathVariable("hexId") String hexId) {
+
+        Publisher publisher;
 
         ObjectId objectId = new ObjectId(hexId);
-        return publisherRepository.findById(objectId).orElse(null).getProductStream();
+        try {
+
+            publisher = publisherRepository.findById(objectId).orElseThrow(() -> new Exception());
+        } catch(Exception e) {
+
+            return null;
+        }
+
+        ArrayList<Product> allProducts = new ArrayList<>();
+
+        if (publisher.getProductStream() != null) {
+
+            for (Product product : publisher.getProductStream().collect(Collectors.toList())) {
+
+                allProducts.add(product);
+            }
+        }
+
+        if (publisher.getNumberOfClients() != 0) {
+
+            for (Client client : publisher.getClientStream().collect(Collectors.toList())) {
+
+                if (client.getProductStream() != null) {
+
+                    for (Product product : client.getProductStream().collect(Collectors.toList())) {
+                        allProducts.add(product);
+                    }
+                }
+
+            }
+        }
+        return allProducts;
     }
+
 }
+
