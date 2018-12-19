@@ -65,6 +65,7 @@ class CreateUser extends React.Component{
        
         const fields = this.state;
         if (customerProfileFieldsAreValidated(fields)) {
+
             const body = {
                 userName:this.state.userName,
                 password:this.state.password,
@@ -82,16 +83,17 @@ class CreateUser extends React.Component{
             if(this.state.userType==="CLIENT"){
 
                 post("employee/clients", body, (hexId) => {
+                    if (this.userNameIsNotTaken(hexId)) {
+                        if (this.state.selectedActorHexId !== "IC") {
 
-                    if (this.state.selectedActorHexId !== "IC") {
-
-                        get('employee/publishers/addClient='+hexId+'/toPublisher='+this.state.selectedActorHexId, ()=> {
+                            get('employee/publishers/addClient='+hexId+'/toPublisher='+this.state.selectedActorHexId, ()=> {
+                                this.displayConfirmation();
+                                this.props.history.push("/Admin/Users/")
+                            })  
+                        } else {
                             this.displayConfirmation();
                             this.props.history.push("/Admin/Users/")
-                        })  
-                    } else {
-                        this.displayConfirmation();
-                        this.props.history.push("/Admin/Users/")
+                        }
                     }
                 });
             } else {
@@ -99,6 +101,15 @@ class CreateUser extends React.Component{
                     this.props.history.push("/Admin/Users/")
                 });
             }
+        }
+    }
+
+    userNameIsNotTaken(hexId) {
+        if (hexId.match('taken')) {
+            window.alert("Username is already taken")
+            return false;
+        } else { 
+            return true;
         }
     }
 
