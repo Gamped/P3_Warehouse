@@ -126,7 +126,9 @@ class AdminOrders extends Component {
     finishOrder = (e) => {
         let allPacked = this.state.allPacked;
         if (allPacked == 1) {
-            del("orders/delete/:id" + this.state.selectedId, () => {});
+            del("orders/delete/:id" + this.state.selectedId, () => {
+                orderNotePDF(this.state.selectedItem)
+            });
         } else {
             allProductsNotPackedWarning();
         }
@@ -208,8 +210,8 @@ class AdminOrders extends Component {
                                  <div className="  px-1">
                                 </div>
                        </div> 
-                             <button type= "button" className="AdinOrderButtonSizer btn std_BTN mx-2  " >Export Order</button> 
-                             <button type= "button" className="AdinOrderButtonSizer btn blue_BTN mx-2 "onClick={this.finishOrder}>Finish Order</button> 
+                             <button type= "button" className="AdinOrderButtonSizer btn std_BTN mx-2" onClick={()=>packListPDF(this.state.selectedItem)} >Export Order</button> 
+                             <button type= "button" className="AdinOrderButtonSizer btn blue_BTN mx-2" onClick={this.finishOrder}>Finish Order</button> 
                     </div>    
                 </div>    
             </div>

@@ -1,49 +1,55 @@
 
-export function packListPDF () {
-    const pdfConverter = require('jspdf');
-    const doc = new pdfConverter();
+export function packListPDF (data) {
+    if(data !== undefined && data !== null){
+        console.log(data)
+        const date = data.date.substring(0,16);
+        const pdfConverter = require('jspdf');
+        const doc = new pdfConverter();
 
-    /* TODO: Find ud af hvad der skal skrives ind i pdfen.*/
-    let pdfXPlace = 20;
-    let pdfYPlace = 50;
-    
-
-    doc.setFontSize(22);
-    doc.text(pdfXPlace,pdfYPlace,"Packlist:");
-    pdfYPlace +=5;
-    doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
-    doc.setFontSize(15);
-    pdfYPlace +=8;
-    doc.text(pdfXPlace,pdfYPlace, "Order nummer: "+ "[Insert order number here]" )
-    pdfYPlace +=8;
-    doc.text(pdfXPlace,pdfYPlace, "Customer: "+ "[Insert Customer here]" )
-    pdfYPlace +=8;
-    doc.text(pdfXPlace,pdfYPlace,"Order date: "+"[Insert Date here]")
-    doc.setFontSize(10);
-    pdfYPlace +=10
-
-    doc.setFontStyle("bold")
-    doc.text(pdfXPlace,pdfYPlace,"Item ID")
-    doc.text(pdfXPlace+50,pdfYPlace,"Item Name")
-    doc.text(pdfXPlace+100,pdfYPlace,"Quantity")
-    doc.text(pdfXPlace+140,pdfYPlace,"Packed?")
-    pdfYPlace +=2
-    doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
-
-    /*let counter = 0;
-    for (const key in elements){
+        let pdfXPlace = 20;
+        let pdfYPlace = 50;
         
-        doc.text("Name: "+elements[key].productName,pdfXPlace,pdfYPlace);
-        doc.text("Quantity: " + elements[key].quantity,pdfXPlace+120,pdfYPlace);
-        doc.line(20,pdfYPlace+5,175,pdfYPlace+5);
-        pdfYPlace += 17;
-        counter += 1;
-        if(counter%25===0){
-            doc.addPage()
-        }
-    }*/
 
-    doc.save("PackList.pdf")
+        doc.setFontSize(22);
+        doc.text(pdfXPlace,pdfYPlace,"Packlist:");
+        pdfYPlace +=5;
+        doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
+        doc.setFontSize(15);
+        pdfYPlace +=8;
+        doc.text(pdfXPlace,pdfYPlace, "Order number: "+ data.orderId )
+        pdfYPlace +=8;
+        doc.text(pdfXPlace,pdfYPlace, "Customer: "+ data.owner )
+        pdfYPlace +=8;
+        doc.text(pdfXPlace,pdfYPlace,"Order date: "+ date)
+        doc.setFontSize(10);
+        pdfYPlace +=10
+
+        doc.setFontStyle("bold")
+        doc.text(pdfXPlace,pdfYPlace,"Item ID")
+        doc.text(pdfXPlace+50,pdfYPlace,"Item Name")
+        doc.text(pdfXPlace+100,pdfYPlace,"Amount")
+        doc.text(pdfXPlace+140,pdfYPlace,"Packed?")
+        pdfYPlace +=2
+        doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
+        pdfYPlace +=8
+
+        let counter = 0;
+        const elements = data.orderLines
+        for (const key in elements){
+            doc.text(elements[key].productId,pdfXPlace,pdfYPlace)
+            doc.text(elements[key].productName.toString(),pdfXPlace + 50,pdfYPlace);
+            doc.text(elements[key].amount.toString(),pdfXPlace+100,pdfYPlace);
+            doc.text("[ ]",pdfXPlace+140,pdfYPlace)
+            doc.line(20,pdfYPlace+5,175,pdfYPlace+5);
+            pdfYPlace += 15;
+            counter += 1;
+            if(counter%25===0){
+                doc.addPage()
+            }
+        }
+
+        doc.save("PackList.pdf")
+    }
 
 }
 
