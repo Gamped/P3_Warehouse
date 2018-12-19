@@ -6,7 +6,9 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import org.bson.types.ObjectId;
 
 public class MakeMockClientData {
+
     public static Client makeClient() {
+
         Client client = new Client(new ObjectId());
         ContactInformation contactInformation = new ContactInformation();
 
@@ -27,6 +29,7 @@ public class MakeMockClientData {
     }
 
     public static Client makeSecondClient() {
+
         Client client = new Client(new ObjectId());
         ContactInformation contactInformation = new ContactInformation();
 
@@ -47,6 +50,7 @@ public class MakeMockClientData {
     }
 
     public static Client makeThirdClient() {
+
         Client client = new Client(new ObjectId());
         ContactInformation contactInformation = new ContactInformation();
 
@@ -67,6 +71,7 @@ public class MakeMockClientData {
     }
 
     public static Client makeExtraClient() {
+
         Client client = new Client(new ObjectId());
         ContactInformation contactInformation = new ContactInformation();
 

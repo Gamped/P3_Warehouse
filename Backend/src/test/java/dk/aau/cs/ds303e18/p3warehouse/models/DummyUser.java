@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 
 public class DummyUser {
     public static User makeDummyUser(int i){
+
         User user = new User(new ObjectId());
 
         user.setUserName("username" + i);

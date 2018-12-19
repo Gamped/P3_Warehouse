@@ -29,6 +29,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class ClientRepositoryTest {
+
     @Autowired
     ClientRepository clientRepository;
     @Autowired
@@ -42,6 +43,7 @@ public class ClientRepositoryTest {
 
     @Before
     public void deleteAll() {
+
         productRepository.deleteAll();
         publisherRepository.deleteAll();
         clientRepository.deleteAll();
@@ -51,6 +53,7 @@ public class ClientRepositoryTest {
 
     @Test
     public void testFindClientById() {
+
         Client client = makeClient();
 
         clientRepository.save(client);
@@ -61,6 +64,7 @@ public class ClientRepositoryTest {
 
     @Test
     public void testFindClientInformation(){
+
         Client client = makeClient();
 
         clientRepository.save(client);
@@ -72,6 +76,7 @@ public class ClientRepositoryTest {
 
     @Test
     public void testClientProduct(){
+
         Product product = makeProduct();
         Product secondProduct = makeSecondProduct();
         Client client = makeClient();
@@ -93,6 +98,7 @@ public class ClientRepositoryTest {
 
     @Test
     public void testClientPublisher() {
+
         Client client = makeClient();
         Publisher publisher = makePublisher();
         client.setPublisher(publisher);
@@ -108,6 +114,7 @@ public class ClientRepositoryTest {
 
     @Test
     public void testClientOrder() {
+
         Product product = makeProduct();
         Product secondProduct = makeSecondProduct();
         Client client = makeClient();
@@ -145,6 +152,7 @@ public class ClientRepositoryTest {
 
     @Test
     public void testUserRef() {
+
         Client client = makeClient();
         Publisher publisher = makePublisher();
 
@@ -160,6 +168,7 @@ public class ClientRepositoryTest {
 
     @Test
     public void testFindClientByUserId() {
+
         Client client = makeClient();
         User user = new User(client.getId());
         BeanUtils.copyProperties(client, user);
@@ -175,6 +184,7 @@ public class ClientRepositoryTest {
 
     @Test
     public void testFindClientByPublisherId() {
+
         Client client = makeClient();
         Publisher publisher = makePublisher();
 
@@ -190,6 +200,7 @@ public class ClientRepositoryTest {
 
     @Test
     public void testFindClientsByPublisherId() {
+
         Publisher publisher = makePublisher();
         Client client = makeClient();
         Client thirdClient = makeThirdClient();
@@ -214,6 +225,7 @@ public class ClientRepositoryTest {
 
     @Test
     public void testFindAllClients() {
+
         Client client = makeClient();
         Client secondClient = makeSecondClient();
         Client thirdClient = makeThirdClient();
@@ -229,6 +241,7 @@ public class ClientRepositoryTest {
 
     @Test
     public void testDeleteClientById() {
+
         Client client = makeClient();
         Product product = makeProduct();
         Order order = makeOrder();
@@ -253,8 +266,8 @@ public class ClientRepositoryTest {
 
     @Test
     public void testDeleteAllClient(){
-        clientRepository.deleteAll();
 
+        clientRepository.deleteAll();
         assertEquals(0, clientRepository.findAll().size());
     }
 }

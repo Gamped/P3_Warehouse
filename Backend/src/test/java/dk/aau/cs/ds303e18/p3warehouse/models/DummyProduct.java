@@ -6,6 +6,7 @@ import org.bson.types.ObjectId;
 
 public class DummyProduct {
     public static Product makeDummyProduct(int i, Customer owner){
+
         Product product = new Product(new ObjectId());
 
         product.setOwner(owner);

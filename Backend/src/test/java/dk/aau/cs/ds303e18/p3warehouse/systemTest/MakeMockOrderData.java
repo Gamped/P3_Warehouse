@@ -6,7 +6,9 @@ import org.bson.types.ObjectId;
 import java.util.Date;
 
 public class MakeMockOrderData {
+
     public static Order makeOrder() {
+
         Order order = new Order(new ObjectId());
 
         order.setTitle("sports");
@@ -24,6 +26,7 @@ public class MakeMockOrderData {
     }
 
     public static Order makeSecondOrder() {
+
         Order order = new Order(new ObjectId());
 
         order.setTitle("music");
@@ -41,6 +44,7 @@ public class MakeMockOrderData {
     }
 
     public static Order makeThirdOrder() {
+
         Order order = new Order(new ObjectId());
 
         order.setTitle("books");
@@ -58,6 +62,7 @@ public class MakeMockOrderData {
     }
 
     public static Order makeFourthOrder() {
+
         Order order = new Order(new ObjectId());
 
         order.setTitle("museum advertisement");
@@ -75,6 +80,7 @@ public class MakeMockOrderData {
     }
 
     public static Order makeFifthOrder() {
+
         Order order = new Order(new ObjectId());
 
         order.setTitle("magazine");
@@ -92,6 +98,7 @@ public class MakeMockOrderData {
     }
 
     public static Order makeSixthOrder() {
+
         Order order = new Order(new ObjectId());
 
         order.setTitle("discount");
@@ -109,6 +116,7 @@ public class MakeMockOrderData {
     }
 
     public static Order makeExtraOrder() {
+
         Order order = new Order(new ObjectId());
 
         order.setTitle("flyers");

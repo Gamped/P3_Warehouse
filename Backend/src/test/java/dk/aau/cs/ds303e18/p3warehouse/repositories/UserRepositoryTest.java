@@ -16,6 +16,7 @@ import static org.junit.Assert.assertNull;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class UserRepositoryTest {
+
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -31,6 +32,7 @@ public class UserRepositoryTest {
 
     @Before
     public void deleteAll() {
+
         productRepository.deleteAll();
         clientRepository.deleteAll();
         userRepository.deleteAll();
@@ -39,6 +41,7 @@ public class UserRepositoryTest {
 
     @Test
     public void SaveSuperclassAndExtendedClassSeparatelyTest(){
+
         productRepository.deleteAll();
         clientRepository.deleteAll();
         userRepository.deleteAll();
@@ -100,6 +103,7 @@ public class UserRepositoryTest {
     }
 
     public User makeUser() {
+
         ObjectId id = new ObjectId();
         User user = new User(id);
         user.setUserType(UserType.PUBLISHER);
@@ -111,6 +115,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testUserFindById() {
+
         ObjectId id = new ObjectId();
         User user = new User(id);
 
@@ -123,6 +128,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testUserFindInformation() {
+
         User user = makeUser();
 
         userRepository.save(user);
@@ -134,6 +140,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindBy() {
+
         ObjectId secondId = new ObjectId();
         Client thirdClient = new Client(secondId);
         ContactInformation contactInformation = new ContactInformation();
@@ -165,6 +172,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testUserCopyFrom() {
+
         ObjectId id = new ObjectId();
         Client client = new Client(id);
         client.setPassword("rw435r");
@@ -178,6 +186,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindUserByPublisherId() {
+
         ObjectId id = new ObjectId();
         Publisher publisher = new Publisher(id);
         ContactInformation contactInformation = new ContactInformation();
@@ -206,6 +215,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindUser() {
+
         ObjectId id = new ObjectId();
         User user = new User(id);
         Publisher publisher = new Publisher(user.getId());
@@ -221,6 +231,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindByUserName() {
+
         Employee emp = new Employee(new ObjectId());
         emp.setNickname("Jane");
         emp.setUserType(UserType.EMPLOYEE);
@@ -239,6 +250,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindUserByPassWord() {
+
         ObjectId id = new ObjectId();
         Publisher publisher = new Publisher(id);
         ContactInformation contactInformation = new ContactInformation();
@@ -267,6 +279,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindUserByUserType() {
+
         ObjectId secondId = new ObjectId();
         Client thirdClient = new Client(secondId);
         ContactInformation contactInformation = new ContactInformation();
@@ -295,6 +308,7 @@ public class UserRepositoryTest {
 
     @Test
     public void deleteUserById() {
+
         ObjectId id = new ObjectId();
         Publisher publisher = new Publisher(id);
         ContactInformation contactInformation = new ContactInformation();
@@ -324,6 +338,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testDeleteAllUsers() {
+
         userRepository.deleteAll();
         assertEquals(0, userRepository.findAll().size());
     }

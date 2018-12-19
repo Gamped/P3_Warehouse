@@ -40,6 +40,7 @@ public class UserControllerTest {
 
     @Before
     public void start(){
+
         userRepository.deleteAll();
         employeeRepository.deleteAll();
         publisherRepository.deleteAll();
@@ -48,6 +49,7 @@ public class UserControllerTest {
 
     @Test
     public void testLogInEmployee(){
+
         Employee employee = makeDummyEmployee(0);
         RestEmployeeModel restEmployeeModel = new RestEmployeeModel();
         BeanUtils.copyProperties(employee, restEmployeeModel);
@@ -58,7 +60,8 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testLogInPublisher(){ //Fails due to controller not being able to read employee's usertype or some shit.
+    public void testLogInPublisher(){.
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         RestPublisherModel restPublisherModel = new RestPublisherModel();
         BeanUtils.copyProperties(publisher, restPublisherModel);
@@ -70,6 +73,7 @@ public class UserControllerTest {
 
     @Test
     public void testLogInClient(){
+
         Client client = makeDummyClient(0);
         RestClientModel restClientModel = new RestClientModel();
         BeanUtils.copyProperties(client, restClientModel);

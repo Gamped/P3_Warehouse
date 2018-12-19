@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @DataMongoTest
 
 public class ClientProductRepositTest {
+
     @Autowired
     ClientRepository clientRepository;
     @Autowired
@@ -37,6 +38,7 @@ public class ClientProductRepositTest {
 
     @Test
     public void Clientsave(){
+
         ObjectId clientId = new ObjectId();
         ObjectId productId = new ObjectId();
         Client testClient = new Client(clientId);
@@ -52,6 +54,7 @@ public class ClientProductRepositTest {
 
     @Test
     public void productSave(){
+
         ObjectId clientId = new ObjectId();
         ObjectId productId = new ObjectId();
         Client testClient = new Client(clientId);

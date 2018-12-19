@@ -29,6 +29,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OrderControllerTest {
+
     @Autowired
     OrderController orderController;
     @Autowired
@@ -45,12 +46,11 @@ public class OrderControllerTest {
     ClientRepository clientRepository;
 
     @Test
-    public void orderControllerLoads() {
-        assertThat(orderController).isNotNull();
-    }
+    public void orderControllerLoads() {assertThat(orderController).isNotNull();}
 
     @Before
     public void start() {
+
         orderRepository.deleteAll();
         productRepository.deleteAll();
         userRepository.deleteAll();
@@ -60,6 +60,7 @@ public class OrderControllerTest {
 
     @Test
     public void testCreateOrder(){ //Tests if any orders are added to the database at all.
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Order order = makeDummyOrder(0, publisher);
         publisher.addOrder(order);
@@ -86,6 +87,7 @@ public class OrderControllerTest {
 
     @Test
     public void testCreateOrderNoProduct() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Order order = makeDummyOrder(0, publisher);
         publisher.addOrder(order);
@@ -101,6 +103,7 @@ public class OrderControllerTest {
 
     @Test
     public void testCreateOrderNoPublisher(){ //Tests if any orders are added to the database at all.
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Order order = makeDummyOrder(0, publisher);
         publisher.addOrder(order);
@@ -125,6 +128,7 @@ public class OrderControllerTest {
 
     @Test
     public void updateOrder(){
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Order order = makeDummyOrder(0, publisher);
         publisher.addOrder(order);
@@ -141,6 +145,7 @@ public class OrderControllerTest {
 
     @Test
     public void updateOrderWithProduct(){
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Order order = makeDummyOrder(0, publisher);
         publisher.addOrder(order);
@@ -165,6 +170,7 @@ public class OrderControllerTest {
 
     @Test
     public void testFindAllOrders() {
+
         for(int i = 0; i < 5; ++i){
             Publisher publisher = makeDummyPublisher(0, new ObjectId());
             Order order = makeDummyOrder(0, publisher);
@@ -178,6 +184,7 @@ public class OrderControllerTest {
 
     @Test
     public void testFinishOrder(){
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Order order = makeDummyOrder(0, publisher);
         publisher.addOrder(order);

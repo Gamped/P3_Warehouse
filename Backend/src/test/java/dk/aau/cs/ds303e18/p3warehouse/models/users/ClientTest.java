@@ -21,6 +21,7 @@ public class ClientTest {
 
     @Test
     public void newClient(){
+
         ObjectId CId = new ObjectId();
         Client client = new Client(CId);
         assertNotNull(client.getHexId());
@@ -28,6 +29,7 @@ public class ClientTest {
 
     @Test
     public void newclientToDB(){
+
         ObjectId CId = new ObjectId();
         Client client = new Client(CId);
         clientRepository.save(client);

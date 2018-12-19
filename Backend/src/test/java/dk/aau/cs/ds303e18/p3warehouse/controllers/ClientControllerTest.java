@@ -38,12 +38,14 @@ public class ClientControllerTest {
 
     @Before
     public void dropClients(){ //Will automatically run even if you only run a specific test.
+
         clientRepository.deleteAll();
         productRepository.deleteAll();
     }
 
     @Test
     public void testFindAllClients() {
+
         for(int i = 0; i < 5; ++i) {
             clientRepository.save(makeDummyClient(i));
         }
@@ -57,6 +59,7 @@ public class ClientControllerTest {
 
     @Test
     public void testFindClientById() {
+
         ObjectId id = new ObjectId();
         Client client = makeSpecificDummyClient(0, id);
         clientRepository.save(client);
@@ -67,6 +70,7 @@ public class ClientControllerTest {
 
     @Test
     public void testUpdateClient() {
+
         Client client = makeDummyClient(0);
         clientRepository.save(client);
 
@@ -81,6 +85,7 @@ public class ClientControllerTest {
 
     @Test
     public void testDeleteClientById() {
+
         Client client = makeDummyClient(0);
         RestCustomerModel restCustomerModel = new RestCustomerModel();
         BeanUtils.copyProperties(client, restCustomerModel);
@@ -93,6 +98,7 @@ public class ClientControllerTest {
 
     @Test
     public void testClientFindProductById() {
+
         Client client = makeDummyClient(0);
         Product product = makeDummyProduct(0, client);
         client.addProduct(product);
@@ -107,6 +113,7 @@ public class ClientControllerTest {
 
     @Test
     public void testClientUpdateProduct() {
+
         Client client = makeDummyClient(0);
         Product product = makeDummyProduct(0, client);
         client.addProduct(product);

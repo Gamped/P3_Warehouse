@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 
 public class DummyPublisher {
     public static Publisher makeDummyPublisher(int i, ObjectId id){
+
         Publisher publisher = new Publisher(id);
         ContactInformation contactInformation = new ContactInformation();
 

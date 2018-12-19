@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 
 public class DummyClient {
     public static Client makeDummyClient(int i){
+
         Client client = new Client(new ObjectId());
         ContactInformation contactInformation = new ContactInformation();
 
@@ -26,6 +27,7 @@ public class DummyClient {
     }
 
     public static Client makeSpecificDummyClient(int i, ObjectId id){
+
         Client client = new Client(id);
         ContactInformation contactInformation = new ContactInformation();
 

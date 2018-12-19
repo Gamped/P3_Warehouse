@@ -23,6 +23,7 @@ import static org.junit.Assert.assertNull;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class ProductRepositoryTest {
+
     @Autowired
     ProductRepository repository;
     @Autowired
@@ -32,6 +33,7 @@ public class ProductRepositoryTest {
 
     @Before
     public void deleteAll() {
+
         repository.deleteAll();
         publisherRepository.deleteAll();
         clientRepository.deleteAll();
@@ -39,6 +41,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void findByIdTest(){
+
         ObjectId objectId = new ObjectId();
         Product product = new Product(objectId);
         product.setProductName("Hex Client Test2");
@@ -52,6 +55,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void saveTest(){
+
         ObjectId id = new ObjectId();
         Product product = new Product(id);
         product.setProductName("Red Alert");
@@ -65,6 +69,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void testProductInformation() {
+
         Product product = makeProduct();
 
         repository.save(product);
@@ -76,6 +81,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void testProductOwner() {
+
         Product product = makeProduct();
         Client client = makeClient();
 
@@ -92,6 +98,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void testProductGetOwnerRepository() {
+
         Product product = makeProduct();
         Publisher publisher = makePublisher();
 
@@ -109,6 +116,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void testFindAllProducts() {
+
         Product product = makeProduct();
         Product secondProduct = makeSecondProduct();
         Product thirdProduct = makeThirdProduct();
@@ -125,6 +133,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void testDeleteProductById() {
+
         Product product = makeProduct();
 
         repository.save(product);
@@ -135,6 +144,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void testDeleteProduct() {
+
         Product product = makeProduct();
         Product secondProduct = makeSecondProduct();
         Product thirdProduct = makeThirdProduct();
@@ -152,8 +162,8 @@ public class ProductRepositoryTest {
 
     @Test
     public void deleteAllProductTest(){
-        repository.deleteAll();
 
+        repository.deleteAll();
         assertEquals(0, repository.findAll().size());
     }
 }
