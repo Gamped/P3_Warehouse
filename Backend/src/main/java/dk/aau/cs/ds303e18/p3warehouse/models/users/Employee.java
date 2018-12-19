@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "employees")
 public class Employee extends User {
-
     @Id
     private ObjectId id;
     private String nickname;
@@ -18,16 +17,9 @@ public class Employee extends User {
         this.hexId = this.id.toHexString();
     }
 
-    public String getNickname() {
-        return nickname;
-    }
+    public String getNickname() {return nickname;}
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+    public void setNickname(String nickname) {this.nickname = nickname;}
 
-    public String getHexId() {
-        return hexId;
-
-    }
+    public String getHexId() {return hexId;}
 }
