@@ -254,9 +254,9 @@ export function makeCustomerProductsData(customer) {
     return products;
 }
 
-export function productsExist(owner) {return owner.productStream.length != 0;}
+export function productsExist(owner) {return owner.productStream.length !== 0;}
 
-export function isPublisher(owner) {return owner.userType == "PUBLISHER";}
+export function isPublisher(owner) {return owner.userType === "PUBLISHER";}
 
 export function makeOrderAddressData(data) {
 

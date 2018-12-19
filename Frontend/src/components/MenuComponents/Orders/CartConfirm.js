@@ -31,7 +31,7 @@ import { post } from '../../../handlers/requestHandlers';
 
         let userId = this.props.employeeUser.userId ? this.props.employeeUser.userId : this.state.userId;
         let userType = this.props.employeeUser.userType ? this.props.employeeUser.userType.toLowerCase() : this.state.userType;
-        let path = userType == 'employee' ? '/Admin/' : '/User/';
+        let path = userType === 'employee' ? '/Admin/' : '/User/';
         
             
         post('orders/'+userId+'/'+userType, data, (response) => {

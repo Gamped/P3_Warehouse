@@ -298,7 +298,7 @@ class UserOrder extends React.Component {
                                             if (rowInfo && rowInfo.row) {
                                             return {
                                                 onClick: () => {
-                                                    if (!this.state.filteredStock && this.state.userType.toLowerCase() == 'employee') {
+                                                    if (!this.state.filteredStock && this.state.userType.toLowerCase() === 'employee') {
                                                         customerIsNotSelectedWarning();
                                                     } else {
                                                         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })

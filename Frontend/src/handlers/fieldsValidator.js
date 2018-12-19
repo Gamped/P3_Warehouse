@@ -239,7 +239,7 @@ export function isPasswordValid(password, retypedPassword) {
 
 export function isPublisherChosen(userType, pubHex) {
     
-    if (userType.toLowerCase() == 'client' && pubHex.toLowerCase() == 'default') {
+    if (userType.toLowerCase() === 'client' && pubHex.toLowerCase() === 'default') {
         publisherNotSetOnClientProfileCreationWarning();
         return false;
     } 
