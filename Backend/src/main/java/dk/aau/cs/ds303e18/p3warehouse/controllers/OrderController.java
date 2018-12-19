@@ -1,6 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
-import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
+import dk.aau.cs.ds303e18.p3warehouse.exceptions.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.MailService.OrderInfoMail;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;

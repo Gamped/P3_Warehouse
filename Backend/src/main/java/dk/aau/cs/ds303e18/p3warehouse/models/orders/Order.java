@@ -2,7 +2,7 @@ package dk.aau.cs.ds303e18.p3warehouse.models.orders;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestOrderModel;
-import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
+import dk.aau.cs.ds303e18.p3warehouse.exceptions.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Customer;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.UserRef;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
