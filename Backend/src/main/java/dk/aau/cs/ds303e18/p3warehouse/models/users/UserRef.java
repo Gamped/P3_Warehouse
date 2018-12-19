@@ -6,6 +6,7 @@ public class UserRef {
     private String nickName;
 
     public UserRef(Customer customer){
+
         if(customer == null){
             this.userHexId = null;
             this.userType = null;

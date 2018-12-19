@@ -16,6 +16,7 @@ public class ClientManager {
     private static UserRepository userRepository;
 
     public static Client saveClientToDB(Client client){
+
         User user = new User(client.getId());
         user.copyFrom(client);
         userRepository.save(user);

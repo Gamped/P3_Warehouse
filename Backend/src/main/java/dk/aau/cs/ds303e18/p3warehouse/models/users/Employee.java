@@ -6,12 +6,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "employees")
 public class Employee extends User {
+
     @Id
     private ObjectId id;
     private String nickname;
     private String hexId;
 
     public Employee(ObjectId id){
+
         super(id);
         this.id = id;
         this.hexId = this.id.toHexString();

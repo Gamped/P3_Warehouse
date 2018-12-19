@@ -3,6 +3,7 @@ package dk.aau.cs.ds303e18.p3warehouse.models.users;
 import java.util.Objects;
 
 public class ContactInformation {
+
     private String email;
     private String phoneNumber;
     private String address;
@@ -44,6 +45,7 @@ public class ContactInformation {
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactInformation that = (ContactInformation) o;

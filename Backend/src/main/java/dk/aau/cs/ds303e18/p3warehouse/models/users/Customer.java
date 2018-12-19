@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.stream.Stream;
 
 public class Customer extends User {
+
     private ContactInformation contactInformation;
     @DBRef
     private Collection<Product> customerProducts;
@@ -28,6 +29,7 @@ public class Customer extends User {
     public Customer(){super(null);}
 
     public Stream<Product> unassignAllProducts() {
+
           return this.getProductStream().map(x -> {
             this.removeProduct(x);
             x.setOwner((Customer)null);
@@ -36,6 +38,7 @@ public class Customer extends User {
     }
 
     public Stream<Order> unassignAllOrders(){
+
         return this.getOrderStream().map(x -> {
            this.removeOrder(x);
            x.setOwner(null);

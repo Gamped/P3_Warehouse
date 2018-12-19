@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 @Document(collection = "publishers")
 
 public class Publisher extends Customer {
+
     @Id
     private ObjectId id = new ObjectId();
     @DBRef
@@ -26,6 +27,7 @@ public class Publisher extends Customer {
     public String getHexId() {return id.toString();}
 
     public int getNumberOfClients(){
+
         int size;
         size = clients.size();
         return size;

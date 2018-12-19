@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.restmodels;
 
 public class RestProductModel {
+
     private String productName;
     private String productId;
     private int quantity;

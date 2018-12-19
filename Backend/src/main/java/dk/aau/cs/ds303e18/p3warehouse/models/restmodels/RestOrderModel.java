@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 
 public class RestOrderModel {
+
     // private JSONArray orderLines;
     private ArrayList<OrderLine> orderLines;
     private int orderId;
