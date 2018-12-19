@@ -6,7 +6,6 @@ import "./Menues.css";
 
 // The header component
 class Header extends React.Component {
-
     //This happens when we exit
     exitHandler = (event) =>{
         event.preventDefault();
@@ -16,7 +15,6 @@ class Header extends React.Component {
 
     //This is what we render
     render(){
-        
         // Here we determine what buttons to send to the header. 
         // If the usertype does not match anything then we send the user back to the loginPage
         let buttons=[]
@@ -29,14 +27,14 @@ class Header extends React.Component {
                 {name: "Stock",location:"/Admin/Stock",id:"4"},
                 {name: "Profile",location:"/Admin/Profile",id:"5"}
             ]
-        }else if(user==="CLIENT"){
+        } else if(user==="CLIENT") {
             buttons=[
                 {name: "Home",location: "/Home", id:"1"},
                 {name: "Order",location:"/User/Order", id:"2"},
                 {name: "Stock",location:"/User/Stock",id:"3"},
                 {name: "Profile",location:"/User/Profile",id:"4"},
             ]
-        }else if(user==="PUBLISHER"){
+        } else if(user==="PUBLISHER") {
             buttons=[
                 {name: "Home",location: "/Home", id:"1"},
                 {name: "Order",location:"/User/Order", id:"2"},
@@ -44,7 +42,7 @@ class Header extends React.Component {
                 {name: "Profile",location:"/User/Profile",id:"4"},
                 {name: "Clients",location:"/User/Clients",id:"5"}
             ]
-        }else{
+        } else {
             this.props.history.push("/")
         }
 
@@ -80,16 +78,12 @@ class Header extends React.Component {
 
 //REDUX This takes the redux state and maps it to the props.
 const mapStateToProps = (state)=>{
-    return{
-        userType: state.loginReducer.userType
-    }
+    return{userType: state.loginReducer.userType}
 }
 
 //REDUX Gets a dispatch function and maps it to the props.
 const mapDispatchToProps = (dispatch) =>{
-    return {
-        logout: () => {dispatch({type: "LOGOUT"})}
-    }
+    return {logout: () => {dispatch({type: "LOGOUT"})}}
 }
 
 //The Header class is the default class that is exported. 

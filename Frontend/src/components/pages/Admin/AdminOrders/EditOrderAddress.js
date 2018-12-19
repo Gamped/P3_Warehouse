@@ -15,10 +15,7 @@ import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
         this.state = { order: {} }
     }
 
-    componentDidMount() {
-
-        this.getOrder();
-    }
+    componentDidMount() {this.getOrder();}
 
     getOrder() {
         get("employee/order/"+this.props.match.params.id, (data) => {
@@ -29,7 +26,6 @@ import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
 
             console.log(JSON.stringify(orderLines));
             this.setState({order: order})
-            
         });
     }
 
@@ -46,16 +42,14 @@ import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
         const order = makeOrderBodyFromData(this.state.order.orderLines, this.state.order);
         console.log("ORDER TO BE SENDED ", order);
 
-        del("orders/delete/"+this.props.match.params.id, (response) => {
-          
+        del("orders/delete/"+this.props.match.params.id, (response) => {  
             window.alert(response);
 
-                post("orders/"+order.owner.userHexId+"/"+order.owner.userType.toLowerCase(), order, (response) => {
-                    if (window.confirm("Address successfully updated!", response)) {
-                        this.props.history.push("/Admin/Orders")
-                    }
-                    })
-        
+            post("orders/"+order.owner.userHexId+"/"+order.owner.userType.toLowerCase(), order, (response) => {
+                if (window.confirm("Address successfully updated!", response)) {
+                    this.props.history.push("/Admin/Orders")
+                }
+            })
         });
     }
 
@@ -63,24 +57,23 @@ import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
     render() {
         return(
             <div className="PageStyle customText_b">
-                    <div class="col-md-4 offset-md-4 mt-4">
-                        <input type="text" name="company" defaultValue={this.state.order.company} className="my-2 form-control" onChange={this.onChange} placeholder="Company"/> 
-                        <input type="text" name="contactPerson" defaultValue={this.state.order.contactPerson} className="my-2 form-control" onChange={this.onChange} placeholder="Contact Person"/>
-                        <input type="text" name="phoneNumber" defaultValue={this.state.order.phoneNumber} className="my-2 form-control" onChange={this.onChange} placeholder="Phonenumber"/>
-                        <input type="text" name="address" defaultValue={this.state.order.address} className="my-2 form-control" onChange={this.onChange} placeholder="Address"/>
-                        <input type="text" name="zipCode" defaultValue={this.state.order.zipCode} className="my-2 form-control" onChange={this.onChange} placeholder="Zipcode"/>
-                        <input type="text" name="city" defaultValue={this.state.order.city} className="my-2 form-control" onChange={this.onChange} placeholder="City"/>
-                        <input type="text" name="country" defaultValue={this.state.order.country} className="my-2 form-control" onChange={this.onChange} placeholder="Country"/>
+                <div class="col-md-4 offset-md-4 mt-4">
+                    <input type="text" name="company" defaultValue={this.state.order.company} className="my-2 form-control" onChange={this.onChange} placeholder="Company"/> 
+                    <input type="text" name="contactPerson" defaultValue={this.state.order.contactPerson} className="my-2 form-control" onChange={this.onChange} placeholder="Contact Person"/>
+                    <input type="text" name="phoneNumber" defaultValue={this.state.order.phoneNumber} className="my-2 form-control" onChange={this.onChange} placeholder="Phonenumber"/>
+                    <input type="text" name="address" defaultValue={this.state.order.address} className="my-2 form-control" onChange={this.onChange} placeholder="Address"/>
+                    <input type="text" name="zipCode" defaultValue={this.state.order.zipCode} className="my-2 form-control" onChange={this.onChange} placeholder="Zipcode"/>
+                    <input type="text" name="city" defaultValue={this.state.order.city} className="my-2 form-control" onChange={this.onChange} placeholder="City"/>
+                    <input type="text" name="country" defaultValue={this.state.order.country} className="my-2 form-control" onChange={this.onChange} placeholder="Country"/>
 
-                        <button className="EOA_BTN AdinOrderButtonSizer btn green_BTN mx-2" onClick={this.onSubmit}>Save Changes</button>
-                        <Link to="/Admin/Orders/Edit" className="EOA_BTN AdinOrderButtonSizer btn std_BTN mx-2 " role=" button" >Back</Link>
-                    </div>
+                    <button className="EOA_BTN AdinOrderButtonSizer btn green_BTN mx-2" onClick={this.onSubmit}>Save Changes</button>
+                    <Link to="/Admin/Orders/Edit" className="EOA_BTN AdinOrderButtonSizer btn std_BTN mx-2 " role=" button" >Back</Link>
                 </div>
+            </div>
         )
     }
 }
 
-const mapStateToProps =(state) => {
-    return {userId: state.loginReducer.userId}
-}
+const mapStateToProps =(state) => {return {userId: state.loginReducer.userId}}
+
 export default connect(mapStateToProps)(EditOrderAddress)
