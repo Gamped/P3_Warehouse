@@ -8,19 +8,14 @@ import {makeDataFromOrderList, makePublisherAndItsClientsOrdersData} from '../..
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 
 class UserOrder extends React.Component {
-    
     constructor(props) {
         super(props);
         this.state = { orders: [], selectedOrder: [], selected: null, selectedId: "" };
-    
     }
     
-    componentDidMount(){
-        this.checkUserType();
-    }
+    componentDidMount(){this.checkUserType();}
 
     checkUserType() {
-
         if (this.props.userType.toLowerCase() == 'publisher') {
             this.getPublisherData();
         } else {
@@ -29,13 +24,11 @@ class UserOrder extends React.Component {
     }
 
     getPublisherData() {
-
         get("publishers/"+this.props.userId, (data) => {
             console.log(data)
             this.setDataToState(data)
         });
     }
-
 
     getClientData() {
         get("clients/"+this.props.userId+"/orders", (data) => {
@@ -45,7 +38,6 @@ class UserOrder extends React.Component {
     }
 
     setDataToState = (data) => {
-
         let orders = [];
         
         if (this.props.userType.toLowerCase() === "client") {
@@ -58,12 +50,10 @@ class UserOrder extends React.Component {
     }
 
     setStateAsSelected = (rowInfo) => {
-
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId });
     }
 
     showOrderLines(rowInfo) {
-
         const selectedOrder = this.state.orders[rowInfo.index].orderLines;
         this.setState({seletedOrder: selectedOrder});
     }
@@ -74,59 +64,51 @@ class UserOrder extends React.Component {
                 let newOrders = this.state.orders.filter(x=>x.hexId!==this.state.selectedId)
                 this.setState({orders:newOrders})
             })
-        }else{
-            window.alert("Please select something")
-        }
-
+        } else {window.alert("Please select something")}
     }
 
     render() {
-
         const orderColumns = getColumnsFromArray(["Order Id", "Owner", "Date"]);
-        //let orderLineColumns = getColumnsFromArray(["Product Id", "Product Name", "Amount"]);
-
+  
         return(
             <div className="PageStyle">
                 <div className="frameBordering">
                     <div className="UserOrderLeft">
                         <ReactTable 
-                                data={this.state.orders}
-                                className="productTable -striped -highlight"
-                                columns={orderColumns}
-                                showPagination={false} 
-                                className=" -striped -highlight darkenReactTable"
-                                getTrProps={(state, rowInfo) => {
-                                    if (rowInfo && rowInfo.row) {
-                                      return {
+                            data={this.state.orders}
+                            className="productTable -striped -highlight"
+                            columns={orderColumns}
+                            showPagination={false} 
+                            className=" -striped -highlight darkenReactTable"
+                            getTrProps={(state, rowInfo) => {
+                                if (rowInfo && rowInfo.row) {
+                                    return {
                                         onClick: (e) => {
-                                           this.setStateAsSelected(rowInfo);
-                                           this.showOrderLines(rowInfo);
+                                        this.setStateAsSelected(rowInfo);
+                                        this.showOrderLines(rowInfo);
                                         },
                                         style: {
-                                          background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                          color: rowInfo.index === this.state.selected ? 'white' : 'black'
+                                            background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
+                                            color: rowInfo.index === this.state.selected ? 'white' : 'black'
                                         }
-                                      }
-                                    }else{
-                                      return {}
                                     }
-                                   }
+                                } else {
+                                    return {}
                                 }
-
-                            />
+                            }}
+                        />
                     </div>
                     <div className="UserOrderRight">
                         <Link to="/User/Order/Select" className="btn green_BTN btn-block">Create new order</Link>
                         <button onClick={this.deleteOrder} className="btn red_BTN btn-block">Remove order</button>
                   </div>
-                </div>
-                       
+                </div>    
             </div>
         );
     }
 }
 
-const mapStateToProps = (state) =>{
+const mapStateToProps = (state) => {
     return {
         userId: state.loginReducer.userId,
         userType: state.loginReducer.userType

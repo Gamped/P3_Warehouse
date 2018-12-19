@@ -1,7 +1,6 @@
 import React from 'react';
 import "../../Pages.css";
 import { connect } from "react-redux";
-import {Link} from "react-router-dom";
 import {get} from "./../../../../handlers/requestHandlers"
 
 class UserProfile extends React.Component{
@@ -25,26 +24,24 @@ class UserProfile extends React.Component{
             get("clients/"+this.props.userID,(res)=>{
                 this.setStateOnGetRequest(res)
             })   
-        }else if(type === "PUBLISHER"){
+        } else if(type === "PUBLISHER") {
             get("publishers/"+this.props.userID,(res)=>{
                 this.setStateOnGetRequest(res)
             })   
-        }else{
-            alert("Something went horribly wrong.")
-        }
+        } else {alert("Something went horribly wrong.")}
     }
 
     setStateOnGetRequest = (data) =>{
         this.setState({
-                    userName:data.userName, 
-                    name: data.contactInformation.nickName, 
-                    email: data.contactInformation.email,
-                    phoneNumber:data.contactInformation.phoneNumber,
-                    address:data.contactInformation.address,
-                    city:data.contactInformation.city,
-                    zip:data.contactInformation.zipCode,
-                    country:data.contactInformation.country,
-                })
+            userName:data.userName, 
+            name: data.contactInformation.nickName, 
+            email: data.contactInformation.email,
+            phoneNumber:data.contactInformation.phoneNumber,
+            address:data.contactInformation.address,
+            city:data.contactInformation.city,
+            zip:data.contactInformation.zipCode,
+            country:data.contactInformation.country,
+        })
     }
 
     prepForEdit = () =>{
