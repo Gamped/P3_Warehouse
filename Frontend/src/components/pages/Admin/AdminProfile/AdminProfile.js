@@ -9,8 +9,10 @@ import "./AdminProfile.css";
 import { getColumnsFromArray } from '../../../../handlers/columnsHandlers.js';
 
 class AdminProfile extends React.Component {
+
     constructor(props){
         super(props);
+        
         this.state = {
             userName: "",
             nickName: "",
@@ -57,6 +59,7 @@ class AdminProfile extends React.Component {
     }
 
     sendToEdit = () =>{
+
         if(this.state.selectedId === ""){
             window.alert("Please choose a profile to edit.")
         } else {
@@ -65,6 +68,7 @@ class AdminProfile extends React.Component {
     }
 
     render() {
+
         const employees = this.state.employees;
         const columns = getColumnsFromArray(["User Name", "Nick name"]);
 
@@ -108,6 +112,7 @@ class AdminProfile extends React.Component {
 }
 
 const mapStateToProps = (state)=> {
+
     return{
         userType: state.loginReducer.userType,
         userId: state.loginReducer.userId
