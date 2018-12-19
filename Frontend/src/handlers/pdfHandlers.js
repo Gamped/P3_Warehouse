@@ -1,4 +1,3 @@
-
 export function packListPDF (data) {
     if(data !== undefined && data !== null){
         console.log(data)
@@ -9,7 +8,6 @@ export function packListPDF (data) {
         let pdfXPlace = 20;
         let pdfYPlace = 50;
         
-
         doc.setFontSize(22);
         doc.text(pdfXPlace,pdfYPlace,"Packlist:");
         pdfYPlace +=5;
@@ -50,11 +48,9 @@ export function packListPDF (data) {
 
         doc.save("PackList.pdf")
     }
-
 }
 
   export function  orderNotePDF() {
-
     //TODO: DELETE ORDER TOO
     const pdfConverter = require('jspdf');
     const doc = new pdfConverter();
@@ -130,8 +126,7 @@ export function packListPDF (data) {
     doc.save("Følgeseddel.pdf")
 }
 
-export function entireStockPDF(state) {
-    
+export function entireStockPDF(state) {  
     const pdfConverter = require('jspdf');
     const doc = new pdfConverter();
     const elements= {...state.products}
@@ -155,5 +150,4 @@ export function entireStockPDF(state) {
     }
 
     doc.save("EntireStock.pdf")
-
 }

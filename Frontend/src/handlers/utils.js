@@ -6,7 +6,6 @@ export function variableNameToString(objectWithField) {
 }
 
 export function makeDateString(date) {
-
     const dateObject = new Date(date);
     const dateString = dateObject.toString()
     return dateString;

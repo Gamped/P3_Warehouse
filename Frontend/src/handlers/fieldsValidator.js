@@ -4,37 +4,30 @@ import {fieldInvalidWarning, passwordsDoNotMatchWarning,
 
 
 export function newProductIsValid(product) {
-    
     if (newProductFieldsAreNotUndefined(product)) {
         if (quantityIsANumber(product.quantity)) {
             if (productIdIsANumber(product.productId)) {
                 return true;
             }
         }
-
     } else {     
         fieldIsNotSetWarning();
         return false;
     }
- 
 }
 
 export function productIdIsANumber(productId) {
-
     if (productId.match(/^\d+$/)) {
         return true;
-    
     } else {
         productIdIsNotValidWarning();
         return false;
     }
 }
 
-export function quantityIsANumber(quantity) {
-    
+export function quantityIsANumber(quantity) { 
     if (quantity.match(/^\d+$/)) {    
         return true;
-    
     } else {
         quantityIsNotNumberWarning(); 
         return false;
@@ -42,7 +35,6 @@ export function quantityIsANumber(quantity) {
 }
 
 export function newProductFieldsAreNotUndefined(product) {
-
     if (product.quantity !== undefined) {
         if (product.productId !== undefined) {
             if (product.productName !== undefined) {
@@ -50,12 +42,10 @@ export function newProductFieldsAreNotUndefined(product) {
             }
         }
     } 
-
-        return false;
+    return false;
 }
 
 export function customerProfileFieldsAreValidated(fields) {
-
     if (isUserNameValid(fields.userName)) {
         if (isNickNameValid(fields.nickName)) {
             if (isEmailValid(fields.email)) {
@@ -78,7 +68,6 @@ export function customerProfileFieldsAreValidated(fields) {
     return false;
 }
 
-
 export function employeeProfileFieldsAreValidated(fields) {
     if (isUserNameValid(fields.userName)) {
         if (isNickNameValid(fields.nickName)) {
@@ -95,22 +84,21 @@ export function employeeProfileFieldsAreValidated(fields) {
 }
 
 export function userProfileFieldsAreValidated(fields) {
-   
     if (isAddressValid(fields.address)) {
         if (isCityValid(fields.city)) {
             if (isZipCodeValid(fields.zipCode)) {
                 if (isUserNameValid(fields.userName)) {
                     if (isEmailValid(fields.email)) {
-                            if (isPhoneValid(fields.phoneNumber)) {
-                                if (isCountryValid(fields.country)) {
-                                    if (isNickNameValid(fields.nickName)) {
-                                        if (fields.passwordNew && fields.passwordNewRepeat) {
-                                            if (isPasswordValid(fields.passwordNew, fields.passwordNewRepeat)) {
-                                                return true;
-                                            }
-                                        } else {
+                        if (isPhoneValid(fields.phoneNumber)) {
+                            if (isCountryValid(fields.country)) {
+                                if (isNickNameValid(fields.nickName)) {
+                                    if (fields.passwordNew && fields.passwordNewRepeat) {
+                                        if (isPasswordValid(fields.passwordNew, fields.passwordNewRepeat)) {
                                             return true;
-                                        }
+                                        }   
+                                    } else {
+                                        return true;
+                                    }
                                 }
                             }    
                         }
