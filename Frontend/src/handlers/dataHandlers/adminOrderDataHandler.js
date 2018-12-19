@@ -4,11 +4,10 @@ export function makeAllOrdersData(data) {
     var orders = [];
 
     if (orders) {
- 
-    data.forEach((order) => {
+        data.forEach((order) => {
             orders.push(makeOrderObject(order));
-            });
-        }
+        });
+    }
     return orders;
 }
 

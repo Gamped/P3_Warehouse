@@ -1,9 +1,7 @@
 export const makeOrderBodyFromData = (orderLines, address) =>{
-    
     let orderLinesToSend = [];     
     let orderToSend = {...address};
     
-
     orderLines.forEach((orderLine) => {
         orderLinesToSend.push({
             productHexId: orderLine.hexId,
