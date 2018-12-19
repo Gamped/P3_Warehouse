@@ -279,7 +279,8 @@ export function makeOrderLinesData(data) {
             productName: orderLine.product.productName,
             amount: orderLine.quantity,
             quantity: orderLine.product.quantity,
-            productId: orderLine.product.productId
+            productId: orderLine.product.productId,
+            hexId: orderLine.product.hexId
         })
     })
     return orderLines;

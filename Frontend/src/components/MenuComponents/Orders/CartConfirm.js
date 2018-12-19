@@ -17,18 +17,23 @@ import { post } from '../../../handlers/requestHandlers';
     }
 
     confirmed = (event) => {
-        const {userId,userType,orderLines} = this.props;
-        const data = {...this.props.address}
-        const body = makeOrderBodyFromData(data,orderLines)
-        console.log("Data: ", data,"Orderlines: ", orderLines)
-        console.log("Body: ", body)
 
-        if(userType === "EMPLOYEE"){
-            let {userId,userType} = this.props.employeeUser;
-            userType = userType.toLowerCase()
-            post('orders/'+userId+'/'+userType, {body}, (response) => {
+        let orderLines = this.props.orderLines;
+        console.log(orderLines);   
+        const data = makeOrderBodyFromData(orderLines, this.props.address);
+
+        console.log("Data: ", data);
+        console.log("Props: ", this.props);
+       
+       let userId = this.props.employeeUser.userId ? this.props.employeeUser.userId : "5c179cba3c7e9f0c6fbb93a7";
+       let userType = this.props.employeeUser.userType ? this.props.employeeUser.userType.toLowerCase() : "client";
+
+        if(this.props.userType === "EMPLOYEE"){
+            
+            post('orders/'+userId+'/'+userType, data, (response) => {
                 console.log(response)
-                if(response.includes("Created!")){
+                console.log(response)
+                if(response.match("Created!")){
                     this.props.history.push("/Admin/Order/Success")
                 }else{
                     this.props.history.push("/Admin/Order/Failed")
@@ -36,7 +41,7 @@ import { post } from '../../../handlers/requestHandlers';
             });
         }else{
             let type = userType.toLowerCase()
-            post('orders/'+userId+'/'+type, {body}, (response) => {
+            post('orders/'+userId+'/'+type, data, (response) => {
                 console.log(response)
                 if(response.includes("Created!")){
                     this.props.history.push("/User/Order/Success")
@@ -57,9 +62,12 @@ import { post } from '../../../handlers/requestHandlers';
 
     render(){
         const address = this.props.address;
-        console.log(address)
+        
+        console.log(this.props, this.state)
+        
         let lines = this.props.orderLines;
-       
+        
+
         if (lines !== undefined) {
         lines = lines.map((line, i)=>{return(
                 <tr key={i}>

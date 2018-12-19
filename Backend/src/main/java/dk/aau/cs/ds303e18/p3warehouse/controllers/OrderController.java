@@ -60,12 +60,20 @@ public class OrderController {
         catch(Exception e){
             return "User not found on id: " + userHexId;
         }
+        int highestOrderNumber = 0;
+        for(Order o : orderRepository.findAll()){
+            if(o.getOrderId() > highestOrderNumber) highestOrderNumber = o.getOrderId();
+        }
 
         Order newOrder = new Order(new ObjectId());
         BeanUtils.copyProperties(order, newOrder);
+        newOrder.setOrderId(highestOrderNumber + 1);
         owner.addOrder(newOrder);
         newOrder.setOwner(owner);
         ArrayList<OrderLine> updatedOrderLines = new ArrayList<>();
+
+        System.out.println("OrderLines " + order.getOrderLines());
+        System.out.println("Copied orderLines " + newOrder.getOrderLines());
 
         if(!(order.getOrderLines().size() > 0)){
             return "No orderlines";
@@ -84,6 +92,7 @@ public class OrderController {
                     orderLineProduct.subtract(x.getQuantity());
                     x.setProduct(orderLineProduct);
                     updatedOrderLines.add(x);
+                    productRepository.save(orderLineProduct);
                 } else {
                     throw new InvalidQuantityException(x.getProduct().getProductName());
                 }
@@ -92,9 +101,9 @@ public class OrderController {
             return "Cannot order more than stock in product: " + e.getMessage();
         }
 
-        for (OrderLine l : updatedOrderLines){
-            productRepository.save(l.getProduct());
-        }
+       // for (OrderLine l : updatedOrderLines){
+      //      productRepository.save(l.getProduct());
+      //  }
         switch (owner.getUserType()) {
             case CLIENT:
                 clientRepository.save((Client) owner);
@@ -198,7 +207,7 @@ public class OrderController {
                 productRepository.save(p);
             }
             orderRepository.deleteById(new ObjectId(hexId));
-            return "Order deleted?";
+            return "Deleted";
         }
         return "Error: Failed Successfully";
     }

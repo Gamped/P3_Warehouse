@@ -46,8 +46,9 @@ class AdminOrders extends Component {
     }
 
     setStateAsSelected = (rowInfo) => {
-
+        
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId, selectedItem: rowInfo.original });
+        console.log(this.state.orders[this.state.selected]);
     }
 
     showOrderLines = (rowInfo) => {
@@ -141,8 +142,9 @@ class AdminOrders extends Component {
     goToEdit = (event) =>{
         event.preventDefault();
         if(this.state.selectedItem !== null){
-            this.props.setSelectedOrder(this.state.pureOrders.find(x=>x.hexId===this.state.selectedId))
-            this.props.history.push("/Admin/Orders/Edit/")
+            console.log(this.state.orders[this.state.selected])
+            this.props.setSelectedOrder(this.state.orders[this.state.selected]);
+            this.props.history.push("/Admin/Orders/Edit/"+this.state.selectedId)
         }else{
             window.alert("Please select an order to edit.")
         }
