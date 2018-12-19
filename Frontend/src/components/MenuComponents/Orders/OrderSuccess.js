@@ -4,6 +4,7 @@ import "./Cart.css";
 import { connect } from "react-redux";
 
  class UserCartConfirm extends React.Component {
+     
     constructor(props) {
         super(props);
 
@@ -14,6 +15,7 @@ import { connect } from "react-redux";
     }
  
     goBack = () =>{
+
         //TODO: DELETE REDUX HERE
         if(this.props.userType==="EMPLOYEE"){
             this.props.history.push("/Admin/Orders")
@@ -23,6 +25,7 @@ import { connect } from "react-redux";
     }
 
     render(){
+
         const address = this.props.address;
         console.log(address)
         let lines = this.props.orderLines;
@@ -96,6 +99,7 @@ import { connect } from "react-redux";
 }
 
 const mapStateToProps = (state)=>{
+
     return{
         orderLines: state.orderReducer.orderLines,
         employeeUser:state.orderReducer.customer,

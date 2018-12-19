@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-
 // A stateless component. 
 const Buttonlist = (props) => {
 
@@ -31,7 +30,6 @@ const Buttonlist = (props) => {
 
     //returns the mapped buttonlist wrapped in a div.
     return(
-        
         <div>
            {mappedButtonList}
         </div>

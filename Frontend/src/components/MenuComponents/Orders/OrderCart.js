@@ -5,8 +5,10 @@ import { connect } from "react-redux";
 import {isOrderAddressValid} from './../../../handlers/fieldsValidator.js';
 
 class UserOrderCart extends React.Component {
+
     constructor(props) {
         super(props);
+
         this.state = {
            address:"",
            company:"",
@@ -19,12 +21,14 @@ class UserOrderCart extends React.Component {
     }
  
     onChange = (e) => {
+
         const state = this.state;
         state[e.target.name] = e.target.value;
         this.setState({state});
     }
 
     confirmed = (e) =>{
+
         e.preventDefault();
         console.log(this.state)
         if (isOrderAddressValid(this.state)) {
@@ -33,6 +37,7 @@ class UserOrderCart extends React.Component {
     }
 
     setStateToProps() {
+
         this.props.setAdress(this.state.address)
         this.props.setCompany(this.state.company)
         this.props.setContactPerson(this.state.contact)
@@ -45,6 +50,7 @@ class UserOrderCart extends React.Component {
     }
 
     goToNextPage() {
+
         const userType = this.props.userType
         if(userType==="EMPLOYEE"){
             this.props.history.push("/Admin/Order/Cart/Confirm")
@@ -54,6 +60,7 @@ class UserOrderCart extends React.Component {
     }
 
     back = (event) => {
+
         event.preventDefault();
         const userType = this.props.userType
         if(userType==="EMPLOYEE"){
@@ -65,6 +72,7 @@ class UserOrderCart extends React.Component {
     }
 
     render(){
+
         let lines = this.props.orderLines.orderLines;
 
         if(lines !== undefined){
@@ -123,6 +131,7 @@ class UserOrderCart extends React.Component {
 }
 
 const mapStateToProps = (state)=>{
+
     return{
         orderLines: state.orderReducer,
         userType: state.loginReducer.userType
@@ -130,6 +139,7 @@ const mapStateToProps = (state)=>{
 }
 
 const mapDispatchToProps = (dispatch) =>{
+    
     return{
         setCompany: (company) => {dispatch({type: "SET_COMPANY",payload: {company}})},
         setContactPerson: (contactPerson) => {dispatch({type: "SET_CONTACTPERSON",payload: {contactPerson}})},

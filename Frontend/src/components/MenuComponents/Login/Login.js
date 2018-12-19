@@ -5,6 +5,7 @@ import {get} from "./../../../handlers/requestHandlers"
 
 // The box for sign-in to the system
 class SignInBox extends React.Component {
+    
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
@@ -43,7 +44,6 @@ class SignInBox extends React.Component {
         }
 
         return(
-            
             //This is what we return and what the user sees.
             <div>
                 
@@ -78,16 +78,12 @@ class SignInBox extends React.Component {
 
 const mapStateToProps = (state)=>{
 
-    return {
-
-        user: state.loginReducer
-    }
+    return {user: state.loginReducer}
 }
 
 const mapDispatchToProps = (dispatch) =>{
 
     return {
-
         setUserType: (userType) => {dispatch({type: "SET_USERTYPE",payload: {userType}})},
         setUserName: (userName) => {dispatch({type: "SET_USERNAME",payload: {userName}})},
         setUserId: (userId) => {dispatch({type: "SET_USERID",payload: {userId}})},

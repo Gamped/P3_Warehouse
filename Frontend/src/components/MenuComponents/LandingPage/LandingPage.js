@@ -3,11 +3,11 @@ import {Link} from "react-router-dom";
 import "./LandingPage.css";
 
 const LandingPage = (props)=>{
+    
     const {name,buttons}=props;
     const buttonList = buttons.map(button =>{
 
         return (
-
             <div className="col" key={button.id}>
                 <Link 
                     to={button.location}  
@@ -19,7 +19,6 @@ const LandingPage = (props)=>{
         )
     })
     return(
-        
         <div className="container">
             <div className="fixed-top LandingText">
                 <h1 className="customText_b_medium">Welcome {name}!</h1>

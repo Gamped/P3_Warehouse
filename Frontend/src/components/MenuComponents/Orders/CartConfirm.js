@@ -6,6 +6,7 @@ import {makeOrderBodyFromData} from "../../../handlers/bodyHandlers";
 import { post } from '../../../handlers/requestHandlers';
 
  class UserCartConfirm extends React.Component {
+
     constructor(props) {
         super(props);
 
@@ -34,6 +35,7 @@ import { post } from '../../../handlers/requestHandlers';
         
             
         post('orders/'+userId+'/'+userType, data, (response) => {
+
             console.log(response)
             if(response.includes("Created!")){
                 
@@ -75,7 +77,6 @@ import { post } from '../../../handlers/requestHandlers';
         }
 
         return(
-
             <div className="PageStyle customText_b">
                 <h2 className="customText_b_big">Cart:</h2>
                 <div className="container">
@@ -137,7 +138,6 @@ import { post } from '../../../handlers/requestHandlers';
 const mapStateToProps = (state)=>{
 
     return{
-        
         orderLines: state.orderReducer.orderLines,
         employeeUser:state.orderReducer.customer,
         address: state.addressReducer,
