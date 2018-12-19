@@ -60,7 +60,7 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testLogInPublisher(){.
+    public void testLogInPublisher(){
 
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         RestPublisherModel restPublisherModel = new RestPublisherModel();

@@ -65,7 +65,7 @@ export default class AdminUsers extends Component {
     onSubmit = () => {
 
         if(this.state.changed.password===this.state.changed.confirmedNewPassword){
-            const usertype= this.state.selectedCustomer.userType
+            const usertype= this.state.selectedCustomer.userType.toLowerCase();
 
             let newState = {};
                 const changedState = {...this.state.changed}
@@ -90,7 +90,7 @@ export default class AdminUsers extends Component {
                     }
                     console.log(body)
 
-            if(usertype==="Publisher"){
+            if(usertype==="publisher"){
                 put("publishers/"+this.state.selectedCustomer.hexId,body,(respondse)=>{
                     let customers = this.state.customers.filter(customer =>{
                         return this.state.selectedId !== customer.hexId
@@ -106,7 +106,7 @@ export default class AdminUsers extends Component {
                     })
                     this.props.history.push("/Admin/Users/Push")
                 })
-            } else if(usertype==="Client") {
+            } else if(usertype==="client") {
                 put("clients/"+this.state.selectedCustomer.hexId,body,(respondse)=>{
                     let customers = this.state.customers.filter(customer =>{
                         return this.state.selectedId !== customer.hexId
@@ -122,7 +122,7 @@ export default class AdminUsers extends Component {
                     this.props.history.push("/Admin/Users/Push")
                 })
             } else {alert("Nothing chosen")}
-        } else {alert("Passwords not the same")}
+        } else {alert("Passwords not the same. If you do not wish to change passwords, leave both fields empty.")}
     }
  
     onDelete = () => {
@@ -198,12 +198,13 @@ export default class AdminUsers extends Component {
                             />
                             </div>
                         </div>
-                        
+                     
                         <div className="ContentBar  col-sm text-center">
                            <div className="container col">
                                 <div className="container col">
                                     <div className="row">
-                                        
+
+                                    <form onSubmit={this.onSubmit}>   
                                         <div className="input-group mt-3 mb-2">
                                             <div className="input-group-prepend">
                                                 <label htmlFor="nickName" 
@@ -219,7 +220,7 @@ export default class AdminUsers extends Component {
                                                     type="text"
                                                     defaultValue={selectedCustomer.nickName}
                                                     name="nickName"                                        
-                                                 />
+                                                    required/>
                                         </div>
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
@@ -236,7 +237,7 @@ export default class AdminUsers extends Component {
                                                 type="text"
                                                 defaultValue={selectedCustomer.userName}
                                                 name="userName"                                        
-                                            />
+                                                required/>
                                         </div>
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
@@ -250,10 +251,10 @@ export default class AdminUsers extends Component {
                                                 onChange={this.onChange}
                                                 id="email" 
                                                 className="form-control" 
-                                                type="text"
+                                                type="email"
                                                 defaultValue={selectedCustomer.email}
                                                 name="email"                                        
-                                            />
+                                                required />
                                         </div>
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
@@ -270,7 +271,7 @@ export default class AdminUsers extends Component {
                                                 type="number"
                                                 defaultValue={selectedCustomer.phoneNumber}
                                                 name="phoneNumber"                                        
-                                            />
+                                                required/>
                                         </div>
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
@@ -287,7 +288,7 @@ export default class AdminUsers extends Component {
                                                 type="text"
                                                 defaultValue={selectedCustomer.address}
                                                 name="address"                                        
-                                            />
+                                                required/>
                                         </div>
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
@@ -304,11 +305,11 @@ export default class AdminUsers extends Component {
                                                 type="text"
                                                 defaultValue={selectedCustomer.city}
                                                 name="city"                                        
-                                            />
+                                                required/>
                                         </div>
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
-                                                <label htmlFor="zip" 
+                                                <label htmlFor="zipCode" 
                                                     className="input-group-text" 
                                                     id="zipLabel">
                                                     Zipcode
@@ -316,12 +317,12 @@ export default class AdminUsers extends Component {
                                             </div>
                                             <input
                                                 onChange={this.onChange}
-                                                id="zip" 
+                                                id="zipCode" 
                                                 className="form-control" 
                                                 type="number"
                                                 defaultValue={selectedCustomer.zipCode}
                                                 name="zipCode"                                        
-                                            />
+                                                required/>
                                         </div>
                                         
                                         <h4 className="text-center">Change password:</h4>
@@ -340,7 +341,7 @@ export default class AdminUsers extends Component {
                                                 className="form-control" 
                                                 type="password"
                                                 name="password"                                        
-                                            />
+                                                />
                                         </div>
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
@@ -358,21 +359,25 @@ export default class AdminUsers extends Component {
                                                     placeholder="Retype new password"
                                                     name="confirmedNewPassword"                                        
                                                 />
+                                                
                                         </div>
-                                    </div>
-
-                                </div>
-                                <div className="container row">
+                                        <div className="container row">
                                     <div className="col my-2">
                                         <button type="button" onClick={this.onDelete} className="btn adminUserBtn red_BTN">Delete this user</button>
                                     </div>
                                     <div className="col my-2">
-                                        <button type="button" onClick={this.onSubmit} className="btn adminUserBtn blue_BTN">Confirm edit</button>
+                                        <button type="submit" className="btn adminUserBtn blue_BTN">Confirm edit</button>
                                     </div>
                                     <div className="col my-2">
                                         <Link to="/Admin/Users/Create" className="btn adminUserBtn green_BTN">Create new user</Link>
                                     </div>
                                 </div>
+                                        </form>
+                                    </div>
+                                
+                                </div>
+                                
+                                
                             </div>  
                         </div>
                     </div>

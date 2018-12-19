@@ -15,7 +15,10 @@ class UserOrder extends React.Component {
         this.state = { orders: [], selectedOrder: [], selected: null, selectedId: "" };
     }
     
-    componentDidMount(){this.checkUserType();}
+    componentDidMount() {
+        
+        this.checkUserType();
+    }
 
     checkUserType() {
 
@@ -38,7 +41,7 @@ class UserOrder extends React.Component {
     getClientData() {
 
         get("clients/"+this.props.userId+"/orders", (data) => {
-            this.setDataToState(data);
+            
             const orders = makeDataFromOrderList(data);
             this.setState({orders: orders})
         });
