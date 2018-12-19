@@ -38,7 +38,6 @@ public class OrderRepositoryTest {
     @Autowired
     PublisherRepository publisherRepository;
 
-
     @Test
     public void findByIdTest(){
         Order order = new Order(new ObjectId());
@@ -142,7 +141,6 @@ public class OrderRepositoryTest {
 
     @Before
     public void deleteAllEntries(){
-
         orderRepository.deleteAll();
         productRepository.deleteAll();
         clientRepository.deleteAll();
@@ -151,7 +149,6 @@ public class OrderRepositoryTest {
 
     @Test
     public void dbRefTest(){
-
         ObjectId pubId = new ObjectId();
         Publisher publisher = new Publisher(pubId);
         publisher.setUserName("Peter 4N");
@@ -210,12 +207,6 @@ public class OrderRepositoryTest {
         Order queryedOrder = orderRepository.findById(orderId).orElse(null);
         Client queryedClient = clientRepository.findById(queryedOrder.getOwner().getHexId());
         assert(queryedOrder != null && queryedClient.getHexId().equals(client.getHexId()));
-
-      //  clientRepository.delete(client);
-      //  productRepository.delete(product);
-     //   orderRepository.delete(order);
-
-
     }
 
     @Test

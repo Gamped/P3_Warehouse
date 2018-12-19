@@ -18,6 +18,7 @@ const Alert = (props) =>{
     }
 
     return(
+        
         <div>
             {mainAlert}
         </div>

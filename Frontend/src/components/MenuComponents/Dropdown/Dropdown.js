@@ -4,6 +4,7 @@ const Dropdown = (props) =>{
     const {action, actors} = props;
     const actorList = actors.map((actor)=>{
         return(
+
             <option 
             key={actor.hexId}
             value={actor.hexId}
@@ -13,6 +14,7 @@ const Dropdown = (props) =>{
          )
     })
     return(
+        
         <select className="custom-select form-control" id="dropdown" onChange={action}>
             <option>Choose Customer</option>
             {actorList}

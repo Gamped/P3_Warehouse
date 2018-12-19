@@ -57,7 +57,6 @@ public class MockDataCreator {
     }
 
     public void makeEmployees() {
-
         Employee employee = makeEmployee();
         Employee secondEmployee = makeSecondEmployee();
         Employee thirdEmployee = makeThirdEmployee();

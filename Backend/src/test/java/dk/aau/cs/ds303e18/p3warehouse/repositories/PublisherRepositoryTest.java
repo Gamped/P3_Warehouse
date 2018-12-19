@@ -5,7 +5,6 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,6 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class PublisherRepositoryTest {
-
     @Autowired
     PublisherRepository publisherRepository;
     @Autowired
@@ -53,7 +51,6 @@ public class PublisherRepositoryTest {
         userRepository.deleteAll();
     }
 
-
     @Test
     public void savePublisher(){
         Publisher publisher = makePublisher();
@@ -62,6 +59,7 @@ public class PublisherRepositoryTest {
         Publisher retrievedPublisher = optionalPublisher.get();
         assertEquals(publisher.getHexId(), retrievedPublisher.getHexId());
     }
+
     @Test
     public void publisherGotClient(){
         ObjectId idP = new ObjectId();

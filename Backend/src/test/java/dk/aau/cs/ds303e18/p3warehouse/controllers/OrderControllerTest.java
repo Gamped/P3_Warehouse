@@ -24,15 +24,11 @@ import static dk.aau.cs.ds303e18.p3warehouse.models.DummyProduct.makeDummyProduc
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyPublisher.makeDummyPublisher;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.verify;
 
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OrderControllerTest {
-
     @Autowired
     OrderController orderController;
     @Autowired
@@ -192,5 +188,4 @@ public class OrderControllerTest {
 
         assertEquals(0, orderRepository.findAll().size());
     }
-
 }

@@ -17,12 +17,14 @@ class SignInBox extends React.Component {
 
     //Mapping the value of the textbox to the state
     onChange = (e) => {
+
         this.setState({[e.target.name]: e.target.value});
     }
 
     //This handles our login. Takes an event and calls axios.
     //Then we map the results to redux through dispatches before pushing the user to main.
     loginHandler = (event) => {
+
         event.preventDefault()
         get("users/login/" + this.state.userName + "/" +this.state.password,(res)=>{
             console.log(res)
@@ -35,11 +37,13 @@ class SignInBox extends React.Component {
     }
 
     render(){
+
         if(this.props.user.loggedIn==="True"){
             this.props.history.push("./Home")
         }
 
         return(
+            
             //This is what we return and what the user sees.
             <div>
                 
@@ -73,13 +77,17 @@ class SignInBox extends React.Component {
 }
 
 const mapStateToProps = (state)=>{
+
     return {
+
         user: state.loginReducer
     }
 }
 
 const mapDispatchToProps = (dispatch) =>{
+
     return {
+
         setUserType: (userType) => {dispatch({type: "SET_USERTYPE",payload: {userType}})},
         setUserName: (userName) => {dispatch({type: "SET_USERNAME",payload: {userName}})},
         setUserId: (userId) => {dispatch({type: "SET_USERID",payload: {userId}})},

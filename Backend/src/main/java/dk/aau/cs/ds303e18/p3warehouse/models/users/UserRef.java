@@ -10,23 +10,16 @@ public class UserRef {
             this.userHexId = null;
             this.userType = null;
             this.nickName = null;
-        }
-        else {
+        } else {
             this.userHexId = customer.getId().toHexString();
             this.userType = customer.getUserType();
             this.nickName = customer.getContactInformation().getNickName();
         }
     }
 
-    public String getUserHexId() {
-        return userHexId;
-    }
+    public String getUserHexId() {return userHexId;}
 
-    public UserType getUserType() {
-        return userType;
-    }
+    public UserType getUserType() {return userType;}
 
-    public String getNickName() {
-        return nickName;
-    }
+    public String getNickName() {return nickName;}
 }

@@ -25,6 +25,7 @@ public class MakeMockPublisherData {
 
         return publisher;
     }
+
     public static Publisher makeSecondPublisher() {
         Publisher publisher = new Publisher(new ObjectId());
         ContactInformation contactInformation = new ContactInformation();

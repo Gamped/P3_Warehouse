@@ -15,39 +15,23 @@ public class OrderLine {
         this.product = product;
         this.quantity = quantity;
         this.productHexId = product.getHexId();
-
     }
 
     public OrderLine(){}
 
+    public String getProductHexId() {return productHexId;}
 
-    public String getProductHexId() {
-        return productHexId;
-    }
+    public void setProductHexId(String productHexId) {this.productHexId = productHexId;}
 
-    public void setProductHexId(String productHexId) {
-        this.productHexId = productHexId;
-    }
+    public Product getProduct() {return product;}
 
-    public Product getProduct() {
-        return product;
-    }
+    public int getQuantity() {return quantity;}
 
-    public int getQuantity() {
-        return quantity;
-    }
+    public void setProduct(Product product) {this.product = product;}
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+    public void setQuantity(int quantity) {this.quantity = quantity;}
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String toString(){
-        return product + " " + quantity;
-    }
+    public String toString(){return product + " " + quantity;}
 
     @Override
     public boolean equals(Object o) {
@@ -59,8 +43,6 @@ public class OrderLine {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(product, quantity);
-    }
+    public int hashCode() {return Objects.hash(product, quantity);}
 }
 

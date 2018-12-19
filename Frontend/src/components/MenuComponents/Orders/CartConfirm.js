@@ -18,6 +18,7 @@ import { post } from '../../../handlers/requestHandlers';
     }
 
     confirmed = (event) => {
+
         let orderLines = this.props.orderLines;
         console.log(orderLines);   
         const data = makeOrderBodyFromData(orderLines, this.props.address);
@@ -47,6 +48,7 @@ import { post } from '../../../handlers/requestHandlers';
     }
  
     goBack = () =>{
+
         if(this.props.userType==="EMPLOYEE"){
             this.props.history.push("/Admin/Order/Cart")
         } else {
@@ -55,6 +57,7 @@ import { post } from '../../../handlers/requestHandlers';
     }
 
     render(){
+
         const address = this.props.address;
         
         console.log(this.props, this.state)
@@ -72,6 +75,7 @@ import { post } from '../../../handlers/requestHandlers';
         }
 
         return(
+
             <div className="PageStyle customText_b">
                 <h2 className="customText_b_big">Cart:</h2>
                 <div className="container">
@@ -131,7 +135,9 @@ import { post } from '../../../handlers/requestHandlers';
 }
 
 const mapStateToProps = (state)=>{
+
     return{
+        
         orderLines: state.orderReducer.orderLines,
         employeeUser:state.orderReducer.customer,
         address: state.addressReducer,
