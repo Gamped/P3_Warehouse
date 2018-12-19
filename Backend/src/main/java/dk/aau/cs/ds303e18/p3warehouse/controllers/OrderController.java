@@ -165,8 +165,11 @@ public class OrderController {
     @DeleteMapping("/orders/delete/{hexId}")
     String finishOrder(@PathVariable String hexId) {
 
+        // NOTE: You need a file called "mail.txt" on your desktop with the following: [gmail address];[password]
+        // The gmail account needs to allow "less secure apps"
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
-        confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
+        // Sends a mail to the email, however, this is currently a hardcoded email address
+        confimationSender.sendOrderMsg(hexId.toString(), "mgampe17@student.aau.dk");
 
         Order queryedOrder = orderRepository.findById(new ObjectId(hexId)).orElse(null);
 
