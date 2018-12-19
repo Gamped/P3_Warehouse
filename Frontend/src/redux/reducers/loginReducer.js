@@ -1,14 +1,9 @@
-/*const initialState ={loggedIn:"False",
+const initialState ={loggedIn:"False",
 userType:"",
 userName:"",
-userId:"",};*/
+userId:"",};
 
-const devState ={loggedIn:"True",
-nickName:"Kev The Machine",
-userId:"5c1a619f3c7e9f377a08b7fe",
-userType: "EMPLOYEE"};
-
-const loginReducer = (state = devState, action) => {
+const loginReducer = (state = initialState, action) => {
     
     switch(action.type){
         case "SET_USERTYPE":
