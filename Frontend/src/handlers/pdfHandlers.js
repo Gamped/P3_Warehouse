@@ -1,6 +1,5 @@
 export function packListPDF (data) {
     if(data !== undefined && data !== null){
-        console.log(data)
         const date = data.date.substring(0,16);
         const pdfConverter = require('jspdf');
         const doc = new pdfConverter();
@@ -50,12 +49,12 @@ export function packListPDF (data) {
     }
 }
 
-  export function  orderNotePDF() {
-    //TODO: DELETE ORDER TOO
+export function  orderNotePDF(data) {
+
     const pdfConverter = require('jspdf');
     const doc = new pdfConverter();
+    const date = data.date.substring(0,16);
 
-    /* TODO: Find ud af hvad der skal skrives ind i pdfen.*/
     let pdfXPlace = 20;
     let pdfYPlace = 50;
     
@@ -65,20 +64,20 @@ export function packListPDF (data) {
     doc.setFontSize(12)
     doc.text(pdfXPlace,pdfYPlace,"Leveres til:")
     doc.setFontSize(16)
-    doc.text(pdfXPlace+90, pdfYPlace,"Følgeseddel: "+"[INSERT NUMBER]")
+    doc.text(pdfXPlace+90, pdfYPlace,"Følgeseddel: "+ data.orderId)
     
     pdfYPlace += 5
     doc.setFontSize(12)
-    doc.text(pdfXPlace,pdfYPlace,"[Company name]")
-    doc.text(pdfXPlace+90, pdfYPlace,"Ordernr.: "+"[INSERT NUMBER]")
+    doc.text(pdfXPlace,pdfYPlace,data.owner)
+    doc.text(pdfXPlace+90, pdfYPlace,"Ordernr.: "+ data.orderId)
 
     pdfYPlace += 5
     doc.text(pdfXPlace,pdfYPlace,"[Person]")
-    doc.text(pdfXPlace+90, pdfYPlace,"Dato.: "+"[INSERT Date]")
+    doc.text(pdfXPlace+90, pdfYPlace,"Dato.: "+ date)
 
     pdfYPlace += 5
     doc.text(pdfXPlace,pdfYPlace,"[Address]")
-    doc.text(pdfXPlace+90, pdfYPlace,"Kundenr.: "+"[INSERT NUMBER]")
+    doc.text(pdfXPlace+90, pdfYPlace,"Kundenr.: "+ data.ownerHexId)
 
     pdfYPlace += 5
     doc.text(pdfXPlace,pdfYPlace,"[zip and city name]")
@@ -105,23 +104,25 @@ export function packListPDF (data) {
     doc.setFontStyle("bold")
     doc.text(pdfXPlace,pdfYPlace,"Item ID")
     doc.text(pdfXPlace+50,pdfYPlace,"Item Name")
-    doc.text(pdfXPlace+140,pdfYPlace,"Quantity")
+    doc.text(pdfXPlace+140,pdfYPlace,"Amount")
     pdfYPlace +=2
 
     doc.line(pdfXPlace,pdfYPlace,175,pdfYPlace);
+    pdfXPlace +=10
 
-    /*let counter = 0;
+    let counter = 0;
+    const elements = data.orderLines
     for (const key in elements){
-        
-        doc.text("Name: "+elements[key].productName,pdfXPlace,pdfYPlace);
-        doc.text("Quantity: " + elements[key].quantity,pdfXPlace+120,pdfYPlace);
+        doc.text(elements[key].productId.toString(),pdfXPlace.pdfYPlace)
+        doc.text(elements[key].productName.toString(),pdfXPlace+50,pdfYPlace);
+        doc.text(elements[key].quantity.toString(),pdfXPlace+140,pdfYPlace);
         doc.line(20,pdfYPlace+5,175,pdfYPlace+5);
         pdfYPlace += 17;
         counter += 1;
         if(counter%25===0){
             doc.addPage()
         }
-    }*/
+    }
 
     doc.save("Følgeseddel.pdf")
 }

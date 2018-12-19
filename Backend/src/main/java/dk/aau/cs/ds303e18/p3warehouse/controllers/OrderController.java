@@ -25,10 +25,6 @@ import java.util.stream.Collectors;
 @RestController
 public class OrderController {
 
-    //TODO: Delete order virker ikke
-    //TODO: Create order queurier kun efter en publisher og er ikke optimalt. SKal de opdateres flere steder eller blot i orderRepo?
-    //TODO: De andre virker heller ikke og er nødt til at blive testet med data.
-
     @Autowired
     ProductRepository productRepository;
     @Autowired

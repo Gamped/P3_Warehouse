@@ -115,8 +115,10 @@ class AdminOrders extends Component {
     finishOrder = (e) => {
         let allPacked = this.state.allPacked;
         if (allPacked == 1) {
-            del("orders/delete/:id" + this.state.selectedId, () => {
+            del("orders/delete/" + this.state.selectedId, (response) => {
                 orderNotePDF(this.state.selectedItem)
+                let newOrders = this.state.orders.filter(item=>item.hexId!==this.state.selectedId)
+                this.setState({selectedId:"",orders:newOrders})
             });
         } else {
             allProductsNotPackedWarning();

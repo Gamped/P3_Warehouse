@@ -23,13 +23,6 @@ import java.util.stream.Stream;
 @RestController
 public class PublisherController {
 
-    //TODO: Publisher kan slettes ordentligt. Klienter under publisher skal også slettes.
-    //TODO: Publisher kan se deres ordrer
-    //TODO: Publisher kan requeste klientændringer. En besked der kan sende en mail til 4n
-    //TODO: Lige nu er findPublisherInfoById() en meget ikke optimal loesning.
-    //      Den skal returnere alle produkter, der hører under en publisher og dens tilhørende klienter
-
-
     @Autowired
     PublisherRepository publisherRepository;
 
