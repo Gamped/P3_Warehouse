@@ -2,7 +2,6 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.MailService.OrderInfoMail;
-import dk.aau.cs.ds303e18.p3warehouse.managers.OrderManager;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestOrderModel;
@@ -17,11 +16,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @CrossOrigin
@@ -52,9 +48,14 @@ public class OrderController {
 
         try{
             switch(UserType.valueOf(userType)){
-                case CLIENT: owner = clientRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
-                case PUBLISHER: owner = publisherRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId)); break;
-                default: return "Bad usertype";
+                case CLIENT:
+                    owner = clientRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId));
+                    break;
+                case PUBLISHER:
+                    owner = publisherRepository.findById(new ObjectId(userHexId)).orElseThrow(() -> new Exception(userHexId));
+                    break;
+                default:
+                    return "Bad usertype";
             }
         }
         catch(Exception e){
@@ -101,9 +102,6 @@ public class OrderController {
             return "Cannot order more than stock in product: " + e.getMessage();
         }
 
-       // for (OrderLine l : updatedOrderLines){
-      //      productRepository.save(l.getProduct());
-      //  }
         switch (owner.getUserType()) {
             case CLIENT:
                 clientRepository.save((Client) owner);
@@ -165,17 +163,15 @@ public class OrderController {
     }
 
     @GetMapping("/employee/orders")
-    Collection<Order> findAllOrders() {
-        return orderRepository.findAll();
-    }
-
-
+    Collection<Order> findAllOrders() {return orderRepository.findAll();}
 
     @DeleteMapping("/orders/delete/{hexId}")
     String finishOrder(@PathVariable String hexId) {
         OrderInfoMail confimationSender = new OrderInfoMail("4N Mailhouse");
         confimationSender.sendOrderMsg(hexId.toString(), "jesus@himlen.dk");
+
         Order queryedOrder = orderRepository.findById(new ObjectId(hexId)).orElse(null);
+
         if(queryedOrder != null){
             Customer owner = queryedOrder.getOwner();
             Collection<Product> updatedProducts = new ArrayList<>();
@@ -185,11 +181,10 @@ public class OrderController {
                     x.getProduct().setQuantity(x.getProduct().getQuantity() + x.getQuantity());
                     return x.getProduct();
                 }).collect(Collectors.toCollection(ArrayList::new));
-            }
-            catch(Exception e){
+            } catch(Exception e){e.printStackTrace();}
 
-            }
             orderRepository.delete(queryedOrder);
+
             try {
                 switch (owner.getUserType()) {
                     case CLIENT:
@@ -199,10 +194,8 @@ public class OrderController {
                         publisherRepository.save((Publisher) owner);
                         break;
                 }
-            }
-            catch(Exception e){
+            } catch(Exception e){e.printStackTrace();}
 
-            }
             for(Product p : updatedProducts){
                 productRepository.save(p);
             }
@@ -211,7 +204,5 @@ public class OrderController {
         }
         return "Error: Failed Successfully";
     }
-
-
 }
 
