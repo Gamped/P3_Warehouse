@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
@@ -40,11 +39,10 @@ public class UserRepositoryTest {
 
     @Test
     public void SaveSuperclassAndExtendedClassSeparatelyTest(){
-
         productRepository.deleteAll();
         clientRepository.deleteAll();
         userRepository.deleteAll();
-            publisherRepository.deleteAll();
+        publisherRepository.deleteAll();
 
         ObjectId clientId = new ObjectId();
         ObjectId publisherId = new ObjectId();
@@ -99,19 +97,6 @@ public class UserRepositoryTest {
         productRepository.save(flyerProduct);
 
         Client queriedClient = clientRepository.findById(client.getId()).orElse(null);
-
-/*
-        User user = new User(client.getId());
-        user.copyFrom(client);
-        userRepository.save(user);
-        Optional<User> hopefullyAUser = userRepository.findById(clientId);
-
-        Client hopefullyAClient = clientRepository.findById(client.getHexId());
-
-        assert(hopefullyAClient.getUserName().equals(client.getUserName()));
-       // userRepository.delete(user);
-       // clientRepository.delete(client);
-   */
     }
 
     public User makeUser() {
@@ -177,6 +162,7 @@ public class UserRepositoryTest {
         assertEquals(retrievedUser, secondRetrievedUser);
 
     }
+
     @Test
     public void testUserCopyFrom() {
         ObjectId id = new ObjectId();
@@ -341,5 +327,4 @@ public class UserRepositoryTest {
         userRepository.deleteAll();
         assertEquals(0, userRepository.findAll().size());
     }
-
 }

@@ -29,7 +29,6 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class ClientRepositoryTest {
-
     @Autowired
     ClientRepository clientRepository;
     @Autowired
