@@ -119,11 +119,11 @@ class AdminOrders extends Component {
 
     sendToPage = (address) => {this.props.history.push(address);}
 
-    finishOrder = (e) => {
-        
+    finishOrder = (e) => { 
         e.preventDefault()
+        
         let allPacked = this.state.allPacked;
-        if (allPacked == 1) {
+        if (allPacked === 1) {
             del("orders/delete/" + this.state.selectedId, (response) => {
                 orderNotePDF(this.state.orders[this.state.selected])
                 let newOrders = this.state.orders.filter(item=>item.hexId!==this.state.selectedId)

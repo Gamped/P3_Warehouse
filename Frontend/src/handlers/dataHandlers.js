@@ -121,7 +121,7 @@ export function ordersExist(customer) {
     return false;
 }
 
-export function clientsExist(publisher) {return publisher.numberOfClient != 0;}
+export function clientsExist(publisher) {return publisher.numberOfClient !== 0;}
 
 export function makeOwnersData(data) {
 
