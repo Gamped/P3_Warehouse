@@ -2,12 +2,10 @@ import React from 'react';
 import {Link} from "react-router-dom";
 
 
-// A stateless component. 
 const Buttonlist = (props) => {
 
     const {buttons, current, link, color}=props;
 
-    //To the array of buttons we map a div dependt on various variables
     const mappedButtonList = buttons.map(button =>{
 
         return (
@@ -28,8 +26,7 @@ const Buttonlist = (props) => {
             </div>
         )
     })
-
-    //returns the mapped buttonlist wrapped in a div.
+    
     return(
         
         <div>
