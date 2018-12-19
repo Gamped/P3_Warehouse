@@ -46,7 +46,6 @@ public class PublisherController {
 
     @GetMapping("/publishers/{id}")
     Publisher findById(@PathVariable String id) {
-      
         ObjectId objectId = new ObjectId(id);
         return publisherRepository.findById(objectId).get();
     }
