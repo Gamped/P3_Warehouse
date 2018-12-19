@@ -82,11 +82,17 @@ class CreateUser extends React.Component{
             if(this.state.userType==="CLIENT"){
 
                 post("employee/clients", body, (hexId) => {
-                    console.log("hex",hexId);
-                    get('employee/publishers/addClient='+hexId+'/toPublisher='+this.state.selectedActorHexId, ()=> {
-                        console.log("nåede hertil")
+
+                    if (this.state.selectedActorHexId !== "IC") {
+
+                        get('employee/publishers/addClient='+hexId+'/toPublisher='+this.state.selectedActorHexId, ()=> {
+                            this.displayConfirmation();
+                            this.props.history.push("/Admin/Users/")
+                        })  
+                    } else {
+                        this.displayConfirmation();
                         this.props.history.push("/Admin/Users/")
-                    })   
+                    }
                 });
             } else {
                 post("employee/publishers", body, (response)=>{
@@ -96,10 +102,22 @@ class CreateUser extends React.Component{
         }
     }
 
+    displayConfirmation() {
+
+        let id = this.state.selectedActorHexId;
+        if (id === "IC") {
+            window.alert("Independent Client has been created");
+        } else {
+            window.alert("Client " + this.state.nickName +
+        " has been added under publisher " + this.state.publishers.find(x=> x.hexId === this.state.selectedActorHexId).nickName);
+        }
+    }
+
 
     setSelected = (e) =>{
-
+        console.log(e.target.value)
         if (e.target.value.toLowerCase() !== 'choose customer') {
+            
             this.setState({
                 selectedActorHexId:e.target.value,
                 selectedActorUserType:this.state.publishers.find(x=>x.hexId===e.target.value).userType.toUpperCase()
