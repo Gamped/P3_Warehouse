@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+
 import java.util.stream.Stream;
 
 @RequestMapping("/api")
@@ -41,7 +40,6 @@ public class PublisherController {
 
     @GetMapping("/publishers")
     Iterable<Publisher> findAll() {
-
         return publisherRepository.findAll();
     }
 
@@ -52,6 +50,7 @@ public class PublisherController {
 
         return publisherRepository.findById(objectId).orElse(null);
     }
+
     @GetMapping("/publishers/{hexId}/orders")
     Stream<Order> getAllPublisherOrders(@PathVariable String hexId){
         Publisher publisher = publisherRepository.findById(new ObjectId(hexId)).orElse(null);
@@ -60,7 +59,6 @@ public class PublisherController {
 
     @PostMapping("/publishers")
     Publisher newPublisher(@RequestBody RestPublisherModel restPublisher) {
-
         ObjectId id = new ObjectId();
         Publisher newPublisher = new Publisher(id);
         BeanUtils.copyProperties(restPublisher, newPublisher);
@@ -70,7 +68,6 @@ public class PublisherController {
 
     @PutMapping("/publishers/{hexId}")
     String update(@PathVariable("hexId") String hexId, @RequestBody RestPublisherModel restPublisher) {
-
         ObjectId id = new ObjectId(hexId);
         Optional<Publisher> optPublisher = publisherRepository.findById(id);
         Publisher publisherToSave = optPublisher.get();
@@ -88,6 +85,7 @@ public class PublisherController {
     void delete(@PathVariable String hexId) {
         ObjectId id = new ObjectId(hexId);
         Publisher publisher = publisherRepository.findById(id).orElse(null);
+
         publisher.getClientStream().map(x -> x.unassignAllProducts().map(product -> productRepository.save(product)));
         publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(orderStream -> orderStream.forEach(orderRepository::delete));
         publisher.unassignAllOrders().forEach(orderRepository::delete);
@@ -138,3 +136,4 @@ public class PublisherController {
         }
 
         }
+
