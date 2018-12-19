@@ -6,8 +6,10 @@ import { put } from "./../../../../handlers/requestHandlers";
 import { userProfileFieldsAreValidated } from "./../../../../handlers/fieldsValidator";
 
 class UserProfileEdit extends React.Component {
+    
     constructor(props) {
         super(props);
+
         this.state = {
             userId: this.props.userId,
             userName: this.props.user.userName,
@@ -20,14 +22,13 @@ class UserProfileEdit extends React.Component {
             country:this.props.user.country,
             passwordNew:"",
             passwordNewRepeat:""}
-        };
-    
+    };
 
     onChangeHandler = (event) => {
+
         console.log(this.state)
         this.setState({[event.target.name]: event.target.value});
     }
-
     
     confirmed = (event) =>{
         event.preventDefault();
@@ -35,9 +36,6 @@ class UserProfileEdit extends React.Component {
         let fields = this.state;
         console.log(fields);
         if (userProfileFieldsAreValidated(fields)) {
-            
-        
-
             const usertype= this.props.userType
             const body = this.makeBodyFromChangedState();
 
@@ -50,11 +48,11 @@ class UserProfileEdit extends React.Component {
                     this.props.history.push("/User/Profile");
                 })
             }
+        }
     }
 
-}
-
     makeBodyFromChangedState() {
+
         let newState = {};
         const state = this.state;
         Object.keys(state).forEach((key) => {
@@ -83,6 +81,7 @@ class UserProfileEdit extends React.Component {
     }
 
     render() {
+
         return(
             <div className="PageStyle customText_b">
                 <div className="frameBordering">
@@ -132,11 +131,11 @@ class UserProfileEdit extends React.Component {
                                         <span className="input-group-text" id="basic-addon7">Phonenumber</span>
                                     </div> 
                                     <input
-                                    name="phoneNumber" 
-                                    type="tel" 
-                                    className="my-2 form-control" 
-                                    onChange={this.onChangeHandler}
-                                    defaultValue={this.props.user.phoneNumber} required/>
+                                        name="phoneNumber" 
+                                        type="tel" 
+                                        className="my-2 form-control" 
+                                        onChange={this.onChangeHandler}
+                                        defaultValue={this.props.user.phoneNumber} required/>
                                 </div>
 
                                 <div className="input-group mb-2">
@@ -216,11 +215,8 @@ class UserProfileEdit extends React.Component {
                             </form> 
                             
                             <Link to="/User/Profile" className="std_BTN btn btn-block btn my-2">Back</Link>
-                            
-                    
                         </div>
                     </div>
-
                 </div>
             </div>
         );
@@ -228,6 +224,7 @@ class UserProfileEdit extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+
     return {
         user: state.profileReducer,
         userId: state.loginReducer.userId,

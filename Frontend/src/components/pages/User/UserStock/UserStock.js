@@ -8,10 +8,11 @@ import {get} from './../../../../handlers/requestHandlers.js';
 import {makeProductsData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
 import { getColumnsFromArray } from '../../../../handlers/columnsHandlers';
 
-class UserStock extends React.Component {
+class UserStock extends React.Component {  
     
     constructor(props) {
         super(props);
+
         this.state = {
             quarry: "",
             products: [],
@@ -20,13 +21,10 @@ class UserStock extends React.Component {
         };
     }
 
-    componentDidMount(){
-       
-        this.getStock();           
-    }
+    componentDidMount(){this.getStock();}
 
     getStock() {
-        
+
         const userType = this.props.userType.toLowerCase();
         const id = this.props.userId;
         
@@ -34,7 +32,7 @@ class UserStock extends React.Component {
             let products = [];
             console.log(data)
             
-             products = makeProductsData(data);
+            products = makeProductsData(data);
 
             this.setState({ products: products });
         });
@@ -57,9 +55,9 @@ class UserStock extends React.Component {
                                     showPagination={false} 
                                     className="-striped -highlight"
                                     defaultPageSize={25}
-                                        style={{
-                                            height: "400px"                                      
-                                        }}
+                                    style={{
+                                        height: "400px"                                      
+                                    }}
                                 />
                             </div>
                         </div>
@@ -71,6 +69,7 @@ class UserStock extends React.Component {
 }
 
 const mapStateToProps = (state) =>{
+
     return{
         userId: state.loginReducer.userId,
         userType: state.loginReducer.userType

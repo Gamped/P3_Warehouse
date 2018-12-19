@@ -12,7 +12,7 @@ public class MakeMockOrderData {
         order.setTitle("sports");
         order.setDate(new Date());
         order.setAddress("mour 4");
-        order.setOrderId("35223645654ddd");
+        order.setOrderId(352236456);
         order.setCity("Serene");
         order.setPhoneNumber("66498726");
         order.setZipCode("5979");
@@ -29,7 +29,7 @@ public class MakeMockOrderData {
         order.setTitle("music");
         order.setDate(new Date());
         order.setAddress("foul 23");
-        order.setOrderId("242543643678");
+        order.setOrderId(242543678);
         order.setCity("Moonlight");
         order.setPhoneNumber("56846987");
         order.setZipCode("9985");
@@ -46,7 +46,7 @@ public class MakeMockOrderData {
         order.setTitle("books");
         order.setDate(new Date());
         order.setAddress("doo 4");
-        order.setOrderId("325346436");
+        order.setOrderId(32534436);
         order.setCity("Stone");
         order.setPhoneNumber("43599856");
         order.setZipCode("5955");
@@ -63,7 +63,7 @@ public class MakeMockOrderData {
         order.setTitle("museum advertisement");
         order.setDate(new Date());
         order.setAddress("yellow 2");
-        order.setOrderId("3254368888");
+        order.setOrderId(325436888);
         order.setCity("Gesser");
         order.setPhoneNumber("46488798");
         order.setZipCode("1354");
@@ -80,7 +80,7 @@ public class MakeMockOrderData {
         order.setTitle("magazine");
         order.setDate(new Date());
         order.setAddress("moon 90");
-        order.setOrderId("325378897430");
+        order.setOrderId(378897430);
         order.setCity("Smalling");
         order.setPhoneNumber("15988526");
         order.setZipCode("9335");
@@ -97,7 +97,7 @@ public class MakeMockOrderData {
         order.setTitle("discount");
         order.setDate(new Date());
         order.setAddress("sun 33");
-        order.setOrderId("3536347568");
+        order.setOrderId(53634756);
         order.setCity("Kunsten");
         order.setPhoneNumber("26885487");
         order.setZipCode("9526");
@@ -112,7 +112,7 @@ public class MakeMockOrderData {
         Order order = new Order(new ObjectId());
 
         order.setTitle("flyers");
-        order.setOrderId("3255");
+        order.setOrderId(3255);
         order.setAddress("musvej 3");
         order.setDate(new Date());
         order.setCity("Aalborg");

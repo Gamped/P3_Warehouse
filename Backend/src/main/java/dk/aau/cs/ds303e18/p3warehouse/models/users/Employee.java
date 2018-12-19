@@ -13,21 +13,15 @@ public class Employee extends User {
     private String hexId;
 
     public Employee(ObjectId id){
+
         super(id);
         this.id = id;
         this.hexId = this.id.toHexString();
     }
 
-    public String getNickname() {
-        return nickname;
-    }
+    public String getNickname() {return nickname;}
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
+    public void setNickname(String nickname) {this.nickname = nickname;}
 
-    public String getHexId() {
-        return hexId;
-
-    }
+    public String getHexId() {return hexId;}
 }

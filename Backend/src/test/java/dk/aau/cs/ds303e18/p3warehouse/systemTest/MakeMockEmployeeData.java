@@ -5,7 +5,6 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import org.bson.types.ObjectId;
 
 public class MakeMockEmployeeData {
-
     public static Employee makeEmployee() {
         Employee employee = new Employee(new ObjectId());
         employee.setUserType(UserType.EMPLOYEE);
@@ -55,5 +54,4 @@ public class MakeMockEmployeeData {
 
         return employee;
     }
-
 }

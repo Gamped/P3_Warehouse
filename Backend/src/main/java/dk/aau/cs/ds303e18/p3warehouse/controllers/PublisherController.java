@@ -15,20 +15,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+
 import java.util.stream.Collectors;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 @RequestMapping("/api")
 @CrossOrigin
 @RestController
 public class PublisherController {
-
-    //TODO: Publisher kan slettes ordentligt. Klienter under publisher skal også slettes.
-    //TODO: Publisher kan se deres ordrer
-    //TODO: Publisher kan requeste klientændringer. En besked der kan sende en mail til 4n
-    //TODO: Lige nu er findPublisherInfoById() en meget ikke optimal loesning.
-    //      Den skal returnere alle produkter, der hører under en publisher og dens tilhørende klienter
-
 
     @Autowired
     PublisherRepository publisherRepository;
@@ -44,7 +39,6 @@ public class PublisherController {
 
     @GetMapping("/publishers")
     Iterable<Publisher> findAll() {
-
         return publisherRepository.findAll();
     }
 
@@ -56,8 +50,10 @@ public class PublisherController {
 
         return publisher;
     }
+
     @GetMapping("/publishers/{hexId}/orders")
     Stream<Order> getAllPublisherOrders(@PathVariable String hexId){
+
         Publisher publisher = publisherRepository.findById(new ObjectId(hexId)).orElse(null);
         return publisher.getOrderStream();
     }
@@ -90,8 +86,10 @@ public class PublisherController {
 
     @DeleteMapping("/publishers/{hexId}")
     void delete(@PathVariable String hexId) {
+
         ObjectId id = new ObjectId(hexId);
         Publisher publisher = publisherRepository.findById(id).orElse(null);
+
         publisher.getClientStream().map(x -> x.unassignAllProducts().map(product -> productRepository.save(product)));
         publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(orderStream -> orderStream.forEach(orderRepository::delete));
         publisher.unassignAllOrders().forEach(orderRepository::delete);
@@ -101,11 +99,10 @@ public class PublisherController {
         userRepository.delete(user);
     }
 
-@GetMapping("/publishers/{hexId}/products")
+    @GetMapping("/publishers/{hexId}/products")
     Stream<Product> findPublisherProducts(@PathVariable("hexId") String hexId) {
 
         ObjectId objectId = new ObjectId(hexId);
         return publisherRepository.findById(objectId).orElse(null).getProductStream();
-        }
-
-        }
+    }
+}

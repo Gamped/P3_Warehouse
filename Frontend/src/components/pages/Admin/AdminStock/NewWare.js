@@ -5,14 +5,13 @@ import { Link } from "react-router-dom";
 import {makeCustomerData} from './../../../../handlers/dataHandlers.js';
 import {get, post} from './../../../../handlers/requestHandlers.js';
 import Dropdown from "../../../MenuComponents/Dropdown/Dropdown";
-import {quantityIsNotNumberWarning} from './../../../../handlers/exceptions.js';
 import {newProductIsValid} from './../../../../handlers/fieldsValidator.js';
 
 class NewWare extends Component {
 
     constructor(props) {
-        
         super(props);
+        
         this.state = {
             currentProduct: this.props.product,
             product: {},
@@ -26,11 +25,13 @@ class NewWare extends Component {
     }
 
     componentDidMount() {
+
         this.getClients();
         this.getPublishers();
     }
 
     getClients() {
+
         get('employee/clients', (data) => {
             const clients = makeCustomerData(data);
             this.concatinateWithNewData(clients);
@@ -38,19 +39,22 @@ class NewWare extends Component {
     }
 
     getPublishers() {
+
         get('employee/publishers', (data) => {
              const publishers = makeCustomerData(data);
              this.concatinateWithNewData(publishers);
         });
      }
      
-     concatinateWithNewData(newData) {
-    
+    concatinateWithNewData(newData) {
+
         const ownersCopy = this.state.owners;
         let concatinatedData = [...ownersCopy,...newData];
         this.setState({ owners: concatinatedData });
     }
+
     onChange = (e) => {
+
         this.setState({product:{...this.state.product,[e.target.name]:e.target.value}})
         console.log(this.state)
     }
@@ -58,8 +62,7 @@ class NewWare extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        if (newProductIsValid(this.state.product)) {
-            
+        if (newProductIsValid(this.state.product)) {     
             const {productName, productId, quantity} = this.state.product;
 
             post("employee/products/assignTo=" + this.state.selectedOwnerHexId 
@@ -71,7 +74,8 @@ class NewWare extends Component {
         }
     }
     
-    setSelected = (e) =>{
+    setSelected = (e) => {
+
         this.setState({
             selectedOwnerHexId:e.target.value,
             selectedOwnerUserType:this.state.owners.find(x=>x.hexId===e.target.value).userType.toUpperCase()
@@ -79,7 +83,7 @@ class NewWare extends Component {
     }
 
     render() {
-     
+
         const currentProduct = this.state.product;
 
         return (
@@ -109,21 +113,16 @@ class NewWare extends Component {
                             onChange={this.onChange}
                             placeholder="Quantity" required/>
                         <Dropdown className="dropdownSmallSizeForNew" actors={this.state.owners} action={this.setSelected}/>
-                        
-                   
 
-
-                    <div className="" action="/Admin/Stock">
-                        <button className="green_BTN btn-lg btn-block btn my-2" type="submit" onClick={(hexID,userType)=>this.onSubmit(hexID,userType)}>Create product</button>
-                    </div>
+                        <div className="" action="/Admin/Stock">
+                            <button className="green_BTN btn-lg btn-block btn my-2" type="submit" onClick={(hexID,userType)=>this.onSubmit(hexID,userType)}>Create product</button>
+                        </div>
                     </form>
                     <Link to="/Admin/Stock" className="std_BTN btn-lg btn-block btn my-2">Back</Link>
-                    </div>
+                </div>
             </div>
         )     
     }
 }
-
-
 
 export default NewWare;

@@ -15,22 +15,16 @@ import dk.aau.cs.ds303e18.p3warehouse.repositories.UserRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
-
 @CrossOrigin
 @RequestMapping("/api")
 @RestController
 public class ClientController {
-
-    //TODO: updateClient opdateres i userAuth også.
-    //TODO: deleteClient slettes i userAuth ogsaa.
-    //TODO: Overvej hvorfor ProductManager.saveProductToDb(product, owner); kaldes i addNewProduct men ikke i updateClientProduct
 
     @Autowired
     ClientRepository clientRepository;
@@ -42,23 +36,24 @@ public class ClientController {
     OrderRepository orderRepository;
 
     @GetMapping("/clients")
-    Iterable<Client> findAllClients() {
-        return clientRepository.findAll();
-    }
+    Iterable<Client> findAllClients() {return clientRepository.findAll();}
 
     @GetMapping("/clients/{hexId}")
     Client findClientById(@PathVariable String hexId) {
+
         return clientRepository.findById(new ObjectId(hexId)).orElse(null);
     }
 
     @GetMapping("/clients/{hexId}/products")
     private Collection<Product> findAllProductsByClient(@PathVariable String hexId) {
+
         Client client = clientRepository.findById(new ObjectId(hexId)).orElse(null);
         return client.getProductStream().collect(Collectors.toCollection(HashSet::new));
     }
 
     @GetMapping("/clients/{hexId}/orders")
     private Collection<Order>findAllOrdersByClient(@PathVariable String hexId){
+
         Client client = clientRepository.findById(new ObjectId(hexId)).orElse(null);
         return client.getOrderStream().collect(Collectors.toCollection(HashSet::new));
     }
@@ -76,6 +71,7 @@ public class ClientController {
         ObjectId id = new ObjectId(hexId);
         Client client = clientRepository.findById(id).orElse(null);
         User user = new User(id);
+
         BeanUtils.copyProperties(restClientModel, client);
         BeanUtils.copyProperties(client, user);
         clientRepository.save(client);
@@ -90,6 +86,7 @@ public class ClientController {
 
         ObjectId id = new ObjectId(hexId);
         Product product = productRepository.findById(id).orElse(null);
+
         BeanUtils.copyProperties(restProduct, product);
         productRepository.save(product);
 
@@ -98,8 +95,10 @@ public class ClientController {
 
     @DeleteMapping("/clients/{hexId}")
     void deleteClient(@PathVariable String hexId) {
+
         ObjectId id = new ObjectId(hexId);
         Client client = clientRepository.findById(id).orElse(null);
+
         client.unassignAllOrders().forEach(orderRepository::delete);
         client.unassignAllProducts().forEach(productRepository::save);
         User user = userRepository.findById(id).orElse(null);
@@ -107,15 +106,13 @@ public class ClientController {
         userRepository.delete(user);
     }
 
-
     @PostMapping("/clients/{hexId}/products")
     private Product addNewProductToClient(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
+
         Customer owner = clientRepository.findById(new ObjectId(hexId)).orElse(null);
         Product product = new Product(new ObjectId());
 
         BeanUtils.copyProperties(restProduct, product);
         return ProductManager.saveProductToDb(product, owner);
     }
-
-
 }

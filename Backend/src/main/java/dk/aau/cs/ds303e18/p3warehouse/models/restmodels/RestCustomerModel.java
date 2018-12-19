@@ -6,11 +6,7 @@ public class RestCustomerModel extends RestUserModel {
 
     private ContactInformation contactInformation;
 
-    public ContactInformation getContactInformation() {
-        return contactInformation;
-    }
+    public ContactInformation getContactInformation() {return contactInformation;}
 
-    public void setContactInformation(ContactInformation contactInformation) {
-        this.contactInformation = contactInformation;
-    }
+    public void setContactInformation(ContactInformation contactInformation) {this.contactInformation = contactInformation;}
 }

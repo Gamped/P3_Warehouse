@@ -15,21 +15,15 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Optional;
-
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyClient.makeDummyClient;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyClient.makeSpecificDummyClient;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyProduct.makeDummyProduct;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class ClientControllerTest {
-
     @Autowired
     private ClientController clientController;
 

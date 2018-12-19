@@ -21,7 +21,6 @@ import static org.junit.Assert.assertNull;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class EmployeeRepositoryTest {
-
     @Autowired
     EmployeeRepository employeeRepository;
     @Autowired

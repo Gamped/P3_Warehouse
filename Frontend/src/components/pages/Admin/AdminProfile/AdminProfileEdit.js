@@ -9,9 +9,10 @@ import {employeeProfileFieldsAreValidated} from './../../../../handlers/fieldsVa
 //TODO: Passwords has to match
 
 class AdminProfileEdit extends React.Component {
-   
+
     constructor(props) {
         super(props);
+        
         this.state = {
             userId: this.props.userId,
             nickName: "",
@@ -21,20 +22,20 @@ class AdminProfileEdit extends React.Component {
         };
     }
 
-    componentDidMount() {
-        this.getEmployeeData();
-    }
+    componentDidMount() {this.getEmployeeData();}
 
     getEmployeeData() {
+
         get("employee/employee/" + this.props.match.params.id, (data) => {
             this.setState({
-                nickName: data.nickName,
+                nickName: data.nickname,
                 userName: data.userName });
-    });
-}
+        });
+    }
 
     confirmed = (event) =>{
         event.preventDefault();
+
         const fields = this.state;
     
         if (employeeProfileFieldsAreValidated(fields)) {
@@ -46,9 +47,10 @@ class AdminProfileEdit extends React.Component {
                 this.props.history.push("/Admin/Profile")
             });
         }
-}
+    }
 
     makeBody() {
+
         let body = {};
         body.userName = this.state.userName;
         body.nickname = this.state.nickName;
@@ -59,22 +61,19 @@ class AdminProfileEdit extends React.Component {
         return body;
     }
 
-    passwordSet() {
-        return this.state.password && this.state.passwordRepeat;
-    }
+    passwordSet() {return this.state.password && this.state.passwordRepeat;}
 
-    onChange = (e) => {
-        this.setState({[e.target.name]: e.target.value});
-    }
+    onChange = (e) => {this.setState({[e.target.name]: e.target.value});}
     
     render(){
+
         return(
             <div className="PageStyle customText_b">
                 <h1 className="text-center">Edit profile:</h1>
                 <div className="row">
                     <div className ="col-md-4 offset-md-4">
                         <form>
-                        <input 
+                            <input 
                                 type="text" 
                                 name="userName"
                                 className="my-2 form-control"
@@ -89,25 +88,24 @@ class AdminProfileEdit extends React.Component {
                                 defaultValue={this.state.nickName} 
                                 onChange={this.onChange}
                                 placeholder="Name"/>
-                               
+                                
                             <input
                                 type="password" 
                                 name="password"
                                 className="my-2 form-control"
                                 onChange={this.onChange}
                                 placeholder="New password"/>
-                              
+                                
                             <input
                                 type="password" 
                                 name="passwordRepeat"
                                 className="my-2 form-control" 
                                 onChange={this.onChange}
-                                placeholder="New password repeat"/>
-                               
+                                placeholder="New password repeat"/>      
                         </form>
 
                         <form className="newForm stockForm">
-                        <button className="green_BTN btn-lg btn-block btn my-2" onClick={this.confirmed}>Save profile</button>
+                            <button className="green_BTN btn-lg btn-block btn my-2" onClick={this.confirmed}>Save profile</button>
                         </form>
                         <Link to="/Admin/Profile" className="dark_BTN btn-lg btn-block btn my-2">Back</Link>
                     </div>
@@ -115,14 +113,11 @@ class AdminProfileEdit extends React.Component {
             </div>
         );
     }
-}
-    
-    
+}   
     
 const mapStateToProps = (state) => {
-    return {
-        userId: state.loginReducer.userId
-    }
+
+    return {userId: state.loginReducer.userId}
 }
 
 export default connect(mapStateToProps)(AdminProfileEdit)

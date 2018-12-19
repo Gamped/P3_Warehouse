@@ -1,13 +1,14 @@
 import React from 'react';
 import "../../Pages.css";
 import "./AdminProfile.css";
-import axios from "axios";
 import {Link} from "react-router-dom"
 import {post} from './../../../../handlers/requestHandlers.js';
 
 export default class AdminAdd extends React.Component {
+
     constructor(props) {
         super(props);
+        
         this.state = {
             userName: "",
             nickname: "",
@@ -17,16 +18,15 @@ export default class AdminAdd extends React.Component {
 
     addEmployeeHandler = (event) =>{
         event.preventDefault();
+
         const {userName, nickname, password} = this.state;
 
         post('employee/employees', {nickname, userName, password}, () => {
-                this.props.history.goBack();
-            });
+            this.props.history.goBack();
+        });
     }
 
-    onChange = (e) => {
-        this.setState({[e.target.name]: e.target.value});
-    }
+    onChange = (e) => {this.setState({[e.target.name]: e.target.value});}
 
     render() {
 
