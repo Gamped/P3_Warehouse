@@ -35,6 +35,7 @@ public class UserController {
                     return publisherRepository.findById(user.getId()).get();
                 case EMPLOYEE:
                     return employeeRepository.findById(user.getId()).get();
+
             }
         }
         return user;

@@ -60,12 +60,12 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testLogInPublisher(){.
+    public void testLogInPublisher(){
 
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         RestPublisherModel restPublisherModel = new RestPublisherModel();
         BeanUtils.copyProperties(publisher, restPublisherModel);
-        employeeController.createPublisher(restPublisherModel);
+        System.out.println(employeeController.createPublisher(restPublisherModel));
 
         assertEquals(userRepository.findAll().get(0).getId().toHexString(),
                 userController.authenticateUser(publisher.getUserName(), publisher.getPassword()).getId().toHexString());
