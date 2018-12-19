@@ -52,8 +52,6 @@ export function packListPDF (data) {
 
 export function  orderNotePDF(data) {
     
-    console.log(data)
-
     const pdfConverter = require('jspdf');
     const doc = new pdfConverter();
     const date = data.date.substring(0,16);

@@ -26,7 +26,6 @@ class UserProfileEdit extends React.Component {
 
     onChangeHandler = (event) => {
 
-        console.log(this.state)
         this.setState({[event.target.name]: event.target.value});
     }
     
@@ -34,7 +33,6 @@ class UserProfileEdit extends React.Component {
         event.preventDefault();
         
         let fields = this.state;
-        console.log(fields);
         if (userProfileFieldsAreValidated(fields)) {
             const usertype= this.props.userType
             const body = this.makeBodyFromChangedState();
@@ -76,7 +74,6 @@ class UserProfileEdit extends React.Component {
                 country: newState.country
             }
         }
-        console.log("Body: " + body);
         return body;
     }
 

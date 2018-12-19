@@ -21,22 +21,14 @@ import { post } from '../../../handlers/requestHandlers';
     confirmed = (event) => {
 
         let orderLines = this.props.orderLines;
-        console.log(orderLines);   
         const data = makeOrderBodyFromData(orderLines, this.props.address);
-        
-
-        console.log("Data: ", data);
-        console.log("Props: ", this.props);
-       
 
         let userId = this.props.employeeUser.userId ? this.props.employeeUser.userId : this.state.userId;
         let userType = this.props.employeeUser.userType ? this.props.employeeUser.userType.toLowerCase() : this.state.userType;
         let path = userType === 'employee' ? '/Admin/' : '/User/';
-        
-            
+              
         post('orders/'+userId+'/'+userType, data, (response) => {
 
-            console.log(response)
             if(response.includes("Created!")){
                 
                 this.props.history.push(path+'Order/Success')
@@ -61,8 +53,6 @@ import { post } from '../../../handlers/requestHandlers';
     render(){
 
         const address = this.props.address;
-        
-        console.log(this.props, this.state)
         
         let lines = this.props.orderLines;
         

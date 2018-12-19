@@ -26,7 +26,6 @@ import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
             order.orderLines = orderLines;
             order.owner = data.owner;
 
-            console.log(JSON.stringify(orderLines));
             this.setState({order: order})
         });
     }
@@ -40,11 +39,8 @@ import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
 
     onSubmit = (e) => {
         e.preventDefault();
-        
-        console.log("User id",this.props.userId);
 
         const order = makeOrderBodyFromData(this.state.order.orderLines, this.state.order);
-        console.log("ORDER TO BE SENDED ", order);
 
         del("orders/delete/"+this.props.match.params.id, (response) => {  
             window.alert(response);

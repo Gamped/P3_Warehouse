@@ -30,7 +30,6 @@ class UserStock extends React.Component {
         
         get(userType + 's/' + id + '/products', (data) => {
             let products = [];
-            console.log(data)
             
             products = makeProductsData(data);
 

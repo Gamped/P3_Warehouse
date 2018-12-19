@@ -37,14 +37,11 @@ export function makePublisherAndItsClientsOrdersData(publisher) {
 
     if (ordersExist(publisher)) {
 
-        console.log("Orders exist")
-
         owner = publisher.contactInformation.nickName;
         ownerHexId = publisher.hexId;
 
         publisher.orderStream.forEach((order) => {
             orders.push(addOrder(order, owner, ownerHexId));
-            console.log(orders);
         }); 
     }
 
@@ -58,7 +55,6 @@ export function makePublisherAndItsClientsOrdersData(publisher) {
 
                 client.orderStream.forEach((order) => {
                     orders.push(addOrder(order, owner, ownerHexId));
-                    console.log("client orders ", orders)
                 });
             }
         });
@@ -97,7 +93,6 @@ export function makeClientsOrdersData(data){
 export function makeClientOrdersData(client, owner, ownerHexId) {
 
     let orders = [];
-    console.log(client, owner, ownerHexId);
 
     if (ordersExist(client)) {
         client.orderStream.forEach((order) => {

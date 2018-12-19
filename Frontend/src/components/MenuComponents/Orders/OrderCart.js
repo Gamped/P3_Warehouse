@@ -30,7 +30,6 @@ class UserOrderCart extends React.Component {
     confirmed = (e) =>{
 
         e.preventDefault();
-        console.log(this.state)
         if (isOrderAddressValid(this.state)) {
             this.setStateToProps();
         }    

@@ -6,7 +6,7 @@ userId:"",};*/
 const devState ={loggedIn:"True",
 nickName:"Kev The Machine",
 userId:"5c1a619f3c7e9f377a08b7fe",
-userType: "PUBLISHER"};
+userType: "EMPLOYEE"};
 
 const loginReducer = (state = devState, action) => {
     
@@ -16,7 +16,6 @@ const loginReducer = (state = devState, action) => {
         case "SET_USERID":
         case "SET_LOGIN":
             state = {...state, ...action.payload}
-            console.log(state)
             break;
         case "LOGOUT":
             state ={...state, userType: ""}

@@ -32,7 +32,6 @@ class UserOrder extends React.Component {
     getPublisherData() {
 
         get("publishers/"+this.props.userId, (data) => {
-            console.log("data: \n",data)
             const orders = makePublisherAndItsClientsOrdersData(data);
             this.setState({orders: orders})
         });

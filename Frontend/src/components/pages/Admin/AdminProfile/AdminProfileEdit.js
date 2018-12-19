@@ -40,8 +40,6 @@ class AdminProfileEdit extends React.Component {
     
         if (employeeProfileFieldsAreValidated(fields)) {
             const body = this.makeBody();
-            
-            console.log(body);
 
             put("employee/edit/" + this.props.match.params.id, body, (res)=>{
                 this.props.history.push("/Admin/Profile")

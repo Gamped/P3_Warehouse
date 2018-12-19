@@ -10,7 +10,6 @@ const orderReducer = (state = blankOrder ,action)=>{
         case "SET_ORDERLINES":
         case "SET_CUSTOMER":
             state = {...state, ...action.payload}
-            console.log(state)
             return state;
         case "DESTROY_ORDER":
             return {...state,orderLines:[]}

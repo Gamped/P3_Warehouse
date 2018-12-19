@@ -59,7 +59,6 @@ export default class AdminUsers extends Component {
     onChange = (e) => {
 
         this.setState({...this.state,changed:{...this.state.changed,[e.target.name]:e.target.value}});
-        console.log(this.state)
     }
 
     onSubmit = () => {
@@ -88,7 +87,6 @@ export default class AdminUsers extends Component {
                         zipCode: newState.zipCode
                         }
                     }
-                    console.log(body)
 
             if(usertype==="publisher"){
                 put("publishers/"+this.state.selectedCustomer.hexId,body,(respondse)=>{

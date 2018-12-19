@@ -27,7 +27,6 @@ class EditOrder extends Component{
     componentDidMount() {   
 
         this.setState({order: this.props.order, orderLines: this.props.order.orderLines});
-        console.log("Props ",this.props)
     }
 
     onChangeHandler = (e) =>{
@@ -130,9 +129,6 @@ class EditOrder extends Component{
 
     render() {
 
-        console.log("State:",this.state)
-        console.log(this.props);
-
         let orderLineColumns = getColumnsFromArray(["Product Name", "Product Id", "Amount", "Quantity"]);
         
         return (
@@ -148,7 +144,7 @@ class EditOrder extends Component{
                                 if (rowInfo && rowInfo.row) {
                                     return {
                                     onClick: (e) => {    
-                                        this.setState({selectedOrderLine: rowInfo.original, selectedOrderLineNumber:rowInfo.index}, ()=>{console.log("Selected Orderline:",this.state.selectedOrderLine)});
+                                        this.setState({selectedOrderLine: rowInfo.original, selectedOrderLineNumber:rowInfo.index});
                                     },
                                     style: {
                                         background: rowInfo.index === this.state.selectedOrderLineNumber ? '#00afec' : 'white',

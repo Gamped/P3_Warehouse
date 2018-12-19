@@ -27,7 +27,6 @@ import { connect } from "react-redux";
     render(){
 
         const address = this.props.address;
-        console.log(address)
         let lines = this.props.orderLines;
        
         if (lines !== undefined) {

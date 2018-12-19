@@ -5,8 +5,7 @@ import { connect } from "react-redux";
 class Home extends React.Component{
 
     render(){
-        
-        console.log(this.props)
+
         let landingPageButtons = []
         
         if(this.props.userType==="CLIENT"){

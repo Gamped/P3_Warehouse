@@ -28,8 +28,6 @@ class SignInBox extends React.Component {
 
         event.preventDefault()
         get("users/login/" + this.state.userName + "/" +this.state.password,(res)=>{
-            console.log(res)
-            console.log(this.state)
             this.props.setUserName(res.contactInformation.nickName);
             this.props.setUserType(res.userType);
             this.props.setUserId(res.hexId)

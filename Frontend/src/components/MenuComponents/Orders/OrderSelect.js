@@ -60,7 +60,6 @@ class UserOrder extends React.Component {
 
         get('employee/publishers', (data) => { 
             const publishers = makeCustomerData(data);
-            console.log(publishers, "PUBLISHERS")
             this.concatinateWithNewData(publishers);
          });
      }
@@ -109,7 +108,6 @@ class UserOrder extends React.Component {
                 itemPreviouslyAddedWarning();
             } else {
                 if (newLine.amount !== 0) {
-                    console.log("Din mor ;)");
                 this.setState({orderLines: [...this.state.orderLines, newLine],numberOfItems:this.state.numberOfItems+1}); 
             } else {
                 amountIsZeroWarning();
@@ -148,7 +146,6 @@ class UserOrder extends React.Component {
             if(userType === "EMPLOYEE"){
                 if(userSelectedId!==undefined&&userSelectedId!==null&&userSelectedId!==""){
                     this.props.setCustomerToCart({userType:this.state.userSelectedType,userId:this.state.userSelectedId})
-                    console.log(this.state.selectedId)
                     this.props.history.push("/Admin/Order/Cart")
                 } else {
                     window.alert("Please select a customer you are ordering for.")
@@ -235,9 +232,7 @@ class UserOrder extends React.Component {
 
         if(e.target.value.toLowerCase()!=="choose customer"){    
             this.setState({userSelectedId:e.target.value},()=>{
-                console.log(this.state)
                 this.setState({userSelectedType:this.state.customers.find(x=>x.hexId===this.state.userSelectedId).userType},() => {
-                    console.log(this.state)
                     this.filterStock();
                 })
             })

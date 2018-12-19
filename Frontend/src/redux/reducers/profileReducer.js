@@ -21,7 +21,6 @@ const loginReducer = (state = initialState, action) => {
         case "SET_PROFILE_CITY":
         case "SET_PROFILE_COUNTRY":
             state = {...state, ...action.payload}
-            console.log(state)
             break;
         default:
     }  

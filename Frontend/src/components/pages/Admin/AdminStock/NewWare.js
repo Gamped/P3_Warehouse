@@ -63,8 +63,7 @@ class NewWare extends Component {
 
         if (newProductIsValid(this.state.product)) {     
             const {productName, productId, quantity} = this.state.product;
-            console.log("OWNERID: ",this.state.selectedOwnerHexId);
-            console.log("USERTYPE: ",this.state.selectedOwnerUserType);
+ 
             post("employee/products/assignTo=" + this.state.selectedOwnerHexId 
                 + "/withUserType=" + this.state.selectedOwnerUserType,
                 {productName, productId, quantity}, () => {

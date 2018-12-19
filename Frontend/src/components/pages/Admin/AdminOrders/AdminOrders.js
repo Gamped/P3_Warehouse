@@ -36,9 +36,7 @@ class AdminOrders extends Component {
     getOrders = () =>{
 
         get("employee/orders", (data) => {
-            console.log(data)
             const orders = makeAllOrdersData(data);
-            console.log(orders)
             this.setState({orders: orders});
         })
     }
@@ -46,7 +44,6 @@ class AdminOrders extends Component {
     setStateAsSelected = (rowInfo) => {
 
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId, selectedItem: rowInfo.original });
-        console.log(this.state.orders[this.state.selected]);
     }
 
     showOrderLines = (rowInfo) => {
@@ -79,7 +76,6 @@ class AdminOrders extends Component {
 			packed: packedItem,
 			allPacked: this.state.allPacked === 0 ? 1 : 0
         });
-        console.log(JSON.stringify(this.state.packed) + " " + this.state.allPacked)
     }
 
 
@@ -121,7 +117,7 @@ class AdminOrders extends Component {
 
     finishOrder = (e) => { 
         e.preventDefault()
-        
+
         let allPacked = this.state.allPacked;
         if (allPacked === 1) {
             del("orders/delete/" + this.state.selectedId, (response) => {
@@ -145,7 +141,6 @@ class AdminOrders extends Component {
     goToEdit = (event) =>{
         event.preventDefault();
         if(this.state.selectedItem !== null){
-            console.log(this.state.orders[this.state.selected])
             this.props.setSelectedOrder(this.state.orders[this.state.selected]);
             this.props.history.push("/Admin/Orders/Edit/"+this.state.selectedId)
         } else {

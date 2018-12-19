@@ -38,7 +38,6 @@ class AdminProfile extends React.Component {
     getEmployees() {
 
         get("employee/employees", (data) => {
-            console.log(data)
             const employees = makeEmployeeData(data);
             this.setState({employees: employees});
             this.setLoggedInUserData();
@@ -88,7 +87,6 @@ class AdminProfile extends React.Component {
                                     onClick: (e) => {
                                         
                                     this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-                                    console.log(this.state.selectedId)
                                     },
                                     style: {
                                     background: rowInfo.index === this.state.selected ? '#00afec' : 'white',

@@ -54,9 +54,9 @@ class CreateUser extends React.Component{
     toggleUserType = () =>{
 
         if(this.state.userType === "CLIENT"){
-            this.setState({userType:"PUBLISHER"},()=>{console.log(this.state)})
+            this.setState({userType:"PUBLISHER"});
         } else {
-            this.setState({userType:"CLIENT"},()=>{console.log(this.state)})
+            this.setState({userType:"CLIENT"});
         }
     }
 

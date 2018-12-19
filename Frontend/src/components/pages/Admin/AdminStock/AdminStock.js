@@ -83,7 +83,6 @@ import {entireStockPDF} from './../../../../handlers/pdfHandlers.js';
                                     onClick: (e) => {
                                         
                                     this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-                                    console.log(rowInfo.original)
                                     },
                                     style: {
                                     background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
