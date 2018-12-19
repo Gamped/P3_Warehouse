@@ -119,7 +119,7 @@ public class EmployeeController {
             if (client.isValid()) {
                 userRepository.save(user);
                 clientRepository.save(client);
-                return "Created!";
+                return client.getHexId();
             } else return "Invalid User";
         }
         return "Username already taken";
@@ -352,7 +352,7 @@ public class EmployeeController {
 
     //CLIENT PUBLISHER ROUTES
 
-    @PostMapping("/employee/publishers/addClient={clientHexId}/toPublisher={publisherHexId}")
+    @GetMapping("/employee/publishers/addClient={clientHexId}/toPublisher={publisherHexId}")
     private String addClientToPublisher(@PathVariable("clientHexId") String clientHexId,
                                         @PathVariable("publisherHexId") String publisherHexId) {
 
@@ -360,7 +360,7 @@ public class EmployeeController {
         Optional<Client> optionalClient = clientRepository.findById(new ObjectId(clientHexId));
         Publisher publisher = optionalPublisher.get();
         Client client = optionalClient.get();
-
+        client.setPublisher(publisher);
         publisher.addClient(client);
         publisherRepository.save(publisher);
         return "Client " + client.getUserName() + " Added to publisher " + publisher.getUserName();

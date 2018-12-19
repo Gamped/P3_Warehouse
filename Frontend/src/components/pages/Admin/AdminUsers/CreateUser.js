@@ -80,8 +80,13 @@ class CreateUser extends React.Component{
             }
                    
             if(this.state.userType==="CLIENT"){
-                post("employee/clients", body, (response)=>{
-                    this.props.history.push("/Admin/Users/")
+
+                post("employee/clients", body, (hexId) => {
+                    console.log("hex",hexId);
+                    get('employee/publishers/addClient='+hexId+'/toPublisher='+this.state.selectedActorHexId, ()=> {
+                        console.log("nåede hertil")
+                        this.props.history.push("/Admin/Users/")
+                    })   
                 });
             } else {
                 post("employee/publishers", body, (response)=>{
@@ -120,13 +125,13 @@ class CreateUser extends React.Component{
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="password">Password:</label>
                             </div>
-                            <input type="text" className="form-control" id="password" name="password" placeholder="Minimum 6 characters" onChange={this.onChange} required autoFocus/>
+                            <input type="password" className="form-control" id="password" name="password" placeholder="Minimum 6 characters" onChange={this.onChange} required autoFocus/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="passwordRepeat">Repeat Password:</label>
                             </div>
-                            <input type="text" className="form-control" id="passwordRepeat" name="passwordRepeat" placeholder="Repeat typed password" onChange={this.onChange} required autoFocus/>
+                            <input type="password" className="form-control" id="passwordRepeat" name="passwordRepeat" placeholder="Repeat typed password" onChange={this.onChange} required autoFocus/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">

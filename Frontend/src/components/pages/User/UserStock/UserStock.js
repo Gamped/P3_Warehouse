@@ -21,7 +21,7 @@ class UserStock extends React.Component {
         };
     }
 
-    componentDidMount(){this.getStock();}
+    componentDidMount() {this.getStock();}
 
     getStock() {
 
@@ -40,7 +40,7 @@ class UserStock extends React.Component {
 
     render(){
 
-        const columns = getColumnsFromArray(["Product Id", "Product Name", "Quantity", "Owner Name"]);
+        const columns = getColumnsFromArray(["Product Id", "Product Name", "Quantity", "Owner"]);
         
         return(
             <div className="PageStyle customText_b">
