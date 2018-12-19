@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PublisherControllerTest {
+
     @Autowired
     PublisherController publisherController;
 
@@ -35,6 +36,7 @@ public class PublisherControllerTest {
 
     @Before
     public void start() {
+
         publisherRepository.deleteAll();
         userRepository.deleteAll();
         productRepository.deleteAll();
@@ -42,6 +44,7 @@ public class PublisherControllerTest {
 
     @Test
     public void testFindPublisherById() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         publisherRepository.save(publisher);
 
@@ -50,6 +53,7 @@ public class PublisherControllerTest {
 
     @Test
     public void testNewPublisher() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         RestPublisherModel restPublisherModel = new RestPublisherModel();
 
@@ -61,6 +65,7 @@ public class PublisherControllerTest {
 
     @Test
     public void testUpdatePublisher() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         RestPublisherModel restPublisherModel = new RestPublisherModel();
         BeanUtils.copyProperties(publisher, restPublisherModel);
@@ -76,6 +81,7 @@ public class PublisherControllerTest {
 
     @Test
     public void testDeletePublisherById() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         publisherRepository.save(publisher);
         userRepository.save(publisher);
@@ -86,6 +92,7 @@ public class PublisherControllerTest {
 
     @Test
     public void testFindPublishersProducts(){
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         for(int i = 0; i < 5; ++i){
             Product product = makeDummyProduct(i, publisher);

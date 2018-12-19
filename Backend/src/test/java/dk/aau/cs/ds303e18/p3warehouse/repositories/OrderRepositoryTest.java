@@ -29,6 +29,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class OrderRepositoryTest {
+
     @Autowired
     OrderRepository orderRepository;
     @Autowired
@@ -40,6 +41,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void findByIdTest(){
+
         Order order = new Order(new ObjectId());
         order.setTitle("ID test 1");
         System.out.println("Object ID: " + order.getId());
@@ -48,6 +50,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void checkDatabase() {
+
         ObjectId publisherId = new ObjectId();
         ObjectId clientId = new ObjectId();
         ObjectId productId = new ObjectId();
@@ -141,6 +144,7 @@ public class OrderRepositoryTest {
 
     @Before
     public void deleteAllEntries(){
+
         orderRepository.deleteAll();
         productRepository.deleteAll();
         clientRepository.deleteAll();
@@ -149,6 +153,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void dbRefTest(){
+
         ObjectId pubId = new ObjectId();
         Publisher publisher = new Publisher(pubId);
         publisher.setUserName("Peter 4N");
@@ -211,6 +216,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testFindOrderById() {
+
         Order order = makeOrder();
 
         orderRepository.save(order);
@@ -220,6 +226,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testFindInformationOnOrder() {
+
         Order order = makeOrder();
 
         orderRepository.save(order);
@@ -231,6 +238,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testOrderOwner() {
+
         Order order = makeOrder();
         Publisher publisher = makePublisher();
 
@@ -247,6 +255,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testFindOrderLine() {
+
         Product product = makeProduct();
         Order order = makeOrder();
 
@@ -268,6 +277,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testAddProductsBackToStock() {
+
         Product product = makeProduct();
         Order order = makeOrder();
 
@@ -282,6 +292,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testSubtractProductsFromStock() {
+
         Product product = makeProduct();
         Order order = makeOrder();
 
@@ -301,6 +312,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testFindAllOrders() {
+
         Order order =  makeOrder();
         Order secondOrder = makeSecondOrder();
         Product product = makeProduct();
@@ -339,6 +351,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testDeleteOrder() {
+
         Order order = makeOrder();
         Product product = makeProduct();
         Client client = makeClient();
@@ -359,8 +372,8 @@ public class OrderRepositoryTest {
 
     @Test
     public void deleteAllOrders() {
-        orderRepository.deleteAll();
 
+        orderRepository.deleteAll();
         assertEquals(0, orderRepository.findAll().size());
     }
 }

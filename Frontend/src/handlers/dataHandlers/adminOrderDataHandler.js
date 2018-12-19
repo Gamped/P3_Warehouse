@@ -1,4 +1,5 @@
 import {makeDateString} from './../../handlers/utils.js';
+import {makeOrderAddressData} from "../dataHandlers.js";
 
 export function makeAllOrdersData(data) {
     
@@ -23,6 +24,7 @@ export function makeOrderObject(order) {
     orderObject.orderId = order.orderId;
     orderObject.date = makeDateString(order.date);
     orderObject.hexId = order.hexId;
+    orderObject.address = makeOrderAddressData(order);
     orderObject.orderLines = order.orderLines.map((orderLine) => {
         return {
             productName: orderLine.product.productName,
