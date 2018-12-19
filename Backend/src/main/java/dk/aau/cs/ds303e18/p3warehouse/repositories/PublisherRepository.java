@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PublisherRepository extends MongoRepository<Publisher, ObjectId> {
+
     List<Publisher> findAll();
 
     Optional<Publisher> findById(@PathVariable String hexId);

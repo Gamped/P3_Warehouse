@@ -12,12 +12,14 @@ public class ProductManager {
     @Autowired
     private static ProductRepository productRepository;
     public static Product saveProductToDb(Product product, Customer owner){
+
         owner.addProduct(product);
         CustomerManager.saveCustomerToDatabase(owner);
         return productRepository.save(product);
     }
 
     private static Product saveNewProduct(RestProductModel newProduct, Customer owner){
+
         Product product = new Product(new ObjectId());
         BeanUtils.copyProperties(newProduct, product);
         owner.addProduct(product);
@@ -26,6 +28,7 @@ public class ProductManager {
     }
 
     public static void removeProductFromDb(Product product, Customer owner){
+
         owner.removeProduct(product);
         CustomerManager.saveCustomerToDatabase(owner);
         productRepository.delete(product);

@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 
-
 @CrossOrigin
 @RequestMapping("/api")
 @RestController
@@ -41,29 +40,34 @@ public class ClientController {
 
     @GetMapping("/clients/{hexId}")
     Client findClientById(@PathVariable String hexId) {
+
         return clientRepository.findById(new ObjectId(hexId)).orElse(null);
     }
 
     @GetMapping("/clients/{hexId}/products")
     private Collection<Product> findAllProductsByClient(@PathVariable String hexId) {
+
         Client client = clientRepository.findById(new ObjectId(hexId)).orElse(null);
         return client.getProductStream().collect(Collectors.toCollection(HashSet::new));
     }
 
     @GetMapping("/clients/{hexId}/orders")
     private Collection<Order>findAllOrdersByClient(@PathVariable String hexId){
+
         Client client = clientRepository.findById(new ObjectId(hexId)).orElse(null);
         return client.getOrderStream().collect(Collectors.toCollection(HashSet::new));
     }
 
     @GetMapping("/clients/products/{hexId}")
     Product findProductById(@PathVariable String hexId) {
+
         ObjectId objectId = new ObjectId(hexId);
         return productRepository.findById(objectId).orElse(null);
     }
 
     @PutMapping("/clients/{hexId}")
     String updateClient(@PathVariable("hexId") String hexId, @RequestBody RestClientModel restClientModel) {
+
         ObjectId id = new ObjectId(hexId);
         Client client = clientRepository.findById(id).orElse(null);
         User user = new User(id);
@@ -79,6 +83,7 @@ public class ClientController {
 
     @PutMapping("/clients/products/{hexId}")
     String updateClientProduct(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
+
         ObjectId id = new ObjectId(hexId);
         Product product = productRepository.findById(id).orElse(null);
 
@@ -90,6 +95,7 @@ public class ClientController {
 
     @DeleteMapping("/clients/{hexId}")
     void deleteClient(@PathVariable String hexId) {
+
         ObjectId id = new ObjectId(hexId);
         Client client = clientRepository.findById(id).orElse(null);
 
@@ -102,6 +108,7 @@ public class ClientController {
 
     @PostMapping("/clients/{hexId}/products")
     private Product addNewProductToClient(@PathVariable String hexId, @RequestBody RestProductModel restProduct) {
+
         Customer owner = clientRepository.findById(new ObjectId(hexId)).orElse(null);
         Product product = new Product(new ObjectId());
 

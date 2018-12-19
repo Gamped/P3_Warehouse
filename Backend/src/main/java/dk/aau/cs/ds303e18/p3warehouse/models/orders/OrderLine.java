@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import java.util.Objects;
 
 public class OrderLine {
+
     @DBRef
     private Product product;
     private int quantity;
@@ -35,6 +36,7 @@ public class OrderLine {
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         OrderLine orderLine = (OrderLine) o;

@@ -6,8 +6,10 @@ import {Link} from "react-router-dom";
 import {connect} from "react-redux";
 
 class Edit extends Component {
+
     constructor(props) {
         super(props);
+        
         this.state = { product: this.props.product, hexId: this.props.match.params.id };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -15,6 +17,7 @@ class Edit extends Component {
     }
 
     onChange = (e) => {
+
         const state = this.state.product;
         state[e.target.name] = e.target.value;
         this.setState({product:state});
@@ -22,6 +25,7 @@ class Edit extends Component {
 
     onSubmit = (e) => {
         e.preventDefault();
+
         const { productName, productId, quantity } = this.state.product;
     
         put('employee/product/edit/'+this.state.hexId, {productName, productId, quantity}, () => {
@@ -30,6 +34,7 @@ class Edit extends Component {
     }
 
     render(){
+
         return( 
             <div className="PageStyle adminReduceFontSize customText_b ">
                 <nav class="navbar navbar-light bg-light">
@@ -77,6 +82,7 @@ class Edit extends Component {
 }
 
 const mapStateToProps = (state) =>{
+
     return{product:state.productReducer}
 }
 

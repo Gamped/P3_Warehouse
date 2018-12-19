@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.restmodels;
 
 public class RestUserModel {
+
     private String userName;
     private String password;
 

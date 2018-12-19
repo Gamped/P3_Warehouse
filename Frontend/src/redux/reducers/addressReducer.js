@@ -9,6 +9,7 @@ const initialState ={
 };
 
 const addressReducer = (state = initialState, action) => {
+    
     switch(action.type){
         case "SET_COMPANY":
         case "SET_CONTACTPERSON":

@@ -19,9 +19,12 @@ public class UserManager {
     public static User getUserFromIdAndType(ObjectId id, UserType userType){
 
         switch (userType){
-            case CLIENT: return clientRepository.findById(id).get();
-            case PUBLISHER: return publisherRepository.findById(id).get();
-            case EMPLOYEE: return employeeRepository.findById(id).get();
+            case CLIENT:
+                return clientRepository.findById(id).get();
+            case PUBLISHER:
+                return publisherRepository.findById(id).get();
+            case EMPLOYEE:
+                return employeeRepository.findById(id).get();
         }
         return null;
     }

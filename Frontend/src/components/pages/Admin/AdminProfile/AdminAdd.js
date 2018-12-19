@@ -5,8 +5,10 @@ import {Link} from "react-router-dom"
 import {post} from './../../../../handlers/requestHandlers.js';
 
 export default class AdminAdd extends React.Component {
+
     constructor(props) {
         super(props);
+        
         this.state = {
             userName: "",
             nickname: "",
@@ -16,6 +18,7 @@ export default class AdminAdd extends React.Component {
 
     addEmployeeHandler = (event) =>{
         event.preventDefault();
+
         const {userName, nickname, password} = this.state;
 
         post('employee/employees', {nickname, userName, password}, () => {
@@ -26,6 +29,7 @@ export default class AdminAdd extends React.Component {
     onChange = (e) => {this.setState({[e.target.name]: e.target.value});}
 
     render() {
+
         return(
             <div className="PageStyle customText_b">
                 <div className="container col mb-3">

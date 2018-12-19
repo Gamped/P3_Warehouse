@@ -14,12 +14,15 @@ public class EmployeeManager {
     private static UserRepository userRepository;
 
     public static Employee saveEmployeeToDb(Employee employee){
+
         User user = new User(employee.getId());
         user.copyFrom(employee);
         userRepository.save(user);
+
         return employeeRepository.save(employee);
     }
     public void removeEmployeeFromDb(ObjectId id){
+
         userRepository.deleteById(id);
         employeeRepository.deleteById(id);
     }

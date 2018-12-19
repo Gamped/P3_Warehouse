@@ -9,6 +9,7 @@ import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
 
 
  class EditOrderAddress extends Component{
+
     constructor(props){
         super(props);
         
@@ -18,6 +19,7 @@ import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
     componentDidMount() {this.getOrder();}
 
     getOrder() {
+
         get("employee/order/"+this.props.match.params.id, (data) => {
             const orderLines = makeOrderLinesData(data);
             const order = makeOrderAddressData(data);
@@ -30,6 +32,7 @@ import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
     }
 
     onChange = (e) => {
+
         const state = this.state.order;
         state[e.target.name] = e.target.value;
         this.setState({order:state});
@@ -37,6 +40,7 @@ import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
 
     onSubmit = (e) => {
         e.preventDefault();
+        
         console.log("User id",this.props.userId);
 
         const order = makeOrderBodyFromData(this.state.order.orderLines, this.state.order);

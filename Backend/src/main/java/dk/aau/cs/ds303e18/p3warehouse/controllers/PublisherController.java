@@ -44,6 +44,7 @@ public class PublisherController {
 
     @GetMapping("/publishers/{id}")
     Optional<Publisher> findById(@PathVariable String id) {
+
         ObjectId objectId = new ObjectId(id);
         Optional<Publisher> publisher = publisherRepository.findById(objectId);
 
@@ -52,12 +53,14 @@ public class PublisherController {
 
     @GetMapping("/publishers/{hexId}/orders")
     Stream<Order> getAllPublisherOrders(@PathVariable String hexId){
+
         Publisher publisher = publisherRepository.findById(new ObjectId(hexId)).orElse(null);
         return publisher.getOrderStream();
     }
 
     @PostMapping("/publishers")
     Publisher newPublisher(@RequestBody RestPublisherModel restPublisher) {
+
         ObjectId id = new ObjectId();
         Publisher newPublisher = new Publisher(id);
         BeanUtils.copyProperties(restPublisher, newPublisher);
@@ -67,6 +70,7 @@ public class PublisherController {
 
     @PutMapping("/publishers/{hexId}")
     String update(@PathVariable("hexId") String hexId, @RequestBody RestPublisherModel restPublisher) {
+
         ObjectId id = new ObjectId(hexId);
         Optional<Publisher> optPublisher = publisherRepository.findById(id);
         Publisher publisherToSave = optPublisher.get();
@@ -82,6 +86,7 @@ public class PublisherController {
 
     @DeleteMapping("/publishers/{hexId}")
     void delete(@PathVariable String hexId) {
+
         ObjectId id = new ObjectId(hexId);
         Publisher publisher = publisherRepository.findById(id).orElse(null);
 
@@ -96,6 +101,7 @@ public class PublisherController {
 
     @GetMapping("/publishers/{hexId}/products")
     Stream<Product> findPublisherProducts(@PathVariable("hexId") String hexId) {
+
         ObjectId objectId = new ObjectId(hexId);
         return publisherRepository.findById(objectId).orElse(null).getProductStream();
     }

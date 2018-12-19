@@ -1,6 +1,7 @@
 package dk.aau.cs.ds303e18.p3warehouse.models.restmodels;
 
 public class RestEmployeeModel extends RestUserModel{
+
     private String userName;
     private String password;
     private String nickname;

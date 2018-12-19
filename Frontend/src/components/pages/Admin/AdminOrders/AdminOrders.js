@@ -10,8 +10,10 @@ import {packListPDF, orderNotePDF} from "./../../../../handlers/pdfHandlers.js"
 import {getColumnsFromArray} from "./../../../../handlers/columnsHandlers.js"
 
 class AdminOrders extends Component {
+
     constructor(props) {
         super(props);
+
         this.state = {
             orders: [], 
             orderLines: [],
@@ -32,6 +34,7 @@ class AdminOrders extends Component {
     componentDidMount() {this.getOrders();}
 
     getOrders = () =>{
+
         get("employee/orders", (data) => {
             console.log(data)
             const orders = makeAllOrdersData(data);
@@ -41,16 +44,19 @@ class AdminOrders extends Component {
     }
 
     setStateAsSelected = (rowInfo) => {
+
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId, selectedItem: rowInfo.original });
         console.log(this.state.orders[this.state.selected]);
     }
 
     showOrderLines = (rowInfo) => {
+
         const selectedOrder = this.state.orders[rowInfo.index].orderLines;
         this.setState({orderLines: selectedOrder});
     }
 
     toggleRow(productName) {
+
 		const packedItem = Object.assign({}, this.state.packed);
 		packedItem[productName] = !this.state.packed[productName];
         this.setState({
@@ -60,6 +66,7 @@ class AdminOrders extends Component {
 	}
 
 	toggleSelectAll() {
+
 		let packedItem = {};
 
 		if (this.state.selectAll === 0) {
@@ -77,6 +84,7 @@ class AdminOrders extends Component {
 
 
     getCheckBoxColumn() {
+
        const checkBoxColumn = {
             id: "checkbox",
             accessor: "",
@@ -112,6 +120,7 @@ class AdminOrders extends Component {
     sendToPage = (address) => {this.props.history.push(address);}
 
     finishOrder = (e) => {
+        
         e.preventDefault()
         let allPacked = this.state.allPacked;
         if (allPacked == 1) {
@@ -126,6 +135,7 @@ class AdminOrders extends Component {
     }
 
     deleteOrder = (e) => {
+
         del("orders/delete/" + this.state.selectedId, (response) => {
             let newOrders = this.state.orders.filter(item=>item.hexId!==this.state.selectedId)
             this.setState({selectedId:"",orders:newOrders})
@@ -145,6 +155,7 @@ class AdminOrders extends Component {
 
 
     render() {
+
         const orderColumns = getColumnsFromArray(["Owner", "Date", "Order Id"]);
         let orderLineColumns = getColumnsFromArray(["Product Id", "Product Name", "Amount"]);
         orderLineColumns.push(this.getCheckBoxColumn());
@@ -208,6 +219,7 @@ class AdminOrders extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => {
+    
     return{
         setSelectedOrder: (selectedOrder) => {dispatch({type: "SET_SELECTEDORDER",payload: {selectedOrder}})},
     }

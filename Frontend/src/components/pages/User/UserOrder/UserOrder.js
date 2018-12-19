@@ -8,14 +8,17 @@ import {makeDataFromOrderList, makePublisherAndItsClientsOrdersData} from '../..
 import {getColumnsFromArray} from './../../../../handlers/columnsHandlers.js';
 
 class UserOrder extends React.Component {
+    
     constructor(props) {
         super(props);
+
         this.state = { orders: [], selectedOrder: [], selected: null, selectedId: "" };
     }
     
     componentDidMount(){this.checkUserType();}
 
     checkUserType() {
+
         if (this.props.userType.toLowerCase() == 'publisher') {
             this.getPublisherData();
         } else {
@@ -33,6 +36,7 @@ class UserOrder extends React.Component {
     }
 
     getClientData() {
+
         get("clients/"+this.props.userId+"/orders", (data) => {
             this.setDataToState(data);
             const orders = makeDataFromOrderList(data);
@@ -42,10 +46,12 @@ class UserOrder extends React.Component {
 
 
     setStateAsSelected = (rowInfo) => {
+
         this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId });
     }
 
     showOrderLines(rowInfo) {
+
         const selectedOrder = this.state.orders[rowInfo.index].orderLines;
         this.setState({seletedOrder: selectedOrder});
     }
@@ -67,6 +73,7 @@ class UserOrder extends React.Component {
     }
 
     render() {
+
         const orderColumns = getColumnsFromArray(["Order Id", "Owner", "Date"]);
   
         return(
@@ -108,6 +115,7 @@ class UserOrder extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+
     return {
         userId: state.loginReducer.userId,
         userType: state.loginReducer.userType

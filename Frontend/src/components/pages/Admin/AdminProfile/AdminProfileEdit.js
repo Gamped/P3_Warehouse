@@ -9,8 +9,10 @@ import {employeeProfileFieldsAreValidated} from './../../../../handlers/fieldsVa
 //TODO: Passwords has to match
 
 class AdminProfileEdit extends React.Component {
+
     constructor(props) {
         super(props);
+        
         this.state = {
             userId: this.props.userId,
             nickName: "",
@@ -23,6 +25,7 @@ class AdminProfileEdit extends React.Component {
     componentDidMount() {this.getEmployeeData();}
 
     getEmployeeData() {
+
         get("employee/employee/" + this.props.match.params.id, (data) => {
             this.setState({
                 nickName: data.nickname,
@@ -32,6 +35,7 @@ class AdminProfileEdit extends React.Component {
 
     confirmed = (event) =>{
         event.preventDefault();
+
         const fields = this.state;
     
         if (employeeProfileFieldsAreValidated(fields)) {
@@ -46,6 +50,7 @@ class AdminProfileEdit extends React.Component {
     }
 
     makeBody() {
+
         let body = {};
         body.userName = this.state.userName;
         body.nickname = this.state.nickName;
@@ -61,6 +66,7 @@ class AdminProfileEdit extends React.Component {
     onChange = (e) => {this.setState({[e.target.name]: e.target.value});}
     
     render(){
+
         return(
             <div className="PageStyle customText_b">
                 <h1 className="text-center">Edit profile:</h1>
@@ -110,6 +116,7 @@ class AdminProfileEdit extends React.Component {
 }   
     
 const mapStateToProps = (state) => {
+
     return {userId: state.loginReducer.userId}
 }
 

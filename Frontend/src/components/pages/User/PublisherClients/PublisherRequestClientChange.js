@@ -3,6 +3,7 @@ import "../../Pages.css";
 import { Link } from "react-router-dom"
 
 const PublisherRequestClientChange = (props) => {
+
     return(
         <div className="PageStyle customText_b">
             <div className="frameBordering">

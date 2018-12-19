@@ -1,5 +1,6 @@
 export function packListPDF (data) {
     if(data !== undefined && data !== null){
+        
         const date = data.date.substring(0,16);
         const pdfConverter = require('jspdf');
         const doc = new pdfConverter();
@@ -130,7 +131,8 @@ export function  orderNotePDF(data) {
     doc.save("Følgeseddel.pdf")
 }
 
-export function entireStockPDF(state) {  
+export function entireStockPDF(state) { 
+
     const pdfConverter = require('jspdf');
     const doc = new pdfConverter();
     const elements= {...state.products}

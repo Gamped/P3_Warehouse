@@ -11,10 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 @EnableWebSecurity
 @SpringBootApplication
 public class P3WarehouseApplication {
+
 	@Autowired
 	private ProductRepository productRepository;
 
-	public static void main(String[] args) {
-		SpringApplication.run(P3WarehouseApplication.class, args);
-	}
+	public static void main(String[] args) {SpringApplication.run(P3WarehouseApplication.class, args);}
 }
