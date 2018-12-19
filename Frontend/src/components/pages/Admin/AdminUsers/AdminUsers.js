@@ -367,7 +367,7 @@ export default class AdminUsers extends Component {
                                     </div>
                                     <div className="col my-2">
 
-                                        <button type="submit" className="btn adminUserBtn blue_BTN">Confirm edit</button>
+                                        <button type="submit" className="btn adminUserBtn yellow_BTN">Confirm edit</button>
                                     </div>
                                     <div className="col my-2">
                                         <button type="button" onClick={this.onDelete} className="btn adminUserBtn red_BTN">Delete this user</button>
