@@ -5,6 +5,7 @@ const initialState ={
 };
 
 const loginReducer = (state = initialState, action) => {
+    
     switch(action.type){
         case "SET_PRODUCT_ID":
         case "SET_PRODCUT_QUANTITY":

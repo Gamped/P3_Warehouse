@@ -2,6 +2,7 @@ import React from "react";
 import "./mainPages.css";
 
 const userMain = (props) => {
+    
     return(
         <div>
             <div className="ErrorBox">

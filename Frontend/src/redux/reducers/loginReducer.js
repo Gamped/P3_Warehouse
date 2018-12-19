@@ -9,6 +9,7 @@ userId:"5c1a1dcc3c7e9f2d3456bd06",
 userType: "EMPLOYEE"};
 
 const loginReducer = (state = devState, action) => {
+    
     switch(action.type){
         case "SET_USERTYPE":
         case "SET_USERNAME":
