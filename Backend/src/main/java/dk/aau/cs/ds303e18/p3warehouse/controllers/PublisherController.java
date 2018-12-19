@@ -85,10 +85,10 @@ public class PublisherController {
     void delete(@PathVariable String hexId) {
         ObjectId id = new ObjectId(hexId);
         Publisher publisher = publisherRepository.findById(id).orElse(null);
-        publisher.getClientStream().map(x -> x.unassignAllProducts()).forEach(x -> x.forEach(productRepository::delete));
-        publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(x -> x.forEach(orderRepository::delete));
+        publisher.getClientStream().map(x -> x.unassignAllProducts().map(product -> productRepository.save(product)));
+        publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(orderStream -> orderStream.forEach(orderRepository::delete));
         publisher.unassignAllOrders().forEach(orderRepository::delete);
-        publisher.unassignAllProducts().forEach(productRepository::delete);
+        publisher.unassignAllProducts().map(product -> productRepository.save(product));
         publisherRepository.delete(publisher);
         User user = userRepository.findById(publisher.getId()).orElse(null);
         userRepository.delete(user);
