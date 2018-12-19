@@ -10,6 +10,7 @@ const initialState = {
 }
 
 const loginReducer = (state = initialState, action) => {
+    
     switch(action.type){
         case "SET_PROFILE_NICKNAME":
         case "SET_PROFILE_USERNAME":

@@ -34,6 +34,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void testFindEmployeeById() {
+
         Employee emp = makeEmployee();
 
         employeeRepository.save(emp);
@@ -43,6 +44,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void testFindInformation() {
+
         Employee emp = makeEmployee();
 
         employeeRepository.save(emp);
@@ -52,6 +54,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void testFindEmployeeByNickName() {
+
         Employee emp = makeEmployee();
 
         employeeRepository.save(emp);
@@ -61,6 +64,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void findAllEmployees() {
+
         Employee emp = makeEmployee();
         Employee emp2 = makeSecondEmployee();
         Employee emp3 = makeThirdEmployee();
@@ -76,6 +80,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void testFindEmployeeByUserId() {
+
         Employee emp2 = makeEmployee();
 
         User user = new User(emp2.getId());
@@ -91,6 +96,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void testDeleteEmployeeById() {
+
         Employee emp2 = makeEmployee();
 
         employeeRepository.save(emp2);
@@ -100,6 +106,7 @@ public class EmployeeRepositoryTest {
 
     @Test
     public void testDeleteAllEmployees() {
+
         Employee emp2 = makeEmployee();
         Employee emp3 = makeSecondEmployee();
 

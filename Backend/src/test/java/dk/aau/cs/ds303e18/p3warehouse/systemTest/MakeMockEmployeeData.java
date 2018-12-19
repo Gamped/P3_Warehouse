@@ -7,6 +7,7 @@ import org.bson.types.ObjectId;
 public class MakeMockEmployeeData {
 
     public static Employee makeEmployee() {
+
         Employee employee = new Employee(new ObjectId());
         employee.setUserType(UserType.EMPLOYEE);
         employee.setUserName("mads");
@@ -17,6 +18,7 @@ public class MakeMockEmployeeData {
     }
 
     public static Employee makeSecondEmployee() {
+
         Employee employee = new Employee(new ObjectId());
         employee.setUserType(UserType.EMPLOYEE);
         employee.setUserName("hans");
@@ -27,6 +29,7 @@ public class MakeMockEmployeeData {
     }
 
     public static Employee makeThirdEmployee() {
+
         Employee employee = new Employee(new ObjectId());
         employee.setNickname("Jane");
         employee.setUserType(UserType.EMPLOYEE);
@@ -37,6 +40,7 @@ public class MakeMockEmployeeData {
     }
 
     public static Employee makeFourthEmployee() {
+
         Employee employee = new Employee(new ObjectId());
         employee.setNickname("Casper");
         employee.setUserType(UserType.EMPLOYEE);
@@ -47,6 +51,7 @@ public class MakeMockEmployeeData {
     }
 
     public static Employee makeFifthEmployee() {
+
         Employee employee = new Employee(new ObjectId());
         employee.setNickname("Steen");
         employee.setUserType(UserType.EMPLOYEE);
@@ -55,5 +60,4 @@ public class MakeMockEmployeeData {
 
         return employee;
     }
-
 }

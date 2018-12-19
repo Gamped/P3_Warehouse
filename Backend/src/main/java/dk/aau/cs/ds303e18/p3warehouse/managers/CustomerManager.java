@@ -13,29 +13,31 @@ public class CustomerManager {
     private static PublisherRepository publisherRepository;
 
     public static Customer getCustomerFromUser(User user){
+
         return getCustomerFromIdAndType(user.getId(), user.getUserType());
     }
 
     public static Customer getCustomerFromIdAndType(ObjectId id, UserType type){
+
         if(type.equals(UserType.CLIENT)){
             return clientRepository.findById(id).orElse(null);
-        }
-        else if(type.equals(UserType.PUBLISHER)){
+        } else if(type.equals(UserType.PUBLISHER)){
             return publisherRepository.findById(id).orElse(null);
-        }
-        else{
+        } else {
             return null;
         }
     }
 
     public static Customer saveCustomerToDatabase(Customer customer){
+
         if(customer.getUserType().equals(UserType.CLIENT)){
+
             return clientRepository.save((Client) customer);
-        }
-        else if(customer.getUserType().equals(UserType.PUBLISHER)){
+        } else if (customer.getUserType().equals(UserType.PUBLISHER)){
+
             return publisherRepository.save((Publisher) customer);
-        }
-        else{
+        } else {
+
             return null;
         }
     }

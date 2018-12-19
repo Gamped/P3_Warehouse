@@ -4,6 +4,7 @@ const blankOrder = {orderLines:[],
 };
 
 const orderReducer = (state = blankOrder ,action)=>{
+    
     switch(action.type){
         case "SET_SELECTEDORDER":
         case "SET_ORDERLINES":

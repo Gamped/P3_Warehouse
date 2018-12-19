@@ -4,7 +4,9 @@ import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
 
 public class MakeMockProductData {
+
     public static Product makeProduct() {
+
         Product product = new Product(new ObjectId());
 
         product.setProductName("move");
@@ -15,6 +17,7 @@ public class MakeMockProductData {
     }
 
     public static Product makeSecondProduct() {
+
         Product product = new Product(new ObjectId());
 
         product.setProductName("run styles");
@@ -25,6 +28,7 @@ public class MakeMockProductData {
     }
 
     public static Product makeThirdProduct() {
+
         Product product = new Product(new ObjectId());
 
         product.setProductName("jump techniques");
@@ -35,6 +39,7 @@ public class MakeMockProductData {
     }
 
     public static Product makeFourthProduct() {
+
         Product product = new Product(new ObjectId());
 
         product.setProductName("bike shop");
@@ -45,6 +50,7 @@ public class MakeMockProductData {
     }
 
     public static Product makeFifthProduct() {
+
         Product product = new Product(new ObjectId());
 
         product.setProductName("car magazine");
@@ -55,6 +61,7 @@ public class MakeMockProductData {
     }
 
     public static Product makeSixthProduct() {
+
         Product product = new Product(new ObjectId());
 
         product.setProductName("books about ship");
@@ -65,6 +72,7 @@ public class MakeMockProductData {
     }
 
     public static Product makeSeventhProduct() {
+
        Product product = new Product(new ObjectId());
 
        product.setProductName("books about busses");
@@ -75,6 +83,7 @@ public class MakeMockProductData {
     }
 
     public static Product makeEigthProduct() {
+
        Product product = new Product(new ObjectId());
 
        product.setProductName("music magazine");
@@ -85,6 +94,7 @@ public class MakeMockProductData {
     }
 
     public static Product makeExtraProduct() {
+
         Product product = new Product(new ObjectId());
 
         product.setQuantity(400);

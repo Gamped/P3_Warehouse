@@ -9,8 +9,10 @@ import {makeProductsData, makeCustomerProductsData} from './../../../../handlers
 import { getColumnsFromArray } from '../../../../handlers/columnsHandlers';
 
 class UserStock extends React.Component {  
+    
     constructor(props) {
         super(props);
+
         this.state = {
             quarry: "",
             products: [],
@@ -22,6 +24,7 @@ class UserStock extends React.Component {
     componentDidMount(){this.getStock();}
 
     getStock() {
+
         const userType = this.props.userType.toLowerCase();
         const id = this.props.userId;
         
@@ -36,6 +39,7 @@ class UserStock extends React.Component {
     }
 
     render(){
+
         const columns = getColumnsFromArray(["Product Id", "Product Name", "Quantity", "Owner Name"]);
         
         return(
@@ -65,6 +69,7 @@ class UserStock extends React.Component {
 }
 
 const mapStateToProps = (state) =>{
+
     return{
         userId: state.loginReducer.userId,
         userType: state.loginReducer.userType

@@ -1,6 +1,6 @@
 package dk.aau.cs.ds303e18.p3warehouse.repositories;
 
-import dk.aau.cs.ds303e18.p3warehouse.CustomException.InvalidQuantityException;
+import dk.aau.cs.ds303e18.p3warehouse.exceptions.InvalidQuantityException;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.OrderLine;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Client;
@@ -29,6 +29,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class OrderRepositoryTest {
+
     @Autowired
     OrderRepository orderRepository;
     @Autowired
@@ -38,9 +39,9 @@ public class OrderRepositoryTest {
     @Autowired
     PublisherRepository publisherRepository;
 
-
     @Test
     public void findByIdTest(){
+
         Order order = new Order(new ObjectId());
         order.setTitle("ID test 1");
         System.out.println("Object ID: " + order.getId());
@@ -49,6 +50,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void checkDatabase() {
+
         ObjectId publisherId = new ObjectId();
         ObjectId clientId = new ObjectId();
         ObjectId productId = new ObjectId();
@@ -210,16 +212,11 @@ public class OrderRepositoryTest {
         Order queryedOrder = orderRepository.findById(orderId).orElse(null);
         Client queryedClient = clientRepository.findById(queryedOrder.getOwner().getHexId());
         assert(queryedOrder != null && queryedClient.getHexId().equals(client.getHexId()));
-
-      //  clientRepository.delete(client);
-      //  productRepository.delete(product);
-     //   orderRepository.delete(order);
-
-
     }
 
     @Test
     public void testFindOrderById() {
+
         Order order = makeOrder();
 
         orderRepository.save(order);
@@ -229,6 +226,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testFindInformationOnOrder() {
+
         Order order = makeOrder();
 
         orderRepository.save(order);
@@ -240,6 +238,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testOrderOwner() {
+
         Order order = makeOrder();
         Publisher publisher = makePublisher();
 
@@ -256,6 +255,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testFindOrderLine() {
+
         Product product = makeProduct();
         Order order = makeOrder();
 
@@ -277,6 +277,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testAddProductsBackToStock() {
+
         Product product = makeProduct();
         Order order = makeOrder();
 
@@ -291,6 +292,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testSubtractProductsFromStock() {
+
         Product product = makeProduct();
         Order order = makeOrder();
 
@@ -310,6 +312,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testFindAllOrders() {
+
         Order order =  makeOrder();
         Order secondOrder = makeSecondOrder();
         Product product = makeProduct();
@@ -348,6 +351,7 @@ public class OrderRepositoryTest {
 
     @Test
     public void testDeleteOrder() {
+
         Order order = makeOrder();
         Product product = makeProduct();
         Client client = makeClient();
@@ -368,8 +372,8 @@ public class OrderRepositoryTest {
 
     @Test
     public void deleteAllOrders() {
-        orderRepository.deleteAll();
 
+        orderRepository.deleteAll();
         assertEquals(0, orderRepository.findAll().size());
     }
 }

@@ -22,32 +22,19 @@ public class Client extends Customer {
         this.id = id;
     }
 
-
-    public String getHexId() {
-        return id.toString();
-    }
+    public String getHexId() {return id.toString();}
 
     @JsonIgnore
-    public Publisher getPublisher() {
-        return publisher;
-    }
+    public Publisher getPublisher() {return publisher;}
 
     @JsonProperty("publisher")
-    public UserRef getPublisherRef(){
-        return new UserRef(publisher);
-    }
+    public UserRef getPublisherRef(){return new UserRef(publisher);}
 
-    public void setPublisher(Publisher publisher) {
-        this.publisher = publisher;
-    }
+    public void setPublisher(Publisher publisher) {this.publisher = publisher;}
 
     @JsonIgnore
-    public ObjectId getId() {
-        return id;
-    }
+    public ObjectId getId() {return id;}
 
     @Override
-    public String toString() {
-        return id + " " + this.getUserName() + " " + this.getContactInformation();
-    }
+    public String toString() {return id + " " + this.getUserName() + " " + this.getContactInformation();}
 }

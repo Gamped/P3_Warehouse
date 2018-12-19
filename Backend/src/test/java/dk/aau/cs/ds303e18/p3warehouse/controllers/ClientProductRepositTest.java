@@ -16,11 +16,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @DataMongoTest
 
 public class ClientProductRepositTest {
+
     @Autowired
     ClientRepository clientRepository;
     @Autowired
     ProductRepository productRepository;
-
 
     @Test
     public void ProductChekID(){
@@ -35,8 +35,10 @@ public class ClientProductRepositTest {
         clientRepository.delete(testClient);
         productRepository.delete(testProduct);
     }
+
     @Test
     public void Clientsave(){
+
         ObjectId clientId = new ObjectId();
         ObjectId productId = new ObjectId();
         Client testClient = new Client(clientId);
@@ -49,8 +51,10 @@ public class ClientProductRepositTest {
         clientRepository.delete(testClient);
         productRepository.delete(testProduct);
     }
+
     @Test
     public void productSave(){
+
         ObjectId clientId = new ObjectId();
         ObjectId productId = new ObjectId();
         Client testClient = new Client(clientId);
@@ -63,5 +67,4 @@ public class ClientProductRepositTest {
         clientRepository.delete(testClient);
         productRepository.delete(testProduct);
     }
-
 }

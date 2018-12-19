@@ -48,6 +48,7 @@ public class MockDataCreator {
 
     @Before
     public void start() {
+
         orderRepository.deleteAll();
         publisherRepository.deleteAll();
         productRepository.deleteAll();
@@ -90,6 +91,7 @@ public class MockDataCreator {
 
     @Test
     public void makeData() {
+
         orderRepository.deleteAll();
         publisherRepository.deleteAll();
         productRepository.deleteAll();
@@ -244,6 +246,7 @@ public class MockDataCreator {
     //One publisher with one client
     @Test
     public void onePublisherAndOneClient() {
+
         Product product = makeProduct();
         Product clientProduct = makeEigthProduct();
         Product publisherProduct = makeFifthProduct();
@@ -298,6 +301,7 @@ public class MockDataCreator {
 
     @Test
     public void publisherClient() {
+
         Client client = makeClient();
         Client secondClient = makeSecondClient();
         Product product = makeProduct();
@@ -337,6 +341,7 @@ public class MockDataCreator {
 
     @Test
     public void publisherMoreClients() {
+
         Product product = makeProduct();
         Product secondProduct = makeSecondProduct();
         Product thirdProduct = makeThirdProduct();
@@ -443,11 +448,11 @@ public class MockDataCreator {
         userRepository.save(user3);
         userRepository.save(user4);
         userRepository.save(user5);
-
     }
 
     @Test
     public void publisherNoClientProducts () {
+
         Product product = makeProduct();
         Product secondProduct = makeSecondProduct();
         Order order = makeOrder();
@@ -496,6 +501,7 @@ public class MockDataCreator {
     }
 
     public void independentClient() {
+
         Order order = makeExtraOrder();
         Product product = makeExtraProduct();
 

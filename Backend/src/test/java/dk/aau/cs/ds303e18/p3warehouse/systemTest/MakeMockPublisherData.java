@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 public class MakeMockPublisherData {
 
     public static Publisher makePublisher() {
+
         Publisher publisher = new Publisher(new ObjectId());
         ContactInformation contactInformation = new ContactInformation();
         contactInformation.setNickName("Monste");
@@ -25,7 +26,9 @@ public class MakeMockPublisherData {
 
         return publisher;
     }
+
     public static Publisher makeSecondPublisher() {
+
         Publisher publisher = new Publisher(new ObjectId());
         ContactInformation contactInformation = new ContactInformation();
 
@@ -46,6 +49,7 @@ public class MakeMockPublisherData {
     }
 
     public static Publisher makeThirdPublisher() {
+
         Publisher publisher = new Publisher(new ObjectId());
         ContactInformation contactInformation = new ContactInformation();
 

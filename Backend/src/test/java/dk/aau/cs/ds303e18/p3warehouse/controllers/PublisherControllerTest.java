@@ -2,8 +2,6 @@ package dk.aau.cs.ds303e18.p3warehouse.controllers;
 
 import dk.aau.cs.ds303e18.p3warehouse.models.restmodels.RestPublisherModel;
 import dk.aau.cs.ds303e18.p3warehouse.models.users.Publisher;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.User;
-import dk.aau.cs.ds303e18.p3warehouse.models.users.UserType;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.ProductRepository;
 import dk.aau.cs.ds303e18.p3warehouse.repositories.PublisherRepository;
@@ -13,25 +11,14 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyProduct.makeDummyProduct;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyPublisher.makeDummyPublisher;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.util.AssertionErrors.assertTrue;
+import static org.junit.Assert.assertEquals;;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -49,6 +36,7 @@ public class PublisherControllerTest {
 
     @Before
     public void start() {
+
         publisherRepository.deleteAll();
         userRepository.deleteAll();
         productRepository.deleteAll();
@@ -56,14 +44,16 @@ public class PublisherControllerTest {
 
     @Test
     public void testFindPublisherById() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         publisherRepository.save(publisher);
 
-        assertEquals(publisher.getUserName(), publisherController.findById(publisher.getHexId()).get().getUserName());
+        assertEquals(publisher.getUserName(), publisherController.findById(publisher.getHexId()).getUserName());
     }
 
     @Test
     public void testNewPublisher() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         RestPublisherModel restPublisherModel = new RestPublisherModel();
 
@@ -75,6 +65,7 @@ public class PublisherControllerTest {
 
     @Test
     public void testUpdatePublisher() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         RestPublisherModel restPublisherModel = new RestPublisherModel();
         BeanUtils.copyProperties(publisher, restPublisherModel);
@@ -90,6 +81,7 @@ public class PublisherControllerTest {
 
     @Test
     public void testDeletePublisherById() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         publisherRepository.save(publisher);
         userRepository.save(publisher);
@@ -100,6 +92,7 @@ public class PublisherControllerTest {
 
     @Test
     public void testFindPublishersProducts(){
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         for(int i = 0; i < 5; ++i){
             Product product = makeDummyProduct(i, publisher);

@@ -1,9 +1,11 @@
 import React from "react";
 
 const Alert = (props) =>{
+    
     let display = props.show;
     
     const mainAlert = () => {
+
         return((display)?(
         
             <div class="alert alert-warning" role="alert">

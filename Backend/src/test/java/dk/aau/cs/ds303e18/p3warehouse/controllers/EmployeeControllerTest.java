@@ -8,30 +8,20 @@ import org.bson.types.ObjectId;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.*;
 
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyClient.makeDummyClient;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyEmployee.makeDummyEmployee;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyProduct.makeDummyProduct;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyPublisher.makeDummyPublisher;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class EmployeeControllerTest {
-
     @Autowired
     EmployeeController employeeController;
 
@@ -52,6 +42,7 @@ public class EmployeeControllerTest {
 
     @Before
     public void start() {
+
         userRepository.deleteAll();
         employeeRepository.deleteAll();
         publisherRepository.deleteAll();
@@ -61,6 +52,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeCreatePublisherProduct() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Product product = makeDummyProduct(0, publisher);
         RestProductModel restProductModel = new RestProductModel();
@@ -78,6 +70,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeCreateClientProduct() {
+
         Client client = makeDummyClient(0);
         Product product = makeDummyProduct(0, client);
         RestProductModel restProductModel = new RestProductModel();
@@ -95,6 +88,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeCreatePublisher() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         RestPublisherModel restPublisherModel = new RestPublisherModel();
         BeanUtils.copyProperties(publisher, restPublisherModel);
@@ -108,6 +102,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeCreateClient() {
+
         Client client = makeDummyClient(0);
         RestClientModel restClientModel = new RestClientModel();
         BeanUtils.copyProperties(client, restClientModel);
@@ -121,6 +116,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeFindAllProducts() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         publisherRepository.save(publisher);
         for(int i = 0; i < 5; ++i){
@@ -132,6 +128,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeFindAllUsers() {
+
         for(int i = 0; i < 5 ; ++i){
             Employee employee = makeDummyEmployee(i);
             employeeRepository.save(employee);
@@ -153,6 +150,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testFindEmployeeById() {
+
         Employee employee = makeDummyEmployee(0);
         employeeRepository.save(employee);
 
@@ -161,6 +159,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeFindProductById() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Product product = makeDummyProduct(0, publisher);
         publisher.addProduct(product);
@@ -173,6 +172,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testUpdateEmployee() {
+
         Employee employee = makeDummyEmployee(0);
         RestEmployeeModel restEmployeeModel = new RestEmployeeModel();
 
@@ -190,6 +190,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeUpdateProduct() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Product product = makeDummyProduct(0, publisher);
         publisher.addProduct(product);
@@ -208,6 +209,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeUpdateProductInPublisher(){ //Same as above, except it checks if the product stored in publisher is also updated
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Product product = makeDummyProduct(0, publisher);
         publisher.addProduct(product);
@@ -227,6 +229,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeUpdateClientContactInformation() {
+
         Client client = makeDummyClient(0);
         clientRepository.save(client);
 
@@ -242,6 +245,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeUpdatePublisherContactInformation() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         publisherRepository.save(publisher);
 
@@ -257,6 +261,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testUpdateUserCredentials() {
+
         Employee employee = makeDummyEmployee(0);
         employeeRepository.save(employee);
         userRepository.save(employee);
@@ -271,6 +276,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testDeleteEmployeeById() {
+
         Employee employee = makeDummyEmployee(0);
         employeeRepository.save(employee);
         userRepository.save(employee);
@@ -282,6 +288,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testDeleteEmployeeAndUserById() {
+
         Employee employee = makeDummyEmployee(0);
         employeeRepository.save(employee);
         userRepository.save(employee);
@@ -293,6 +300,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeDeleteProductById() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Product product = makeDummyProduct(0, publisher);
         publisher.addProduct(product);
@@ -307,6 +315,7 @@ public class EmployeeControllerTest {
 
     @Test
     public void testEmployeeDeleteProductByIdFromPublisher() {
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         Product product = makeDummyProduct(0, publisher);
         publisher.addProduct(product);

@@ -4,8 +4,10 @@ import { connect } from "react-redux";
 import {get} from "./../../../../handlers/requestHandlers"
 
 class UserProfile extends React.Component{
+    
     constructor(props){
         super(props);
+
         this.state= {
             userName: "...Loading",
             name: "...Loading",
@@ -19,6 +21,7 @@ class UserProfile extends React.Component{
     }
   
     componentDidMount(){
+
         const type = this.props.userType
         if(type === "CLIENT"){
             get("clients/"+this.props.userID,(res)=>{
@@ -32,6 +35,7 @@ class UserProfile extends React.Component{
     }
 
     setStateOnGetRequest = (data) =>{
+
         this.setState({
             userName:data.userName, 
             name: data.contactInformation.nickName, 
@@ -45,6 +49,7 @@ class UserProfile extends React.Component{
     }
 
     prepForEdit = () =>{
+
         this.props.setAddress(this.state.address);
         this.props.setCity(this.state.city);
         this.props.setCountry(this.state.country);
@@ -57,6 +62,7 @@ class UserProfile extends React.Component{
     }
 
     render(){
+
         return(
             <div className="PageStyle customText_b">
                 <div className="frameBordering">
@@ -82,6 +88,7 @@ class UserProfile extends React.Component{
 }
  
 const mapStateToProps = (state) => {
+
     return {
         userID: state.loginReducer.userId,
         userType: state.loginReducer.userType
@@ -89,6 +96,7 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
+
     return {
         setNickName: (nickName) => {dispatch({type: "SET_PROFILE_NICKNAME",payload: {nickName}})},
         setUserName: (userName) => {dispatch({type: "SET_PROFILE_USERNAME",payload: {userName}})},

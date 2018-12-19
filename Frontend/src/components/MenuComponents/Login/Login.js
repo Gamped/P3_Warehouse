@@ -5,6 +5,7 @@ import {get} from "./../../../handlers/requestHandlers"
 
 // The box for sign-in to the system
 class SignInBox extends React.Component {
+    
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
@@ -17,12 +18,14 @@ class SignInBox extends React.Component {
 
     //Mapping the value of the textbox to the state
     onChange = (e) => {
+
         this.setState({[e.target.name]: e.target.value});
     }
 
     //This handles our login. Takes an event and calls axios.
     //Then we map the results to redux through dispatches before pushing the user to main.
     loginHandler = (event) => {
+
         event.preventDefault()
         get("users/login/" + this.state.userName + "/" +this.state.password,(res)=>{
             console.log(res)
@@ -35,6 +38,7 @@ class SignInBox extends React.Component {
     }
 
     render(){
+
         if(this.props.user.loggedIn==="True"){
             this.props.history.push("./Home")
         }
@@ -73,12 +77,12 @@ class SignInBox extends React.Component {
 }
 
 const mapStateToProps = (state)=>{
-    return {
-        user: state.loginReducer
-    }
+
+    return {user: state.loginReducer}
 }
 
 const mapDispatchToProps = (dispatch) =>{
+
     return {
         setUserType: (userType) => {dispatch({type: "SET_USERTYPE",payload: {userType}})},
         setUserName: (userName) => {dispatch({type: "SET_USERNAME",payload: {userName}})},

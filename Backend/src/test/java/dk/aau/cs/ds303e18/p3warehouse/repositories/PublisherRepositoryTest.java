@@ -5,7 +5,6 @@ import dk.aau.cs.ds303e18.p3warehouse.models.users.*;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +45,7 @@ public class PublisherRepositoryTest {
 
     @Test
     public void deleteAll() {
+
         productRepository.deleteAll();
         publisherRepository.deleteAll();
         clientRepository.deleteAll();
@@ -53,17 +53,19 @@ public class PublisherRepositoryTest {
         userRepository.deleteAll();
     }
 
-
     @Test
     public void savePublisher(){
+
         Publisher publisher = makePublisher();
         publisherRepository.save(publisher);
         Optional<Publisher> optionalPublisher = publisherRepository.findById(publisher.getHexId());
         Publisher retrievedPublisher = optionalPublisher.get();
         assertEquals(publisher.getHexId(), retrievedPublisher.getHexId());
     }
+
     @Test
     public void publisherGotClient(){
+
         ObjectId idP = new ObjectId();
         ObjectId idC = new ObjectId();
         ObjectId idC2 = new ObjectId();
@@ -77,6 +79,7 @@ public class PublisherRepositoryTest {
 
     @Test
     public void publisherLoadClientForDb(){
+
         ObjectId idP = new ObjectId();
         ObjectId idC = new ObjectId();
         ObjectId idC2 = new ObjectId();
@@ -99,6 +102,7 @@ public class PublisherRepositoryTest {
 
     @Test
     public void publisherProducts(){
+
         Publisher publisher = makePublisher();
         Product product = makeProduct();
         Product secondProduct = makeSecondProduct();
@@ -120,6 +124,7 @@ public class PublisherRepositoryTest {
 
     @Test
     public void testPublisherOrder(){
+
         Order order = makeOrder();
         Order secondOrder = makeSecondOrder();
         Order thirdOrder = makeThirdOrder();
@@ -148,6 +153,7 @@ public class PublisherRepositoryTest {
 
     @Test
     public void testPublisherClientOrders() {
+
         Order secondOrder = makeSecondOrder();
         Order order = makeOrder();
         Order thirdOrder = makeThirdOrder();
@@ -184,6 +190,7 @@ public class PublisherRepositoryTest {
 
     @Test
     public void testFindInformation(){
+
         Publisher publisher = makePublisher();
 
         publisherRepository.save(publisher);
@@ -195,6 +202,7 @@ public class PublisherRepositoryTest {
 
     @Test
     public void testPublisherClientProducts() {
+
         Publisher publisher = makePublisher();
         Client client = makeClient();
         Product product = makeProduct();
@@ -224,6 +232,7 @@ public class PublisherRepositoryTest {
 
     @Test
     public void testFindPublisherByUserId() {
+
         Publisher publisher = makePublisher();
         User user = new User(publisher.getId());
         user.copyFrom(publisher);
@@ -237,6 +246,7 @@ public class PublisherRepositoryTest {
 
     @Test
     public void testFindAllPublishers() {
+
         Publisher publisher = makePublisher();
         Publisher secondPublisher = makeSecondPublisher();
         Publisher thirdPublisher = makeThirdPublisher();
@@ -252,6 +262,7 @@ public class PublisherRepositoryTest {
 
     @Test
     public void testDeletePublisherById() {
+
         Publisher publisher = makePublisher();
 
         publisherRepository.save(publisher);
@@ -263,8 +274,8 @@ public class PublisherRepositoryTest {
 
     @Test
     public void testDeleteAllPublishers(){
-        publisherRepository.deleteAll();
 
+        publisherRepository.deleteAll();
         assertEquals(0, publisherRepository.findAll().size());
     }
 }

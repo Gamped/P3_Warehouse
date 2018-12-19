@@ -11,7 +11,6 @@ import java.util.Optional;
 public interface ProductRepository extends MongoRepository<Product, ObjectId> {
 
     List<Product> findAll();
-
     Optional<Product> findById(@PathVariable String hexId);
 
     void deleteById(String hexId);

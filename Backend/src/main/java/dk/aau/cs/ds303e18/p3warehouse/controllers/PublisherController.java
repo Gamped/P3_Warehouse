@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+
 import java.util.stream.Collectors;
+import java.util.stream.Collector;
 import java.util.stream.Stream;
 
 @RequestMapping("/api")
@@ -37,7 +39,6 @@ public class PublisherController {
 
     @GetMapping("/publishers")
     Iterable<Publisher> findAll() {
-
         return publisherRepository.findAll();
     }
 
@@ -49,8 +50,10 @@ public class PublisherController {
 
         return publisher;
     }
+
     @GetMapping("/publishers/{hexId}/orders")
     Stream<Order> getAllPublisherOrders(@PathVariable String hexId){
+
         Publisher publisher = publisherRepository.findById(new ObjectId(hexId)).orElse(null);
         return publisher.getOrderStream();
     }
@@ -83,8 +86,10 @@ public class PublisherController {
 
     @DeleteMapping("/publishers/{hexId}")
     void delete(@PathVariable String hexId) {
+
         ObjectId id = new ObjectId(hexId);
         Publisher publisher = publisherRepository.findById(id).orElse(null);
+
         publisher.getClientStream().map(x -> x.unassignAllProducts().map(product -> productRepository.save(product)));
         publisher.getClientStream().map(x -> x.unassignAllOrders()).forEach(orderStream -> orderStream.forEach(orderRepository::delete));
         publisher.unassignAllOrders().forEach(orderRepository::delete);
@@ -94,11 +99,10 @@ public class PublisherController {
         userRepository.delete(user);
     }
 
-@GetMapping("/publishers/{hexId}/products")
+    @GetMapping("/publishers/{hexId}/products")
     Stream<Product> findPublisherProducts(@PathVariable("hexId") String hexId) {
 
         ObjectId objectId = new ObjectId(hexId);
         return publisherRepository.findById(objectId).orElse(null).getProductStream();
-        }
-
-        }
+    }
+}

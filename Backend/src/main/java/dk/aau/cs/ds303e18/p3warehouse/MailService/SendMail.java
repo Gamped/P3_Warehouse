@@ -10,10 +10,11 @@ import java.util.Properties;
 public abstract class SendMail {
     private final String name = "4N Mailhouse";
     private String emailID, password;
-    private Session session = null;
+    private Session session;
     private boolean loginError = false;
 
     public SendMail(){
+
         // Setup basic connection
         Properties props = System.getProperties();
 
@@ -35,6 +36,7 @@ public abstract class SendMail {
 
     // To not post login-credentials to github ;)
     private void getLogin(){
+
         try {
             String str;
             String[] strSplit;
@@ -57,6 +59,7 @@ public abstract class SendMail {
     }
 
     public void sendEMail(String subject, String body, String toEmail) {
+
         if (!loginError){
             try {
                 MimeMessage mm = new MimeMessage(session);

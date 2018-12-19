@@ -6,29 +6,17 @@ public class RestProductModel {
     private String productId;
     private int quantity;
 
-    public String getProductName() {
-        return productName;
-    }
+    public String getProductName() {return productName;}
 
-    public String setProductName(String productName) {
-        return this.productName = productName;
-    }
+    public String setProductName(String productName) {return this.productName = productName;}
 
-    public int getQuantity() {
-        return quantity;
-    }
+    public int getQuantity() {return quantity;}
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+    public void setQuantity(int quantity) {this.quantity = quantity;}
 
-    public String getProductId() {
-        return productId;
-    }
+    public String getProductId() {return productId;}
 
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
+    public void setProductId(String productId) {this.productId = productId;}
 
     public String modelToString() {
         return "RestProductModel: " + this.getProductName() + " " + this.getProductId() + " " + this.getQuantity();

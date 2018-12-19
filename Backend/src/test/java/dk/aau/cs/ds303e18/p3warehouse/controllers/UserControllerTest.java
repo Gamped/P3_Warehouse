@@ -15,21 +15,16 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Random;
 
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyClient.makeDummyClient;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyEmployee.makeDummyEmployee;
 import static dk.aau.cs.ds303e18.p3warehouse.models.DummyPublisher.makeDummyPublisher;
-import static dk.aau.cs.ds303e18.p3warehouse.models.DummyUser.makeDummyUser;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserControllerTest {
-
     @Autowired
     UserController userController;
     @Autowired
@@ -45,6 +40,7 @@ public class UserControllerTest {
 
     @Before
     public void start(){
+
         userRepository.deleteAll();
         employeeRepository.deleteAll();
         publisherRepository.deleteAll();
@@ -53,6 +49,7 @@ public class UserControllerTest {
 
     @Test
     public void testLogInEmployee(){
+
         Employee employee = makeDummyEmployee(0);
         RestEmployeeModel restEmployeeModel = new RestEmployeeModel();
         BeanUtils.copyProperties(employee, restEmployeeModel);
@@ -63,7 +60,8 @@ public class UserControllerTest {
     }
 
     @Test
-    public void testLogInPublisher(){ //Fails due to controller not being able to read employee's usertype or some shit.
+    public void testLogInPublisher(){.
+
         Publisher publisher = makeDummyPublisher(0, new ObjectId());
         RestPublisherModel restPublisherModel = new RestPublisherModel();
         BeanUtils.copyProperties(publisher, restPublisherModel);
@@ -75,6 +73,7 @@ public class UserControllerTest {
 
     @Test
     public void testLogInClient(){
+
         Client client = makeDummyClient(0);
         RestClientModel restClientModel = new RestClientModel();
         BeanUtils.copyProperties(client, restClientModel);

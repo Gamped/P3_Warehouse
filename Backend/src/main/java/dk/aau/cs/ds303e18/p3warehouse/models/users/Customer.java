@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.stream.Stream;
 
 public class Customer extends User {
+
     private ContactInformation contactInformation;
     @DBRef
     private Collection<Product> customerProducts;
@@ -23,17 +24,21 @@ public class Customer extends User {
         customerOrders = new HashSet<>();
         this.hexId = id.toHexString();
     }
+
     //Only meant for deserializing
     public Customer(){super(null);}
 
     public Stream<Product> unassignAllProducts() {
+
           return this.getProductStream().map(x -> {
             this.removeProduct(x);
             x.setOwner((Customer)null);
             return x;
         });
     }
+
     public Stream<Order> unassignAllOrders(){
+
         return this.getOrderStream().map(x -> {
            this.removeOrder(x);
            x.setOwner(null);
@@ -41,23 +46,12 @@ public class Customer extends User {
         });
     }
 
+    public ContactInformation getContactInformation(){return contactInformation;}
 
-    public ContactInformation getContactInformation(){
-        return contactInformation;
-    }
-
-    public void setContactInformation(ContactInformation contactInformation) {
-        this.contactInformation = contactInformation;
-    }
-    public void addProduct(Product product){
-        customerProducts.add(product);
-    }
-    public void removeProduct(Product product){
-        customerProducts.remove(product);
-    }
-    public Stream<Product> getProductStream(){
-        return customerProducts.stream();
-    }
+    public void setContactInformation(ContactInformation contactInformation) {this.contactInformation = contactInformation;}
+    public void addProduct(Product product){customerProducts.add(product);}
+    public void removeProduct(Product product){customerProducts.remove(product);}
+    public Stream<Product> getProductStream(){return customerProducts.stream();}
 
     public void addOrder(Order order){
         customerOrders.add(order);

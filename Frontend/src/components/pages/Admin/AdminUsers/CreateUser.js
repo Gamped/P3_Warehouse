@@ -7,8 +7,10 @@ import {customerProfileFieldsAreValidated} from './../../../../handlers/fieldsVa
 import { publisherNotSetOnClientProfileCreationWarning } from "../../../../handlers/exceptions";
 
 class CreateUser extends React.Component{
+    
     constructor(props){
         super(props);
+
         this.state={
             userType:"CLIENT",
             userName:"",
@@ -31,6 +33,7 @@ class CreateUser extends React.Component{
     componentDidMount(){this.getPublishers();}
 
     getPublishers() {
+
         get('employee/publishers', (data) => {
             let publishers = makeCustomerData(data);
             publishers.push({nickName:"Independent client",userType:"Create",hexId:"IC"})
@@ -42,12 +45,14 @@ class CreateUser extends React.Component{
 
 
     showPublisherDropdown(flag){
+
         this.setState({
             publisherTableShows: flag
         })
     }
 
     toggleUserType = () =>{
+
         if(this.state.userType === "CLIENT"){
             this.setState({userType:"PUBLISHER"},()=>{console.log(this.state)})
         } else {
@@ -88,6 +93,7 @@ class CreateUser extends React.Component{
 
 
     setSelected = (e) =>{
+
         if (e.target.value.toLowerCase() !== 'choose customer') {
             this.setState({
                 selectedActorHexId:e.target.value,

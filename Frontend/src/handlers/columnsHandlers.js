@@ -1,4 +1,5 @@
 export function getColumnsFromArray(array) {
+    
     let columns = [];
     array.forEach((colName) => {
         let accessor = (colName.charAt(0).toLowerCase(0) + colName.slice(1)).replace(' ', '');
@@ -10,6 +11,7 @@ export function getColumnsFromArray(array) {
 }
 
 export function shrinkToHtmlNames(namesArray) {  
+
     let namesHtmlArray = [];
     namesArray.forEach((name) => {
         namesHtmlArray.push((name.replace(' ', '')).toLowerCase());

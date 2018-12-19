@@ -9,8 +9,10 @@ import { connect } from 'react-redux';
 import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
 
 class EditOrder extends Component{
+
     constructor(props){
         super(props);
+        
         this.state = {
             orderLines: [],
             stock: [],
@@ -23,11 +25,13 @@ class EditOrder extends Component{
     }
 
     componentDidMount() {   
+
         this.setState({order: this.props.order, orderLines: this.props.order.orderLines});
         console.log("Props ",this.props)
     }
 
     onChangeHandler = (e) =>{
+
         let orderLines = this.state.orderLines;
         orderLines[this.state.selectedOrderLineNumber].amount = e.target.value;
        
@@ -36,6 +40,7 @@ class EditOrder extends Component{
 
     addOrderLine = (e) => {
         e.preventDefault();
+
         let orderLines = this.state.orderLines;
         let newOrderLine = this.state.stock[this.state.selectedProduct];
         this.setState({orderLines : [...orderLines, newOrderLine]});
@@ -43,6 +48,7 @@ class EditOrder extends Component{
 
     removeOrderLine = (e) => {
         e.preventDefault();
+
         let id = this.state.orderLines[this.state.selectedOrderLine].productId;
     
         let orderLines = this.state.orderLines.filter(orderLine => {
@@ -53,12 +59,14 @@ class EditOrder extends Component{
     }
 
     rowIsRemoved() {
+
         return this.state.orderLines[this.state.selectedOrderLine] ? false : true;
     }
 
     sendToPage = (address) => {this.props.history.push(address);}
 
     renderEditable = (cellInfo) => {
+
         //renderEditable complains if a row with a Cell property is being removed
         if (!this.rowIsRemoved()) { 
             return (
@@ -97,6 +105,7 @@ class EditOrder extends Component{
      
     updateOrder = (e) => {
         e.preventDefault();
+
         const data = makeOrderBodyFromData(this.state.orderLines, this.state.order);
         
         del("orders/delete/"+this.props.match.params.id, (response) => {
@@ -114,11 +123,13 @@ class EditOrder extends Component{
     }
 
     onEditAddress = (e) => {
-        e.preventDefault();     
+        e.preventDefault();  
+
         this.props.history.push("/Admin/Orders/Edit/OrderAddress/"+this.state.order.hexId);
     }
 
     render() {
+
         console.log("State:",this.state)
         console.log(this.props);
 
@@ -198,7 +209,8 @@ class EditOrder extends Component{
 }
 
 const mapStateToProps = (state) => {
+
     return  {order: state.orderReducer.selectedOrder }
-    
 }
+
 export default connect(mapStateToProps)(EditOrder)

@@ -11,12 +11,12 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
 public class UserRepositoryTest {
+
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -32,6 +32,7 @@ public class UserRepositoryTest {
 
     @Before
     public void deleteAll() {
+
         productRepository.deleteAll();
         clientRepository.deleteAll();
         userRepository.deleteAll();
@@ -44,7 +45,7 @@ public class UserRepositoryTest {
         productRepository.deleteAll();
         clientRepository.deleteAll();
         userRepository.deleteAll();
-            publisherRepository.deleteAll();
+        publisherRepository.deleteAll();
 
         ObjectId clientId = new ObjectId();
         ObjectId publisherId = new ObjectId();
@@ -99,22 +100,10 @@ public class UserRepositoryTest {
         productRepository.save(flyerProduct);
 
         Client queriedClient = clientRepository.findById(client.getId()).orElse(null);
-
-/*
-        User user = new User(client.getId());
-        user.copyFrom(client);
-        userRepository.save(user);
-        Optional<User> hopefullyAUser = userRepository.findById(clientId);
-
-        Client hopefullyAClient = clientRepository.findById(client.getHexId());
-
-        assert(hopefullyAClient.getUserName().equals(client.getUserName()));
-       // userRepository.delete(user);
-       // clientRepository.delete(client);
-   */
     }
 
     public User makeUser() {
+
         ObjectId id = new ObjectId();
         User user = new User(id);
         user.setUserType(UserType.PUBLISHER);
@@ -126,6 +115,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testUserFindById() {
+
         ObjectId id = new ObjectId();
         User user = new User(id);
 
@@ -138,6 +128,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testUserFindInformation() {
+
         User user = makeUser();
 
         userRepository.save(user);
@@ -149,6 +140,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindBy() {
+
         ObjectId secondId = new ObjectId();
         Client thirdClient = new Client(secondId);
         ContactInformation contactInformation = new ContactInformation();
@@ -177,8 +169,10 @@ public class UserRepositoryTest {
         assertEquals(retrievedUser, secondRetrievedUser);
 
     }
+
     @Test
     public void testUserCopyFrom() {
+
         ObjectId id = new ObjectId();
         Client client = new Client(id);
         client.setPassword("rw435r");
@@ -192,6 +186,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindUserByPublisherId() {
+
         ObjectId id = new ObjectId();
         Publisher publisher = new Publisher(id);
         ContactInformation contactInformation = new ContactInformation();
@@ -220,6 +215,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindUser() {
+
         ObjectId id = new ObjectId();
         User user = new User(id);
         Publisher publisher = new Publisher(user.getId());
@@ -235,6 +231,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindByUserName() {
+
         Employee emp = new Employee(new ObjectId());
         emp.setNickname("Jane");
         emp.setUserType(UserType.EMPLOYEE);
@@ -253,6 +250,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindUserByPassWord() {
+
         ObjectId id = new ObjectId();
         Publisher publisher = new Publisher(id);
         ContactInformation contactInformation = new ContactInformation();
@@ -281,6 +279,7 @@ public class UserRepositoryTest {
 
     @Test
     public void testFindUserByUserType() {
+
         ObjectId secondId = new ObjectId();
         Client thirdClient = new Client(secondId);
         ContactInformation contactInformation = new ContactInformation();
@@ -309,6 +308,7 @@ public class UserRepositoryTest {
 
     @Test
     public void deleteUserById() {
+
         ObjectId id = new ObjectId();
         Publisher publisher = new Publisher(id);
         ContactInformation contactInformation = new ContactInformation();
@@ -338,8 +338,8 @@ public class UserRepositoryTest {
 
     @Test
     public void testDeleteAllUsers() {
+
         userRepository.deleteAll();
         assertEquals(0, userRepository.findAll().size());
     }
-
 }

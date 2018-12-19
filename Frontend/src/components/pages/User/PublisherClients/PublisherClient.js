@@ -8,8 +8,10 @@ import {get} from './../../../../handlers/requestHandlers';
 import "../../Pages.css";
 
 class PublisherClient extends React.Component {
+
     constructor(props) {
         super(props);
+        
         this.state = {
             userId: props.ID,
             clients: [],
@@ -21,6 +23,7 @@ class PublisherClient extends React.Component {
     componentDidMount(){this.getPublisherProducts();}
 
     getPublisherProducts() {
+
         get("publishers/" + this.props.userId, (data) => {
             const clients = makeClientDetails(data);
             this.setState({ clients: clients });
@@ -28,6 +31,7 @@ class PublisherClient extends React.Component {
     }
    
     render() {
+
         const columns = getColumnsFromArray(["Client", "Phone Number", "Email", "Address"]);  
 
         return(
@@ -83,6 +87,7 @@ class PublisherClient extends React.Component {
 }
 
 const mapStateToProps = (state) =>{
+
     return{
         userId: state.loginReducer.userId,
         nickName: state.loginReducer.nickName
