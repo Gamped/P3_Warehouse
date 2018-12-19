@@ -1,8 +1,7 @@
 const blankOrder = {orderLines:[],
                     customer:"",
                     selectedOrder:[]
-                };
-
+};
 
 const orderReducer = (state = blankOrder ,action)=>{
     switch(action.type){
