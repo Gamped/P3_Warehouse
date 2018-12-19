@@ -88,7 +88,7 @@ import { connect } from "react-redux";
                             <label className="font-weight-bold">Country: </label>
                             <label className="font-weight-normal">{address.country}</label>
                         
-                            <button className="btn-dark btn btn-block my-3" onClick={this.goBack} role="button">Back</button>
+                            <button className="btn-std btn btn-block my-3" onClick={this.goBack} role="button">Back</button>
                             
                         </div>
                     </div>

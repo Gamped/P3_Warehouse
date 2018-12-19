@@ -210,7 +210,7 @@ class UserProfileEdit extends React.Component {
                                         placeholder="New password repeat" />
                                     </div>
                                 <div className="newForm stockForm">
-                                    <button className="btn btn-block green_BTN my-2" type="submit">Edit profile</button>
+                                    <button className="btn btn-block yellow_BTN my-2" type="submit">Edit profile</button>
                                 </div> 
                             </form> 
                             

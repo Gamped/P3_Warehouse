@@ -105,9 +105,9 @@ class AdminProfileEdit extends React.Component {
                         </form>
 
                         <form className="newForm stockForm">
-                            <button className="green_BTN btn-lg btn-block btn my-2" onClick={this.confirmed}>Save profile</button>
+                            <button className="yellow_BTN btn-lg btn-block btn my-2" onClick={this.confirmed}>Save profile</button>
                         </form>
-                        <Link to="/Admin/Profile" className="dark_BTN btn-lg btn-block btn my-2">Back</Link>
+                        <Link to="/Admin/Profile" className="std_BTN btn-lg btn-block btn my-2">Back</Link>
                     </div>
                 </div>
             </div>

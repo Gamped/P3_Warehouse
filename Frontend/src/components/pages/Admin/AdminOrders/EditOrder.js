@@ -196,9 +196,9 @@ class EditOrder extends Component{
                                 </div>
                             </div>
                             <div className="EditOrderRightBTNs">
-                                <button className="btn AdinOrderButtonSizer std_BTN btn-lg mx-2" onClick={this.onEditAddress}>Edit Address</button>        
-                                <button className="col btn AdinOrderButtonSizer blue_BTN mx-2" type="submit" onClick={this.updateOrder}>Save Content</button>
-                                <button className="col btn AdinOrderButtonSizer dark_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>      
+                                <button className="btn AdinOrderButtonSizer std_BTN btn-lg mx-2" onClick={this.onEditAddress}>Edit address</button>        
+                                <button className="col btn AdinOrderButtonSizer yellow_BTN mx-2" type="submit" onClick={this.updateOrder}>Save content</button>
+                                <button className="col btn AdinOrderButtonSizer std_BTN mx-2" onClick={()=>this.sendToPage("/Admin/Orders")}>Back</button>      
                             </div>   
                         </form>              
                     </div>

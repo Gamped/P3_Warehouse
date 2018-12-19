@@ -78,7 +78,7 @@ class UserProfile extends React.Component{
                             <h5 className="text-justify my-2">ZIP: {this.state.zip}</h5>
                             <h5 className="text-justify my-2">COUNTRY: {this.state.country}</h5>
 
-                            <button onClick={this.prepForEdit} className="btn-lg btn-block std_BTN my-2k btn">Edit</button>
+                            <button onClick={this.prepForEdit} className="btn-lg btn-block yellow_BTN my-2k btn">Edit</button>
                         </div>
                     </div>
                 </div>

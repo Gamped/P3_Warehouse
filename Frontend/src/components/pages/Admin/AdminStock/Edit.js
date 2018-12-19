@@ -72,8 +72,8 @@ class Edit extends Component {
                         </div>
                     </div>
                         <div className="col-md-6 offset-md-5">
-                            <button className="green_BTN btn-lg btn-block btn my-2" onClick={this.onSubmit} >Edit product</button>
-                            <Link to="/Admin/Stock" className="dark_BTN btn-lg btn-block btn my-2">Back</Link>
+                            <button className="yellow_BTN btn-lg btn-block btn my-2" onClick={this.onSubmit} >Edit product</button>
+                            <Link to="/Admin/Stock" className="std_BTN btn-lg btn-block btn my-2">Back</Link>
                         </div>
                     </div>
             </div>

@@ -70,7 +70,7 @@ import { makeOrderBodyFromData } from '../../../../handlers/bodyHandlers';
                     <input type="text" name="city" defaultValue={this.state.order.city} className="my-2 form-control" onChange={this.onChange} placeholder="City"/>
                     <input type="text" name="country" defaultValue={this.state.order.country} className="my-2 form-control" onChange={this.onChange} placeholder="Country"/>
 
-                    <button className="EOA_BTN AdinOrderButtonSizer btn green_BTN mx-2" onClick={this.onSubmit}>Save Changes</button>
+                    <button className="EOA_BTN AdinOrderButtonSizer btn yellow_BTN mx-2" onClick={this.onSubmit}>Save Changes</button>
                     <Link to="/Admin/Orders/Edit" className="EOA_BTN AdinOrderButtonSizer btn std_BTN mx-2 " role=" button" >Back</Link>
                 </div>
             </div>

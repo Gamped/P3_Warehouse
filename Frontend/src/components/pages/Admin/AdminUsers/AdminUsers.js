@@ -353,14 +353,15 @@ export default class AdminUsers extends Component {
                                 </div>
                                 <div className="container row">
                                     <div className="col my-2">
-                                        <button type="button" onClick={this.onDelete} className="btn adminUserBtn red_BTN">Delete this user</button>
-                                    </div>
-                                    <div className="col my-2">
-                                        <button type="button" onClick={this.onSubmit} className="btn adminUserBtn blue_BTN">Confirm edit</button>
-                                    </div>
-                                    <div className="col my-2">
                                         <Link to="/Admin/Users/Create" className="btn adminUserBtn green_BTN">Create new user</Link>
                                     </div>
+                                    <div className="col my-2">
+                                        <button type="button" onClick={this.onSubmit} className=" btn adminUserBtn yellow_BTN">Confirm edit</button>
+                                    </div>
+                                    <div className="col my-2">
+                                        <button type="button" onClick={this.onDelete} className="btn adminUserBtn red_BTN">Delete this user</button>
+                                    </div>
+                                   
                                 </div>
                             </div>  
                         </div>

@@ -58,7 +58,7 @@ export default class AdminAdd extends React.Component {
                         <form className="newForm stockForm">
                             <button onClick={this.addEmployeeHandler} className="green_BTN btn-lg btn-block btn my-2">Add new employee</button>
                         </form>
-                        <Link to="/Admin/Profile" className="dark_BTN btn-lg btn-block btn my-2">Back</Link>
+                        <Link to="/Admin/Profile" className="std_BTN btn-lg btn-block btn my-2">Back</Link>
                     </div>
                 </div>
             </div>
