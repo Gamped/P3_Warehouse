@@ -14,7 +14,7 @@ export default class AdminUsers extends Component {
             customers: [],
             selectedCustomer: [],
             selected: null,
-            selectedId: "",
+            selectedId: null,
             changed:{}
         };
     }
@@ -126,27 +126,38 @@ export default class AdminUsers extends Component {
     }
  
     onDelete = () => {
+        
+        const selectedId = this.state.selectedId;
 
-        const usertype= this.state.selectedCustomer.userType
-        if(usertype ==="Publisher"){
-            del("employee/publishers/delete/"+this.state.selectedCustomer.hexId,(res)=>{
+        if (!selectedId) {
+            window.alert("Select a customer before deleting");
+        } else {
+            const usertype= this.state.selectedCustomer.userType.toLowerCase();
+            
+            if (usertype === "publisher"){
+            
+                del("employee/publishers/delete/" + selectedId,(res)=>{
                 let customers = this.state.customers.filter(customer =>{
-                    return this.state.selectedId !== customer.hexId
+                    return selectedId !== customer.hexId
                 })
                 this.setState({
                     customers:customers
                 })
             });
-        } else if(usertype==="Client") {
-            del("employee/clients/delete/"+this.state.selectedCustomer.hexId,(res)=>{
+        } else if(usertype==="client") {
+            del("employee/clients/delete/" + selectedId,(res)=>{
                 let customers = this.state.customers.filter(customer =>{
-                    return this.state.selectedId !== customer.hexId
+                    return selectedId !== customer.hexId
                 })
                 this.setState({
                     customers:customers
                 })
             });
-        } else {alert("Nothing chosen")}
+        } else { 
+            window.alert("Nothing chosen")
+        }
+        }
+        
     }
 
     render(){

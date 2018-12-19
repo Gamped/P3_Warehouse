@@ -46,9 +46,9 @@ public class PublisherController {
     Optional<Publisher> findById(@PathVariable String id) {
 
         ObjectId objectId = new ObjectId(id);
-        Optional<Publisher> publisher = publisherRepository.findById(objectId);
 
-        return publisher;
+        return publisherRepository.findById(objectId).get();
+
     }
 
     @GetMapping("/publishers/{hexId}/orders")
