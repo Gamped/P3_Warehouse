@@ -28,10 +28,6 @@ import java.util.stream.Collectors;
 @RestController
 public class ClientController {
 
-    //TODO: updateClient opdateres i userAuth også.
-    //TODO: deleteClient slettes i userAuth ogsaa.
-    //TODO: Overvej hvorfor ProductManager.saveProductToDb(product, owner); kaldes i addNewProduct men ikke i updateClientProduct
-
     @Autowired
     ClientRepository clientRepository;
     @Autowired
