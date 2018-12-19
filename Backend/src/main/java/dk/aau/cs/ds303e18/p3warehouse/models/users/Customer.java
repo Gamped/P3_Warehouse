@@ -3,10 +3,13 @@ package dk.aau.cs.ds303e18.p3warehouse.models.users;
 import dk.aau.cs.ds303e18.p3warehouse.models.orders.Order;
 import dk.aau.cs.ds303e18.p3warehouse.models.warehouse.Product;
 import org.bson.types.ObjectId;
+import org.hibernate.hql.internal.CollectionProperties;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Customer extends User {
@@ -28,22 +31,22 @@ public class Customer extends User {
     //Only meant for deserializing
     public Customer(){super(null);}
 
-    public Stream<Product> unassignAllProducts() {
-
-          return this.getProductStream().map(x -> {
-            this.removeProduct(x);
-            x.setOwner((Customer)null);
-            return x;
-        });
+    public Collection<Product> unassignAllProducts() {
+        Collection<Product> deletedProducts = this.getProductStream().collect(Collectors.toCollection(ArrayList::new));
+        for(Product p : deletedProducts){
+            this.removeProduct(p);
+            p.setOwner(null);
+        }
+        return deletedProducts;
     }
 
-    public Stream<Order> unassignAllOrders(){
-
-        return this.getOrderStream().map(x -> {
-           this.removeOrder(x);
-           x.setOwner(null);
-           return x;
-        });
+    public Collection<Order> unassignAllOrders(){
+        Collection<Order> deletedOrders = this.getOrderStream().collect(Collectors.toCollection(ArrayList::new));
+        for(Order o : deletedOrders){
+            this.removeOrder(o);
+            o.setOwner(null);
+        }
+        return deletedOrders;
     }
 
     public ContactInformation getContactInformation(){return contactInformation;}
