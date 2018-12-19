@@ -38,7 +38,7 @@ class AdminProfile extends React.Component {
     getEmployees() {
 
         get("employee/employees", (data) => {
-
+            console.log(data)
             const employees = makeEmployeeData(data);
             this.setState({employees: employees});
             this.setLoggedInUserData();

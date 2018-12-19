@@ -65,6 +65,7 @@ class CreateUser extends React.Component{
        
         const fields = this.state;
         if (customerProfileFieldsAreValidated(fields)) {
+
             const body = {
                 userName:this.state.userName,
                 password:this.state.password,
@@ -80,8 +81,20 @@ class CreateUser extends React.Component{
             }
                    
             if(this.state.userType==="CLIENT"){
-                post("employee/clients", body, (response)=>{
-                    this.props.history.push("/Admin/Users/")
+
+                post("employee/clients", body, (hexId) => {
+                    if (this.userNameIsNotTaken(hexId)) {
+                        if (this.state.selectedActorHexId !== "IC") {
+
+                            get('employee/publishers/addClient='+hexId+'/toPublisher='+this.state.selectedActorHexId, ()=> {
+                                this.displayConfirmation();
+                                this.props.history.push("/Admin/Users/")
+                            })  
+                        } else {
+                            this.displayConfirmation();
+                            this.props.history.push("/Admin/Users/")
+                        }
+                    }
                 });
             } else {
                 post("employee/publishers", body, (response)=>{
@@ -91,10 +104,31 @@ class CreateUser extends React.Component{
         }
     }
 
+    userNameIsNotTaken(hexId) {
+        if (hexId.match('taken')) {
+            window.alert("Username is already taken")
+            return false;
+        } else { 
+            return true;
+        }
+    }
+
+    displayConfirmation() {
+
+        let id = this.state.selectedActorHexId;
+        if (id === "IC") {
+            window.alert("Independent Client has been created");
+        } else {
+            window.alert("Client " + this.state.nickName +
+        " has been added under publisher " + this.state.publishers.find(x=> x.hexId === this.state.selectedActorHexId).nickName);
+        }
+    }
+
 
     setSelected = (e) =>{
-
+        console.log(e.target.value)
         if (e.target.value.toLowerCase() !== 'choose customer') {
+            
             this.setState({
                 selectedActorHexId:e.target.value,
                 selectedActorUserType:this.state.publishers.find(x=>x.hexId===e.target.value).userType.toUpperCase()
@@ -120,13 +154,13 @@ class CreateUser extends React.Component{
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="password">Password:</label>
                             </div>
-                            <input type="text" className="form-control" id="password" name="password" placeholder="Minimum 6 characters" onChange={this.onChange} required autoFocus/>
+                            <input type="password" className="form-control" id="password" name="password" placeholder="Minimum 6 characters" onChange={this.onChange} required autoFocus/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
                                 <label className="input-group-text" htmlFor="passwordRepeat">Repeat Password:</label>
                             </div>
-                            <input type="text" className="form-control" id="passwordRepeat" name="passwordRepeat" placeholder="Repeat typed password" onChange={this.onChange} required autoFocus/>
+                            <input type="password" className="form-control" id="passwordRepeat" name="passwordRepeat" placeholder="Repeat typed password" onChange={this.onChange} required autoFocus/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
