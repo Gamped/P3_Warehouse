@@ -8,8 +8,6 @@ import "../../Pages.css";
 import "./AdminProfile.css";
 import { getColumnsFromArray } from '../../../../handlers/columnsHandlers.js';
 
-let alert = require('./../../../../handlers/alertHandlers.js');
-
 class AdminProfile extends React.Component {
     constructor(props){
         super(props);
@@ -24,19 +22,21 @@ class AdminProfile extends React.Component {
         };
     }
    
-    componentDidMount(){this.getEmployees();}
+    componentDidMount() {
+    
+        this.getEmployees();
+    }
 
     setLoggedInUserData() {
-        console.log(this.props.userId);
-
+    
         const loggedInUser = this.state.employees.filter(employee => employee.hexId == this.props.userId);
-        console.log(loggedInUser);
-
         this.setState({userName: loggedInUser[0].userName, nickName: loggedInUser[0].nickname});
     }
 
     getEmployees() {
+
         get("employee/employees", (data) => {
+
             const employees = makeEmployeeData(data);
             this.setState({employees: employees});
             this.setLoggedInUserData();
@@ -46,12 +46,12 @@ class AdminProfile extends React.Component {
     deleteEmployee = (e) => {
         e.preventDefault();
 
-        console.log(this.state.selectedId);
         if (window.confirm("Do you wish to delete this employee from the system?")) {
             
             del("employee/delete/" + this.state.selectedId, (status) => {
-                console.log(status);
-                window.location.reload();
+                
+                const updatedList = this.state.employees.filter(x=>x.hexId !== this.state.selectedId);
+                this.setState({employees: updatedList})
             })
         } 
     }
