@@ -1,7 +1,7 @@
 import React from 'react';
 import "../../Pages.css";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { put } from "./../../../../handlers/requestHandlers";
 import { userProfileFieldsAreValidated } from "./../../../../handlers/fieldsValidator";
 
@@ -223,6 +223,7 @@ class UserProfileEdit extends React.Component {
 const mapStateToProps = (state) => {
 
     return {
+        auth: state.firebase.auth,
         user: state.profileReducer,
         userId: state.loginReducer.userId,
         userType: state.loginReducer.userType,

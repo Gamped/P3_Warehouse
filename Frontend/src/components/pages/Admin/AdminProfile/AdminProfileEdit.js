@@ -1,7 +1,7 @@
 import React from 'react';
 import "../../Pages.css";
 import "./AdminProfile.css";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import {put, get} from './../../../../handlers/requestHandlers.js'
 import {employeeProfileFieldsAreValidated} from './../../../../handlers/fieldsValidator.js';
@@ -65,6 +65,10 @@ class AdminProfileEdit extends React.Component {
     
     render(){
 
+        if(!this.props.auth.uid){
+            return <Redirect to="/"/>
+        }
+
         return(
             <div className="PageStyle customText_b">
                 <h1 className="text-center">Edit profile:</h1>
@@ -115,7 +119,10 @@ class AdminProfileEdit extends React.Component {
     
 const mapStateToProps = (state) => {
 
-    return {userId: state.loginReducer.userId}
+    return {
+        auth: state.firebase.auth,
+        userId: state.loginReducer.userId
+    }
 }
 
 export default connect(mapStateToProps)(AdminProfileEdit)

@@ -1,10 +1,12 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {get, post} from "../../../../handlers/requestHandlers";
 import Dropdown from "../../../MenuComponents/Dropdown/Dropdown";
 import {makeCustomerData} from './../../../../handlers/dataHandlers.js';
 import {customerProfileFieldsAreValidated} from './../../../../handlers/fieldsValidator';
 import { publisherNotSetOnClientProfileCreationWarning } from "../../../../handlers/exceptions";
+import {connect} from "react-redux";
+import {signUp} from "./../../../../redux/actions/authActions"
 
 class CreateUser extends React.Component{
     
@@ -139,6 +141,10 @@ class CreateUser extends React.Component{
     }
 
     render(){
+
+        if(!this.props.auth.uid){
+            return <Redirect to="/"/>
+        }
         return(
             <div className="PageStyle customText_b">
                 <h1 className="customText_b_big text-center">Create a new user</h1>
@@ -227,4 +233,16 @@ class CreateUser extends React.Component{
     }
 }
 
-export default CreateUser
+const mapStateToProps = (state) =>{
+    return{
+        auth: state.firebase.auth
+    }
+}
+
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        signUp: (payload) => dispatch(signUp(payload))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(CreateUser)

@@ -1,7 +1,8 @@
 import React from 'react';
 import "./Order.css";
 import ReactTable from 'react-table';
-import { connect } from "react-redux";
+import { connect} from "react-redux";
+import {Redirect} from "react-router-dom";
 import {makeProductsData} from '../../../handlers/dataHandlers.js';
 import {itemPreviouslyAddedWarning, userNotFoundWarning, amountIsNotANumberWarning, 
         amountExceedingQuantityWarning, amountIsZeroWarning, itemNotChosenWarning, 
@@ -262,6 +263,10 @@ class UserOrder extends React.Component {
 
     render(){
 
+        if(!this.props.auth.uid){
+            return <Redirect to="/"/>
+        }
+
         const data = this.state.products;
         const columns = getColumnsFromArray([
             "Product Id", 
@@ -336,6 +341,8 @@ class UserOrder extends React.Component {
 const mapStateToProps = (state)=>{
 
     return{
+        auth: state.firebase.auth,
+        profile: state.firebase.profile,
         userType: state.loginReducer.userType, 
         userId: state.loginReducer.userId
     }

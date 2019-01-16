@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactTable from 'react-table';
-import {connect} from "react-redux"
-
+import {connect} from "react-redux";
+import {Redirect} from "react-router-dom";
 import "../../Pages.css";
-import "./UserStock.css"
+import "./UserStock.css";
 import {get} from './../../../../handlers/requestHandlers.js';
 import {makeProductsData, makeCustomerProductsData} from './../../../../handlers/dataHandlers.js';
 import { getColumnsFromArray } from '../../../../handlers/columnsHandlers';
@@ -39,6 +39,10 @@ class UserStock extends React.Component {
 
     render(){
 
+        if(!this.props.auth.uid){
+            return <Redirect to="/"/>
+        }
+
         const columns = getColumnsFromArray(["Product Id", "Product Name", "Quantity", "Owner"]);
         
         return(
@@ -70,6 +74,7 @@ class UserStock extends React.Component {
 const mapStateToProps = (state) =>{
 
     return{
+        auth: state.firebase.auth,
         userId: state.loginReducer.userId,
         userType: state.loginReducer.userType
     }

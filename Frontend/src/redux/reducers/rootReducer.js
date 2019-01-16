@@ -1,10 +1,11 @@
-import { sessionReducer } from 'redux-react-session';
 import { combineReducers } from "redux";
 import loginReducer from "./loginReducer";
 import orderReducer from "./orderReducer";
 import addressReducer from "./addressReducer";
 import productReducer from "./productReducer";
 import profileReducer from "./profileReducer";
+import {firestoreReducer} from "redux-firestore";
+import {firebaseReducer} from "react-redux-firebase"
 
 
 export default combineReducers({
@@ -13,5 +14,6 @@ export default combineReducers({
     productReducer,
     loginReducer,
     orderReducer,
-    sessionReducer
+    firestore: firestoreReducer,
+    firebase: firebaseReducer
 })

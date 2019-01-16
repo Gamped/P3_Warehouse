@@ -2,6 +2,7 @@ import React from 'react';
 import "./Order.css";
 import "./Cart.css";
 import { connect } from "react-redux";
+import {Redirect} from "react-router-dom";
 
  class UserCartConfirm extends React.Component {
      
@@ -25,6 +26,10 @@ import { connect } from "react-redux";
     }
 
     render(){
+
+        if(!this.props.auth.uid){
+            return <Redirect to="/"/>
+        }
 
         const address = this.props.address;
         let lines = this.props.orderLines;
@@ -100,6 +105,7 @@ import { connect } from "react-redux";
 const mapStateToProps = (state)=>{
 
     return{
+        auth: state.firebase.auth,
         orderLines: state.orderReducer.orderLines,
         employeeUser:state.orderReducer.customer,
         address: state.addressReducer,

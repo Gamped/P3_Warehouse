@@ -6,6 +6,8 @@ import {makeCustomerData} from './../../../../handlers/dataHandlers.js';
 import {get, post} from './../../../../handlers/requestHandlers.js';
 import Dropdown from "../../../MenuComponents/Dropdown/Dropdown";
 import {newProductIsValid} from './../../../../handlers/fieldsValidator.js';
+import {connect} from "react-redux";
+import {createNewProduct} from "../../../../redux/actions/productActions";
 
 class NewWare extends Component {
 
@@ -124,4 +126,10 @@ class NewWare extends Component {
     }
 }
 
-export default NewWare;
+const mapDispatchToProps = (dispatch)=>{
+    return{
+        createProduct: (payload) => dispatch(createNewProduct(payload))
+    }
+}
+
+export default connect(null,mapDispatchToProps)(NewWare);

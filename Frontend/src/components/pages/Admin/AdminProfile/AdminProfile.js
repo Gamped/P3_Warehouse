@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactTable from 'react-table';
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {connect} from 'react-redux';
 import {get, del} from './../../../../handlers/requestHandlers.js'
 import {makeEmployeeData} from './../../../../handlers/dataHandlers'
@@ -67,6 +67,9 @@ class AdminProfile extends React.Component {
     }
 
     render() {
+        if(!this.props.auth.uid){
+            return <Redirect to="/"/>
+        }
 
         const employees = this.state.employees;
         const columns = getColumnsFromArray(["User Name", "Nick name"]);
@@ -112,6 +115,7 @@ class AdminProfile extends React.Component {
 const mapStateToProps = (state)=> {
 
     return{
+        auth: state.firebase.auth,
         userType: state.loginReducer.userType,
         userId: state.loginReducer.userId
     }

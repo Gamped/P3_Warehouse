@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import "../../Pages.css";
 import "./AdminStock.css";
 import {put} from './../../../../handlers/requestHandlers.js';
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 
 class Edit extends Component {
@@ -34,6 +34,10 @@ class Edit extends Component {
     }
 
     render(){
+
+        if(!this.props.auth.uid){
+            return <Redirect to="/"/>
+        }
 
         return( 
             <div className="PageStyle adminReduceFontSize customText_b ">
@@ -82,8 +86,10 @@ class Edit extends Component {
 }
 
 const mapStateToProps = (state) =>{
-
-    return{product:state.productReducer}
+    return{
+        auth:state.firebase.auth,
+        product:state.productReducer
+    }
 }
 
 export default connect(mapStateToProps)(Edit);

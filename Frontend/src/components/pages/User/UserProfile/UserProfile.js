@@ -1,7 +1,8 @@
 import React from 'react';
 import "../../Pages.css";
 import { connect } from "react-redux";
-import {get} from "./../../../../handlers/requestHandlers"
+import { Redirect } from "react-router-dom";
+import {get} from "./../../../../handlers/requestHandlers";
 
 class UserProfile extends React.Component{
     
@@ -63,6 +64,10 @@ class UserProfile extends React.Component{
 
     render(){
 
+        if(!this.props.auth.uid){
+            return <Redirect to="/"/>
+        }
+
         return(
             <div className="PageStyle customText_b">
                 <div className="frameBordering">
@@ -90,6 +95,7 @@ class UserProfile extends React.Component{
 const mapStateToProps = (state) => {
 
     return {
+        auth: state.firebase.auth,
         userID: state.loginReducer.userId,
         userType: state.loginReducer.userType
     }

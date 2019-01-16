@@ -1,21 +1,26 @@
 import React from 'react';
 import LandingPage from "../components/MenuComponents/LandingPage/LandingPage";
 import { connect } from "react-redux";
+import {Redirect} from "react-router-dom"
 
 class Home extends React.Component{
 
     render(){
 
+        if(!this.props.auth.uid){
+            return <Redirect to="/"/>
+        }
+
         let landingPageButtons = []
         
-        if(this.props.userType==="CLIENT"){
+        if(this.props.profile.userType==="client"){
 
             landingPageButtons = [
                 {name:"Order",location:"./User/Order",id:"1"},
                 {name:"Stock",location:"./User/Stock",id:"2"},
                 {name:"Profile",location:"./User/Profile",id:"3"}
             ]
-        } else if(this.props.userType === "PUBLISHER"){
+        } else if(this.props.profile.userType === "publisher"){
 
             landingPageButtons = [
                 {name:"Order",location:"./User/Order",id:"1"},
@@ -23,7 +28,7 @@ class Home extends React.Component{
                 {name:"Profile",location:"./User/Profile",id:"3"},
                 {name:"Clients",location:"./User/Clients",id:"4"},
             ]
-        } else if(this.props.userType === "EMPLOYEE"){
+        } else if(this.props.profile.userType === "employee"){
 
             landingPageButtons = [
                 {name:"Orders",location:"./Admin/Orders",id:"1"},
@@ -34,7 +39,7 @@ class Home extends React.Component{
     
         return ( 
             <div className="PageStyle">
-                <LandingPage buttons={landingPageButtons} name={this.props.name}/>
+                <LandingPage buttons={landingPageButtons} name={this.props.profile.name}/>
             </div>
         )
     }
@@ -43,8 +48,8 @@ class Home extends React.Component{
 const mapStateToProps = (state) =>{
 
     return {
-        name: state.loginReducer.userName,
-        userType: state.loginReducer.userType
+        profile: state.firebase.profile,
+        auth: state.firebase.auth
     }
 }
  

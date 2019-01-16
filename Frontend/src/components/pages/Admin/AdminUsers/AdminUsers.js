@@ -1,11 +1,12 @@
 import React,{Component} from 'react';
 import "./AdminUsers.css";
 import ReactTable from 'react-table';
-import {Link} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
 import {get, del, put} from "../../../../handlers/requestHandlers.js";
 import {makeCustomerData} from "../../../../handlers/dataHandlers";
+import {connect} from "react-redux";
 
-export default class AdminUsers extends Component {
+class AdminUsers extends Component {
     
     constructor(props) {
         super(props);
@@ -159,6 +160,10 @@ export default class AdminUsers extends Component {
     }
 
     render(){
+
+        if(!this.props.auth.uid){
+            return <Redirect to="/"/>
+        }
 
         let selectedCustomer = this.state.selectedCustomer;
         let columns = this.getColumns();
@@ -386,3 +391,11 @@ export default class AdminUsers extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) =>{
+    return{
+        auth: state.firebase.auth
+    }
+}
+
+export default connect(mapStateToProps)(AdminUsers)

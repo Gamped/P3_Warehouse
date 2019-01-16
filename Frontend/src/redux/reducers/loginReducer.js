@@ -1,22 +1,30 @@
-const initialState ={loggedIn:"False",
-userType:"",
-userName:"",
-userId:"",};
+const initialState ={error:null};
 
 const loginReducer = (state = initialState, action) => {
     
     switch(action.type){
-        case "SET_USERTYPE":
-        case "SET_USERNAME":
-        case "SET_USERID":
-        case "SET_LOGIN":
-            state = {...state, ...action.payload}
+
+        case "LOGIN_SUCCESS":
+            console.log("User was logged in.")
+            state = {...state,error:null};
             break;
-        case "LOGOUT":
-            state ={...state, userType: ""}
-            state ={...state, userName: ""}
-            state ={...state, userId: ""}
-            state ={...state, loggedIn: "False"} 
+        case "LOGIN_ERROR":
+            console.log("Error",action.error)
+            state = {...state,error:action.error.message};
+            break;
+        case "SIGNOUT_SUCCESS":
+            console.log("User was logged out")
+            break;
+        case "SIGNOUT_ERROR":
+            console.log("Error",action.error)
+            break;
+        case "SIGNUP_SUCCESS":
+            console.log("New User created")
+            state = {...state,error:null};
+            break;
+        case "SIGNUP_ERROR":
+            console.log("Error",action.error)
+            state = {...state,error:action.error.message};
             break;
         default:
     }  

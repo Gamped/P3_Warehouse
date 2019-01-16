@@ -3,6 +3,7 @@ import "./Order.css";
 import "./Cart.css";
 import { connect } from "react-redux";
 import {isOrderAddressValid} from './../../../handlers/fieldsValidator.js';
+import {Redirect} from "react-router-dom";
 
 class UserOrderCart extends React.Component {
 
@@ -72,6 +73,10 @@ class UserOrderCart extends React.Component {
 
     render(){
 
+        if(!this.props.auth.uid){
+            return <Redirect to="/"/>
+        }
+
         let lines = this.props.orderLines.orderLines;
 
         if(lines !== undefined){
@@ -132,6 +137,7 @@ class UserOrderCart extends React.Component {
 const mapStateToProps = (state)=>{
 
     return{
+        auth: state.firebase.auth,
         orderLines: state.orderReducer,
         userType: state.loginReducer.userType
     }
