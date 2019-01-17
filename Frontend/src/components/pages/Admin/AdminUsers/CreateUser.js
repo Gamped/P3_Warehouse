@@ -14,7 +14,7 @@ class CreateUser extends React.Component{
         super(props);
 
         this.state={
-            userType:"CLIENT",
+            userType:"client",
             userName:"",
             password:"",
             passwordRepeat:"",
@@ -24,11 +24,9 @@ class CreateUser extends React.Component{
                 nickName: "",
                 address: "",
                 city: "",
-                zip: "",
+                zipCode: "",
             
             publishers: [],
-            selectedActorHexId: "DEFAULT",
-            selectedActorUserType: "DEFAULT"
         }
     }
 
@@ -36,11 +34,13 @@ class CreateUser extends React.Component{
 
     getPublishers() {
 
-        get('employee/publishers', (data) => {
-            let publishers = makeCustomerData(data);
-            publishers.push({nickName:"Independent client",userType:"Create",hexId:"IC"})
-            this.setState({ publishers: publishers});
-       });
+
+        //TODO: gør listen af employees depedent på firebase
+
+       let publishers = [];
+       publishers.push({nickName:"Independent client",userType:"Create",hexId:"IC"});
+       this.setState({ publishers: publishers});
+       
     }
 
     onChange = (e) => {this.setState({[e.target.name]:e.target.value});}
@@ -55,64 +55,19 @@ class CreateUser extends React.Component{
 
     toggleUserType = () =>{
 
-        if(this.state.userType === "CLIENT"){
-            this.setState({userType:"PUBLISHER"});
+        if(this.state.userType === "client"){
+            this.setState({userType:"publisher"});
         } else {
-            this.setState({userType:"CLIENT"});
+            this.setState({userType:"client"});
         }
     }
 
     onSubmit=(e)=>{
         e.preventDefault();
-       
-        const fields = this.state;
-        if (customerProfileFieldsAreValidated(fields)) {
-
-            const body = {
-                userName:this.state.userName,
-                password:this.state.password,
-                userType:this.state.userType,
-                contactInformation:{
-                    nickName:this.state.nickName,
-                    email:this.state.email,
-                    phoneNumber:this.state.phoneNumber,
-                    address: this.state.address,
-                    city: this.state.city,
-                    zipCode:this.state.zip
-                }
-            }
-                   
-            if(this.state.userType==="CLIENT"){
-
-                post("employee/clients", body, (hexId) => {
-                    if (this.userNameIsNotTaken(hexId)) {
-                        if (this.state.selectedActorHexId !== "IC") {
-
-                            get('employee/publishers/addClient='+hexId+'/toPublisher='+this.state.selectedActorHexId, ()=> {
-                                this.displayConfirmation();
-                                this.props.history.push("/Admin/Users/")
-                            })  
-                        } else {
-                            this.displayConfirmation();
-                            this.props.history.push("/Admin/Users/")
-                        }
-                    }
-                });
-            } else {
-                post("employee/publishers", body, (response)=>{
-                    this.props.history.push("/Admin/Users/")
-                });
-            }
-        }
-    }
-
-    userNameIsNotTaken(hexId) {
-        if (hexId.match('taken')) {
-            window.alert("Username is already taken")
-            return false;
-        } else { 
-            return true;
-        }
+        this.props.signUp(this.state);
+        
+        window.alert("To ensure that the user has been created the right way you will now be logged in by that user.\n Please verify the information is correct.")
+        //Todo: Display confirmation or error
     }
 
     displayConfirmation() {
@@ -144,6 +99,8 @@ class CreateUser extends React.Component{
 
         if(!this.props.auth.uid){
             return <Redirect to="/"/>
+        }if(this.props.profile.userType !== "employee"){
+            return <Redirect to="/Home"/>
         }
         return(
             <div className="PageStyle customText_b">
@@ -152,9 +109,9 @@ class CreateUser extends React.Component{
                     <form onSubmit={this.onSubmit}>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="login">Login:</label>
+                                <label className="input-group-text" htmlFor="email">Email:</label>
                             </div>
-                            <input type="text" className="form-control" id="login" name="userName" placeholder="Username for Login" onChange={this.onChange} required autoFocus/>
+                            <input type="email" className="form-control" id="email" name="email" placeholder="Fx. example@example.com" onChange={this.onChange} required/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
@@ -173,12 +130,6 @@ class CreateUser extends React.Component{
                                 <label className="input-group-text" htmlFor="nickName">Name:</label>
                             </div>
                             <input type="text" className="form-control" id="nickName" name="nickName" placeholder="Name of the company" onChange={this.onChange} required/>
-                        </div>
-                        <div className="input-group my-3">
-                            <div className="input-group-prepend">
-                                <label className="input-group-text" htmlFor="email">Email:</label>
-                            </div>
-                            <input type="email" className="form-control" id="email" name="email" placeholder="Fx. example@example.com" onChange={this.onChange} required/>
                         </div>
                         <div className="input-group my-3">
                             <div className="input-group-prepend">
@@ -235,7 +186,8 @@ class CreateUser extends React.Component{
 
 const mapStateToProps = (state) =>{
     return{
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        profile: state.firebase.profile
     }
 }
 

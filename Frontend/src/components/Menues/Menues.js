@@ -53,7 +53,7 @@ class Header extends React.Component {
         }
 
         //This the title is put in the header. 
-        const name = this.props.profile.name
+        const name = this.props.profile.userType;
         const title= "4N: " + name + " menu" 
 
         //This is what we actually render.
