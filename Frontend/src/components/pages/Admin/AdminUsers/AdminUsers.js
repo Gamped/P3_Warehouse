@@ -5,6 +5,8 @@ import {Link, Redirect} from "react-router-dom";
 import {get, del, put} from "../../../../handlers/requestHandlers.js";
 import {makeCustomerData} from "../../../../handlers/dataHandlers";
 import {connect} from "react-redux";
+import {firestoreConnect} from "react-redux-firebase";
+import {compose} from "redux";
 
 class AdminUsers extends Component {
     
@@ -12,6 +14,7 @@ class AdminUsers extends Component {
         super(props);
 
         this.state = {
+            rawData:this.props.data,
             customers: [],
             selectedCustomer: [],
             selected: null,
@@ -20,40 +23,48 @@ class AdminUsers extends Component {
         };
     }
 
-    componentDidMount() {
-
-       this.getClients();
-       this.getPublishers();      
+    componentDidMount=()=>{
+        this.setState({customers:this.makeData(this.props.data)})
     }
 
-    getClients() {
+    makeData(data){
 
-        get('employee/clients', (data) => {
-            const clients = makeCustomerData(data);
-            this.concatinateWithNewData(clients);
-        });
-    }
+        console.log("Data",data)
 
-    getPublishers() {
+        if(!(data === undefined||data===null)){
 
-       get('employee/publishers', (data) => {
-            const publishers = makeCustomerData(data);
-            this.concatinateWithNewData(publishers);
-        });
-    }
+            let customers = [];
+            data.forEach(customer=>{
+                console.log("Customer",customer)
+                if(customer.userType !== "employee"){
+                    let userType = customer.userType.charAt(0).toUpperCase() + customer.userType.slice(1);
+                    
+                    //TODO indsæt at man får fat i customers for publishers.
 
-    concatinateWithNewData(newData) {
-
-        const customersCopy = this.state.customers;
-        let concatinatedData = customersCopy.concat(newData);
-        this.setState({ customers: concatinatedData });
+                    customers.push({
+                        userType: customer.userType,
+                        password: customer.password,
+                        id: customer.id,
+                        name: customer.name,
+                        email: customer.contactInformation.email,
+                        phoneNumber: customer.contactInformation.phoneNumber,
+                        address: customer.contactInformation.address,
+                        zipCode: customer.contactInformation.zipCode,
+                        city: customer.contactInformation.city              
+                    })
+                }
+            })
+            return(customers) 
+        }else{
+            return undefined;
+        }
     }
     
     getColumns = () => {
 
         return [{
             Header: "Customer",
-            accessor: "nickName"
+            accessor: "name"
             }, {Header: "User Type", accessor: "userType"}]    
     }
 
@@ -63,6 +74,12 @@ class AdminUsers extends Component {
     }
 
     onSubmit = () => {
+
+        //TODO: Lav update af email https://firebase.google.com/docs/reference/js/firebase.User#updateEmail
+
+        /*
+
+        */
 
         if(this.state.changed.password===this.state.changed.confirmedNewPassword){
             const usertype= this.state.selectedCustomer.userType.toLowerCase();
@@ -161,6 +178,10 @@ class AdminUsers extends Component {
 
     render(){
 
+        console.log("Firestore",this.props.data)
+        
+        const customers = this.makeData(this.props.data);
+
         if(!this.props.auth.uid){
             return <Redirect to="/"/>
         }
@@ -175,7 +196,7 @@ class AdminUsers extends Component {
                         <div className="SelectionBar col sidebar">
                             <div className="border border-light  bg-info">
                                 <ReactTable 
-                                data={this.state.customers}
+                                data={customers}
                                 columns={columns} 
                                 showPagination={false} 
                                 className="noBlueTable -striped -highlight" 
@@ -184,8 +205,8 @@ class AdminUsers extends Component {
                                     return {
                                         onClick: (e) => {
                                             this.setState({selected: rowInfo.index, 
-                                                selectedId: rowInfo.original.hexId,
-                                                selectedCustomer: this.state.customers[rowInfo.index] });
+                                                selectedId: rowInfo.original.id,
+                                                selectedCustomer: customers[rowInfo.index] });
                                             
                                         },
                                         style: {
@@ -221,26 +242,9 @@ class AdminUsers extends Component {
                                                     id="nickName" 
                                                     className="form-control" 
                                                     type="text"
-                                                    defaultValue={selectedCustomer.nickName}
+                                                    defaultValue={selectedCustomer.name}
                                                     name="nickName"                                        
                                                     required/>
-                                        </div>
-                                        <div className="input-group mb-2">
-                                            <div className="input-group-prepend">
-                                                <label htmlFor="userNameInput" 
-                                                    className="input-group-text" 
-                                                    id="userNameLabel">
-                                                    Username
-                                                </label>
-                                            </div>
-                                            <input
-                                                onChange={this.onChange}
-                                                id="userNameInput" 
-                                                className="form-control" 
-                                                type="text"
-                                                defaultValue={selectedCustomer.userName}
-                                                name="userName"                                        
-                                                required/>
                                         </div>
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
@@ -328,55 +332,22 @@ class AdminUsers extends Component {
                                                 required/>
                                         </div>
                                         
-                                        <h4 className="text-center">Change password:</h4>
+                                        <div className="col my-2">
+                                            <button type="button" onClick={()=>{}} className="btn rounded btn-block btn-warning">Send password reset to email</button>
+                                        </div>
                                         
-                                        <div className="input-group mb-2">
-                                            <div className="input-group-prepend">
-                                                <label htmlFor="newPassword" 
-                                                    className="input-group-text" 
-                                                    id="passwordLabel">
-                                                    New Password
-                                                </label>
-                                            </div>
-                                            <input 
-                                                onChange={this.onChange}
-                                                id="newPassword"
-                                                className="form-control" 
-                                                type="password"
-                                                name="password"                                        
-                                                />
-                                        </div>
-                                        <div className="input-group mb-2">
-                                            <div className="input-group-prepend">
-                                                <label htmlFor="confirmedPassword" 
-                                                    className="input-group-text" 
-                                                    id="confirmedLabel">
-                                                    Repeat Password
-                                                </label>
-                                            </div>
-                                                 <input
-                                                    onChange={this.onChange}
-                                                    id="confirmedPassword" 
-                                                    className="form-control" 
-                                                    type="password"
-                                                    placeholder="Retype new password"
-                                                    name="confirmedNewPassword"                                        
-                                                />
-                                                
-                                        </div>
                                         <div className="container row">
-                                    <div className="col my-2">
-                                        <Link to="/Admin/Users/Create" className="btn adminUserBtn green_BTN">Create new user</Link>
-                                    </div>
-                                    <div className="col my-2">
-
-                                        <button type="submit" className="btn adminUserBtn yellow_BTN">Confirm edit</button>
-                                    </div>
-                                    <div className="col my-2">
-                                        <button type="button" onClick={this.onDelete} className="btn adminUserBtn red_BTN">Delete this user</button>
-                                    </div>
+                                            <div className="col my-2">
+                                                <Link to="/Admin/Users/Create" type="button" className="btn btn-block btn-success rounded">Create new user</Link>
+                                            </div>
+                                            <div className="col my-2">
+                                                <button type="submit" className="btn btn-block btn-warning">Confirm edit</button>
+                                            </div>
+                                            <div className="col my-2">
+                                                <button type="button" onClick={this.onDelete} className="btn adminUserBtn red_BTN">Delete this user</button>
+                                            </div>
                                    
-                                </div>
+                                        </div>
                                         </form>
                                     </div>
                                 
@@ -393,9 +364,16 @@ class AdminUsers extends Component {
 }
 
 const mapStateToProps = (state) =>{
+    console.log(state)
     return{
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        data: state.firestore.ordered.users
     }
 }
 
-export default connect(mapStateToProps)(AdminUsers)
+export default compose(
+    connect(mapStateToProps),
+    firestoreConnect([
+        {collection: "users"}
+    ])
+)(AdminUsers)

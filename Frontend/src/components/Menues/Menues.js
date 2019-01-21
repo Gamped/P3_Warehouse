@@ -84,7 +84,6 @@ class Header extends React.Component {
 
 //REDUX This takes the redux state and maps it to the props.
 const mapStateToProps = (state)=>{
-console.log(state)
     return{
         auth: state.firebase.auth,
         profile: state.firebase.profile

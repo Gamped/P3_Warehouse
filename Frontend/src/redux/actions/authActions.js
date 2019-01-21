@@ -41,7 +41,7 @@ export const signUp = (payload) =>{
                     phoneNumber:payload.phoneNumber,
                     address: payload.address,
                     city: payload.city,
-                    zipCode:payload.zip
+                    zipCode:payload.zipCode
                 }
             })
         }).then(()=>{
@@ -70,6 +70,20 @@ export const signUpEmployee = (payload) =>{
             dispatch({type:"SIGNUP_SUCCESS"})
         }).catch(error =>{
             dispatch({type:"SIGNUP_ERROR",error})
+        })
+    }
+}
+
+export const updateUserProfile = (payload) =>{
+    return(dispatch, getstate, {getFirebase,getFirestore}) =>{
+        const firestore = getFirestore();
+
+        firestore.collection("users").doc(payload.id).set({
+            name:payload.name,
+            contactInformation:{
+                email:payload.email,
+                
+            }
         })
     }
 }

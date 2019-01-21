@@ -1,25 +1,31 @@
 const initialState ={
     id: "", 
     quantity:"", 
-    name:"", 
+    name:"",
+    owner: null 
 };
 
 const loginReducer = (state = initialState, action) => {
     
     switch(action.type){
-        case "SET_PRODUCT_ID":
-        case "SET_PRODCUT_QUANTITY":
-        case "SET_PRODUCT_NAME":
-            state = {...state, ...action.payload}                
+        case "PRODUCT_UPDATED":
+            console.log("Product Updated")
             break;
-        case "DELETE_ADRESS":
-            state ={...state, initialState} 
+        case "PRODUCT_UPDATED_ERROR":
+            console.log("Error",action.error.message);
             break;
         case "CREATE_PRODUCT":
             console.log("Product was created",action);
             break;
         case "CREATE_PRODCUT_ERROR":
-            console.log("ERROR:", action.error)
+            console.log("ERROR:", action.error.message);
+            break;
+        case "PRODUCT_DELETED_SUCCESS":
+            console.log("Product deleted");
+            break;
+        case "PRODUCT_DELETED_ERROR":
+            console.log("Error",action.error.message);
+            break;
         default:
     }  
     return state
