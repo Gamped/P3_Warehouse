@@ -87,3 +87,31 @@ export const updateUserProfile = (payload) =>{
         })
     }
 }
+
+export const deleteUser = (payload) =>{
+    return(dispatch, getState, {getFirebase,getFirestore}) =>{
+        const firestore = getFirestore();
+        const firebase = getFirebase();
+        const user = firebase.auth()
+        //Todo: Fix så at du kan logge ind på brugeren.
+        user.delete().then(
+            firestore.collection("users").doc(payload.id).delete()
+        ).then(
+            dispatch({type:"DELETION_SUCCESS"})
+        ).catch((error)=>{
+            dispatch({type:"DELETION_ERROR",error})
+        })
+    }
+}
+
+
+export const sendPasswordReset = (payload) =>{
+    return(dispatch, getstate,{getFirebase}) =>{
+        var user = firebase.auth().currentUser;
+        user.sendEmailVerification().then(function() {
+        // Email sent.
+        }).catch(function(error) {
+        // An error happened.
+});
+    }
+}
