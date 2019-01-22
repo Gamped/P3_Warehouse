@@ -42,6 +42,7 @@ public class EmployeeController {
         ObjectId id = new ObjectId();
         Employee employee = new Employee(id);
         BeanUtils.copyProperties(restEmployeeModel, employee);
+
         if(employee.isValid()) {
             employee.setUserType(UserType.EMPLOYEE);
             if(userRepository.findAll().stream().noneMatch(x -> x.getUserName().equals(employee.getUserName()))) {

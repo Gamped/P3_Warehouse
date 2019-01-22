@@ -42,6 +42,25 @@ public class EmployeeRepositoryTest {
         assertEquals(emp.getId(), retrievedEmployee.getId());
     }
 
+    @Test
+    public void testFindInformation() {
+
+        Employee emp = makeEmployee();
+
+        employeeRepository.save(emp);
+        Employee retrievedEmployee = employeeRepository.findById(emp.getId()).orElse(null);
+        assertEquals(emp.getNickname(), retrievedEmployee.getNickname());
+    }
+
+    @Test
+    public void testFindEmployeeByNickName() {
+
+        Employee emp = makeEmployee();
+
+        employeeRepository.save(emp);
+        Employee retrievedEmployee = employeeRepository.findByNickname(emp.getNickname());
+        assertEquals(emp.getHexId(), retrievedEmployee.getHexId());
+    }
 
     @Test
     public void findAllEmployees() {

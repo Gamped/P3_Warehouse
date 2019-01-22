@@ -9,7 +9,7 @@ public class Employee extends User {
 
     @Id
     private ObjectId id;
-    private ContactInformation contactInformation;
+    private String nickname;
     private String hexId;
 
     public Employee(ObjectId id){
@@ -19,13 +19,9 @@ public class Employee extends User {
         this.hexId = this.id.toHexString();
     }
 
-    public ContactInformation getContactInformation() {
-        return contactInformation;
-    }
+    public String getNickname() {return nickname;}
 
-    public void setContactInformation(ContactInformation contactInformation) {
-        this.contactInformation = contactInformation;
-    }
+    public void setNickname(String nickname) {this.nickname = nickname;}
 
     public String getHexId() {return hexId;}
 }
