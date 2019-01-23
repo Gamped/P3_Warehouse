@@ -41,7 +41,7 @@ class UserOrderCart extends React.Component {
         this.props.setCompany(this.state.company)
         this.props.setContactPerson(this.state.contact)
         this.props.setPhoneNumber(this.state.phone)
-        this.props.setZip(this.state.zip)
+        this.props.setZip(this.state.zipCode)
         this.props.setCity(this.state.city)
         this.props.setCountry(this.state.country)
 

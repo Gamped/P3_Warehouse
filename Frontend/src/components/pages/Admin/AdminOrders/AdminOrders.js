@@ -53,9 +53,9 @@ class AdminOrders extends Component {
     }
 
     toggleRow(productName) {
+        const value = !this.state.packed[productName]
+        const packedItem = {...this.state.packed,[productName]:value}
 
-		const packedItem = Object.assign({}, this.state.packed);
-		packedItem[productName] = !this.state.packed[productName];
         this.setState({
 			packed: packedItem,
 			selectAll: 2
@@ -115,11 +115,21 @@ class AdminOrders extends Component {
 
     sendToPage = (address) => {this.props.history.push(address);}
 
+    checkCheckerHandler = () =>{
+        const obj = this.state.packed;
+        for(let o in obj){
+            if(!obj[o]){
+                return false;
+            } 
+        }
+        return true;
+    }
+
     finishOrder = (e) => { 
         e.preventDefault()
 
         let allPacked = this.state.allPacked;
-        if (allPacked === 1) {
+        if (allPacked === 1 || this.checkCheckerHandler()) {
             del("orders/delete/" + this.state.selectedId, (response) => {
                 orderNotePDF(this.state.orders[this.state.selected])
                 let newOrders = this.state.orders.filter(item=>item.hexId!==this.state.selectedId)
