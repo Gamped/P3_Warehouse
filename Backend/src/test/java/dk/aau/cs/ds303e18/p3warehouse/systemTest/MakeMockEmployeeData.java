@@ -10,9 +10,9 @@ public class MakeMockEmployeeData {
 
         Employee employee = new Employee(new ObjectId());
         employee.setUserType(UserType.EMPLOYEE);
-        employee.setUserName("mads");
-        employee.setNickname("Mads");
-        employee.setPassword("5686");
+        employee.setUserName("admin");
+        employee.setNickname("Laurits");
+        employee.setPassword("admin");
 
         return employee;
     }

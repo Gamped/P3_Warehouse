@@ -22,8 +22,8 @@ public class MakeMockClientData {
 
         client.setContactInformation(contactInformation);
         client.setUserType(UserType.CLIENT);
-        client.setUserName("karin");
-        client.setPassword("246");
+        client.setUserName("client");
+        client.setPassword("client");
 
         return client;
     }

@@ -11,6 +11,7 @@ public class Employee extends User {
     private ObjectId id;
     private String nickname;
     private String hexId;
+    private ContactInformation contactInformation;
 
     public Employee(ObjectId id){
 
@@ -24,4 +25,11 @@ public class Employee extends User {
     public void setNickname(String nickname) {this.nickname = nickname;}
 
     public String getHexId() {return hexId;}
+
+    public ContactInformation getContactInformation(){
+        return contactInformation;
+    }
+    public void setContactInformation(ContactInformation contactInformation){
+        this.contactInformation = contactInformation;
+    }
 }
