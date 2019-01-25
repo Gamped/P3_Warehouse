@@ -3,10 +3,7 @@ import "../../Pages.css";
 import "./AdminProfile.css";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
-import {put, get} from './../../../../handlers/requestHandlers.js'
-import {employeeProfileFieldsAreValidated} from './../../../../handlers/fieldsValidator.js';
-
-//TODO: Passwords has to match
+import { updateCurrentEmployeeEmail, updateCurrentUserName } from "./../../../../redux/actions/authActions";
 
 class AdminProfileEdit extends React.Component {
 
@@ -15,101 +12,82 @@ class AdminProfileEdit extends React.Component {
         
         this.state = {
             userId: this.props.userId,
-            nickName: "",
-            userName: "",
-            passwordRepeat: "",
-            password: ""
+            name:null,
+            email:null,
         };
-    }
-
-    componentDidMount() {this.getEmployeeData();}
-
-    getEmployeeData() {
-
-        get("employee/employee/" + this.props.match.params.id, (data) => {
-            this.setState({
-                nickName: data.nickname,
-                userName: data.userName });
-        });
     }
 
     confirmed = (event) =>{
         event.preventDefault();
-
-        const fields = this.state;
-    
-        if (employeeProfileFieldsAreValidated(fields)) {
-            const body = this.makeBody();
-
-            put("employee/edit/" + this.props.match.params.id, body, (res)=>{
-                this.props.history.push("/Admin/Profile")
-            });
+        const {name,email} = this.state;
+        if(name !== null){
+            if(email !== null){
+                this.props.updateName({name:name})
+                this.props.updateEmail({email:email})    
+            }else(
+                this.props.updateName({name:name})
+            )
+        }else if(email !== null){
+            this.props.updateEmail({email:email})
+        }else{
+            alert("Nothing was changed")
         }
     }
-
-    makeBody() {
-
-        let body = {};
-        body.userName = this.state.userName;
-        body.nickname = this.state.nickName;
-
-        if (this.passwordSet()) {
-            body.password = this.state.password;
-        } 
-        return body;
-    }
-
-    passwordSet() {return this.state.password && this.state.passwordRepeat;}
 
     onChange = (e) => {this.setState({[e.target.name]: e.target.value});}
     
     render(){
 
-        if(!this.props.auth.uid){
+        if((!this.props.auth.uid)||(this.props.profile.userType !=="employee")){
             return <Redirect to="/"/>
         }
 
+        const {name,email} = this.props.profile;
+        const error = this.props.error;
+
         return(
-            <div className="PageStyle customText_b">
+            <div className="PageStyle">
                 <h1 className="text-center">Edit profile:</h1>
                 <div className="row">
                     <div className ="col-md-4 offset-md-4">
+                        {error ? <p className="text-danger text-center">{error}</p>:null}
                         <form>
-                            <input 
-                                type="text" 
-                                name="userName"
-                                className="my-2 form-control"
-                                defaultValue={this.state.userName} 
-                                onChange={this.onChange}
-                                placeholder="Name"/>
-
-                            <input 
-                                type="text" 
-                                name="nickName"
-                                className="my-2 form-control"
-                                defaultValue={this.state.nickName} 
-                                onChange={this.onChange}
-                                placeholder="Name"/>
+                        <div className="row">
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" htmlFor="" id="basic-addon1">Name</span>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    name="name"
+                                    className="form-control"
+                                    defaultValue={name} 
+                                    onChange={this.onChange}
+                                    placeholder="Name"/>
+                            </div>
+                        </div>
                                 
-                            <input
-                                type="password" 
-                                name="password"
-                                className="my-2 form-control"
-                                onChange={this.onChange}
-                                placeholder="New password"/>
-                                
-                            <input
-                                type="password" 
-                                name="passwordRepeat"
-                                className="my-2 form-control" 
-                                onChange={this.onChange}
-                                placeholder="New password repeat"/>      
-                        </form>
+                        <div className="row">
+                            <div className="input-group mb-3">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" htmlFor="" id="basic-addon1">Email</span>
+                                </div>
+                                <input 
+                                    type="email" 
+                                    placeholder="Email" 
+                                    name="email" 
+                                    className="form-control" 
+                                    aria-label="Email" 
+                                    defaultValue={email}
+                                    onChange={this.onChange} 
+                                    aria-describedby="basic-addon1"/>
+                            </div>
+                        </div>
+        
 
-                        <form className="newForm stockForm">
-                            <button className="yellow_BTN btn-lg btn-block btn my-2" onClick={this.confirmed}>Save profile</button>
+                            <button className="btn-warning btn-lg btn-block btn my-2" onClick={this.confirmed}>Save profile</button>
                         </form>
-                        <Link to="/Admin/Profile" className="std_BTN btn-lg btn-block btn my-2">Back</Link>
+                        <Link to="/Admin/Profile" role="button" className="btn-secondary btn-lg btn-block btn my-2">Back</Link>
                     </div>
                 </div>
             </div>
@@ -121,8 +99,16 @@ const mapStateToProps = (state) => {
 
     return {
         auth: state.firebase.auth,
-        userId: state.loginReducer.userId
+        profile: state.firebase.profile,
+        error: state.loginReducer.error
     }
 }
 
-export default connect(mapStateToProps)(AdminProfileEdit)
+const mapDispatchToProps = (dispatch) =>{
+    return {
+        updateEmail: (payload) => dispatch(updateCurrentEmployeeEmail(payload)),
+        updateName: (payload) => dispatch(updateCurrentUserName(payload))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AdminProfileEdit)

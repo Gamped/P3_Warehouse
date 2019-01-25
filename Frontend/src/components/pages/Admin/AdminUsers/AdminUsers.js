@@ -29,13 +29,10 @@ class AdminUsers extends Component {
 
     makeData(data){
 
-        console.log("Data",data)
-
         if(!(data === undefined||data===null)){
 
             let customers = [];
             data.forEach(customer=>{
-                console.log("Customer",customer)
                 if(customer.userType !== "employee"){
                     let userType = customer.userType.charAt(0).toUpperCase() + customer.userType.slice(1);
                     
@@ -43,7 +40,6 @@ class AdminUsers extends Component {
 
                     customers.push({
                         userType: customer.userType,
-                        password: customer.password,
                         id: customer.id,
                         name: customer.name,
                         email: customer.contactInformation.email,
@@ -75,12 +71,6 @@ class AdminUsers extends Component {
 
     onSubmit = () => {
 
-        //TODO: Lav update af email https://firebase.google.com/docs/reference/js/firebase.User#updateEmail
-
-        /*
-
-        */
-
         if(this.state.changed.password===this.state.changed.confirmedNewPassword){
             const usertype= this.state.selectedCustomer.userType.toLowerCase();
 
@@ -93,7 +83,7 @@ class AdminUsers extends Component {
                 })
                 newState={...this.state.selectedCustomer,...newState}
                 const body = {
-                    userName:newState.userName,
+                    userName:newState.userName?newState.userName:null,
                     password:newState.password,
                     userType:newState.userType,
                     contactInformation:{
@@ -102,98 +92,43 @@ class AdminUsers extends Component {
                         phoneNumber:newState.phoneNumber,
                         city: newState.city,
                         address: newState.address,
-                        zipCode: newState.zipCode
+                        zipCode: newState.zipCode,
+                        country: newState.country
                         }
                     }
 
-            if(usertype==="publisher"){
-                put("publishers/"+this.state.selectedCustomer.hexId,body,(respondse)=>{
-                    let customers = this.state.customers.filter(customer =>{
-                        return this.state.selectedId !== customer.hexId
-                    })
-                    let selectCustomer = this.state.customers.filter(customer =>{
-                        return this.state.selectedId === customer.hexId
-                    })
-                    selectCustomer[0]=body;
-                    const finalCustomers = [...customers,...selectCustomer];
-                    this.setState({
-                        customers:finalCustomers
-                        
-                    })
-                    this.props.history.push("/Admin/Users/Push")
-                })
-            } else if(usertype==="client") {
-                put("clients/"+this.state.selectedCustomer.hexId,body,(respondse)=>{
-                    let customers = this.state.customers.filter(customer =>{
-                        return this.state.selectedId !== customer.hexId
-                    })
-                    let selectCustomer = this.state.customers.filter(customer =>{
-                        return this.state.selectedId === customer.hexId
-                    })
-                    selectCustomer[0]=body;
-                    const finalCustomers = [...customers,...selectCustomer];
-                    this.setState({
-                        customers:finalCustomers
-                    })
-                    this.props.history.push("/Admin/Users/Push")
-                })
+           
             } else {alert("Nothing chosen")}
-        } else {alert("Passwords not the same. If you do not wish to change passwords, leave both fields empty.")}
     }
  
     onDelete = () => {
         
         const selectedId = this.state.selectedId;
 
-        if (!selectedId) {
-            window.alert("Select a customer before deleting");
-        } else {
-            const usertype= this.state.selectedCustomer.userType.toLowerCase();
-            
-            if (usertype === "publisher"){
-            
-                del("employee/publishers/delete/" + selectedId,(res)=>{
-                let customers = this.state.customers.filter(customer =>{
-                    return selectedId !== customer.hexId
-                })
-                this.setState({
-                    customers:customers
-                })
-            });
-        } else if(usertype==="client") {
-            del("employee/clients/delete/" + selectedId,(res)=>{
-                let customers = this.state.customers.filter(customer =>{
-                    return selectedId !== customer.hexId
-                })
-                this.setState({
-                    customers:customers
-                })
-            });
+        if (selectedId) {
+            window.alert("Please contact support or use the Firebase console to delete users")
         } else { 
             window.alert("Nothing chosen")
         }
-        }
-        
     }
 
     render(){
-
-        console.log("Firestore",this.props.data)
         
-        const customers = this.makeData(this.props.data);
 
-        if(!this.props.auth.uid){
+        if((!this.props.auth.uid) || (this.props.profile.userType !== "employee")){
             return <Redirect to="/"/>
         }
+
+        const customers = this.makeData(this.props.data);
 
         let selectedCustomer = this.state.selectedCustomer;
         let columns = this.getColumns();
 
         return(
-            <div className="PageStyle customText_b">
-                <div className="frameBordering userPageStyle">
+            <div className="PageStyle">
+                <div className="">
                     <div className="container row">
-                        <div className="SelectionBar col sidebar">
+                        <div className="col-md-6">
                             <div className="border border-light  bg-info">
                                 <ReactTable 
                                 data={customers}
@@ -223,7 +158,7 @@ class AdminUsers extends Component {
                             </div>
                         </div>
                      
-                        <div className="ContentBar  col-sm text-center">
+                        <div className="col-md-6">
                            <div className="container col">
                                 <div className="container col">
                                     <div className="row">
@@ -254,14 +189,7 @@ class AdminUsers extends Component {
                                                     Email
                                                 </label>
                                             </div>
-                                            <input
-                                                onChange={this.onChange}
-                                                id="email" 
-                                                className="form-control" 
-                                                type="email"
-                                                defaultValue={selectedCustomer.email}
-                                                name="email"                                        
-                                                required />
+                                            <span className="form-control"> {selectedCustomer.email} </span>
                                         </div>
                                         <div className="input-group mb-2">
                                             <div className="input-group-prepend">
@@ -336,18 +264,17 @@ class AdminUsers extends Component {
                                             <button type="button" onClick={()=>{}} className="btn rounded btn-block btn-warning">Send password reset to email</button>
                                         </div>
                                         
-                                        <div className="container row">
+                                        <div className="row">
                                             <div className="col my-2">
-                                                <Link to="/Admin/Users/Create" type="button" className="btn btn-block btn-success rounded">Create new user</Link>
+                                                <Link to="/Admin/Users/Create" role="button" className="btn btn-block btn-success rounded">Create new user</Link>
                                             </div>
                                             <div className="col my-2">
                                                 <button type="submit" className="btn btn-block btn-warning">Confirm edit</button>
                                             </div>
-                                            <div className="col my-2">
-                                                <button type="button" onClick={this.onDelete} className="btn adminUserBtn red_BTN">Delete this user</button>
-                                            </div>
-                                   
                                         </div>
+                                            <div className="col my-4">
+                                                <button type="button" onClick={this.onDelete} className="btn btn-block btn-danger">Delete this user</button>
+                                            </div>
                                         </form>
                                     </div>
                                 
@@ -366,6 +293,7 @@ class AdminUsers extends Component {
 const mapStateToProps = (state) =>{
     console.log(state)
     return{
+        profile: state.firebase.profile,
         auth: state.firebase.auth,
         data: state.firestore.ordered.users
     }

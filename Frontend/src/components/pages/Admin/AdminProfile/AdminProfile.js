@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactTable from 'react-table';
 import {Link, Redirect} from "react-router-dom";
 import {connect} from 'react-redux';
-import {get, del} from './../../../../handlers/requestHandlers.js'
-import {makeEmployeeData} from './../../../../handlers/dataHandlers'
 import "../../Pages.css";
 import "./AdminProfile.css";
 import { getColumnsFromArray } from '../../../../handlers/columnsHandlers.js';
+import {compose} from "redux";
+import {firestoreConnect} from "react-redux-firebase";
+import {deleteCurrentUser} from "./../../../../redux/actions/authActions";
 
 class AdminProfile extends React.Component {
 
@@ -23,89 +23,72 @@ class AdminProfile extends React.Component {
             selectedId: ""
         };
     }
-   
-    componentDidMount() {
-    
-        this.getEmployees();
+
+    ///makeEmployeeData(data)
+    makeEmployeeData(data) {
+        if(!(data === undefined||data===null)){
+
+            let employees = [];            
+        
+            data.forEach((employee) => {
+                if(employee.userType === "employee" && employee.id !== this.props.auth.uid){
+                    employees.push({
+                        email: employee.email,
+                        name: employee.name,
+                        id: employee.id
+                    })
+                }
+            })
+            return employees;
+        }
+        return undefined
     }
 
-    setLoggedInUserData() {
-    
-        const loggedInUser = this.state.employees.filter(employee => employee.hexId == this.props.userId);
-        this.setState({userName: loggedInUser[0].userName, nickName: loggedInUser[0].nickname});
-    }
-
-    getEmployees() {
-
-        get("employee/employees", (data) => {
-            const employees = makeEmployeeData(data);
-            this.setState({employees: employees});
-            this.setLoggedInUserData();
-        });  
-    }
 
     deleteEmployee = (e) => {
         e.preventDefault();
 
         if (window.confirm("Do you wish to delete this employee from the system?")) {
-            
-            del("employee/delete/" + this.state.selectedId, (status) => {
-                
-                const updatedList = this.state.employees.filter(x=>x.hexId !== this.state.selectedId);
-                this.setState({employees: updatedList})
-            })
+            this.props.delete();
         } 
     }
 
-    sendToEdit = () =>{
-
-        if(this.state.selectedId === ""){
-            window.alert("Please choose a profile to edit.")
-        } else {
-            this.props.history.push(`/Admin/Profile/Edit/${this.state.selectedId}`)
-        }
-    }
-
     render() {
-        if(!this.props.auth.uid){
+
+        if((!this.props.auth.uid)||(this.props.profile.userType !== "employee")){
             return <Redirect to="/"/>
         }
 
-        const employees = this.state.employees;
-        const columns = getColumnsFromArray(["User Name", "Nick name"]);
+        const employees = this.makeEmployeeData(this.props.data);
+        const columns = getColumnsFromArray(["Name","Email"]);
 
         return(
-            <div className="PageStyle customText_b"> 
-                <h1 className="title customText_b_big">Profile information</h1>
-                <div className="informationBox">
-                    <h1 className="lead"><strong>Other employees: {this.state.userName}</strong></h1>
-                    <ReactTable
-                        data={employees} 
-                        columns={columns} 
-                        showPagination={false} 
-                        className="-striped -highlight"
-                        getTrProps={(state, rowInfo) => {
-                            if (rowInfo && rowInfo.row) {
-                                return {
-                                    onClick: (e) => {
-                                        
-                                    this.setState({selected: rowInfo.index, selectedId: rowInfo.original.hexId })
-                                    },
-                                    style: {
-                                    background: rowInfo.index === this.state.selected ? '#00afec' : 'white',
-                                    color: rowInfo.index === this.state.selected ? 'white' : 'black'
-                                    }
-                                }
-                                }else{
-                                return {}
-                                }
-                            }}
-                        style={{height: "50vh"}}
-                    />
-                   
-                    <Link to="/Admin/Profile/AddEmployee" className="green_BTN btn my-2 mx-2">Add employee</Link>
-                    <button onClick={this.sendToEdit} className="yellow_BTN btn my-2 mx-2">Edit employee</button>
-                    <div className="red_BTN btn my-2 mx-2" onClick={this.deleteEmployee}>Remove employee</div>
+            <div className="PageStyle"> 
+                <div className="col-md-6 offset-md-3">
+                    <div className="row">
+                        <h1 className="">Profile information</h1>
+                    </div>
+                    <div className="row">
+                        <div className="input-group mb-3">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" htmlFor="" id="basic-addon1">Name</span>
+                            </div>
+                            <span className="form-control" aria-label="Name" aria-describedby="basic-addon1">{this.props.profile.name}</span>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="input-group mb-3">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" htmlFor="" id="basic-addon1">Email</span>
+                            </div>
+                            <span className="form-control" aria-label="Name" aria-describedby="basic-addon1">{this.props.profile.email}</span>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <Link to="/Admin/Profile/AddEmployee" role="button" className="btn-success btn my-2 mx-2">Add new employee</Link>
+                        <Link to="/Admin/Profile/Edit/" role="button" className="btn-warning btn my-2 mx-2">Edit this profile</Link>
+                        <button className="btn-danger btn my-2 mx-2" onClick={this.deleteEmployee}>Remove this employee</button>
+                    </div>
                 </div>
             </div>
         );
@@ -113,12 +96,25 @@ class AdminProfile extends React.Component {
 }
 
 const mapStateToProps = (state)=> {
-
+    console.log(state)
     return{
         auth: state.firebase.auth,
         userType: state.loginReducer.userType,
-        userId: state.loginReducer.userId
+        userId: state.loginReducer.userId,
+        data: state.firestore.ordered.users,
+        profile: state.firebase.profile
     }
 }
 
-export default connect(mapStateToProps)(AdminProfile);
+const mapDispatchToProps = (dispatch) =>{
+    return{
+        delete: () =>{dispatch(deleteCurrentUser())}
+    }
+}
+
+export default compose(
+    connect(mapStateToProps,mapDispatchToProps),
+    firestoreConnect([
+        {collection: "users"}
+    ])
+)(AdminProfile);

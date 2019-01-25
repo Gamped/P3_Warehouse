@@ -26,6 +26,30 @@ const loginReducer = (state = initialState, action) => {
             console.log("Error",action.error)
             state = {...state,error:action.error.message};
             break;
+        case "EMAIL_SENT_SUCCESS":
+            console.log("Email sent")
+            state = {...state,error:null};
+            break;
+        case "EMAIL_SENT_ERROR":
+            console.log("Error",action.error)
+            state = {...state,error:action.error.message};
+            break;
+        case "EMAIL_UPDATE_SUCCESS":
+            console.log("Email updated")
+            state = {...state,error:null};
+            break;
+        case "EMAIL_UPDATE_ERROR":
+            console.log("Error",action.error)
+            state = {...state,error:action.error.message};
+            break;
+        case "NAME_UPDATE_SUCCESS":
+            console.log("Name updated")
+            state = {...state,error:null};
+            break;
+        case "NAME_UPDATE_ERROR":
+            console.log("Error",action.error)
+            state = {...state,error:action.error.message};
+            break;
         default:
     }  
     return state;

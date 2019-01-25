@@ -143,21 +143,6 @@ export function makeOwnersData(data) {
     return owners;
 }
 
-export function makeEmployeeData(data) {
-
-    let employees = [];
-    
-    data.forEach((employee) => {
-
-        employees.push({
-            userName: employee.userName,
-            nickname: employee.nickname,
-            hexId: employee.hexId
-            })
-    })
-    return employees;
-}
-
 export const makeCustomerData = (data) =>{
 
     var customers = [];

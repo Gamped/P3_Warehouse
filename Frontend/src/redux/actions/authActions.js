@@ -88,14 +88,14 @@ export const updateUserProfile = (payload) =>{
     }
 }
 
-export const deleteUser = (payload) =>{
+export const deleteCurrentUser = () =>{
     return(dispatch, getState, {getFirebase,getFirestore}) =>{
         const firestore = getFirestore();
         const firebase = getFirebase();
-        const user = firebase.auth()
-        //Todo: Fix så at du kan logge ind på brugeren.
-        user.delete().then(
-            firestore.collection("users").doc(payload.id).delete()
+        const user = firebase.auth().currentUser;
+        user.delete().then((res)=>{
+            return firestore.collection("users").doc(user.uid).delete()
+        }
         ).then(
             dispatch({type:"DELETION_SUCCESS"})
         ).catch((error)=>{
@@ -104,14 +104,60 @@ export const deleteUser = (payload) =>{
     }
 }
 
+export const updateCurrentEmployeeEmail = (payload) => {
+    return(dispatch, getState,{getFirebase,getFirestore})=>{
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+        const user = firebase.auth().currentUser;
+
+        user.updateEmail(
+            payload.email,
+        ).then((res) =>{
+            return firestore.collection("users").doc(user.uid).update({
+            email: payload.email    
+            })
+        }).then(
+            dispatch({type:"EMAIL_UPDATE_SUCCESS"})
+        ).catch((error)=>{
+            dispatch({type:"EMAIL_UPDATE_ERROR",error})
+        });
+    }
+}
+
+export const updateUser = (payload) =>{
+    return(dispatch, getState,{getFirebase,getFirestore})=>{
+        const firestore = getFirestore();
+
+        firestore.collection("users").doc(payload.id).update({
+            
+        })
+    }
+}
+
+export const updateCurrentUserName = (payload) =>{
+    return(dispatch, getState,{getFirebase,getFirestore})=>{
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+        const user = firebase.auth().currentUser;
+
+        firestore.collection("users").doc(user.uid).update({
+            name:payload.name
+        }).then(
+            dispatch({type:"NAME_UPDATE_SUCCESS"})
+        ).catch((error)=>{
+            dispatch({type:"NAME_UPDATE_ERROR",error})
+        })
+    }
+}
 
 export const sendPasswordReset = (payload) =>{
     return(dispatch, getstate,{getFirebase}) =>{
-        var user = firebase.auth().currentUser;
-        user.sendEmailVerification().then(function() {
-        // Email sent.
-        }).catch(function(error) {
-        // An error happened.
-});
+        const firebase = getFirebase();
+        var user = firebase.auth();
+        user.sendEmailVerification(payload.email).then(
+            dispatch({type:"EMAIL_SENT_SUCCESS"})
+        ).catch((error)=>{
+            dispatch({type:"EMAIL_SENT_ERROR",error})
+        })
     }
 }
