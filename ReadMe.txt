@@ -1,60 +1,49 @@
 ====== README INFO ======
 P3 Project: Online package management
 
-By: ds303e18 @ AAU 
+By: ds303e18 @ Aalborg University 
 =========================
 
 
-===== STRUCTURE OF FOLDER =====
+===== STRUCTURE =====
 ~/: Here is our report and this file
-P3_WAREHOUSE: The code
-BACKEND: Our backend Java code using Spring.
-DEPENDENCIES: The .jar files needed for mail functionality
-FRONTEND: The webpage GUI using REACT (Javascript, HTML & CSS)
-GRADLE & LIB: Libraries needed for backend
+BACKEND: Backend system in Spring Boot.
+FRONTEND: Graphic interface in REACT (Javascript, HTML & CSS)
+GRADLE & LIB: Libraries for build tools
 =========================
 
 
 ===== HOW TO RUN PROJECT =====
 
-Frontend, backend and database need to all be running at the same time. 
-Currently the project is setup to run locally on localhost.
+Frontend, backend and database (MongoDB) need to be running simultaniously. 
+Currently the project is set up to only run on localhost.
 
 /////////////////////////////////////
 
 [ Frontend: ]
-Install Node.js
 Go to ~/Frontend in a terminal
-Run ìnpm installî
-Run ìnpm startî and our web page should appear in a browser
+Run ‚Äúnpm install‚Äù
+Run ‚Äúnpm start‚Äù and our web page should appear in a browser
 
 /////////////////////////////////////
 
 [ Backend (using IntelliJ): ]
 Go to File -> Project Structure -> Libaries 
-Press ì+î
+Press ‚Äú+‚Äù
 Select both .jar files in  ~/Dependencies
 Add these to all
-Open ìMockDataCreatorî in backend project (~/(our package)/SystemTest/MockDataCreator)
-Run ìmakeDataî on line 93 WHILE BACKEND IS RUNNING
-You now have mock-data for the backend.
-Run ìP3WarehouseApplicationî in the root of our package in ~/src
-This will run our backend
+Open ‚ÄúMockDataCreator‚Äù in backend project (~/(our package)/SystemTest/MockDataCreator)
+Run mongod in terminal and execute ‚ÄúmakeData‚Äù on line 93.
+
+Run ‚ÄúP3WarehouseApplication‚Äù in the root of our package in ~/src
 
 /////////////////////////////////////
 
 [ Getting the mail service to work: ]
-	In interest of not sharing login-credentials to a gmail account, we have made the code look for a file called ìmail.txtî on the desktop page of the computer. This file has to have the following format: example@gmail.com;password ,where the gmail account has to have allowed access for ìless secure appsî. We will also showcase this during our exam.
-
+	Insert ‚Äúmail.txt‚Äù file on the running computer Desktop. Provide a Gmail with password in the following format: 			
+	example@gmail.com;password 
+	
 /////////////////////////////////////
-
-[ Database: ]
-Install MongoDB https://www.mongodb.com/
-Once installed run the service (potentially Google how to set up, as it differs a lot depending on your operating system)
-
-=========================
-
-If you run into problems with getting our project to run, then please send us an email, and weíll try to help with getting the project up and running :)
 
 Merry christmas and happy new years!,
 Group ds303e18
